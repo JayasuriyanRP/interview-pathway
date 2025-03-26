@@ -1318,6 +1318,105 @@
           "content": "public async Task SendMessageAsync(string message)\n{\n    var factory = new ConnectionFactory() { HostName = \"localhost\" };\n    using var connection = factory.CreateConnection();\n    using var channel = connection.CreateModel();\n    channel.QueueDeclare(queue: \"task_queue\", durable: true, exclusive: false, autoDelete: false, arguments: null);\n    var body = Encoding.UTF8.GetBytes(message);\n    var properties = channel.CreateBasicProperties();\n    properties.Persistent = true;\n    channel.BasicPublish(exchange: \"\", routingKey: \"task_queue\", basicProperties: properties, body: body);\n}"
         }
       ]
+    },
+    {
+      "id": "cs-1",
+      "question": "Explain the syntax and usage of Func and Action in C#.",
+      "answer": [
+        {
+          "type": "text",
+          "content": "Func and Action are predefined delegates in C# used for encapsulating methods with different signatures."
+        },
+        {
+          "type": "text",
+          "content": "**Func<T, TResult>**:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Func is a generic delegate that represents a method that returns a value.",
+            "It can take up to 16 input parameters.",
+            "The last generic parameter is always the return type."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "Func<int, int, int> add = (a, b) => a + b;\nint result = add(5, 10); // Output: 15"
+        },
+        {
+          "type": "text",
+          "content": "**Action<T>**:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Action is a generic delegate that represents a method with parameters but no return value.",
+            "It can take up to 16 input parameters."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "Action<string> greet = name => Console.WriteLine($\"Hello, {name}!\");\ngreet(\"Alice\"); // Output: Hello, Alice!"
+        }
+      ]
+    },
+    {
+      "id": "cs-2",
+      "question": "Explain the syntax and usage of delegates and events in C#.",
+      "answer": [
+        {
+          "type": "text",
+          "content": "Delegates are type-safe pointers to methods, and events are a special kind of delegate used for notifications."
+        },
+        {
+          "type": "text",
+          "content": "**Delegate Syntax:**"
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "// Define a delegate\ndelegate void Notify(string message);\n\n// Use the delegate\nclass Program {\n    static void DisplayMessage(string msg) {\n        Console.WriteLine(msg);\n    }\n    static void Main() {\n        Notify notifier = DisplayMessage;\n        notifier(\"Hello, Delegates!\"); // Output: Hello, Delegates!\n    }\n}"
+        },
+        {
+          "type": "text",
+          "content": "**Event Syntax:**"
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "class Publisher {\n    public event Action<string> OnNotify;\n    \n    public void TriggerEvent() {\n        OnNotify?.Invoke(\"Event triggered!\");\n    }\n}\n\nclass Subscriber {\n    static void Main() {\n        Publisher pub = new Publisher();\n        pub.OnNotify += msg => Console.WriteLine(msg);\n        pub.TriggerEvent(); // Output: Event triggered!\n    }\n}"
+        }
+      ]
+    },
+    {
+      "id": "cs-3",
+      "question": "Explain the syntax and usage of generics in C#.",
+      "answer": [
+        {
+          "type": "text",
+          "content": "Generics allow defining classes, interfaces, and methods with a placeholder for data types, providing type safety and code reusability."
+        },
+        {
+          "type": "text",
+          "content": "**Generic Class Example:**"
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "class GenericBox<T> {\n    private T value;\n    public void SetValue(T val) {\n        value = val;\n    }\n    public T GetValue() {\n        return value;\n    }\n}\n\nclass Program {\n    static void Main() {\n        GenericBox<int> intBox = new GenericBox<int>();\n        intBox.SetValue(42);\n        Console.WriteLine(intBox.GetValue()); // Output: 42\n    }\n}"
+        },
+        {
+          "type": "text",
+          "content": "**Generic Method Example:**"
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "class Program {\n    static void Swap<T>(ref T a, ref T b) {\n        T temp = a;\n        a = b;\n        b = temp;\n    }\n    static void Main() {\n        int x = 5, y = 10;\n        Swap(ref x, ref y);\n        Console.WriteLine($\"x: {x}, y: {y}\"); // Output: x: 10, y: 5\n    }\n}"
+        }
+      ]
     }
   ],
   "backend-dotnet": [
