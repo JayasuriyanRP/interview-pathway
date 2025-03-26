@@ -1,0 +1,74 @@
+
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
+import Header from "../components/Header";
+import QuestionCard from "../components/QuestionCard";
+import { usePath, usePathQuestions } from "../hooks/useData";
+
+const LearningPath = () => {
+  const { pathId } = useParams<{ pathId: string }>();
+  const { path, loading: pathLoading, error: pathError } = usePath(pathId);
+  const { questions, loading: questionsLoading, error: questionsError } = usePathQuestions(pathId);
+  
+  const loading = pathLoading || questionsLoading;
+  const error = pathError || questionsError;
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center animate-pulse">
+          <p className="text-lg font-medium">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center text-red-500">
+          <p className="text-lg font-medium">Error loading data</p>
+          <p className="text-sm">{error.message}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!path) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-lg font-medium">Learning path not found</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <Header title={path.title} showBackButton={true} />
+      
+      <main className="flex-1 px-6 pb-12">
+        <div className="container mx-auto max-w-3xl">
+          <div className="mb-10 mt-2 animate-fadeIn">
+            <div className="inline-block px-3 py-1 mb-4 text-sm font-medium rounded-full bg-gray-100 text-gray-800">
+              {path.level} • {questions.length} Questions
+            </div>
+            <h1 className="text-3xl md:text-4xl font-bold mb-4">{path.title}</h1>
+            <p className="text-lg text-gray-600">{path.description}</p>
+          </div>
+          
+          <div className="space-y-6">
+            {questions.map((question, index) => (
+              <div key={question.id} className={`animate-fadeIn animate-delay-${Math.min(index, 3) * 100}`}>
+                <QuestionCard {...question} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+};
+
+export default LearningPath;
