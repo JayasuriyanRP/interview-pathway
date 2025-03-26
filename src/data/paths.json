@@ -60,6 +60,13 @@
         "level": "Advanced"
       },
       {
+        "id": "backend-csharp-design-patterns",
+        "title": "C# DesignPatterns",
+        "description": "C# Design Patterns",
+        "count": 15,
+        "level": "Advanced"
+      },
+      {
         "id": "backend-golang",
         "title": "Golang",
         "description": "Go language and ecosystem for backend development",

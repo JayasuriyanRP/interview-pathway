@@ -1782,6 +1782,260 @@
       ]
     }
   ],
+  "backend-csharp-design-patterns": [
+    {
+      "id": "dp-1",
+      "question": "What is the Singleton pattern and how do you implement it with thread safety?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "The Singleton pattern ensures that a class has only one instance and provides a global access point to it."
+        },
+        {
+          "type": "text",
+          "content": "**Thread-Safe Singleton with Lock:**"
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "public sealed class Singleton\n{\n    private static Singleton _instance;\n    private static readonly object _lock = new object();\n    private Singleton() { }\n    public static Singleton Instance\n    {\n        get\n        {\n            lock (_lock)\n            {\n                if (_instance == null)\n                    _instance = new Singleton();\n            }\n            return _instance;\n        }\n    }\n}"
+        },
+        {
+          "type": "text",
+          "content": "**Best Singleton Implementation using Lazy<T>:**"
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "public sealed class Singleton\n{\n    private static readonly Lazy<Singleton> _instance = new Lazy<Singleton>(() => new Singleton());\n    private Singleton() { }\n    public static Singleton Instance => _instance.Value;\n}"
+        }
+      ]
+    },
+    {
+      "id": "dp-2",
+      "question": "What is the Builder pattern?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "The Builder pattern is used to construct complex objects step by step."
+        },
+        {
+          "type": "text",
+          "content": "**Use Cases:**\n- Creating objects with multiple optional parameters\n- Separating object creation from representation"
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "public class Car\n{\n    public string Engine { get; set; }\n    public int Wheels { get; set; }\n    public override string ToString() => $\"Car with {Engine} engine and {Wheels} wheels\";\n}\n\npublic class CarBuilder\n{\n    private Car _car = new Car();\n    public CarBuilder SetEngine(string engine) { _car.Engine = engine; return this; }\n    public CarBuilder SetWheels(int wheels) { _car.Wheels = wheels; return this; }\n    public Car Build() => _car;\n}\n"
+        }
+      ]
+    },
+    {
+      "id": "dp-3",
+      "question": "What is the Prototype pattern?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "The Prototype pattern is used to create object copies without making their class-dependent."
+        },
+        {
+          "type": "text",
+          "content": "**Use Cases:**\n- Cloning objects without affecting the original\n- Reducing the overhead of object creation"
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "public class Prototype : ICloneable\n{\n    public string Name { get; set; }\n    public object Clone() => this.MemberwiseClone();\n}"
+        }
+      ]
+    },
+    {
+      "id": "dp-4",
+      "question": "What is the Adapter pattern?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "The Adapter pattern allows incompatible interfaces to work together by converting the interface of a class into one that the client expects."
+        },
+        {
+          "type": "text",
+          "content": "**Use Cases:**\n- Integrating with third-party libraries\n- Legacy code modernization"
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "public interface ITarget\n{\n    void Request();\n}\n\npublic class Adaptee\n{\n    public void SpecificRequest() => Console.WriteLine(\"Specific request called\");\n}\n\npublic class Adapter : ITarget\n{\n    private readonly Adaptee _adaptee = new();\n    public void Request() => _adaptee.SpecificRequest();\n}"
+        }
+      ]
+    },
+    {
+      "id": "dp-5",
+      "question": "What is the Command pattern?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "The Command pattern encapsulates a request as an object, allowing parameterization of clients with different requests."
+        },
+        {
+          "type": "text",
+          "content": "**Use Cases:**\n- Implementing undo/redo functionality\n- Queuing requests and executing them later"
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "public interface ICommand { void Execute(); }\n\npublic class LightOnCommand : ICommand\n{\n    private readonly Light _light;\n    public LightOnCommand(Light light) { _light = light; }\n    public void Execute() => _light.TurnOn();\n}\n\npublic class Light\n{\n    public void TurnOn() => Console.WriteLine(\"Light is On\");\n}\n\npublic class RemoteControl\n{\n    private ICommand _command;\n    public void SetCommand(ICommand command) => _command = command;\n    public void PressButton() => _command.Execute();\n}"
+        }
+      ]
+    },
+    {
+      "id": "dp-6",
+      "question": "What is the Mediator pattern?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "The Mediator pattern reduces dependencies between communicating objects by introducing a mediator object."
+        },
+        {
+          "type": "text",
+          "content": "**Use Cases:**\n- Implementing chat systems\n- Managing relationships between UI components"
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "public class Mediator\n{\n    private List<Colleague> _colleagues = new();\n    public void Register(Colleague colleague) => _colleagues.Add(colleague);\n    public void SendMessage(string message, Colleague sender)\n    {\n        foreach (var colleague in _colleagues)\n            if (colleague != sender) colleague.Receive(message);\n    }\n}\n\npublic class Colleague\n{\n    private Mediator _mediator;\n    public Colleague(Mediator mediator) { _mediator = mediator; mediator.Register(this); }\n    public void Send(string message) => _mediator.SendMessage(message, this);\n    public void Receive(string message) => Console.WriteLine($\"Received: {message}\");\n}"
+        }
+      ]
+    },
+    {
+      "id": "dp-7",
+      "question": "How would you create a Singleton class with double-check locking?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "Double-check locking ensures thread safety while avoiding performance bottlenecks."
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "public sealed class Singleton\n{\n    private static Singleton _instance;\n    private static readonly object _lock = new();\n    private Singleton() { }\n    public static Singleton Instance\n    {\n        get\n        {\n            if (_instance == null)\n            {\n                lock (_lock)\n                {\n                    if (_instance == null)\n                        _instance = new Singleton();\n                }\n            }\n            return _instance;\n        }\n    }\n}"
+        }
+      ]
+    },
+    {
+      "id": "dp-1",
+      "question": "What is the Singleton pattern and how do you implement it in C#?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "The Singleton pattern ensures that a class has only one instance and provides a global access point to it."
+        },
+        {
+          "type": "text",
+          "content": "**Use Cases:**\n- Managing database connections\n- Logging mechanisms\n- Configuration settings"
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "public sealed class Singleton\n{\n    private static readonly Singleton _instance = new Singleton();\n    private Singleton() { }\n    public static Singleton Instance => _instance;\n}"
+        }
+      ]
+    },
+    {
+      "id": "dp-2",
+      "question": "What is the Factory Method pattern?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "The Factory Method pattern defines an interface for creating an object but allows subclasses to alter the type of objects that will be created."
+        },
+        {
+          "type": "text",
+          "content": "**Use Cases:**\n- When exact object creation logic is unknown until runtime\n- To centralize object creation"
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "public abstract class Product { }\npublic class ConcreteProductA : Product { }\npublic class ConcreteProductB : Product { }\n\npublic abstract class Creator\n{\n    public abstract Product FactoryMethod();\n}\n\npublic class ConcreteCreatorA : Creator\n{\n    public override Product FactoryMethod() => new ConcreteProductA();\n}\n"
+        }
+      ]
+    },
+    {
+      "id": "dp-3",
+      "question": "What is the Observer pattern?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "The Observer pattern defines a dependency between objects so that when one object changes state, all its dependents are notified automatically."
+        },
+        {
+          "type": "text",
+          "content": "**Use Cases:**\n- Event handling systems\n- Publish-subscribe mechanisms"
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "public class Subject\n{\n    private readonly List<IObserver> _observers = new();\n    public void Attach(IObserver observer) => _observers.Add(observer);\n    public void Notify() => _observers.ForEach(o => o.Update());\n}\n\npublic interface IObserver { void Update(); }\npublic class ConcreteObserver : IObserver\n{\n    public void Update() => Console.WriteLine(\"Observer updated\");\n}\n"
+        }
+      ]
+    },
+    {
+      "id": "dp-4",
+      "question": "What is the Strategy pattern?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "The Strategy pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable."
+        },
+        {
+          "type": "text",
+          "content": "**Use Cases:**\n- Dynamic selection of algorithms\n- Implementing different behaviors at runtime"
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "public interface IStrategy { void Execute(); }\npublic class ConcreteStrategyA : IStrategy\n{\n    public void Execute() => Console.WriteLine(\"Strategy A\");\n}\npublic class Context\n{\n    private IStrategy _strategy;\n    public void SetStrategy(IStrategy strategy) => _strategy = strategy;\n    public void ExecuteStrategy() => _strategy.Execute();\n}\n"
+        }
+      ]
+    },
+    {
+      "id": "dp-5",
+      "question": "What is the Decorator pattern?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "The Decorator pattern allows behavior to be added to an object dynamically without modifying its structure."
+        },
+        {
+          "type": "text",
+          "content": "**Use Cases:**\n- Adding features to UI components dynamically\n- Extending functionalities of existing objects"
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "public interface IComponent { void Operation(); }\npublic class ConcreteComponent : IComponent\n{\n    public void Operation() => Console.WriteLine(\"Concrete Component\");\n}\npublic class Decorator : IComponent\n{\n    private readonly IComponent _component;\n    public Decorator(IComponent component) { _component = component; }\n    public void Operation()\n    {\n        Console.WriteLine(\"Decorator Start\");\n        _component.Operation();\n        Console.WriteLine(\"Decorator End\");\n    }\n}\n"
+        }
+      ]
+    },
+    {
+      "id": "dp-6",
+      "question": "What is the Dependency Injection (DI) pattern?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "Dependency Injection (DI) is a technique where an object receives its dependencies instead of creating them itself."
+        },
+        {
+          "type": "text",
+          "content": "**Use Cases:**\n- Reducing tight coupling between objects\n- Enhancing testability of applications"
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "public interface IService { void Serve(); }\npublic class Service : IService { public void Serve() => Console.WriteLine(\"Service Called\"); }\npublic class Client\n{\n    private readonly IService _service;\n    public Client(IService service) { _service = service; }\n    public void Start() => _service.Serve();\n}\n"
+        }
+      ]
+    }
+  ],
   "backend-dotnet": [
     {
       "id": "dotnet-1",
