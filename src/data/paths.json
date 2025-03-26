@@ -150,5 +150,43 @@
         "level": "Advanced"
       }
     ]
+  },
+  {
+    "id": "message-broker",
+    "title": "Message Brokers",
+    "description": "Learn about message brokers, their architecture, and how they enable efficient asynchronous communication in distributed systems.",
+    "icon": "Server",
+    "count": 40,
+    "level": "All Levels",
+    "subpaths": [
+      {
+        "id": "message-broker-basics",
+        "title": "Message Broker Fundamentals",
+        "description": "Understand the basics of message brokers, their purpose, and key terminologies like producers, consumers, queues, and topics.",
+        "count": 10,
+        "level": "Beginner"
+      },
+      {
+        "id": "message-broker-rabbitmq",
+        "title": "RabbitMQ",
+        "description": "Learn how to set up and use RabbitMQ for message queuing with different exchange types and routing mechanisms.",
+        "count": 10,
+        "level": "Intermediate"
+      },
+      {
+        "id": "message-broker-kafka",
+        "title": "Apache Kafka",
+        "description": "Explore Kafka's architecture, how to produce and consume messages, and work with Kafka topics, partitions, and brokers.",
+        "count": 10,
+        "level": "Intermediate"
+      },
+      {
+        "id": "message-broker-advanced",
+        "title": "Advanced Message Broker Concepts",
+        "description": "Deep dive into distributed messaging patterns, message durability, fault tolerance, and scaling message brokers.",
+        "count": 10,
+        "level": "Advanced"
+      }
+    ]
   }
 ]

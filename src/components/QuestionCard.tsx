@@ -1,19 +1,26 @@
-
 import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import CodeBlock from "./CodeBlock";
 
+interface TableContent {
+  type: "table";
+  columns: string[];
+  rows: string[][];
+}
+
 interface ContentBlock {
-  type: "text" | "code" | "list";
-  content: string;
+  type: "text" | "code" | "list" | "table";
+  content?: string;
   language?: string; // For code blocks
   items?: string[]; // For list blocks
+  columns?: string[]; // For tables
+  rows?: string[][]; // For tables
 }
 
 interface QuestionCardProps {
   id: number;
   question: string;
-  answer: ContentBlock[] | any; // Support both old and new formats
+  answer: ContentBlock[] | any;
 }
 
 const QuestionCard: React.FC<QuestionCardProps> = ({
@@ -29,11 +36,9 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
 
   // Format inline code and bold text in strings
   const formatText = (text: string) => {
-    // First split by backticks to handle code blocks
     const parts = text.split(/(`[^`]+`)/g);
-    
+
     return parts.map((part, index) => {
-      // If this is a code segment, render it as code
       if (part.startsWith("`") && part.endsWith("`")) {
         return (
           <code key={index} className="bg-gray-200 text-sm px-1 rounded">
@@ -41,10 +46,9 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
           </code>
         );
       }
-      
-      // Otherwise, look for bold text within this segment
+
       const boldParts = part.split(/(\*\*[^*]+\*\*)/g);
-      
+
       return boldParts.map((boldPart, boldIndex) => {
         if (boldPart.startsWith("**") && boldPart.endsWith("**")) {
           return (
@@ -62,7 +66,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   const renderContentBlock = (block: ContentBlock, index: number) => {
     switch (block.type) {
       case "code":
-        return <CodeBlock key={index} language={block.language || "text"} content={block.content} />;
+        return <CodeBlock key={index} language={block.language || "text"} content={block.content!} />;
       case "list":
         return (
           <ul key={index} className="list-disc pl-5 mb-4">
@@ -71,37 +75,48 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
             ))}
           </ul>
         );
+      case "table":
+        return (
+          <div key={index} className="overflow-x-auto my-4">
+            <table className="table-auto border-collapse border border-gray-200 w-full text-sm">
+              <thead className="bg-gray-100">
+                <tr>
+                  {block.columns?.map((col, colIndex) => (
+                    <th key={colIndex} className="border border-gray-300 px-4 py-2 text-left">
+                      {col}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {block.rows?.map((row, rowIndex) => (
+                  <tr key={rowIndex} className="hover:bg-gray-50">
+                    {row.map((cell, cellIndex) => (
+                      <td key={cellIndex} className="border border-gray-300 px-4 py-2">
+                        {formatText(cell)}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
       case "text":
       default:
         return (
           <p key={index} className="mb-4">
-            {formatText(block.content)}
+            {formatText(block.content!)}
           </p>
         );
     }
   };
 
-  // Render the answer (supporting both old and new formats)
   const renderAnswer = () => {
-    // Handle the legacy format (object with type "code")
-    if (typeof answer === "object" && answer.type === "code") {
-      return <CodeBlock language={answer.language} content={answer.content} />;
-    }
-
-    // Handle the legacy format (plain string with paragraphs)
     if (typeof answer === "string") {
-      return (
-        <div className="prose prose-sm max-w-none">
-          {answer.split("\n\n").map((paragraph: string, index: number) => (
-            <p key={index} className="mb-4">
-              {formatText(paragraph)}
-            </p>
-          ))}
-        </div>
-      );
+      return <p className="mb-4">{formatText(answer)}</p>;
     }
 
-    // Handle the new format (array of content blocks)
     if (Array.isArray(answer)) {
       return (
         <div className="prose prose-sm max-w-none">
@@ -110,26 +125,15 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
       );
     }
 
-    // Fallback for empty or invalid content
     return <p className="text-gray-500">No content available</p>;
   };
 
   return (
     <div className="mb-6 bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm transition-all duration-300">
-      <div
-        className="p-6 cursor-pointer flex justify-between items-center"
-        onClick={toggleAnswer}
-      >
-        <h3 className="text-lg font-medium">
-          {id + 1} - {formatText(question)}
-        </h3>
-        <ChevronDown
-          className={`h-5 w-5 text-gray-500 transition-transform duration-300 ${
-            isOpen ? "transform rotate-180" : ""
-          }`}
-        />
+      <div className="p-6 cursor-pointer flex justify-between items-center" onClick={toggleAnswer}>
+        <h3 className="text-lg font-medium">{id + 1} - {formatText(question)}</h3>
+        <ChevronDown className={`h-5 w-5 text-gray-500 transition-transform duration-300 ${isOpen ? "transform rotate-180" : ""}`} />
       </div>
-
       {isOpen && (
         <div className="px-6 pb-6 pt-2 border-t border-gray-100 animate-slideUp">
           {renderAnswer()}
