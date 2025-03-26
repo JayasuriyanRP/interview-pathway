@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import CodeBlock from "./CodeBlock";
@@ -33,6 +32,36 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
     });
   };
 
+  const renderBoldAndCode = (text: string) => {
+    // First split by backticks to handle code blocks
+    const parts = text.split(/(`[^`]+`)/g);
+    
+    return parts.map((part, index) => {
+      // If this is a code segment, render it as code
+      if (part.startsWith("`") && part.endsWith("`")) {
+        return (
+          <code key={index} className="bg-gray-200 text-sm px-1 rounded">
+            {part.slice(1, -1)}
+          </code>
+        );
+      }
+      
+      // Otherwise, look for bold text within this segment
+      const boldParts = part.split(/(\*\*[^*]+\*\*)/g);
+      
+      return boldParts.map((boldPart, boldIndex) => {
+        if (boldPart.startsWith("**") && boldPart.endsWith("**")) {
+          return (
+            <strong key={`${index}-${boldIndex}`}>
+              {boldPart.slice(2, -2)}
+            </strong>
+          );
+        }
+        return boldPart;
+      });
+    });
+  };
+
   const renderAnswer = () => {
     if (typeof answer === "object" && answer.type === "code") {
       return <CodeBlock language={answer.language} content={answer.content} />;
@@ -42,7 +71,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
       <div className="prose prose-sm max-w-none">
         {answer.split("\n\n").map((paragraph: string, index: number) => (
           <p key={index} className="mb-4">
-            {renderInlineCode(paragraph)}
+            {renderBoldAndCode(paragraph)}
           </p>
         ))}
       </div>
@@ -56,7 +85,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
         onClick={toggleAnswer}
       >
         <h3 className="text-lg font-medium">
-          {id + 1} - {renderInlineCode(question)}
+          {id + 1} - {renderBoldAndCode(question)}
         </h3>
         <ChevronDown
           className={`h-5 w-5 text-gray-500 transition-transform duration-300 ${
