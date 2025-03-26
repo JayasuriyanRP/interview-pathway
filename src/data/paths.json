@@ -60,6 +60,13 @@
         "level": "Advanced"
       },
       {
+        "id": "backend-solid",
+        "title": "Solid principles",
+        "description": "Solid Principles with C# and Golang",
+        "count": 15,
+        "level": "Advanced"
+      },
+      {
         "id": "backend-csharp-design-patterns",
         "title": "C# DesignPatterns",
         "description": "C# Design Patterns",
