@@ -1,4 +1,3 @@
-
 [
   {
     "id": "frontend",
@@ -8,6 +7,13 @@
     "count": 42,
     "level": "Intermediate",
     "subpaths": [
+      {
+        "id": "frontend-html",
+        "title": "HTML",
+        "description": "HTML interview questions and answers",
+        "count": 20,
+        "level": "Intermediate"
+      },
       {
         "id": "frontend-react",
         "title": "React",

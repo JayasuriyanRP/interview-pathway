@@ -1,6 +1,5 @@
-
 {
-  "frontend": [
+  "frontend-html": [
     {
       "id": "fe-1",
       "question": "Explain how the box model works in CSS.",
@@ -22,6 +21,30 @@
     }
   ],
   "backend": [
+    {
+      "id": "be-1",
+      "question": "What is REST and what are the key principles of RESTful API design?",
+      "answer": "REST (Representational State Transfer) is an architectural style for designing networked applications. RESTful APIs are designed around resources, which are any kind of object, data, or service that can be accessed by the client.\n\nKey principles of RESTful API design:\n\n1. **Client-Server Architecture**: Separation of concerns between client and server improves portability and scalability.\n\n2. **Statelessness**: Each request from client to server must contain all the information needed to understand and process the request. The server cannot store session state across requests.\n\n3. **Cacheability**: Responses must define themselves as cacheable or non-cacheable to prevent clients from reusing stale data.\n\n4. **Uniform Interface**: A uniform way of interacting with a given server regardless of device or application type. This includes:\n   - Resource identification in requests\n   - Resource manipulation through representations\n   - Self-descriptive messages\n   - Hypermedia as the engine of application state (HATEOAS)\n\n5. **Layered System**: A client cannot ordinarily tell whether it is connected directly to the end server or to an intermediary along the way.\n\n6. **Code on Demand (optional)**: Servers can temporarily extend client functionality by transferring executable code.\n\nRESTful APIs typically use HTTP methods explicitly:\n- GET (retrieve a resource)\n- POST (create a resource)\n- PUT (update a resource)\n- DELETE (remove a resource)\n- PATCH (partial update)\n\nAnd HTTP status codes to indicate success/failure."
+    },
+    {
+      "id": "be-2",
+      "question": "Explain the concept of database normalization and its normal forms.",
+      "answer": "Database normalization is the process of structuring a relational database to reduce data redundancy and improve data integrity. It involves organizing fields and tables to ensure that their dependencies are properly enforced by database integrity constraints.\n\nThe main normal forms are:\n\n**First Normal Form (1NF)**:\n- Each table cell should contain a single value\n- Each record needs to be unique\n- No repeating groups or arrays\n\n**Second Normal Form (2NF)**:\n- Must be in 1NF\n- All non-key attributes must depend on the entire primary key\n- Eliminates partial dependencies\n\n**Third Normal Form (3NF)**:\n- Must be in 2NF\n- No transitive dependencies (non-key attributes depending on other non-key attributes)\n- All fields must depend directly on the primary key\n\n**Boyce-Codd Normal Form (BCNF)**:\n- A stricter version of 3NF\n- For any dependency A → B, A must be a super key\n- Addresses certain anomalies not addressed by 3NF\n\n**Fourth Normal Form (4NF)**:\n- Must be in BCNF\n- No multi-valued dependencies\n\n**Fifth Normal Form (5NF)**:\n- Must be in 4NF\n- No join dependencies\n- Every join dependency is implied by the candidate keys\n\nBenefits of normalization include:\n- Reducing data redundancy\n- Improving data integrity\n- Making the database more flexible\n- Better database organization\n\nHowever, excessive normalization can lead to performance issues due to the need for many JOIN operations. In practical applications, denormalization might be applied strategically for performance optimization."
+    }
+  ],
+  "backend-csharp": [
+    {
+      "id": "be-1",
+      "question": "What is REST and what are the key principles of RESTful API design?",
+      "answer": "REST (Representational State Transfer) is an architectural style for designing networked applications. RESTful APIs are designed around resources, which are any kind of object, data, or service that can be accessed by the client.\n\nKey principles of RESTful API design:\n\n1. **Client-Server Architecture**: Separation of concerns between client and server improves portability and scalability.\n\n2. **Statelessness**: Each request from client to server must contain all the information needed to understand and process the request. The server cannot store session state across requests.\n\n3. **Cacheability**: Responses must define themselves as cacheable or non-cacheable to prevent clients from reusing stale data.\n\n4. **Uniform Interface**: A uniform way of interacting with a given server regardless of device or application type. This includes:\n   - Resource identification in requests\n   - Resource manipulation through representations\n   - Self-descriptive messages\n   - Hypermedia as the engine of application state (HATEOAS)\n\n5. **Layered System**: A client cannot ordinarily tell whether it is connected directly to the end server or to an intermediary along the way.\n\n6. **Code on Demand (optional)**: Servers can temporarily extend client functionality by transferring executable code.\n\nRESTful APIs typically use HTTP methods explicitly:\n- GET (retrieve a resource)\n- POST (create a resource)\n- PUT (update a resource)\n- DELETE (remove a resource)\n- PATCH (partial update)\n\nAnd HTTP status codes to indicate success/failure."
+    },
+    {
+      "id": "be-2",
+      "question": "Explain the concept of database normalization and its normal forms.",
+      "answer": "Database normalization is the process of structuring a relational database to reduce data redundancy and improve data integrity. It involves organizing fields and tables to ensure that their dependencies are properly enforced by database integrity constraints.\n\nThe main normal forms are:\n\n**First Normal Form (1NF)**:\n- Each table cell should contain a single value\n- Each record needs to be unique\n- No repeating groups or arrays\n\n**Second Normal Form (2NF)**:\n- Must be in 1NF\n- All non-key attributes must depend on the entire primary key\n- Eliminates partial dependencies\n\n**Third Normal Form (3NF)**:\n- Must be in 2NF\n- No transitive dependencies (non-key attributes depending on other non-key attributes)\n- All fields must depend directly on the primary key\n\n**Boyce-Codd Normal Form (BCNF)**:\n- A stricter version of 3NF\n- For any dependency A → B, A must be a super key\n- Addresses certain anomalies not addressed by 3NF\n\n**Fourth Normal Form (4NF)**:\n- Must be in BCNF\n- No multi-valued dependencies\n\n**Fifth Normal Form (5NF)**:\n- Must be in 4NF\n- No join dependencies\n- Every join dependency is implied by the candidate keys\n\nBenefits of normalization include:\n- Reducing data redundancy\n- Improving data integrity\n- Making the database more flexible\n- Better database organization\n\nHowever, excessive normalization can lead to performance issues due to the need for many JOIN operations. In practical applications, denormalization might be applied strategically for performance optimization."
+    }
+  ],
+  "backend-golang": [
     {
       "id": "be-1",
       "question": "What is REST and what are the key principles of RESTful API design?",

@@ -1,15 +1,18 @@
-
 import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import CodeBlock from "./CodeBlock";
 
 interface QuestionCardProps {
-  id: string;
+  id: number;
   question: string;
   answer: any;
 }
 
-const QuestionCard: React.FC<QuestionCardProps> = ({ id, question, answer }) => {
+const QuestionCard: React.FC<QuestionCardProps> = ({
+  id,
+  question,
+  answer,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleAnswer = () => {
@@ -25,7 +28,15 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ id, question, answer }) => 
       <div className="prose prose-sm max-w-none">
         {answer.split("\n\n").map((paragraph: string, index: number) => (
           <p key={index} className="mb-4">
-            {paragraph}
+            {paragraph.split(/(`([^`]+)`)/g).map((segment, i) =>
+              segment.startsWith("`") && segment.endsWith("`") ? (
+                <code key={i} className="bg-gray-200 text-sm px-1 rounded">
+                  {segment.slice(1, -1)}
+                </code>
+              ) : (
+                segment
+              )
+            )}
           </p>
         ))}
       </div>
@@ -38,14 +49,16 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ id, question, answer }) => 
         className="p-6 cursor-pointer flex justify-between items-center"
         onClick={toggleAnswer}
       >
-        <h3 className="text-lg font-medium">{question}</h3>
+        <h3 className="text-lg font-medium">
+          {++id} - {question}
+        </h3>
         <ChevronDown
           className={`h-5 w-5 text-gray-500 transition-transform duration-300 ${
             isOpen ? "transform rotate-180" : ""
           }`}
         />
       </div>
-      
+
       {isOpen && (
         <div className="px-6 pb-6 pt-2 border-t border-gray-100 animate-slideUp">
           {renderAnswer()}
