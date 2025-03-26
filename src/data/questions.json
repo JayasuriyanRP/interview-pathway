@@ -1,14 +1,94 @@
+
 {
   "frontend-html": [
     {
       "id": "fe-1",
       "question": "Explain how the box model works in CSS.",
-      "answer": "The CSS box model describes the rectangular boxes that are generated for elements in the document tree and laid out according to the visual formatting model. Each box has a content area (e.g., text, an image, etc.) and optional surrounding padding, border, and margin areas.\n\nComponents from inside to outside:\n\n1. Content - The actual content of the box where text and images appear\n2. Padding - Clears an area around the content (inside the box)\n3. Border - A border that goes around the padding and content\n4. Margin - Clears an area outside the border\n\nThe total width of an element is calculated as: width + left padding + right padding + left border + right border + left margin + right margin\n\nIn modern CSS, you can change how the box model works by setting the `box-sizing` property:\n\n- `box-sizing: content-box` (default): Width and height only apply to the content area\n- `box-sizing: border-box`: Width and height include content, padding, and border (but not margin)"
+      "answer": [
+        {
+          "type": "text",
+          "content": "The CSS box model describes the rectangular boxes that are generated for elements in the document tree and laid out according to the visual formatting model. Each box has a content area (e.g., text, an image, etc.) and optional surrounding padding, border, and margin areas."
+        },
+        {
+          "type": "text",
+          "content": "Components from inside to outside:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Content** - The actual content of the box where text and images appear",
+            "**Padding** - Clears an area around the content (inside the box)",
+            "**Border** - A border that goes around the padding and content",
+            "**Margin** - Clears an area outside the border"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "The total width of an element is calculated as: width + left padding + right padding + left border + right border + left margin + right margin"
+        },
+        {
+          "type": "text",
+          "content": "In modern CSS, you can change how the box model works by setting the `box-sizing` property:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "`box-sizing: content-box` (default): Width and height only apply to the content area",
+            "`box-sizing: border-box`: Width and height include content, padding, and border (but not margin)"
+          ]
+        }
+      ]
     },
     {
       "id": "fe-2",
       "question": "What is the difference between 'let', 'const', and 'var' in JavaScript?",
-      "answer": "These three keywords are used for variable declarations in JavaScript but have different scoping rules and behaviors:\n\n**var**:\n- Function-scoped or globally-scoped, not block-scoped\n- Can be redeclared and updated\n- Hoisted to the top of its scope and initialized with `undefined`\n- Can cause unexpected behavior in loops and conditional blocks\n\n**let**:\n- Block-scoped (available only within the block it's defined in)\n- Can be updated but not redeclared in the same scope\n- Hoisted but not initialized (in the \"temporal dead zone\" until declaration)\n- Introduced in ES6 (ES2015)\n\n**const**:\n- Block-scoped like `let`\n- Cannot be updated or redeclared\n- Must be initialized at declaration\n- For objects and arrays, the variable cannot be reassigned, but the properties/elements can be changed\n- Hoisted but not initialized (in the \"temporal dead zone\" until declaration)\n- Introduced in ES6 (ES2015)"
+      "answer": [
+        {
+          "type": "text",
+          "content": "These three keywords are used for variable declarations in JavaScript but have different scoping rules and behaviors:"
+        },
+        {
+          "type": "text",
+          "content": "**var**:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Function-scoped or globally-scoped, not block-scoped",
+            "Can be redeclared and updated",
+            "Hoisted to the top of its scope and initialized with `undefined`",
+            "Can cause unexpected behavior in loops and conditional blocks"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**let**:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Block-scoped (available only within the block it's defined in)",
+            "Can be updated but not redeclared in the same scope",
+            "Hoisted but not initialized (in the \"temporal dead zone\" until declaration)",
+            "Introduced in ES6 (ES2015)"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**const**:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Block-scoped like `let`",
+            "Cannot be updated or redeclared",
+            "Must be initialized at declaration",
+            "For objects and arrays, the variable cannot be reassigned, but the properties/elements can be changed",
+            "Hoisted but not initialized (in the \"temporal dead zone\" until declaration)",
+            "Introduced in ES6 (ES2015)"
+          ]
+        }
+      ]
     },
     {
       "id": "fe-3",
@@ -24,36 +104,441 @@
     {
       "id": "be-1",
       "question": "What is REST and what are the key principles of RESTful API design?",
-      "answer": "REST (Representational State Transfer) is an architectural style for designing networked applications. RESTful APIs are designed around resources, which are any kind of object, data, or service that can be accessed by the client.\n\nKey principles of RESTful API design:\n\n1. **Client-Server Architecture**: Separation of concerns between client and server improves portability and scalability.\n\n2. **Statelessness**: Each request from client to server must contain all the information needed to understand and process the request. The server cannot store session state across requests.\n\n3. **Cacheability**: Responses must define themselves as cacheable or non-cacheable to prevent clients from reusing stale data.\n\n4. **Uniform Interface**: A uniform way of interacting with a given server regardless of device or application type. This includes:\n   - Resource identification in requests\n   - Resource manipulation through representations\n   - Self-descriptive messages\n   - Hypermedia as the engine of application state (HATEOAS)\n\n5. **Layered System**: A client cannot ordinarily tell whether it is connected directly to the end server or to an intermediary along the way.\n\n6. **Code on Demand (optional)**: Servers can temporarily extend client functionality by transferring executable code.\n\nRESTful APIs typically use HTTP methods explicitly:\n- GET (retrieve a resource)\n- POST (create a resource)\n- PUT (update a resource)\n- DELETE (remove a resource)\n- PATCH (partial update)\n\nAnd HTTP status codes to indicate success/failure."
+      "answer": [
+        {
+          "type": "text",
+          "content": "REST (Representational State Transfer) is an architectural style for designing networked applications. RESTful APIs are designed around resources, which are any kind of object, data, or service that can be accessed by the client."
+        },
+        {
+          "type": "text",
+          "content": "Key principles of RESTful API design:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Client-Server Architecture**: Separation of concerns between client and server improves portability and scalability.",
+            "**Statelessness**: Each request from client to server must contain all the information needed to understand and process the request. The server cannot store session state across requests.",
+            "**Cacheability**: Responses must define themselves as cacheable or non-cacheable to prevent clients from reusing stale data.",
+            "**Uniform Interface**: A uniform way of interacting with a given server regardless of device or application type. This includes:\n   - Resource identification in requests\n   - Resource manipulation through representations\n   - Self-descriptive messages\n   - Hypermedia as the engine of application state (HATEOAS)",
+            "**Layered System**: A client cannot ordinarily tell whether it is connected directly to the end server or to an intermediary along the way.",
+            "**Code on Demand (optional)**: Servers can temporarily extend client functionality by transferring executable code."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "RESTful APIs typically use HTTP methods explicitly:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "GET (retrieve a resource)",
+            "POST (create a resource)",
+            "PUT (update a resource)",
+            "DELETE (remove a resource)",
+            "PATCH (partial update)"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "And HTTP status codes to indicate success/failure."
+        }
+      ]
     },
     {
       "id": "be-2",
       "question": "Explain the concept of database normalization and its normal forms.",
-      "answer": "Database normalization is the process of structuring a relational database to reduce data redundancy and improve data integrity. It involves organizing fields and tables to ensure that their dependencies are properly enforced by database integrity constraints.\n\nThe main normal forms are:\n\n**First Normal Form (1NF)**:\n- Each table cell should contain a single value\n- Each record needs to be unique\n- No repeating groups or arrays\n\n**Second Normal Form (2NF)**:\n- Must be in 1NF\n- All non-key attributes must depend on the entire primary key\n- Eliminates partial dependencies\n\n**Third Normal Form (3NF)**:\n- Must be in 2NF\n- No transitive dependencies (non-key attributes depending on other non-key attributes)\n- All fields must depend directly on the primary key\n\n**Boyce-Codd Normal Form (BCNF)**:\n- A stricter version of 3NF\n- For any dependency A → B, A must be a super key\n- Addresses certain anomalies not addressed by 3NF\n\n**Fourth Normal Form (4NF)**:\n- Must be in BCNF\n- No multi-valued dependencies\n\n**Fifth Normal Form (5NF)**:\n- Must be in 4NF\n- No join dependencies\n- Every join dependency is implied by the candidate keys\n\nBenefits of normalization include:\n- Reducing data redundancy\n- Improving data integrity\n- Making the database more flexible\n- Better database organization\n\nHowever, excessive normalization can lead to performance issues due to the need for many JOIN operations. In practical applications, denormalization might be applied strategically for performance optimization."
+      "answer": [
+        {
+          "type": "text",
+          "content": "Database normalization is the process of structuring a relational database to reduce data redundancy and improve data integrity. It involves organizing fields and tables to ensure that their dependencies are properly enforced by database integrity constraints."
+        },
+        {
+          "type": "text",
+          "content": "The main normal forms are:"
+        },
+        {
+          "type": "text",
+          "content": "**First Normal Form (1NF)**:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Each table cell should contain a single value",
+            "Each record needs to be unique",
+            "No repeating groups or arrays"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**Second Normal Form (2NF)**:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Must be in 1NF",
+            "All non-key attributes must depend on the entire primary key",
+            "Eliminates partial dependencies"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**Third Normal Form (3NF)**:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Must be in 2NF",
+            "No transitive dependencies (non-key attributes depending on other non-key attributes)",
+            "All fields must depend directly on the primary key"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**Boyce-Codd Normal Form (BCNF)**:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "A stricter version of 3NF",
+            "For any dependency A → B, A must be a super key",
+            "Addresses certain anomalies not addressed by 3NF"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**Fourth Normal Form (4NF)**:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Must be in BCNF",
+            "No multi-valued dependencies"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**Fifth Normal Form (5NF)**:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Must be in 4NF",
+            "No join dependencies",
+            "Every join dependency is implied by the candidate keys"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Benefits of normalization include:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Reducing data redundancy",
+            "Improving data integrity",
+            "Making the database more flexible",
+            "Better database organization"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "However, excessive normalization can lead to performance issues due to the need for many JOIN operations. In practical applications, denormalization might be applied strategically for performance optimization."
+        }
+      ]
     }
   ],
   "backend-csharp": [
     {
       "id": "be-1",
       "question": "What is REST and what are the key principles of RESTful API design?",
-      "answer": "REST (Representational State Transfer) is an architectural style for designing networked applications. RESTful APIs are designed around resources, which are any kind of object, data, or service that can be accessed by the client.\n\nKey principles of RESTful API design:\n\n1. **Client-Server Architecture**: Separation of concerns between client and server improves portability and scalability.\n\n2. **Statelessness**: Each request from client to server must contain all the information needed to understand and process the request. The server cannot store session state across requests.\n\n3. **Cacheability**: Responses must define themselves as cacheable or non-cacheable to prevent clients from reusing stale data.\n\n4. **Uniform Interface**: A uniform way of interacting with a given server regardless of device or application type. This includes:\n   - Resource identification in requests\n   - Resource manipulation through representations\n   - Self-descriptive messages\n   - Hypermedia as the engine of application state (HATEOAS)\n\n5. **Layered System**: A client cannot ordinarily tell whether it is connected directly to the end server or to an intermediary along the way.\n\n6. **Code on Demand (optional)**: Servers can temporarily extend client functionality by transferring executable code.\n\nRESTful APIs typically use HTTP methods explicitly:\n- GET (retrieve a resource)\n- POST (create a resource)\n- PUT (update a resource)\n- DELETE (remove a resource)\n- PATCH (partial update)\n\nAnd HTTP status codes to indicate success/failure."
+      "answer": [
+        {
+          "type": "text",
+          "content": "REST (Representational State Transfer) is an architectural style for designing networked applications. RESTful APIs are designed around resources, which are any kind of object, data, or service that can be accessed by the client."
+        },
+        {
+          "type": "text",
+          "content": "Key principles of RESTful API design:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Client-Server Architecture**: Separation of concerns between client and server improves portability and scalability.",
+            "**Statelessness**: Each request from client to server must contain all the information needed to understand and process the request. The server cannot store session state across requests.",
+            "**Cacheability**: Responses must define themselves as cacheable or non-cacheable to prevent clients from reusing stale data.",
+            "**Uniform Interface**: A uniform way of interacting with a given server regardless of device or application type. This includes:\n   - Resource identification in requests\n   - Resource manipulation through representations\n   - Self-descriptive messages\n   - Hypermedia as the engine of application state (HATEOAS)",
+            "**Layered System**: A client cannot ordinarily tell whether it is connected directly to the end server or to an intermediary along the way.",
+            "**Code on Demand (optional)**: Servers can temporarily extend client functionality by transferring executable code."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "RESTful APIs typically use HTTP methods explicitly:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "GET (retrieve a resource)",
+            "POST (create a resource)",
+            "PUT (update a resource)",
+            "DELETE (remove a resource)",
+            "PATCH (partial update)"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "And HTTP status codes to indicate success/failure."
+        }
+      ]
     },
     {
       "id": "be-2",
       "question": "Explain the concept of database normalization and its normal forms.",
-      "answer": "Database normalization is the process of structuring a relational database to reduce data redundancy and improve data integrity. It involves organizing fields and tables to ensure that their dependencies are properly enforced by database integrity constraints.\n\nThe main normal forms are:\n\n**First Normal Form (1NF)**:\n- Each table cell should contain a single value\n- Each record needs to be unique\n- No repeating groups or arrays\n\n**Second Normal Form (2NF)**:\n- Must be in 1NF\n- All non-key attributes must depend on the entire primary key\n- Eliminates partial dependencies\n\n**Third Normal Form (3NF)**:\n- Must be in 2NF\n- No transitive dependencies (non-key attributes depending on other non-key attributes)\n- All fields must depend directly on the primary key\n\n**Boyce-Codd Normal Form (BCNF)**:\n- A stricter version of 3NF\n- For any dependency A → B, A must be a super key\n- Addresses certain anomalies not addressed by 3NF\n\n**Fourth Normal Form (4NF)**:\n- Must be in BCNF\n- No multi-valued dependencies\n\n**Fifth Normal Form (5NF)**:\n- Must be in 4NF\n- No join dependencies\n- Every join dependency is implied by the candidate keys\n\nBenefits of normalization include:\n- Reducing data redundancy\n- Improving data integrity\n- Making the database more flexible\n- Better database organization\n\nHowever, excessive normalization can lead to performance issues due to the need for many JOIN operations. In practical applications, denormalization might be applied strategically for performance optimization."
+      "answer": [
+        {
+          "type": "text",
+          "content": "Database normalization is the process of structuring a relational database to reduce data redundancy and improve data integrity. It involves organizing fields and tables to ensure that their dependencies are properly enforced by database integrity constraints."
+        },
+        {
+          "type": "text",
+          "content": "The main normal forms are:"
+        },
+        {
+          "type": "text",
+          "content": "**First Normal Form (1NF)**:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Each table cell should contain a single value",
+            "Each record needs to be unique",
+            "No repeating groups or arrays"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**Second Normal Form (2NF)**:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Must be in 1NF",
+            "All non-key attributes must depend on the entire primary key",
+            "Eliminates partial dependencies"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**Third Normal Form (3NF)**:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Must be in 2NF",
+            "No transitive dependencies (non-key attributes depending on other non-key attributes)",
+            "All fields must depend directly on the primary key"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**Boyce-Codd Normal Form (BCNF)**:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "A stricter version of 3NF",
+            "For any dependency A → B, A must be a super key",
+            "Addresses certain anomalies not addressed by 3NF"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**Fourth Normal Form (4NF)**:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Must be in BCNF",
+            "No multi-valued dependencies"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**Fifth Normal Form (5NF)**:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Must be in 4NF",
+            "No join dependencies",
+            "Every join dependency is implied by the candidate keys"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Benefits of normalization include:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Reducing data redundancy",
+            "Improving data integrity",
+            "Making the database more flexible",
+            "Better database organization"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "However, excessive normalization can lead to performance issues due to the need for many JOIN operations. In practical applications, denormalization might be applied strategically for performance optimization."
+        }
+      ]
     }
   ],
   "backend-golang": [
     {
       "id": "be-1",
       "question": "What is REST and what are the key principles of RESTful API design?",
-      "answer": "REST (Representational State Transfer) is an architectural style for designing networked applications. RESTful APIs are designed around resources, which are any kind of object, data, or service that can be accessed by the client.\n\nKey principles of RESTful API design:\n\n1. **Client-Server Architecture**: Separation of concerns between client and server improves portability and scalability.\n\n2. **Statelessness**: Each request from client to server must contain all the information needed to understand and process the request. The server cannot store session state across requests.\n\n3. **Cacheability**: Responses must define themselves as cacheable or non-cacheable to prevent clients from reusing stale data.\n\n4. **Uniform Interface**: A uniform way of interacting with a given server regardless of device or application type. This includes:\n   - Resource identification in requests\n   - Resource manipulation through representations\n   - Self-descriptive messages\n   - Hypermedia as the engine of application state (HATEOAS)\n\n5. **Layered System**: A client cannot ordinarily tell whether it is connected directly to the end server or to an intermediary along the way.\n\n6. **Code on Demand (optional)**: Servers can temporarily extend client functionality by transferring executable code.\n\nRESTful APIs typically use HTTP methods explicitly:\n- GET (retrieve a resource)\n- POST (create a resource)\n- PUT (update a resource)\n- DELETE (remove a resource)\n- PATCH (partial update)\n\nAnd HTTP status codes to indicate success/failure."
+      "answer": [
+        {
+          "type": "text",
+          "content": "REST (Representational State Transfer) is an architectural style for designing networked applications. RESTful APIs are designed around resources, which are any kind of object, data, or service that can be accessed by the client."
+        },
+        {
+          "type": "text",
+          "content": "Key principles of RESTful API design:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Client-Server Architecture**: Separation of concerns between client and server improves portability and scalability.",
+            "**Statelessness**: Each request from client to server must contain all the information needed to understand and process the request. The server cannot store session state across requests.",
+            "**Cacheability**: Responses must define themselves as cacheable or non-cacheable to prevent clients from reusing stale data.",
+            "**Uniform Interface**: A uniform way of interacting with a given server regardless of device or application type. This includes:\n   - Resource identification in requests\n   - Resource manipulation through representations\n   - Self-descriptive messages\n   - Hypermedia as the engine of application state (HATEOAS)",
+            "**Layered System**: A client cannot ordinarily tell whether it is connected directly to the end server or to an intermediary along the way.",
+            "**Code on Demand (optional)**: Servers can temporarily extend client functionality by transferring executable code."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "RESTful APIs typically use HTTP methods explicitly:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "GET (retrieve a resource)",
+            "POST (create a resource)",
+            "PUT (update a resource)",
+            "DELETE (remove a resource)",
+            "PATCH (partial update)"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "And HTTP status codes to indicate success/failure."
+        }
+      ]
     },
     {
       "id": "be-2",
       "question": "Explain the concept of database normalization and its normal forms.",
-      "answer": "Database normalization is the process of structuring a relational database to reduce data redundancy and improve data integrity. It involves organizing fields and tables to ensure that their dependencies are properly enforced by database integrity constraints.\n\nThe main normal forms are:\n\n**First Normal Form (1NF)**:\n- Each table cell should contain a single value\n- Each record needs to be unique\n- No repeating groups or arrays\n\n**Second Normal Form (2NF)**:\n- Must be in 1NF\n- All non-key attributes must depend on the entire primary key\n- Eliminates partial dependencies\n\n**Third Normal Form (3NF)**:\n- Must be in 2NF\n- No transitive dependencies (non-key attributes depending on other non-key attributes)\n- All fields must depend directly on the primary key\n\n**Boyce-Codd Normal Form (BCNF)**:\n- A stricter version of 3NF\n- For any dependency A → B, A must be a super key\n- Addresses certain anomalies not addressed by 3NF\n\n**Fourth Normal Form (4NF)**:\n- Must be in BCNF\n- No multi-valued dependencies\n\n**Fifth Normal Form (5NF)**:\n- Must be in 4NF\n- No join dependencies\n- Every join dependency is implied by the candidate keys\n\nBenefits of normalization include:\n- Reducing data redundancy\n- Improving data integrity\n- Making the database more flexible\n- Better database organization\n\nHowever, excessive normalization can lead to performance issues due to the need for many JOIN operations. In practical applications, denormalization might be applied strategically for performance optimization."
+      "answer": [
+        {
+          "type": "text",
+          "content": "Database normalization is the process of structuring a relational database to reduce data redundancy and improve data integrity. It involves organizing fields and tables to ensure that their dependencies are properly enforced by database integrity constraints."
+        },
+        {
+          "type": "text",
+          "content": "The main normal forms are:"
+        },
+        {
+          "type": "text",
+          "content": "**First Normal Form (1NF)**:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Each table cell should contain a single value",
+            "Each record needs to be unique",
+            "No repeating groups or arrays"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**Second Normal Form (2NF)**:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Must be in 1NF",
+            "All non-key attributes must depend on the entire primary key",
+            "Eliminates partial dependencies"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**Third Normal Form (3NF)**:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Must be in 2NF",
+            "No transitive dependencies (non-key attributes depending on other non-key attributes)",
+            "All fields must depend directly on the primary key"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**Boyce-Codd Normal Form (BCNF)**:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "A stricter version of 3NF",
+            "For any dependency A → B, A must be a super key",
+            "Addresses certain anomalies not addressed by 3NF"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**Fourth Normal Form (4NF)**:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Must be in BCNF",
+            "No multi-valued dependencies"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**Fifth Normal Form (5NF)**:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Must be in 4NF",
+            "No join dependencies",
+            "Every join dependency is implied by the candidate keys"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Benefits of normalization include:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Reducing data redundancy",
+            "Improving data integrity",
+            "Making the database more flexible",
+            "Better database organization"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "However, excessive normalization can lead to performance issues due to the need for many JOIN operations. In practical applications, denormalization might be applied strategically for performance optimization."
+        }
+      ]
     }
   ],
   "algorithms": [
@@ -80,7 +565,137 @@
     {
       "id": "sd-1",
       "question": "Design a URL shortening service like bit.ly.",
-      "answer": "Designing a URL shortening service involves several components and considerations:\n\n**Functional Requirements:**\n1. URL shortening: Convert a long URL to a short URL\n2. URL redirection: Redirect short URL to original URL\n3. User accounts: Optional for analytics and URL management\n4. Analytics: Track click rates, geographic data, etc.\n5. Custom short URLs: Allow users to choose their custom short URLs\n\n**Non-Functional Requirements:**\n1. High availability: System should be always available\n2. Minimal latency: Redirection should happen with minimal delay\n3. Scalability: System should handle high traffic\n4. Security: Prevent abuse and malicious URLs\n\n**API Design:**\n1. `POST /api/shorten` - Create a new short URL\n2. `GET /{shortCode}` - Redirect to original URL\n3. `GET /api/analytics/{shortCode}` - Get analytics for a short URL\n\n**Data Model:**\n```\nURL {\n  id: string (primary key)\n  shortCode: string (indexed)\n  originalUrl: string\n  userId: string (optional)\n  createdAt: timestamp\n  expiresAt: timestamp (optional)\n}\n\nClick {\n  id: string (primary key)\n  urlId: string (foreign key)\n  timestamp: timestamp\n  userAgent: string\n  ipAddress: string\n  referrer: string\n}\n```\n\n**URL Shortening Algorithm:**\n1. Hash-based approach: Hash the long URL and take first few characters\n2. Counter-based approach: Use an auto-incrementing counter and convert to base62\n3. Random generation: Generate random strings and check for collisions\n\n**System Architecture:**\n1. Load Balancer: Distribute traffic across application servers\n2. Application Servers: Handle API requests and URL redirection\n3. Database: Store URLs and analytics data\n4. Cache: Store frequently accessed URLs for faster redirection\n\n**Database Choice:**\n- Relational DB (PostgreSQL/MySQL): For structured data and transactions\n- NoSQL DB (DynamoDB/Cassandra): For scalability and performance\n\n**Caching Strategy:**\n- Use Redis/Memcached to cache URL mappings\n- LRU (Least Recently Used) eviction policy\n\n**Scaling Considerations:**\n1. Database sharding: Partition URLs based on shortCode hash\n2. Caching: Implement multiple cache layers\n3. CDN: Use for handling static content and reducing latency\n4. Horizontal scaling: Add more application servers as needed\n\n**Security:**\n1. Rate limiting: Prevent abuse\n2. URL validation: Check for malicious URLs\n3. User authentication: For managing URLs\n4. HTTPS: Secure all communications\n\nThis design balances simplicity, performance, and scalability while addressing the key requirements of a URL shortening service."
+      "answer": [
+        {
+          "type": "text",
+          "content": "Designing a URL shortening service involves several components and considerations:"
+        },
+        {
+          "type": "text",
+          "content": "**Functional Requirements:**"
+        },
+        {
+          "type": "list",
+          "items": [
+            "URL shortening: Convert a long URL to a short URL",
+            "URL redirection: Redirect short URL to original URL",
+            "User accounts: Optional for analytics and URL management",
+            "Analytics: Track click rates, geographic data, etc.",
+            "Custom short URLs: Allow users to choose their custom short URLs"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**Non-Functional Requirements:**"
+        },
+        {
+          "type": "list",
+          "items": [
+            "High availability: System should be always available",
+            "Minimal latency: Redirection should happen with minimal delay",
+            "Scalability: System should handle high traffic",
+            "Security: Prevent abuse and malicious URLs"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**API Design:**"
+        },
+        {
+          "type": "list",
+          "items": [
+            "`POST /api/shorten` - Create a new short URL",
+            "`GET /{shortCode}` - Redirect to original URL",
+            "`GET /api/analytics/{shortCode}` - Get analytics for a short URL"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**Data Model:**"
+        },
+        {
+          "type": "code",
+          "language": "text",
+          "content": "URL {\n  id: string (primary key)\n  shortCode: string (indexed)\n  originalUrl: string\n  userId: string (optional)\n  createdAt: timestamp\n  expiresAt: timestamp (optional)\n}\n\nClick {\n  id: string (primary key)\n  urlId: string (foreign key)\n  timestamp: timestamp\n  userAgent: string\n  ipAddress: string\n  referrer: string\n}"
+        },
+        {
+          "type": "text",
+          "content": "**URL Shortening Algorithm:**"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Hash-based approach: Hash the long URL and take first few characters",
+            "Counter-based approach: Use an auto-incrementing counter and convert to base62",
+            "Random generation: Generate random strings and check for collisions"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**System Architecture:**"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Load Balancer: Distribute traffic across application servers",
+            "Application Servers: Handle API requests and URL redirection",
+            "Database: Store URLs and analytics data",
+            "Cache: Store frequently accessed URLs for faster redirection"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**Database Choice:**"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Relational DB (PostgreSQL/MySQL): For structured data and transactions",
+            "NoSQL DB (DynamoDB/Cassandra): For scalability and performance"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**Caching Strategy:**"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Use Redis/Memcached to cache URL mappings",
+            "LRU (Least Recently Used) eviction policy"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**Scaling Considerations:**"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Database sharding: Partition URLs based on shortCode hash",
+            "Caching: Implement multiple cache layers",
+            "CDN: Use for handling static content and reducing latency",
+            "Horizontal scaling: Add more application servers as needed"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**Security:**"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Rate limiting: Prevent abuse",
+            "URL validation: Check for malicious URLs",
+            "User authentication: For managing URLs",
+            "HTTPS: Secure all communications"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "This design balances simplicity, performance, and scalability while addressing the key requirements of a URL shortening service."
+        }
+      ]
     }
   ]
 }
