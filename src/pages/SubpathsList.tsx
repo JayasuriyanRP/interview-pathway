@@ -1,18 +1,33 @@
+
 import React from "react";
 import { useParams } from "react-router-dom";
 import Header from "../components/Header";
 import PathCard from "../components/PathCard";
-import { usePath } from "../hooks/useData";
+import { usePath, useData } from "../hooks/useData";
+import { Skeleton } from "../components/ui/skeleton";
 
 const SubpathsList = () => {
   const { pathId } = useParams<{ pathId: string }>();
-  const { path, loading, error } = usePath(pathId);
+  const { path, loading: pathLoading, error } = usePath(pathId);
+  const { questions, loading: questionsLoading } = useData();
+  
+  const loading = pathLoading || questionsLoading;
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center animate-pulse">
-          <p className="text-lg font-medium">Loading...</p>
+      <div className="min-h-screen bg-gray-50">
+        <Header title="Loading..." showBackButton={true} />
+        <div className="container mx-auto max-w-5xl px-6 py-8">
+          <div className="mb-10">
+            <Skeleton className="h-6 w-32 mb-4" />
+            <Skeleton className="h-10 w-3/4 mb-4" />
+            <Skeleton className="h-6 w-full" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {[1, 2].map((i) => (
+              <Skeleton key={i} className="h-48 w-full rounded-xl" />
+            ))}
+          </div>
         </div>
       </div>
     );
@@ -58,16 +73,26 @@ const SubpathsList = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {path.subpaths.map((subpath, index) => (
-              <div
-                key={subpath.id}
-                className={`animate-fadeIn animate-delay-${
-                  Math.min(index, 3) * 100
-                }`}
-              >
-                <PathCard {...subpath} icon="List" hasSubpaths={false} />
-              </div>
-            ))}
+            {path.subpaths.map((subpath, index) => {
+              // Get actual question count from questions object
+              const actualCount = questions[subpath.id] ? questions[subpath.id].length : 0;
+              
+              return (
+                <div
+                  key={subpath.id}
+                  className={`animate-fadeIn animate-delay-${
+                    Math.min(index, 3) * 100
+                  }`}
+                >
+                  <PathCard 
+                    {...subpath} 
+                    count={actualCount}
+                    icon="List" 
+                    hasSubpaths={false} 
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
       </main>

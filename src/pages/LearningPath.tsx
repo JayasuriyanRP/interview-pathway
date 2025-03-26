@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+
+import React from "react";
 import { useParams, Link } from "react-router-dom";
 import Header from "../components/Header";
 import QuestionCard from "../components/QuestionCard";
 import { usePath, usePathQuestions } from "../hooks/useData";
 import { ChevronRight } from "lucide-react";
+import { Skeleton } from "../components/ui/skeleton";
 
 const LearningPath = () => {
   const { pathId } = useParams<{ pathId: string }>();
@@ -25,9 +27,16 @@ const LearningPath = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center animate-pulse">
-          <p className="text-lg font-medium">Loading...</p>
+      <div className="min-h-screen bg-gray-50">
+        <Header title="Loading..." showBackButton={true} />
+        <div className="container mx-auto max-w-3xl px-6 py-8">
+          <Skeleton className="h-6 w-32 mb-4" />
+          <Skeleton className="h-10 w-3/4 mb-6" />
+          <Skeleton className="h-6 w-full mb-10" />
+          
+          {[1, 2, 3].map((i) => (
+            <Skeleton key={i} className="h-24 w-full rounded-xl mb-6" />
+          ))}
         </div>
       </div>
     );

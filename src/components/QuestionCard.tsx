@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import CodeBlock from "./CodeBlock";
@@ -19,6 +20,19 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
     setIsOpen(!isOpen);
   };
 
+  const renderInlineCode = (text: string) => {
+    return text.split(/(`([^`]+)`)/g).map((segment, i) => {
+      if (segment.startsWith("`") && segment.endsWith("`")) {
+        return (
+          <code key={i} className="bg-gray-200 text-sm px-1 rounded">
+            {segment.slice(1, -1)}
+          </code>
+        );
+      }
+      return segment;
+    });
+  };
+
   const renderAnswer = () => {
     if (typeof answer === "object" && answer.type === "code") {
       return <CodeBlock language={answer.language} content={answer.content} />;
@@ -28,15 +42,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
       <div className="prose prose-sm max-w-none">
         {answer.split("\n\n").map((paragraph: string, index: number) => (
           <p key={index} className="mb-4">
-            {paragraph.split(/(`([^`]+)`)/g).map((segment, i) =>
-              segment.startsWith("`") && segment.endsWith("`") ? (
-                <code key={i} className="bg-gray-200 text-sm px-1 rounded">
-                  {segment.slice(1, -1)}
-                </code>
-              ) : (
-                segment
-              )
-            )}
+            {renderInlineCode(paragraph)}
           </p>
         ))}
       </div>
@@ -50,7 +56,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
         onClick={toggleAnswer}
       >
         <h3 className="text-lg font-medium">
-          {++id} - {question}
+          {id + 1} - {renderInlineCode(question)}
         </h3>
         <ChevronDown
           className={`h-5 w-5 text-gray-500 transition-transform duration-300 ${
