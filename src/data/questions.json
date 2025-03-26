@@ -264,6 +264,38 @@
       ]
     },
     {
+      "id": "be-4",
+      "question": "What are the basic syntax rules and features of C#?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "C# is an object-oriented, statically-typed language developed by Microsoft for the .NET platform. It provides strong typing, garbage collection, and high-level abstraction."
+        },
+        {
+          "type": "text",
+          "content": "Here are the fundamental syntax rules and features of C#:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Namespace and Classes**: Code is organized using `namespace`, and functionality is encapsulated in `class`.",
+            "**Main Method**: Every C# program has a `Main` method as the entry point.",
+            "**Data Types**: Includes built-in types like `int`, `float`, `string`, `bool`, `object`, and user-defined types.",
+            "**Variables and Constants**: Declared using `var`, `int`, `string`, or `const`.",
+            "**Control Flow**: Uses `if-else`, `switch`, `for`, `while`, `foreach`, `try-catch` for exception handling.",
+            "**Methods**: Functions are defined using `returnType MethodName(parameters) {}`.",
+            "**Object-Oriented Programming (OOP)**: Supports classes, inheritance, polymorphism, and interfaces.",
+            "**Asynchronous Programming**: Uses `async` and `await` keywords for non-blocking execution."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "using System;\n\nnamespace HelloWorld\n{\n    class Program\n    {\n        static void Main(string[] args)\n        {\n            Console.WriteLine(\"Hello, C#!\");\n\n            // Variable declaration\n            int x = 10;\n            var y = 20; // Implicit typing\n\n            // Conditional statement\n            if (y > x)\n            {\n                Console.WriteLine(\"y is greater than x\");\n            }\n\n            // Loop\n            for (int i = 0; i < 5; i++)\n            {\n                Console.WriteLine(i);\n            }\n\n            // Function call\n            int sum = Add(5, 3);\n            Console.WriteLine(\"Sum: \" + sum);\n        }\n\n        // Function definition\n        static int Add(int a, int b)\n        {\n            return a + b;\n        }\n    }\n}"
+        }
+      ]
+    },
+    {
       "id": "cs-2",
       "question": "What are the key features of C#?",
       "answer": [
@@ -1419,6 +1451,337 @@
       ]
     }
   ],
+  "backend-csharp-basic": [
+    {
+      "id": "be-5",
+      "question": "What are the data types and variable declarations in C#?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "C# is a strongly typed language that provides various data types categorized into Value Types and Reference Types."
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Value Types**: `int`, `double`, `float`, `bool`, `char`, `struct`, `enum` - Stored directly in memory.",
+            "**Reference Types**: `string`, `object`, `dynamic`, `class`, `interface`, `delegate` - Stored as references.",
+            "**Nullable Types**: `int?`, `double?`, etc. - Allows value types to hold `null` values.",
+            "**Implicit Typing**: `var` - Compiler infers type at compile-time.",
+            "**Dynamic Typing**: `dynamic` - Type is resolved at runtime."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "int age = 30;\ndouble price = 99.99;\nvar name = \"Alice\"; // Compiler infers string type\ndynamic value = 10; // Can change type dynamically\nvalue = \"Hello\"; // Now it's a string"
+        }
+      ]
+    },
+    {
+      "id": "be-6",
+      "question": "What are the control flow keywords in C#?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "Control flow statements determine the execution order of statements in a program."
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Conditional Statements**: `if`, `else`, `switch`, `case`",
+            "**Looping Statements**: `for`, `while`, `do-while`, `foreach`",
+            "**Jump Statements**: `break`, `continue`, `return`, `goto`"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "for (int i = 0; i < 5; i++)\n{\n    if (i == 3) continue; // Skips iteration\n    Console.WriteLine(i);\n}"
+        }
+      ]
+    },
+    {
+      "id": "be-7",
+      "question": "How does exception handling work in C#?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "C# provides structured exception handling using `try`, `catch`, `finally`, and `throw` to handle errors gracefully."
+        },
+        {
+          "type": "list",
+          "items": [
+            "`try` - Defines a block of code to test for exceptions.",
+            "`catch` - Handles exceptions.",
+            "`finally` - Executes regardless of exception occurrence.",
+            "`throw` - Used to throw an exception."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "try\n{\n    int num = int.Parse(\"abc\"); // Throws FormatException\n}\ncatch (FormatException ex)\n{\n    Console.WriteLine(\"Invalid format: \" + ex.Message);\n}\nfinally\n{\n    Console.WriteLine(\"Execution completed.\");\n}"
+        }
+      ]
+    },
+    {
+      "id": "be-8",
+      "question": "What are the key Object-Oriented Programming (OOP) keywords in C#?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "C# is an object-oriented language and follows OOP principles like encapsulation, inheritance, and polymorphism."
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Class & Object Keywords**: `class`, `struct`, `new`",
+            "**Inheritance Keywords**: `base`, `this`, `virtual`, `override`, `abstract`, `sealed`",
+            "**Encapsulation Keywords**: `private`, `protected`, `public`, `internal`"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "class Animal\n{\n    public virtual void Speak() => Console.WriteLine(\"Animal speaks\");\n}\nclass Dog : Animal\n{\n    public override void Speak() => Console.WriteLine(\"Dog barks\");\n}"
+        }
+      ]
+    },
+    {
+      "id": "be-9",
+      "question": "What are access modifiers in C#?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "Access modifiers define the scope and accessibility of classes, methods, and properties."
+        },
+        {
+          "type": "list",
+          "items": [
+            "`public` - Accessible everywhere.",
+            "`private` - Accessible only within the class.",
+            "`protected` - Accessible within the class and derived classes.",
+            "`internal` - Accessible within the same assembly.",
+            "`protected internal` - Combination of `protected` and `internal`.",
+            "`private protected` - Accessible within the same class and derived classes in the same assembly."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "be-10",
+      "question": "What are properties and indexers in C#?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "Properties encapsulate class fields, providing controlled access. Indexers allow objects to be accessed like arrays."
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "class Person\n{\n    private string _name;\n    public string Name { get => _name; set => _name = value; }\n}"
+        }
+      ]
+    },
+    {
+      "id": "be-11",
+      "question": "What are delegates, events, and lambda expressions in C#?",
+      "answer": [
+        {
+          "type": "list",
+          "items": [
+            "`delegate` - Defines a function pointer.",
+            "`event` - Defines an event mechanism.",
+            "`=>` (Lambda) - Used for anonymous functions."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "delegate void PrintMessage(string message);\nclass Program\n{\n    static void Main()\n    {\n        PrintMessage print = msg => Console.WriteLine(msg);\n        print(\"Hello, C#\");\n    }\n}"
+        }
+      ]
+    },
+    {
+      "id": "be-12",
+      "question": "How does asynchronous programming work in C#?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "C# supports asynchronous programming using `async` and `await` to improve performance."
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "async Task<int> FetchData()\n{\n    await Task.Delay(2000);\n    return 42;\n}\n\nasync void CallAsync()\n{\n    int result = await FetchData();\n    Console.WriteLine(result);\n}"
+        }
+      ]
+    }
+  ],
+  "backend-csharp-errorhandling": [
+    {
+      "id": "be-13",
+      "question": "Can we have a try block without a catch block in C#?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "Yes, a `try` block can exist without a `catch` block as long as it has a `finally` block."
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "try\n{\n    Console.WriteLine(\"Inside try block\");\n}\nfinally\n{\n    Console.WriteLine(\"Finally block executes regardless of exception.\");\n}"
+        },
+        {
+          "type": "text",
+          "content": "This is useful when we want to **ensure cleanup code runs** (like closing database connections) **without handling exceptions** explicitly."
+        }
+      ]
+    },
+    {
+      "id": "be-14",
+      "question": "What happens if an exception is thrown in a finally block?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "If an exception is thrown in a `finally` block, it will **override any previous exception** thrown in the `try` block."
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "try\n{\n    throw new Exception(\"Try block exception\");\n}\nfinally\n{\n    throw new Exception(\"Finally block exception\"); // This overrides the original exception\n}"
+        },
+        {
+          "type": "text",
+          "content": "This can cause unintended behavior, so it's recommended to avoid throwing exceptions inside `finally`."
+        }
+      ]
+    },
+    {
+      "id": "be-15",
+      "question": "What is the difference between throw and throw ex in C#?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "`throw` preserves the original stack trace, whereas `throw ex` resets the stack trace, making debugging harder."
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "try\n{\n    throw new Exception(\"Original Exception\");\n}\ncatch (Exception ex)\n{\n    throw; // Preserves original stack trace\n    // throw ex; // Resets stack trace, making debugging difficult\n}"
+        }
+      ]
+    },
+    {
+      "id": "be-16",
+      "question": "What happens if a return statement is inside a finally block?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "If a `finally` block contains a `return` statement, it **overrides any return value from the try or catch block**."
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "static int Test()\n{\n    try { return 1; }\n    finally { return 2; } // This overrides the try block return\n}\n\nConsole.WriteLine(Test()); // Output: 2"
+        }
+      ]
+    },
+    {
+      "id": "be-17",
+      "question": "Can we catch multiple exceptions in a single catch block?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "Yes, from C# 7.0 onwards, multiple exceptions can be caught using the `when` filter or a single catch block with pattern matching."
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "try\n{\n    throw new ArgumentException(\"Invalid argument\");\n}\ncatch (Exception ex) when (ex is ArgumentException || ex is NullReferenceException)\n{\n    Console.WriteLine(\"Caught ArgumentException or NullReferenceException\");\n}"
+        }
+      ]
+    },
+    {
+      "id": "be-18",
+      "question": "Can we use an empty catch block? What are the consequences?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "Yes, but using an empty catch block **swallows exceptions**, making debugging difficult and potentially leading to hidden errors."
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "try\n{\n    int result = 10 / 0;\n}\ncatch { } // Bad practice: Exception is silently ignored"
+        },
+        {
+          "type": "text",
+          "content": "Instead, log the exception properly:\n\n```csharp\ncatch (Exception ex)\n{\n    Console.WriteLine(ex.Message);\n}\n```"
+        }
+      ]
+    },
+    {
+      "id": "be-19",
+      "question": "What is the difference between checked and unchecked in C#?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "The `checked` keyword enables **overflow checking**, while `unchecked` ignores it (default behavior for non-constant expressions)."
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "int x = int.MaxValue;\n\n// Checked will throw OverflowException\nint y = checked(x + 1);"
+        }
+      ]
+    },
+    {
+      "id": "be-20",
+      "question": "How does exception handling work with asynchronous methods?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "In async methods, exceptions must be caught using `try-catch` inside the `await` block. Otherwise, they are wrapped in an `AggregateException`."
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "async Task TestAsync()\n{\n    try\n    {\n        await Task.Run(() => throw new Exception(\"Async Error\"));\n    }\n    catch (Exception ex)\n    {\n        Console.WriteLine(\"Caught: \" + ex.Message);\n    }\n}"
+        }
+      ]
+    },
+    {
+      "id": "be-23",
+      "question": "What happens if an exception is thrown from within a 'catch' block?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "If an exception is thrown within a 'catch' block, it will propagate up the call stack, potentially overriding the original exception if not handled properly. This can lead to loss of information about the initial exception."
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "try\n{\n    // Some code that throws an exception\n}\ncatch (Exception ex)\n{\n    // Handling the first exception\n    try\n    {\n        // Some code that throws another exception\n    }\n    catch (Exception innerEx)\n    {\n        // This exception can override the original one\n        throw innerEx;\n    }\n}"
+        }
+      ]
+    },
+    {
+      "id": "be-25",
+      "question": "What is the effect of an unhandled exception in a Task run by Task.Run()?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "An unhandled exception in a Task run by Task.Run() will cause the Task to transition to the Faulted state. If the exception is not observed (e.g., by awaiting the Task or accessing its Exception property), it can lead to the application terminating due to an unobserved task exception."
+        },
+        {
+          "type": "code",
+          "language": "csharp",
+          "content": "Task.Run(() =>\n{\n    throw new InvalidOperationException(\"Something went wrong\");\n});\n\n// If the Task is not awaited or its Exception property is not accessed,\n// the exception may go unobserved, potentially terminating the application."
+        }
+      ]
+    }
+  ],
   "backend-dotnet": [
     {
       "id": "dotnet-1",
@@ -2201,6 +2564,38 @@
           "type": "code",
           "language": "go",
           "content": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tnum := 10\n\tptr := &num // Pointer to num\n\tfmt.Println(\"Memory Address:\", ptr)\n\tfmt.Println(\"Value:\", *ptr) // Dereferencing\n}"
+        }
+      ]
+    },
+    {
+      "id": "be-3",
+      "question": "What are the basic syntax rules and features of Golang?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "Golang (Go) is a statically typed, compiled language designed for simplicity, efficiency, and concurrency. It follows C-like syntax but removes complexities like header files and manual memory management."
+        },
+        {
+          "type": "text",
+          "content": "Here are the fundamental syntax rules and features of Go:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Package Declaration**: Every Go program starts with a `package` declaration.",
+            "**Import Statements**: Uses `import` to include standard or custom packages.",
+            "**Functions**: Functions are defined using the `func` keyword.",
+            "**Variables**: Declared using `var`, `:=` (short assignment), or constants using `const`.",
+            "**Data Types**: Includes basic types like `int`, `float64`, `string`, `bool`, and composite types like `array`, `slice`, `map`, `struct`, `interface`.",
+            "**Control Structures**: Uses `if`, `for`, and `switch` for flow control.",
+            "**Concurrency**: Supports goroutines (`go func() {}`) and channels for concurrent execution.",
+            "**Error Handling**: Uses explicit error handling with `error` return values."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc main() {\n    fmt.Println(\"Hello, Go!\")\n\n    // Variable declaration\n    var x int = 10\n    y := 20 // Short assignment\n\n    // Conditional statement\n    if y > x {\n        fmt.Println(\"y is greater than x\")\n    }\n\n    // Loop\n    for i := 0; i < 5; i++ {\n        fmt.Println(i)\n    }\n\n    // Function call\n    sum := add(5, 3)\n    fmt.Println(\"Sum:\", sum)\n}\n\n// Function definition\nfunc add(a int, b int) int {\n    return a + b\n}"
         }
       ]
     },
@@ -3559,6 +3954,592 @@
         {
           "type": "text",
           "content": "This design balances simplicity, performance, and scalability while addressing the key requirements of a URL shortening service."
+        }
+      ]
+    }
+  ],
+  "system-design-microservices": [
+    {
+      "id": "be-7",
+      "question": "Can you provide a simple microservice implementation in Go?",
+      "answer": [
+        {
+          "type": "code",
+          "language": "go",
+          "content": "package main\n\nimport (\n    \"github.com/gin-gonic/gin\"\n    \"gorm.io/driver/postgres\"\n    \"gorm.io/gorm\"\n    \"net/http\"\n)\n\n// User model\ntype User struct {\n    ID    uint   `json:\"id\" gorm:\"primaryKey\"`\n    Name  string `json:\"name\"`\n    Email string `json:\"email\"`\n}\n\nvar db *gorm.DB\n\nfunc init() {\n    var err error\n    dsn := \"host=localhost user=postgres password=yourpassword dbname=microservice port=5432 sslmode=disable\"\n    db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})\n    if err != nil {\n        panic(\"Failed to connect to database\")\n    }\n    db.AutoMigrate(&User{})\n}\n\nfunc main() {\n    r := gin.Default()\n    r.GET(\"/users\", getUsers)\n    r.POST(\"/users\", createUser)\n    r.Run(\":8080\")\n}\n\n// Get all users\nfunc getUsers(c *gin.Context) {\n    var users []User\n    db.Find(&users)\n    c.JSON(http.StatusOK, users)\n}\n\n// Create a new user\nfunc createUser(c *gin.Context) {\n    var user User\n    if err := c.ShouldBindJSON(&user); err != nil {\n        c.JSON(http.StatusBadRequest, gin.H{\"error\": err.Error()})\n        return\n    }\n    db.Create(&user)\n    c.JSON(http.StatusCreated, user)\n}"
+        }
+      ]
+    },
+    {
+      "id": "ms-1",
+      "question": "What is Microservice Architecture?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "Microservice Architecture is an architectural style where an application is developed as a collection of small, independent services that communicate over a network. Each service is responsible for a specific functionality and can be deployed, scaled, and updated independently."
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Independence**: Each microservice runs in its own process.",
+            "**Modularity**: Services are designed around business capabilities.",
+            "**Decentralized Data Management**: Each service manages its own database.",
+            "**Scalability**: Services can be scaled independently based on demand.",
+            "**Resilience**: Failure in one service does not impact the entire system."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ms-2",
+      "question": "How does Microservices differ from Monolithic Architecture?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "Microservices and Monolithic architectures differ in terms of structure, scalability, and deployment."
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Monolithic Architecture**:",
+            "- Single codebase with all features in one application.",
+            "- Difficult to scale specific parts of the application.",
+            "- Tight coupling between components.",
+            "- Deployment requires redeploying the entire application.",
+            "**Microservices Architecture**:",
+            "- Composed of independent, loosely coupled services.",
+            "- Each service can be scaled individually.",
+            "- Allows for a diverse technology stack.",
+            "- Services can be deployed independently."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ms-3",
+      "question": "What are the key advantages of Microservices?",
+      "answer": [
+        {
+          "type": "list",
+          "items": [
+            "**Scalability**: Individual services can be scaled as needed.",
+            "**Flexibility**: Different services can use different programming languages and databases.",
+            "**Resilience**: Failures in one service do not affect others.",
+            "**Faster Development**: Multiple teams can work on different services independently.",
+            "**Continuous Deployment**: Easier to deploy updates without affecting the entire application."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ms-4",
+      "question": "What are the main challenges of Microservices?",
+      "answer": [
+        {
+          "type": "list",
+          "items": [
+            "**Increased Complexity**: More services mean more points of failure.",
+            "**Data Management**: Handling distributed databases requires strategies like Saga Pattern.",
+            "**Service Discovery**: Managing inter-service communication dynamically.",
+            "**Security Concerns**: More exposed APIs increase security risks.",
+            "**Latency**: Network calls between microservices introduce delays."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ms-5",
+      "question": "What is the difference between REST and gRPC?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "REST and gRPC are both communication protocols used in microservices, but they have key differences."
+        },
+        {
+          "type": "list",
+          "items": [
+            "**REST**:",
+            "- Uses HTTP with JSON for data exchange.",
+            "- Human-readable but has higher latency.",
+            "- Stateless communication.",
+            "**gRPC**:",
+            "- Uses HTTP/2 and Protocol Buffers for serialization.",
+            "- More efficient and faster than REST.",
+            "- Supports bi-directional streaming."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ms-6",
+      "question": "How does inter-service communication work in Microservices?",
+      "answer": [
+        {
+          "type": "list",
+          "items": [
+            "**Synchronous Communication**: Services call each other directly using REST or gRPC.",
+            "**Asynchronous Communication**: Services use message brokers like Kafka or RabbitMQ.",
+            "**Event-Driven Communication**: Services publish and subscribe to events to exchange information."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ms-7",
+      "question": "What is API Gateway, and why is it used?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "An API Gateway is a single entry point for managing requests between clients and microservices."
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Routing**: Directs requests to the appropriate microservice.",
+            "**Authentication**: Manages security (OAuth, JWT).",
+            "**Load Balancing**: Distributes traffic across multiple instances.",
+            "**Rate Limiting**: Prevents abuse and ensures fair usage."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ms-8",
+      "question": "What is Service Discovery in Microservices?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "Service Discovery is a mechanism that helps microservices dynamically find and communicate with each other."
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Client-Side Discovery**: The client looks up the service location from a registry (e.g., Consul, Eureka).",
+            "**Server-Side Discovery**: The API Gateway handles service lookup and routing.",
+            "**Service Registry**: Stores available service instances and updates dynamically."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ms-9",
+      "question": "Explain the concept of database per service in Microservices.",
+      "answer": [
+        {
+          "type": "text",
+          "content": "Each microservice has its own dedicated database to ensure loose coupling."
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Benefits**:",
+            "- Independent scaling of services.",
+            "- Avoids data conflicts across services.",
+            "- Allows for different database technologies (Polyglot Persistence).",
+            "**Challenges**:",
+            "- Managing distributed transactions.",
+            "- Maintaining consistency between services."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ms-10",
+      "question": "What is Polyglot Persistence?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "Polyglot Persistence is the practice of using different databases for different microservices based on their requirements."
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Example Usage**:",
+            "- **SQL (PostgreSQL, MySQL)** for transactional data.",
+            "- **NoSQL (MongoDB, Cassandra)** for flexible document storage.",
+            "- **Redis** for caching.",
+            "**Advantages**:",
+            "- Optimized performance for each service.",
+            "- Flexibility in choosing the best data storage model.",
+            "**Challenges**:",
+            "- Increased complexity in data management.",
+            "- Requires expertise in multiple database technologies."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ms-11",
+      "question": "How do you handle transactions across multiple Microservices?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "Handling transactions in microservices requires ensuring data consistency across services, since a traditional database transaction (ACID) is not feasible."
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Saga Pattern**: Manages distributed transactions using either choreography (event-driven) or orchestration (centralized controller).",
+            "**Two-Phase Commit (2PC)**: Ensures atomicity but introduces blocking and is not commonly used in modern microservices.",
+            "**Eventual Consistency**: Uses asynchronous messaging and retries to achieve consistency over time.",
+            "**Outbox Pattern**: Ensures messages are stored and reliably published along with the main database operation.",
+            "**Compensating Transactions**: In case of failure, performs actions to undo changes made by previous steps."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ms-12",
+      "question": "What is the Saga Pattern, and when would you use it?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "The Saga Pattern is a way to manage distributed transactions in microservices by breaking them into smaller, independent steps."
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Choreography-Based Saga**: Each service listens for events and triggers the next step without a central coordinator.",
+            "**Orchestration-Based Saga**: A central orchestrator service manages and directs the transaction flow."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Used when multiple services need to update data while maintaining consistency and rollback mechanisms."
+        }
+      ]
+    },
+    {
+      "id": "ms-13",
+      "question": "Explain Circuit Breaker Pattern and its importance.",
+      "answer": [
+        {
+          "type": "text",
+          "content": "The Circuit Breaker Pattern is used to prevent repeated failures by stopping calls to a failing service and providing fallback responses."
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Closed State**: Requests are passed through normally.",
+            "**Open State**: After failures exceed a threshold, requests are blocked temporarily.",
+            "**Half-Open State**: Some requests are allowed to test if the service has recovered."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "It improves system resilience and prevents cascading failures in microservices."
+        }
+      ]
+    },
+    {
+      "id": "ms-14",
+      "question": "How do you ensure security in a Microservices architecture?",
+      "answer": [
+        {
+          "type": "list",
+          "items": [
+            "**Authentication & Authorization**: Use OAuth2, JWT, or API Gateway authentication.",
+            "**Secure Communication**: Encrypt data in transit using TLS.",
+            "**API Gateway Security**: Centralized authentication and rate limiting.",
+            "**Service-to-Service Security**: Mutual TLS (mTLS) and API keys.",
+            "**Logging & Monitoring**: Detect security threats using SIEM tools."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ms-15",
+      "question": "What are the different ways of implementing Service Discovery?",
+      "answer": [
+        {
+          "type": "list",
+          "items": [
+            "**Client-Side Discovery**: Services query a registry (e.g., Consul, Eureka) to find instances.",
+            "**Server-Side Discovery**: API Gateway or Load Balancer routes requests dynamically.",
+            "**DNS-Based Discovery**: Services resolve addresses via DNS (e.g., Kubernetes DNS)."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ms-16",
+      "question": "What is eventual consistency in Microservices?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "Eventual consistency ensures that after a period of time, all services have consistent data, even if updates happen asynchronously."
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Event-Driven Architecture**: Services publish events to synchronize state.",
+            "**Retries & Idempotency**: Ensures operations can be repeated without causing errors.",
+            "**Compensating Transactions**: Rolls back incomplete operations to maintain consistency."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ms-17",
+      "question": "How do you monitor Microservices?",
+      "answer": [
+        {
+          "type": "list",
+          "items": [
+            "**Logging**: Use centralized logging (ELK Stack, Loki).",
+            "**Metrics Collection**: Monitor system performance (Prometheus, Grafana).",
+            "**Tracing**: Use distributed tracing (Jaeger, Zipkin) to track request flows.",
+            "**Health Checks**: Implement endpoint checks (/health, /metrics) to detect failures."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ms-18",
+      "question": "What are Distributed Tracing Tools, and why are they important?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "Distributed tracing tools help track requests as they pass through multiple microservices."
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Jaeger**: Open-source tool for request tracing and latency monitoring.",
+            "**Zipkin**: Traces requests across microservices and identifies performance bottlenecks.",
+            "**OpenTelemetry**: Standardized instrumentation for tracing and metrics."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "They help diagnose slow response times and system failures."
+        }
+      ]
+    },
+    {
+      "id": "ms-19",
+      "question": "What is the CAP theorem, and how does it apply to Microservices?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "The CAP theorem states that in a distributed system, it is impossible to achieve **Consistency (C), Availability (A), and Partition Tolerance (P) simultaneously.**"
+        },
+        {
+          "type": "list",
+          "items": [
+            "**CP (Consistency & Partition Tolerance)**: Prioritizes data correctness but may sacrifice availability.",
+            "**AP (Availability & Partition Tolerance)**: Ensures uptime but may have stale data.",
+            "**CA (Consistency & Availability)**: Only feasible without network partitions (not practical for microservices)."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Microservices typically choose AP (Eventual Consistency) or CP (Strong Consistency) based on business needs."
+        }
+      ]
+    },
+    {
+      "id": "ms-20",
+      "question": "What are some best practices for deploying Microservices?",
+      "answer": [
+        {
+          "type": "list",
+          "items": [
+            "**Use CI/CD Pipelines**: Automate deployments using Jenkins, GitHub Actions, or GitLab CI.",
+            "**Containerization**: Deploy services using Docker and manage with Kubernetes.",
+            "**Service Mesh**: Use Istio or Linkerd for traffic management and observability.",
+            "**API Gateway**: Centralized request routing, authentication, and rate limiting.",
+            "**Rolling Updates & Canary Deployments**: Minimize downtime and test changes safely."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ms-21",
+      "question": "How do you scale Microservices in production?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "Scaling microservices in production involves various strategies to ensure performance, reliability, and availability."
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Horizontal Scaling**: Deploy multiple instances of a microservice and distribute traffic using a load balancer.",
+            "**Container Orchestration**: Use Kubernetes or Docker Swarm to manage containerized microservices efficiently.",
+            "**Auto-scaling**: Automatically scale up or down based on CPU/memory usage (Kubernetes HPA, AWS Auto Scaling).",
+            "**Load Balancing**: Use API Gateway or a dedicated load balancer (Nginx, Envoy) to distribute requests across instances.",
+            "**Database Sharding**: Split databases into smaller parts for better performance.",
+            "**Caching**: Use Redis, Memcached, or CDN to reduce database load and improve response time."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ms-22",
+      "question": "How do you handle versioning in Microservices APIs?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "API versioning ensures backward compatibility while introducing new features."
+        },
+        {
+          "type": "list",
+          "items": [
+            "**URI Versioning**: Include version in the URL (e.g., `/api/v1/users`).",
+            "**Header Versioning**: Pass API version in HTTP headers (e.g., `Accept: application/vnd.company.v1+json`).",
+            "**Query Parameter Versioning**: Pass version as a query parameter (`/users?version=1`).",
+            "**Content Negotiation**: Clients request specific versions via `Accept` headers.",
+            "**Feature Toggles**: Gradually enable new features instead of strict versioning."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ms-23",
+      "question": "What is Kubernetes, and why is it used in Microservices?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "Kubernetes is an open-source container orchestration platform used to automate deployment, scaling, and management of containerized applications."
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Automated Deployment and Scaling**: Kubernetes manages replicas of microservices and scales them based on demand.",
+            "**Self-healing**: Restarts failed containers and reschedules them if necessary.",
+            "**Service Discovery and Load Balancing**: Automatically distributes traffic between microservice instances.",
+            "**Rolling Updates**: Allows seamless updates without downtime.",
+            "**Resource Management**: Efficiently allocates CPU and memory to containers."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ms-24",
+      "question": "Explain Event-Driven Microservices and their benefits.",
+      "answer": [
+        {
+          "type": "text",
+          "content": "Event-driven microservices communicate asynchronously by emitting and responding to events, rather than making direct API calls."
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Decoupling**: Services are independent and do not need to know about each other.",
+            "**Scalability**: Improves performance by processing events asynchronously.",
+            "**Fault Tolerance**: A failed service does not block the entire system.",
+            "**Better Performance**: Reduces request-response latency in real-time applications.",
+            "**Common Tools**: Kafka, RabbitMQ, AWS SNS/SQS for event-driven architecture."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ms-25",
+      "question": "What is gRPC, and how is it different from REST?",
+      "answer": [
+        {
+          "type": "list",
+          "items": [
+            "**gRPC**: A high-performance, RPC-based protocol using HTTP/2 and Protocol Buffers.",
+            "**REST**: A resource-based architecture using HTTP and JSON/XML."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Key differences:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "gRPC uses **binary serialization (Protocol Buffers)** for efficient data transfer, whereas REST uses **text-based JSON**.",
+            "gRPC supports **bidirectional streaming**, unlike REST, which follows a request-response model.",
+            "gRPC is more efficient over low-bandwidth connections due to its binary format."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ms-26",
+      "question": "How do you handle logging and debugging in a distributed Microservices system?",
+      "answer": [
+        {
+          "type": "list",
+          "items": [
+            "**Centralized Logging**: Use ELK Stack (Elasticsearch, Logstash, Kibana) or Fluentd for aggregating logs.",
+            "**Distributed Tracing**: Use tools like Jaeger, Zipkin to trace request flow across services.",
+            "**Structured Logging**: Use JSON-based logs for easier parsing.",
+            "**Error Monitoring**: Implement tools like Sentry or Prometheus to detect failures in real-time."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ms-27",
+      "question": "Explain CQRS (Command Query Responsibility Segregation) in Microservices.",
+      "answer": [
+        {
+          "type": "text",
+          "content": "CQRS separates read and write operations into different models to optimize performance and scalability."
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Command Model**: Handles write operations (Create, Update, Delete).",
+            "**Query Model**: Handles read operations separately.",
+            "**Benefits**: Improves performance, allows separate scaling, and enhances security by restricting write access."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ms-28",
+      "question": "What is Sidecar Pattern in Microservices?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "The Sidecar pattern runs an auxiliary process alongside the main microservice to handle cross-cutting concerns such as logging, monitoring, and security."
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Use Cases**: Service mesh (Istio), logging agents (Fluentd), security proxies.",
+            "**Benefits**: Enhances modularity, isolates responsibilities from the main service."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ms-29",
+      "question": "What is a Strangler Pattern in Microservices?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "The Strangler Pattern gradually replaces a monolithic system by incrementally migrating functionalities to microservices."
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Incremental Migration**: New features are implemented as microservices while old components are phased out.",
+            "**Reduces Risk**: Avoids full rewrites by enabling a step-by-step transition."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ms-30",
+      "question": "How do you test Microservices? (Unit, Integration, Contract Testing)",
+      "answer": [
+        {
+          "type": "list",
+          "items": [
+            "**Unit Testing**: Testing individual service components using frameworks like JUnit (Java) or Go’s testing package.",
+            "**Integration Testing**: Ensuring services work together correctly using tools like Postman, REST-assured.",
+            "**Contract Testing**: Verifying API contracts between services using Pact.",
+            "**End-to-End Testing**: Simulating real-world scenarios using Selenium, Cypress.",
+            "**Performance Testing**: Load testing services using JMeter or k6."
+          ]
         }
       ]
     }

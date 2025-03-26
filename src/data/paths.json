@@ -39,9 +39,23 @@
     "level": "Advanced",
     "subpaths": [
       {
+        "id": "backend-csharp-basic",
+        "title": "C# Basic",
+        "description": "Basic C# language features and .NET framework",
+        "count": 15,
+        "level": "Beginner"
+      },
+      {
         "id": "backend-csharp",
-        "title": "C#",
+        "title": "C# Advanced",
         "description": "C# language features and .NET framework",
+        "count": 15,
+        "level": "Advanced"
+      },
+      {
+        "id": "backend-csharp-errorhandling",
+        "title": "C# ErrorHandling",
+        "description": "C# Error Handling questions",
         "count": 15,
         "level": "Advanced"
       },
