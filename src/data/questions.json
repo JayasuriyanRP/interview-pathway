@@ -389,6 +389,281 @@
   ],
   "backend-golang": [
     {
+      "id": "gb-1",
+      "question": "What are the basic data types in Golang?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "Golang has several basic data types categorized into numeric, string, and boolean types."
+        },
+        {
+          "type": "text",
+          "content": "**1. Numeric Types:**"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Integers: `int`, `int8`, `int16`, `int32`, `int64`",
+            "Unsigned Integers: `uint`, `uint8`, `uint16`, `uint32`, `uint64`",
+            "Floating Points: `float32`, `float64`",
+            "Complex Numbers: `complex64`, `complex128`"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**2. Other Basic Types:**"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Boolean: `bool` (true/false)",
+            "Strings: `string` (UTF-8 encoded text)",
+            "Byte & Rune: `byte` (alias for `uint8`), `rune` (alias for `int32`, used for Unicode characters)"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**Example of using different data types:**"
+        },
+        {
+          "type": "code",
+          "language": "go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tvar a int = 10\n\tvar b float64 = 3.14\n\tvar c string = \"Hello\"\n\tvar d bool = true\n\tfmt.Println(a, b, c, d)\n}"
+        }
+      ]
+    },
+    {
+      "id": "gb-2",
+      "question": "What are pointers in Golang? How do they work?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "Pointers in Golang store memory addresses of variables. They help in efficient memory manipulation and function parameter passing."
+        },
+        {
+          "type": "text",
+          "content": "**Pointer Syntax:**"
+        },
+        {
+          "type": "list",
+          "items": [
+            "`*T` → Defines a pointer to a type `T`.",
+            "`&` → Returns the memory address of a variable.",
+            "`*p` → Dereferences a pointer (accesses the value at the memory address)."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**Example of using pointers:**"
+        },
+        {
+          "type": "code",
+          "language": "go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tnum := 10\n\tptr := &num // Pointer to num\n\tfmt.Println(\"Memory Address:\", ptr)\n\tfmt.Println(\"Value:\", *ptr) // Dereferencing\n}"
+        }
+      ]
+    },
+    {
+      "id": "gb-3",
+      "question": "What is the difference between arrays and slices in Golang?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "**Arrays:** Fixed-size collections of elements of the same type."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Declared using `[size]Type{values}`",
+            "Size is part of the type, so cannot be resized",
+            "Stored sequentially in memory"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**Slices:** Dynamic, flexible views into arrays."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Declared using `[]Type{values}` or `make([]Type, length, capacity)`",
+            "Can grow dynamically using `append()`",
+            "Stores reference to underlying array"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**Example:**"
+        },
+        {
+          "type": "code",
+          "language": "go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tarr := [3]int{1, 2, 3} // Array\n\tslice := []int{1, 2, 3} // Slice\n\tslice = append(slice, 4) // Append to slice\n\n\tfmt.Println(arr, slice)\n}"
+        }
+      ]
+    },
+    {
+      "id": "gb-4",
+      "question": "What are structs in Golang? How do you define and use them?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "A struct is a collection of fields (data members) used to define a custom data type."
+        },
+        {
+          "type": "text",
+          "content": "**Defining and Using Structs:**"
+        },
+        {
+          "type": "code",
+          "language": "go",
+          "content": "package main\n\nimport \"fmt\"\n\ntype Person struct {\n\tName string\n\tAge  int\n}\n\nfunc main() {\n\tp := Person{Name: \"Alice\", Age: 25}\n\tfmt.Println(p.Name, p.Age)\n}"
+        }
+      ]
+    },
+    {
+      "id": "gb-5",
+      "question": "What are interfaces in Golang?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "Interfaces define method signatures that types must implement. They enable polymorphism."
+        },
+        {
+          "type": "text",
+          "content": "**Example of an Interface:**"
+        },
+        {
+          "type": "code",
+          "language": "go",
+          "content": "package main\n\nimport \"fmt\"\n\ntype Speaker interface {\n\tSpeak() string\n}\n\ntype Dog struct{}\n\nfunc (d Dog) Speak() string {\n\treturn \"Woof!\"\n}\n\nfunc main() {\n\tvar s Speaker = Dog{}\n\tfmt.Println(s.Speak())\n}"
+        }
+      ]
+    },
+    {
+      "id": "gb-6",
+      "question": "What is the difference between pass-by-value and pass-by-reference in Golang?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "**Pass-by-Value:** A copy of the variable is passed to a function."
+        },
+        {
+          "type": "text",
+          "content": "**Pass-by-Reference:** A pointer to the original variable is passed, allowing modifications."
+        },
+        {
+          "type": "text",
+          "content": "**Example of pass-by-value:**"
+        },
+        {
+          "type": "code",
+          "language": "go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc modify(x int) {\n\tx = 100\n}\n\nfunc main() {\n\tn := 10\n\tmodify(n)\n\tfmt.Println(n) // Output: 10 (unchanged)\n}"
+        }
+      ]
+    },
+    {
+      "id": "gb-7",
+      "question": "What are maps in Golang?",
+      "answer": [
+        {
+          "type": "text",
+          "content": "Maps are key-value data structures similar to hash tables."
+        },
+        {
+          "type": "text",
+          "content": "**Example of using a map:**"
+        },
+        {
+          "type": "code",
+          "language": "go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tm := map[string]int{\"Alice\": 25, \"Bob\": 30}\n\tfmt.Println(m[\"Alice\"])\n}"
+        }
+      ]
+    },
+    {
+      "id": "gc-1",
+      "question": "Explain mutable and immutable types in Golang. Are strings and other types mutable? Provide examples.",
+      "answer": [
+        {
+          "type": "text",
+          "content": "Mutable types can be modified after creation, whereas immutable types cannot be changed once assigned."
+        },
+        {
+          "type": "text",
+          "content": "**Immutable Types in Golang:**"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Strings (`string`) - Once created, their value cannot be modified.",
+            "Numbers (`int`, `float`, `complex`) - These are copied when assigned."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**Mutable Types in Golang:**"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Slices (`[]T`) - Can be resized and modified.",
+            "Maps (`map[T]T`) - Can add/remove/update key-value pairs.",
+            "Pointers (`*T`) - Allow modification of referenced data.",
+            "Structs (`struct`) - Fields can be modified (except when using pointers to them)."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "**Example: Strings are immutable in Golang**"
+        },
+        {
+          "type": "code",
+          "language": "go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\ts := \"hello\"\n\t// s[0] = 'H' // This will cause an error as strings are immutable\n\ts = \"Hello\" // This is allowed (creates a new string)\n\tfmt.Println(s)\n}"
+        }
+      ]
+    },
+    {
+      "id": "gc-2",
+      "question": "Explain call by value and call by reference with examples in Golang.",
+      "answer": [
+        {
+          "type": "text",
+          "content": "**Call by Value:** A copy of the argument is passed to the function, meaning changes inside the function do not affect the original variable."
+        },
+        {
+          "type": "text",
+          "content": "**Example of Call by Value:**"
+        },
+        {
+          "type": "code",
+          "language": "go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc modify(x int) {\n\tx = 100 // This modifies a copy, not the original variable\n}\n\nfunc main() {\n\tn := 10\n\tmodify(n)\n\tfmt.Println(n) // Output: 10 (unchanged)\n}"
+        }
+      ]
+    },
+    {
+      "id": "gc-3",
+      "question": "Explain call by reference with an example.",
+      "answer": [
+        {
+          "type": "text",
+          "content": "**Call by Reference:** A pointer to the argument is passed to the function, allowing modification of the original variable."
+        },
+        {
+          "type": "text",
+          "content": "**Example of Call by Reference:**"
+        },
+        {
+          "type": "code",
+          "language": "go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc modifyPointer(x *int) {\n\t*x = 100 // Modifies the original variable\n}\n\nfunc main() {\n\tn := 10\n\tmodifyPointer(&n) // Passing memory address\n\tfmt.Println(n) // Output: 100 (modified)\n}"
+        }
+      ]
+    },
+    {
       "id": "be-3",
       "question": "How does garbage collection work in Golang compared to C#?",
       "answer": [
