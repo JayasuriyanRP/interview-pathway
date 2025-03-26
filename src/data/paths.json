@@ -6,7 +6,23 @@
     "description": "Master essential frontend interview questions covering HTML, CSS, JavaScript, and popular frameworks.",
     "icon": "Code",
     "count": 42,
-    "level": "Intermediate"
+    "level": "Intermediate",
+    "subpaths": [
+      {
+        "id": "frontend-react",
+        "title": "React",
+        "description": "React framework interview questions and answers",
+        "count": 20,
+        "level": "Intermediate"
+      },
+      {
+        "id": "frontend-javascript",
+        "title": "JavaScript",
+        "description": "Core JavaScript concepts and patterns",
+        "count": 22,
+        "level": "All Levels"
+      }
+    ]
   },
   {
     "id": "backend",
@@ -14,7 +30,30 @@
     "description": "Prepare for backend interviews with questions on server architecture, databases, and API design.",
     "icon": "Server",
     "count": 38,
-    "level": "Advanced"
+    "level": "Advanced",
+    "subpaths": [
+      {
+        "id": "backend-csharp",
+        "title": "C#",
+        "description": "C# language features and .NET framework",
+        "count": 15,
+        "level": "Advanced"
+      },
+      {
+        "id": "backend-golang",
+        "title": "Golang",
+        "description": "Go language and ecosystem for backend development",
+        "count": 12,
+        "level": "Intermediate"
+      },
+      {
+        "id": "backend-dotnet",
+        "title": "ASP.NET Core",
+        "description": ".NET web application framework",
+        "count": 11,
+        "level": "Advanced"
+      }
+    ]
   },
   {
     "id": "algorithms",
@@ -22,7 +61,30 @@
     "description": "Practice common algorithmic problems and data structures frequently asked in technical interviews.",
     "icon": "GitBranch",
     "count": 50,
-    "level": "All Levels"
+    "level": "All Levels",
+    "subpaths": [
+      {
+        "id": "algorithms-arrays",
+        "title": "Arrays & Strings",
+        "description": "Common array and string manipulation problems",
+        "count": 15,
+        "level": "Beginner"
+      },
+      {
+        "id": "algorithms-graphs",
+        "title": "Graphs & Trees",
+        "description": "Tree and graph traversal algorithms",
+        "count": 20,
+        "level": "Intermediate"
+      },
+      {
+        "id": "algorithms-dynamic",
+        "title": "Dynamic Programming",
+        "description": "Dynamic programming concepts and problems",
+        "count": 15,
+        "level": "Advanced"
+      }
+    ]
   },
   {
     "id": "system-design",
@@ -30,6 +92,22 @@
     "description": "Learn how to design scalable systems and tackle complex architectural interview questions.",
     "icon": "Network",
     "count": 25,
-    "level": "Advanced"
+    "level": "Advanced",
+    "subpaths": [
+      {
+        "id": "system-design-scalability",
+        "title": "Scalability",
+        "description": "Building systems that scale to millions of users",
+        "count": 10,
+        "level": "Advanced"
+      },
+      {
+        "id": "system-design-microservices",
+        "title": "Microservices",
+        "description": "Microservice architecture patterns and practices",
+        "count": 15,
+        "level": "Advanced"
+      }
+    ]
   }
 ]

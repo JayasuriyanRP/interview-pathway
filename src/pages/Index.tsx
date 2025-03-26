@@ -54,7 +54,10 @@ const Index = () => {
                   Math.min(index, 3) * 100
                 }`}
               >
-                <PathCard {...path} />
+                <PathCard 
+                  {...path} 
+                  hasSubpaths={path.subpaths && path.subpaths.length > 0}
+                />
               </div>
             ))}
           </div>

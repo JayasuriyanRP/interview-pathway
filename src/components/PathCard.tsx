@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import { Code, Server, GitBranch, Network, ArrowRight } from "lucide-react";
+import { Code, Server, GitBranch, Network, ArrowRight, List } from "lucide-react";
 
 interface PathCardProps {
   id: string;
@@ -10,6 +10,7 @@ interface PathCardProps {
   icon: string;
   count: number;
   level: string;
+  hasSubpaths?: boolean;
 }
 
 const PathCard: React.FC<PathCardProps> = ({
@@ -19,6 +20,7 @@ const PathCard: React.FC<PathCardProps> = ({
   icon,
   count,
   level,
+  hasSubpaths = false,
 }) => {
   const getIcon = () => {
     switch (icon) {
@@ -30,14 +32,19 @@ const PathCard: React.FC<PathCardProps> = ({
         return <GitBranch className="h-5 w-5" />;
       case "Network":
         return <Network className="h-5 w-5" />;
+      case "List":
+        return <List className="h-5 w-5" />;
       default:
         return <Code className="h-5 w-5" />;
     }
   };
 
+  const linkTo = hasSubpaths ? `/subpaths/${id}` : `/path/${id}`;
+  const actionText = hasSubpaths ? "View subpaths" : "Start learning";
+
   return (
     <Link
-      to={`/path/${id}`}
+      to={linkTo}
       className="path-card block bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300"
     >
       <div className="flex flex-col h-full">
@@ -56,7 +63,7 @@ const PathCard: React.FC<PathCardProps> = ({
         <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
           <div className="text-sm text-gray-600">{count} questions</div>
           <div className="flex items-center text-sm font-medium text-blue-600">
-            Start learning
+            {actionText}
             <ArrowRight className="ml-1 h-4 w-4" />
           </div>
         </div>
