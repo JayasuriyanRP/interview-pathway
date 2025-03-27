@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../components/Header";
@@ -132,7 +131,7 @@ const SubpathsList = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
-      <Header title={path.title} showBackButton={true} />
+      <Header title={path?.title} showBackButton={true} />
 
       <main className="flex-1 px-6 pb-12">
         <div className="container mx-auto max-w-5xl">
@@ -157,9 +156,9 @@ const SubpathsList = () => {
 
           <div className="mb-8 mt-2 animate-fadeIn">
             <h1 className="text-3xl md:text-4xl font-bold mb-4">
-              {path.title}
+              {path?.title}
             </h1>
-            <p className="text-lg text-muted-foreground">{path.description}</p>
+            <p className="text-lg text-muted-foreground">{path?.description}</p>
           </div>
 
           {/* Search input */}
@@ -192,8 +191,7 @@ const SubpathsList = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {filteredSubpaths.map((subpath, index) => {
-              // Get actual question count from questions object
-              const actualCount = questions[subpath.id] ? questions[subpath.id].length : 0;
+              // Use the count directly from the JSON data
               const hasChildren = groupedSubpaths[subpath.id] && groupedSubpaths[subpath.id].length > 0;
               
               // Calculate progress
@@ -201,7 +199,10 @@ const SubpathsList = () => {
               const isCompleted = isSubpathCompleted(subpath.id);
               
               // If this is a subpath with children, count should be the number of children
-              const count = hasChildren ? groupedSubpaths[subpath.id].length : actualCount;
+              // Otherwise use the count from the JSON data
+              const count = hasChildren 
+                ? groupedSubpaths[subpath.id].length 
+                : subpath.count;
               
               return (
                 <div

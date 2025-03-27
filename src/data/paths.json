@@ -1,5 +1,13 @@
 [
   {
+    "id": "example-path",
+    "title": "Example Path with All Content Types",
+    "description": "This path demonstrates all content types available in the app, including text, code, lists, tables, images, quotes and notes.",
+    "icon": "Code",
+    "count": 1,
+    "level": "Beginner"
+  },
+  {
     "id": "frontend",
     "title": "Frontend Development",
     "description": "Master essential frontend interview questions covering HTML, CSS, JavaScript, and popular frameworks.",

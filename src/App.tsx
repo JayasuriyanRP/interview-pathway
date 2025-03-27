@@ -23,6 +23,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/path/:pathId" element={<LearningPath />} />
             <Route path="/subpaths/:pathId" element={<SubpathsList />} />
+            <Route path="/examples" element={<LearningPath pathId="example-path" />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

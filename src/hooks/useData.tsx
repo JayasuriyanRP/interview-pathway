@@ -34,17 +34,46 @@ export const useData = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // In a real application, these would be actual API calls
+        // Load paths data
         const pathsResponse = await import("../data/paths.json");
-        
-        // Load main questions file as before
-        const questionsResponse = await import("../data/questions.json");
-        
-        // For a real app, we could load questions per path/subpath to avoid a large JSON file
-        // This simulates that approach for demonstration
-        
         setPaths(pathsResponse.default);
-        setQuestions(questionsResponse.default);
+        
+        // Initialize questions object
+        const questionsData: Record<string, Question[]> = {};
+        
+        // Load main questions file for backward compatibility
+        try {
+          const mainQuestionsResponse = await import("../data/questions.json");
+          Object.assign(questionsData, mainQuestionsResponse.default);
+        } catch (err) {
+          console.log("No main questions.json file found, will use per-path files");
+        }
+        
+        // Load per-path question files if they exist
+        const loadPathQuestions = async (pathId: string) => {
+          try {
+            const response = await import(`../data/questions/${pathId}.json`);
+            questionsData[pathId] = response.default;
+            return true;
+          } catch (err) {
+            console.log(`No specific question file for ${pathId}`);
+            return false;
+          }
+        };
+        
+        // Try to load questions for each path
+        for (const path of pathsResponse.default) {
+          await loadPathQuestions(path.id);
+          
+          // Also try to load questions for each subpath
+          if (path.subpaths) {
+            for (const subpath of path.subpaths) {
+              await loadPathQuestions(subpath.id);
+            }
+          }
+        }
+        
+        setQuestions(questionsData);
         setLoading(false);
       } catch (err) {
         console.error("Error loading data:", err);

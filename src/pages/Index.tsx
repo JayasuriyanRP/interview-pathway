@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import Header from "../components/Header";
 import PathCard from "../components/PathCard";
@@ -112,8 +111,9 @@ const Index = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
             {filteredPaths.map((path, index) => {
-              // Get subpaths count
-              const hasSubpaths = path.subpaths && path.subpaths.length > 0;
+              // Get subpaths count directly from the JSON data
+              const subpathCount = path.subpaths ? path.subpaths.length : 0;
+              const hasSubpaths = subpathCount > 0;
               
               // For main paths, progress is calculated differently
               const isCompleted = isPathCompleted(path.id);
@@ -133,7 +133,8 @@ const Index = () => {
                     hasSubpaths={hasSubpaths}
                     isCompleted={isCompleted}
                     completed={subpathsCompleted}
-                    total={path.subpaths ? path.subpaths.length : 0}
+                    total={subpathCount}
+                    count={subpathCount} // Use the actual count from JSON
                   />
                 </div>
               )
