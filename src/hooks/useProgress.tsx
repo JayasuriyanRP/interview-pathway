@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
-import { toast } from "@/components/ui/sonner";
+import { toast } from "sonner";
 
 type ProgressItem = {
   id: string;
