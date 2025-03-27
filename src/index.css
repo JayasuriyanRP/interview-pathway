@@ -229,3 +229,9 @@ pre {
 .focus-ring {
   @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50;
 }
+
+/* Override Prism's default white-space */
+.code-wrap-enabled code {
+  white-space: pre-wrap !important;
+  word-break: break-all;
+}

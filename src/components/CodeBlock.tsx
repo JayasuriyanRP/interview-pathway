@@ -1,6 +1,5 @@
-
 import React, { useEffect, useRef, useState } from "react";
-import { Clipboard, ClipboardCheck } from "lucide-react";
+import { Clipboard, ClipboardCheck, WrapText, X } from "lucide-react";
 import Prism from "prismjs";
 import "prismjs/themes/prism-tomorrow.css"; // Dark theme
 import "prismjs/components/prism-javascript";
@@ -25,16 +24,16 @@ interface CodeBlockProps {
   showLineNumbers?: boolean;
 }
 
-const CodeBlock: React.FC<CodeBlockProps> = ({ 
-  language, 
-  content, 
+const CodeBlock: React.FC<CodeBlockProps> = ({
+  language,
+  content,
   filename,
-  showLineNumbers = true 
+  showLineNumbers = true,
 }) => {
   const codeRef = useRef<HTMLElement>(null);
   const [copied, setCopied] = useState(false);
+  const [wrapEnabled, setWrapEnabled] = useState(false);
 
-  // Map common language aliases to Prism's language names
   const languageMap: Record<string, string> = {
     js: "javascript",
     jsx: "javascript",
@@ -47,7 +46,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
     xml: "markup",
     yml: "yaml",
     cs: "csharp",
-    golang: "go"
+    golang: "go",
   };
 
   const normalizedLanguage = languageMap[language] || language;
@@ -69,28 +68,55 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
 
   return (
     <div className="my-4 overflow-hidden rounded-lg border border-gray-700 shadow-sm">
-      {/* Header with language and copy button */}
+      {/* Header */}
       <div className="flex items-center justify-between px-4 py-2 bg-gray-800 text-gray-300">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-medium uppercase">{normalizedLanguage}</span>
+          <span className="text-xs font-medium uppercase">
+            {normalizedLanguage}
+          </span>
           {filename && (
             <span className="text-xs text-gray-400 italic">{filename}</span>
           )}
         </div>
-        <button
-          onClick={handleCopy}
-          className="flex items-center gap-1 text-xs font-medium hover:text-white transition"
-          aria-label="Copy code"
-        >
-          {copied ? <ClipboardCheck size={16} /> : <Clipboard size={16} />}
-          {copied ? "Copied!" : "Copy"}
-        </button>
+
+        <div className="flex items-center gap-3">
+          {/* Wrap Toggle Button */}
+          <button
+            onClick={() => setWrapEnabled(!wrapEnabled)}
+            className="flex items-center gap-1 text-xs font-medium hover:text-white transition"
+            aria-label="Toggle Wrap"
+          >
+            {wrapEnabled ? <X size={16} /> : <WrapText size={16} />}
+            {wrapEnabled ? "Disable Wrap" : "Enable Wrap"}
+          </button>
+
+          {/* Copy Button */}
+          <button
+            onClick={handleCopy}
+            className="flex items-center gap-1 text-xs font-medium hover:text-white transition"
+            aria-label="Copy code"
+          >
+            {copied ? <ClipboardCheck size={16} /> : <Clipboard size={16} />}
+            {copied ? "Copied!" : "Copy"}
+          </button>
+        </div>
       </div>
 
-      {/* Code block */}
-      <div className={`bg-gray-900 overflow-x-auto ${showLineNumbers ? 'line-numbers' : ''}`}>
-        <pre className="p-4" style={{ margin: 0 }}>
-          <code ref={codeRef} className={`language-${normalizedLanguage}`}>
+      {/* Code Block */}
+      <div
+        className={`bg-gray-900 overflow-x-auto ${
+          showLineNumbers ? "line-numbers" : ""
+        }`}
+      >
+        <pre
+          className="p-3 sm:p-4 md:p-6 lg:p-8 rounded-lg bg-gray-100 dark:bg-gray-800 
+             text-xs sm:text-sm md:text-base lg:text-lg overflow-auto"
+          style={{ margin: 0 }}
+        >
+          <code
+            ref={codeRef}
+            className={`language-${normalizedLanguage} block`}
+          >
             {content}
           </code>
         </pre>
