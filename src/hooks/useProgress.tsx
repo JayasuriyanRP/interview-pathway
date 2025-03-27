@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
+import { toast } from "@/components/ui/sonner";
 
 type ProgressItem = {
   id: string;
@@ -17,7 +18,7 @@ type ProgressData = {
 };
 
 export const useProgress = () => {
-  const { toast } = useToast();
+  const { toast: uiToast } = useToast();
   const [progress, setProgress] = useState<ProgressData>(() => {
     const savedProgress = localStorage.getItem("learning-progress");
     return savedProgress
@@ -66,9 +67,8 @@ export const useProgress = () => {
     }));
     
     if (showToast) {
-      toast({
-        title: "Progress saved",
-        description: "Subpath marked as completed",
+      toast.success("Subpath marked as completed", {
+        position: "top-center",
         duration: 3000,
       });
     }
@@ -89,9 +89,8 @@ export const useProgress = () => {
     }));
     
     if (showToast) {
-      toast({
-        title: "Progress saved",
-        description: "Learning path marked as completed",
+      toast.success("Learning path marked as completed", {
+        position: "top-center",
         duration: 3000,
       });
     }
@@ -138,9 +137,8 @@ export const useProgress = () => {
     });
     
     if (showToast) {
-      toast({
-        title: "Progress reset",
-        description: "All learning progress has been reset",
+      toast.success("All learning progress has been reset", {
+        position: "top-center",
         duration: 3000,
       });
     }

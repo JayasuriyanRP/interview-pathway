@@ -28,6 +28,7 @@ interface QuestionCardProps {
   answer: ContentBlock[] | any;
   onMarkAsRead?: (id: number) => void;
   isRead?: boolean;
+  highlightQuery?: string;
 }
 
 const QuestionCard: React.FC<QuestionCardProps> = ({
@@ -36,6 +37,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   answer,
   onMarkAsRead,
   isRead = false,
+  highlightQuery = "",
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -46,21 +48,63 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
     }
   };
 
-  // Format inline code and bold text in strings
+  // Format inline code and bold text in strings with search highlighting
   const formatText = (text: string) => {
-    // Split by code blocks first
+    // First handle the search highlight if query exists
+    if (highlightQuery.trim()) {
+      const terms = highlightQuery.toLowerCase().split(" ");
+      let processedText = text;
+      
+      // Apply highlighting for each search term
+      terms.forEach(term => {
+        if (!term.trim()) return;
+        const regex = new RegExp(`(${term})`, 'gi');
+        processedText = processedText.replace(regex, '<span class="bg-yellow-200 dark:bg-yellow-900 rounded px-0.5">$1</span>');
+      });
+      
+      // Split by code blocks
+      const parts = processedText.split(/(`[^`]+`)/g);
+      
+      return parts.map((part, index) => {
+        if (part.startsWith("`") && part.endsWith("`")) {
+          return (
+            <code key={index} className="bg-gray-200 dark:bg-gray-700 px-1.5 py-0.5 rounded text-sm font-mono">
+              {part.slice(1, -1)}
+            </code>
+          );
+        }
+
+        // Handle bold text within each part
+        const boldParts = part.split(/(\*\*[^*]+\*\*)/g);
+
+        return boldParts.map((boldPart, boldIndex) => {
+          if (boldPart.startsWith("**") && boldPart.endsWith("**")) {
+            return (
+              <strong key={`${index}-${boldIndex}`} className="font-semibold">
+                {boldPart.slice(2, -2)}
+              </strong>
+            );
+          }
+          
+          // For normal text, allow the HTML to be rendered for highlighting
+          return <span key={`${index}-${boldIndex}`} dangerouslySetInnerHTML={{ __html: boldPart }} />;
+        });
+      });
+    }
+    
+    // If no search query, use the original formatting
     const parts = text.split(/(`[^`]+`)/g);
 
     return parts.map((part, index) => {
       if (part.startsWith("`") && part.endsWith("`")) {
         return (
-          <code key={index} className="bg-gray-200 px-1.5 py-0.5 rounded text-sm font-mono">
+          <code key={index} className="bg-gray-200 dark:bg-gray-700 px-1.5 py-0.5 rounded text-sm font-mono">
             {part.slice(1, -1)}
           </code>
         );
       }
 
-      // Then handle bold text
+      // Handle bold text
       const boldParts = part.split(/(\*\*[^*]+\*\*)/g);
 
       return boldParts.map((boldPart, boldIndex) => {
@@ -92,21 +136,21 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
       case "table":
         return (
           <div key={index} className="overflow-x-auto my-4">
-            <table className="table-auto border-collapse border border-gray-200 w-full text-sm">
-              <thead className="bg-gray-100">
+            <table className="table-auto border-collapse border border-gray-200 dark:border-gray-700 w-full text-sm">
+              <thead className="bg-gray-100 dark:bg-gray-800">
                 <tr>
                   {block.columns?.map((col, colIndex) => (
-                    <th key={colIndex} className="border border-gray-300 px-4 py-2 text-left">
-                      {col}
+                    <th key={colIndex} className="border border-gray-300 dark:border-gray-700 px-4 py-2 text-left">
+                      {formatText(col)}
                     </th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {block.rows?.map((row, rowIndex) => (
-                  <tr key={rowIndex} className="hover:bg-gray-50">
+                  <tr key={rowIndex} className="hover:bg-gray-50 dark:hover:bg-gray-800">
                     {row.map((cell, cellIndex) => (
-                      <td key={cellIndex} className="border border-gray-300 px-4 py-2">
+                      <td key={cellIndex} className="border border-gray-300 dark:border-gray-700 px-4 py-2">
                         {formatText(cell)}
                       </td>
                     ))}
@@ -125,7 +169,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
               className="rounded-lg max-w-full h-auto mx-auto"
             />
             {block.content && (
-              <figcaption className="text-sm text-center text-gray-500 mt-2">
+              <figcaption className="text-sm text-center text-gray-500 dark:text-gray-400 mt-2">
                 {formatText(block.content)}
               </figcaption>
             )}
@@ -135,7 +179,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
         return (
           <blockquote 
             key={index} 
-            className="pl-4 border-l-4 border-gray-300 italic my-4 text-gray-700"
+            className="pl-4 border-l-4 border-gray-300 dark:border-gray-700 italic my-4 text-gray-700 dark:text-gray-300"
           >
             {formatText(block.content!)}
           </blockquote>
@@ -146,8 +190,8 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
             key={index} 
             className={`p-4 my-4 rounded-lg ${
               block.highlight 
-                ? "bg-amber-50 border border-amber-200" 
-                : "bg-blue-50 border border-blue-200"
+                ? "bg-amber-50 border border-amber-200 dark:bg-amber-900/30 dark:border-amber-800" 
+                : "bg-blue-50 border border-blue-200 dark:bg-blue-900/30 dark:border-blue-800"
             }`}
           >
             <p className="text-sm font-medium mb-1">
@@ -173,17 +217,17 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
 
     if (Array.isArray(answer)) {
       return (
-        <div className="prose prose-sm max-w-none">
+        <div className="prose prose-sm max-w-none dark:prose-invert">
           {answer.map((block, index) => renderContentBlock(block, index))}
         </div>
       );
     }
 
-    return <p className="text-gray-500">No content available</p>;
+    return <p className="text-gray-500 dark:text-gray-400">No content available</p>;
   };
 
   return (
-    <div className={`mb-6 bg-white rounded-xl overflow-hidden border ${isRead ? 'border-gray-100' : 'border-blue-100'} shadow-sm transition-all duration-300`}>
+    <div className={`mb-6 bg-card rounded-xl overflow-hidden border ${isRead ? 'border-gray-100 dark:border-gray-800' : 'border-blue-100 dark:border-blue-800'} shadow-sm transition-all duration-300`}>
       <div 
         className="p-6 cursor-pointer flex justify-between items-center" 
         onClick={toggleAnswer}
@@ -199,7 +243,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
         />
       </div>
       {isOpen && (
-        <div className="px-6 pb-6 pt-2 border-t border-gray-100 animate-slideUp">
+        <div className="px-6 pb-6 pt-2 border-t border-border animate-slideUp">
           {renderAnswer()}
         </div>
       )}

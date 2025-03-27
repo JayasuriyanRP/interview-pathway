@@ -90,6 +90,11 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
 }
 
+.dark .glass-card {
+  background-color: rgba(30, 30, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
 .path-card {
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
@@ -97,6 +102,10 @@
 .path-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.dark .path-card:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
 }
 
 .question-enter {
@@ -146,4 +155,55 @@ pre {
 
 .animate-delay-300 {
   animation-delay: 300ms;
+}
+
+/* Reader-friendly styling */
+.dark .prose {
+  color: #e0e0e0;
+}
+
+.dark .prose strong {
+  color: #ffffff;
+}
+
+.dark .prose a {
+  color: #93c5fd;
+}
+
+.dark .prose h1,
+.dark .prose h2,
+.dark .prose h3,
+.dark .prose h4 {
+  color: #f3f4f6;
+}
+
+.dark .prose code {
+  color: #d1d5db;
+  background-color: rgba(45, 45, 45, 0.5);
+}
+
+.prose {
+  max-width: 100%;
+  line-height: 1.75;
+}
+
+.prose p {
+  margin-bottom: 1.5em;
+}
+
+.prose ul, .prose ol {
+  margin-bottom: 1.5em;
+}
+
+@media (prefers-reduced-motion) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50;
 }
