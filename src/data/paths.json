@@ -257,5 +257,125 @@
         "level": "Advanced"
       }
     ]
+  },
+  {
+    "id": "cheatsheets",
+    "title": "Cheatsheets",
+    "description": "Collection of cheatsheets for various development topics",
+    "icon": "Server",
+    "level": "All Levels",
+    "subpaths": [
+      {
+        "id": "backend",
+        "title": "Backend Development",
+        "description": "Prepare for backend interviews with questions on server architecture, databases, and API design.",
+        "icon": "Server",
+        "count": 38,
+        "level": "Advanced",
+        "subpaths": [
+          {
+            "id": "backend-csharp",
+            "title": "C#",
+            "description": "C# Topics",
+            "count": 15,
+            "level": "Beginner",
+            "subpaths": [
+              {
+                "id": "backend-csharp-basic",
+                "title": "C# Basic",
+                "description": "Basic C# language features and .NET framework",
+                "count": 15,
+                "level": "Beginner"
+              },
+              {
+                "id": "backend-csharp-advanced",
+                "title": "C# Advanced",
+                "description": "Advanced C# language features and .NET framework",
+                "count": 15,
+                "level": "Advanced"
+              },
+              {
+                "id": "backend-csharp-errorhandling",
+                "title": "C# Error Handling",
+                "description": "C# error handling concepts and techniques",
+                "count": 15,
+                "level": "Advanced"
+              }
+            ]
+          },
+          {
+            "id": "backend-golang",
+            "title": "Golang",
+            "description": "Go language and ecosystem for backend development",
+            "count": 12,
+            "level": "Intermediate",
+            "subpaths": [
+              {
+                "id": "backend-golang-basics",
+                "title": "Golang Basics",
+                "description": "Fundamentals of Go language programming",
+                "count": 8,
+                "level": "Beginner"
+              },
+              {
+                "id": "backend-golang-concurrency",
+                "title": "Concurrency",
+                "description": "Go goroutines, channels, and concurrency patterns",
+                "count": 10,
+                "level": "Intermediate"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "frontend",
+        "title": "Frontend Development",
+        "description": "Cheatsheets for JavaScript, React, Vue, and frontend frameworks.",
+        "icon": "Monitor",
+        "count": 25,
+        "level": "Intermediate",
+        "subpaths": [
+          {
+            "id": "frontend-javascript",
+            "title": "JavaScript",
+            "description": "JavaScript concepts and best practices",
+            "count": 10,
+            "level": "Beginner"
+          },
+          {
+            "id": "frontend-react",
+            "title": "React",
+            "description": "React fundamentals, hooks, and advanced concepts",
+            "count": 12,
+            "level": "Intermediate"
+          }
+        ]
+      },
+      {
+        "id": "cloud",
+        "title": "Cloud Computing",
+        "description": "AWS, Azure, Google Cloud, and DevOps concepts.",
+        "icon": "Cloud",
+        "count": 20,
+        "level": "Advanced",
+        "subpaths": [
+          {
+            "id": "cloud-aws",
+            "title": "AWS",
+            "description": "Amazon Web Services concepts and best practices",
+            "count": 10,
+            "level": "Intermediate"
+          },
+          {
+            "id": "cloud-docker",
+            "title": "Docker & Kubernetes",
+            "description": "Containerization and orchestration",
+            "count": 8,
+            "level": "Advanced"
+          }
+        ]
+      }
+    ]
   }
 ]

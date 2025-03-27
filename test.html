@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Question Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+    <div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
+        <h1 class="text-2xl font-bold mb-4">JSON Question Generator</h1>
+
+        <label class="block mb-2 font-semibold">Question ID:</label>
+        <input type="text" id="questionId" class="w-full p-2 border rounded mb-4" placeholder="Enter unique question ID">
+
+        <label class="block mb-2 font-semibold">Question:</label>
+        <input type="text" id="questionText" class="w-full p-2 border rounded mb-4" placeholder="Enter question text">
+
+        <h2 class="text-xl font-semibold mb-2">Add Answer Blocks:</h2>
+        <select id="answerType" class="p-2 border rounded mb-2">
+            <option value="text">Text</option>
+            <option value="code">Code</option>
+            <option value="list">List</option>
+            <option value="image">Image</option>
+            <option value="quote">Quote</option>
+            <option value="note">Note</option>
+        </select>
+        <button onclick="addAnswerBlock()" class="bg-blue-500 text-white px-4 py-2 rounded">Add</button>
+
+        <div id="answers" class="mt-4 space-y-4"></div>
+
+        <button onclick="generateJSON()" class="mt-6 bg-green-500 text-white px-4 py-2 rounded">Generate JSON</button>
+        
+        <h2 class="text-xl font-semibold mt-6">Generated JSON:</h2>
+        <textarea id="output" class="w-full p-2 border rounded h-40 bg-gray-200" readonly></textarea>
+        
+        <button onclick="copyJSON()" class="mt-4 bg-gray-600 text-white px-4 py-2 rounded">Copy JSON</button>
+    </div>
+
+    <script>
+        let answers = [];
+
+        function addAnswerBlock() {
+            const type = document.getElementById("answerType").value;
+            const container = document.createElement("div");
+            container.classList.add("border", "p-4", "rounded", "bg-gray-50", "relative");
+
+            let contentField;
+            if (type === "text" || type === "quote" || type === "note") {
+                contentField = `<textarea class="w-full p-2 border rounded" placeholder="Enter ${type} content"></textarea>`;
+            } else if (type === "code") {
+                contentField = `<textarea class="w-full p-2 border rounded" placeholder="Enter code content"></textarea>
+                                <input type="text" class="w-full p-2 border rounded mt-2" placeholder="Language (e.g., javascript)">`;
+            } else if (type === "list") {
+                contentField = `<textarea class="w-full p-2 border rounded" placeholder="Enter list items (comma separated)"></textarea>`;
+            } else if (type === "image") {
+                contentField = `<input type="text" class="w-full p-2 border rounded" placeholder="Enter image URL">`;
+            }
+
+            container.innerHTML = `
+                <button onclick="removeBlock(this)" class="absolute top-1 right-1 bg-red-500 text-white px-2 py-1 text-xs rounded">X</button>
+                <p class="font-semibold capitalize">${type}</p>
+                ${contentField}
+            `;
+            document.getElementById("answers").appendChild(container);
+        }
+
+        function removeBlock(button) {
+            button.parentElement.remove();
+        }
+
+        function generateJSON() {
+            const id = document.getElementById("questionId").value.trim();
+            const question = document.getElementById("questionText").value.trim();
+            if (!id || !question) {
+                alert("Please enter question ID and text.");
+                return;
+            }
+
+            const answerBlocks = document.getElementById("answers").children;
+            answers = [];
+
+            for (let block of answerBlocks) {
+                const type = block.querySelector("p").innerText.toLowerCase();
+                let content = block.querySelector("textarea, input").value.trim();
+
+                if (type === "list") {
+                    content = content.split(",").map(item => item.trim());
+                }
+
+                if (type === "code") {
+                    const language = block.querySelector("input").value.trim();
+                    answers.push({ type, language, content });
+                } else {
+                    answers.push({ type, content });
+                }
+            }
+
+            const jsonOutput = JSON.stringify([{ id, question, answer: answers }], null, 2);
+            document.getElementById("output").value = jsonOutput;
+        }
+
+        function copyJSON() {
+            const output = document.getElementById("output");
+            output.select();
+            document.execCommand("copy");
+            alert("JSON copied to clipboard!");
+        }
+    </script>
+</body>
+</html>
