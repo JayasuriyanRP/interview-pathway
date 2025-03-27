@@ -10,6 +10,7 @@ import LearningPath from "./pages/LearningPath";
 import NotFound from "./pages/NotFound";
 import SubpathsList from "./pages/SubpathsList";
 import NestedPathExample from "./components/NestedPathExample";
+import AskAI from "./pages/AskAi";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => (
             <Route path="/subpaths/:pathId" element={<SubpathsList />} />
             <Route path="/examples" element={<LearningPath />} />
             <Route path="/nested-example" element={<NestedPathExample />} />
+            <Route path="/ask-ai" element={<AskAI />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

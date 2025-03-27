@@ -8,6 +8,7 @@ import { Button } from "../components/ui/button";
 import { Input } from "@/components/ui/input";
 import ThemeToggle from "../components/ThemeToggle";
 import NestedPathCard from "@/components/NestedPathCard";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   const { paths, loading, error } = useData();
@@ -80,6 +81,12 @@ const Index = () => {
                   Reset Progress
                 </Button>
                 <ThemeToggle />
+
+                <Link to="/ask-ai">
+                  <Button variant="default">
+                    Go to Ask AI
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -124,15 +131,14 @@ const Index = () => {
               const isCompleted = isPathCompleted(path.id);
               const subpathsCompleted = path.subpaths
                 ? path.subpaths.filter((subpath) => isPathCompleted(subpath.id))
-                    .length
+                  .length
                 : 0;
 
               return (
                 <div
                   key={path.id}
-                  className={`animate-fadeIn animate-delay-${
-                    Math.min(index, 3) * 100
-                  }`}
+                  className={`animate-fadeIn animate-delay-${Math.min(index, 3) * 100
+                    }`}
                 >
                   <PathCard
                     {...path}
