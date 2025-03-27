@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useSearchParams } from "react-router-dom";
 import Header from "../components/Header";
@@ -27,10 +26,10 @@ const LearningPath = () => {
     loading: questionsLoading,
     error: questionsError,
   } = usePathQuestions(pathId);
-  
+
   const [filteredQuestions, setFilteredQuestions] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  
+
   const {
     markQuestionAsRead,
     isQuestionRead,
@@ -81,8 +80,11 @@ const LearningPath = () => {
   };
 
   // Calculate progress
-  const progress = pathId ? getPathProgress(pathId, questions) : { completed: 0, total: 0 };
-  const progressPercentage = progress.total > 0 ? (progress.completed / progress.total) * 100 : 0;
+  const progress = pathId
+    ? getPathProgress(pathId, questions)
+    : { completed: 0, total: 0 };
+  const progressPercentage =
+    progress.total > 0 ? (progress.completed / progress.total) * 100 : 0;
 
   if (loading) {
     return (
@@ -92,7 +94,7 @@ const LearningPath = () => {
           <Skeleton className="h-6 w-32 mb-4" />
           <Skeleton className="h-10 w-3/4 mb-6" />
           <Skeleton className="h-6 w-full mb-10" />
-          
+
           {[1, 2, 3].map((i) => (
             <Skeleton key={i} className="h-24 w-full rounded-xl mb-6" />
           ))}
@@ -139,7 +141,9 @@ const LearningPath = () => {
                     {parentPath.title}
                   </Link>
                   <ChevronRight className="w-4 h-4" />
-                  <span className="font-medium text-foreground">{path.title}</span>
+                  <span className="font-medium text-foreground">
+                    {path.title}
+                  </span>
                 </>
               )}
             </div>
@@ -162,12 +166,12 @@ const LearningPath = () => {
               {path.title}
             </h1>
             <p className="text-lg text-muted-foreground">{path.description}</p>
-            
+
             {/* Progress bar */}
             <div className="mt-6 mb-2">
               <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
-                <div 
-                  className="h-full bg-green-500 transition-all duration-500 ease-in-out" 
+                <div
+                  className="h-full bg-green-500 transition-all duration-500 ease-in-out"
                   style={{ width: `${progressPercentage}%` }}
                 ></div>
               </div>
@@ -199,7 +203,7 @@ const LearningPath = () => {
           </div>
 
           {/* Question filter */}
-          <QuestionFilter 
+          <QuestionFilter
             questions={questions}
             onFilterChange={setFilteredQuestions}
             searchQuery={searchQuery}
@@ -210,22 +214,26 @@ const LearningPath = () => {
             {filteredQuestions.length > 0 ? (
               filteredQuestions.map((question, index) => {
                 // Find the original index in the questions array
-                const originalIndex = questions.findIndex(q => q.id === question.id);
-                
+                const originalIndex = index; //questions.findIndex(q => q.id === question.id);
+
                 return (
                   <div
                     key={question.id}
                     id={`question-${originalIndex}`}
                     className={`animate-fadeIn animate-delay-${
                       Math.min(index, 3) * 100
-                    } ${highlightedQuestion === originalIndex.toString() ? 'ring-2 ring-blue-400 rounded-xl' : ''}`}
+                    } ${
+                      highlightedQuestion === originalIndex.toString()
+                        ? "ring-2 ring-blue-400 rounded-xl"
+                        : ""
+                    }`}
                   >
                     <QuestionCard
                       id={originalIndex}
                       question={question.question}
                       answer={question.answer}
                       onMarkAsRead={handleMarkAsRead}
-                      isRead={isQuestionRead(pathId || '', originalIndex)}
+                      isRead={isQuestionRead(pathId || "", originalIndex)}
                       highlightQuery={searchQuery}
                     />
                   </div>

@@ -1,0 +1,164 @@
+[
+  {
+    "id": "be-13",
+    "question": "Can we have a try block without a catch block in C#?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Yes, a `try` block can exist without a `catch` block as long as it has a `finally` block."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "try\n{\n    Console.WriteLine(\"Inside try block\");\n}\nfinally\n{\n    Console.WriteLine(\"Finally block executes regardless of exception.\");\n}"
+      },
+      {
+        "type": "text",
+        "content": "This is useful when we want to **ensure cleanup code runs** (like closing database connections) **without handling exceptions** explicitly."
+      }
+    ]
+  },
+  {
+    "id": "be-14",
+    "question": "What happens if an exception is thrown in a finally block?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "If an exception is thrown in a `finally` block, it will **override any previous exception** thrown in the `try` block."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "try\n{\n    throw new Exception(\"Try block exception\");\n}\nfinally\n{\n    throw new Exception(\"Finally block exception\"); // This overrides the original exception\n}"
+      },
+      {
+        "type": "text",
+        "content": "This can cause unintended behavior, so it's recommended to avoid throwing exceptions inside `finally`."
+      }
+    ]
+  },
+  {
+    "id": "be-15",
+    "question": "What is the difference between throw and throw ex in C#?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "`throw` preserves the original stack trace, whereas `throw ex` resets the stack trace, making debugging harder."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "try\n{\n    throw new Exception(\"Original Exception\");\n}\ncatch (Exception ex)\n{\n    throw; // Preserves original stack trace\n    // throw ex; // Resets stack trace, making debugging difficult\n}"
+      }
+    ]
+  },
+  {
+    "id": "be-16",
+    "question": "What happens if a return statement is inside a finally block?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "If a `finally` block contains a `return` statement, it **overrides any return value from the try or catch block**."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "static int Test()\n{\n    try { return 1; }\n    finally { return 2; } // This overrides the try block return\n}\n\nConsole.WriteLine(Test()); // Output: 2"
+      }
+    ]
+  },
+  {
+    "id": "be-17",
+    "question": "Can we catch multiple exceptions in a single catch block?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Yes, from C# 7.0 onwards, multiple exceptions can be caught using the `when` filter or a single catch block with pattern matching."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "try\n{\n    throw new ArgumentException(\"Invalid argument\");\n}\ncatch (Exception ex) when (ex is ArgumentException || ex is NullReferenceException)\n{\n    Console.WriteLine(\"Caught ArgumentException or NullReferenceException\");\n}"
+      }
+    ]
+  },
+  {
+    "id": "be-18",
+    "question": "Can we use an empty catch block? What are the consequences?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Yes, but using an empty catch block **swallows exceptions**, making debugging difficult and potentially leading to hidden errors."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "try\n{\n    int result = 10 / 0;\n}\ncatch { } // Bad practice: Exception is silently ignored"
+      },
+      {
+        "type": "text",
+        "content": "Instead, log the exception properly:\n\n```csharp\ncatch (Exception ex)\n{\n    Console.WriteLine(ex.Message);\n}\n```"
+      }
+    ]
+  },
+  {
+    "id": "be-19",
+    "question": "What is the difference between checked and unchecked in C#?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "The `checked` keyword enables **overflow checking**, while `unchecked` ignores it (default behavior for non-constant expressions)."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "int x = int.MaxValue;\n\n// Checked will throw OverflowException\nint y = checked(x + 1);"
+      }
+    ]
+  },
+  {
+    "id": "be-20",
+    "question": "How does exception handling work with asynchronous methods?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "In async methods, exceptions must be caught using `try-catch` inside the `await` block. Otherwise, they are wrapped in an `AggregateException`."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "async Task TestAsync()\n{\n    try\n    {\n        await Task.Run(() => throw new Exception(\"Async Error\"));\n    }\n    catch (Exception ex)\n    {\n        Console.WriteLine(\"Caught: \" + ex.Message);\n    }\n}"
+      }
+    ]
+  },
+  {
+    "id": "be-23",
+    "question": "What happens if an exception is thrown from within a 'catch' block?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "If an exception is thrown within a 'catch' block, it will propagate up the call stack, potentially overriding the original exception if not handled properly. This can lead to loss of information about the initial exception."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "try\n{\n    // Some code that throws an exception\n}\ncatch (Exception ex)\n{\n    // Handling the first exception\n    try\n    {\n        // Some code that throws another exception\n    }\n    catch (Exception innerEx)\n    {\n        // This exception can override the original one\n        throw innerEx;\n    }\n}"
+      }
+    ]
+  },
+  {
+    "id": "be-25",
+    "question": "What is the effect of an unhandled exception in a Task run by Task.Run()?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "An unhandled exception in a Task run by Task.Run() will cause the Task to transition to the Faulted state. If the exception is not observed (e.g., by awaiting the Task or accessing its Exception property), it can lead to the application terminating due to an unobserved task exception."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "Task.Run(() =>\n{\n    throw new InvalidOperationException(\"Something went wrong\");\n});\n\n// If the Task is not awaited or its Exception property is not accessed,\n// the exception may go unobserved, potentially terminating the application."
+      }
+    ]
+  }
+]

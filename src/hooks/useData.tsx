@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 
 interface Subpath {
@@ -7,16 +6,11 @@ interface Subpath {
   description: string;
   count: number;
   level: string;
+  subpaths?: Subpath[]; // ✅ Corrected key name
+  icon: string; // ✅ Ensure paths have an icon
 }
 
-interface Path {
-  id: string;
-  title: string;
-  description: string;
-  icon: string;
-  count: number;
-  level: string;
-  subpaths?: Subpath[];
+interface Path extends Subpath {
 }
 
 interface Question {
@@ -36,43 +30,47 @@ export const useData = () => {
       try {
         // Load paths data
         const pathsResponse = await import("../data/paths.json");
-        setPaths(pathsResponse.default);
-        
+        setPaths(pathsResponse.default as Path[]); // ✅ Ensure proper typing
+
         // Initialize questions object
         const questionsData: Record<string, Question[]> = {};
-        
+
         // Load main questions file for backward compatibility
         try {
           const mainQuestionsResponse = await import("../data/questions.json");
           Object.assign(questionsData, mainQuestionsResponse.default);
         } catch (err) {
-          console.log("No main questions.json file found, will use per-path files");
+          console.log("No main questions.json file found, using per-path files");
         }
-        
-        // Load per-path question files if they exist
+
+        // Function to load per-path question files
         const loadPathQuestions = async (pathId: string) => {
           try {
             const response = await import(`../data/questions/${pathId}.json`);
             questionsData[pathId] = response.default;
-            return true;
           } catch (err) {
             console.log(`No specific question file for ${pathId}`);
-            return false;
           }
         };
-        
-        // Try to load questions for each path
-        for (const path of pathsResponse.default) {
-          await loadPathQuestions(path.id);
-          
-          // Also try to load questions for each subpath
-          if (path.subpaths) {
-            for (const subpath of path.subpaths) {
-              await loadPathQuestions(subpath.id);
+
+        // Recursively process subpaths and load their questions
+        const processSubpaths = async (subpaths: Subpath[]) => {
+          for (const subpath of subpaths) {
+            await loadPathQuestions(subpath.id);
+            if (subpath.subpaths) {
+              await processSubpaths(subpath.subpaths);
             }
           }
+        };
+
+        // Load questions for each path and its subpaths
+        for (const path of pathsResponse.default as Path[]) {
+          await loadPathQuestions(path.id);
+          if (path.subpaths) {
+            await processSubpaths(path.subpaths);
+          }
         }
-        
+
         setQuestions(questionsData);
         setLoading(false);
       } catch (err) {
@@ -90,36 +88,50 @@ export const useData = () => {
 
 export const usePath = (pathId: string | undefined) => {
   const { paths, loading, error } = useData();
-  const [path, setPath] = useState<Path | null>(null);
+  const [path, setPath] = useState<Path | Subpath | null>(null);
   const [isSubpath, setIsSubpath] = useState(false);
   const [parentPath, setParentPath] = useState<Path | null>(null);
+
+  // Recursive function to find a subpath at any depth
+  const findSubpath = (
+    paths: Path[],
+    pathId: string
+  ): { subpath: Subpath | null; parent: Path | null } => {
+    for (const parent of paths) {
+      if (parent.subpaths) {
+        for (const subpath of parent.subpaths) {
+          if (subpath.id === pathId) return { subpath, parent };
+          if (subpath.subpaths) {
+            const found = findSubpath(parent.subpaths, pathId);
+            if (found.subpath) return found;
+          }
+        }
+      }
+    }
+    return { subpath: null, parent: null };
+  };
 
   useEffect(() => {
     if (!loading && !error && pathId) {
       // First check if it's a main path
       let foundPath = paths.find((p) => p.id === pathId) || null;
-      
+
       if (foundPath) {
         setPath(foundPath);
         setIsSubpath(false);
         setParentPath(null);
         return;
       }
-      
-      // If not found, check if it's a subpath
-      for (const parent of paths) {
-        if (parent.subpaths) {
-          const subpath = parent.subpaths.find(s => s.id === pathId);
-          if (subpath) {
-            setPath(subpath as Path);
-            setIsSubpath(true);
-            setParentPath(parent);
-            return;
-          }
-        }
+
+      // If not found, check in subpaths
+      const { subpath, parent } = findSubpath(paths, pathId);
+      if (subpath) {
+        setPath(subpath);
+        setIsSubpath(true);
+        setParentPath(parent);
+        return;
       }
-      
-      // If we get here, no path was found
+
       setPath(null);
       setIsSubpath(false);
       setParentPath(null);
@@ -135,13 +147,7 @@ export const usePathQuestions = (pathId: string | undefined) => {
 
   useEffect(() => {
     if (!loading && !error && pathId) {
-      // For now, handle both direct paths and subpaths the same way
-      // In a real implementation, questions might be loaded differently based on path type
-      if (questions[pathId]) {
-        setPathQuestions(questions[pathId]);
-      } else {
-        setPathQuestions([]); // No questions found for this path
-      }
+      setPathQuestions(questions[pathId] || []);
     }
   }, [questions, pathId, loading, error]);
 

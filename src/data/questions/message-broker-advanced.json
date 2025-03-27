@@ -1,0 +1,154 @@
+[
+  {
+    "id": "mq-5",
+    "question": "What are advanced RabbitMQ messaging patterns?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**Work Queues**: Distribute workload across multiple workers to ensure load balancing.",
+          "**Publish/Subscribe (Fanout Exchange)**: Broadcast messages to multiple consumers simultaneously.",
+          "**RPC (Remote Procedure Call) with RabbitMQ**: Implement request-response patterns for microservices.",
+          "**Dead-Letter Queues (DLQ)**: Capture failed messages for analysis and retry mechanisms.",
+          "**Delayed Messages**: Schedule message delivery using RabbitMQ plugins.",
+          "**High Availability (HA) Queues**: Ensure resilience by mirroring queues across multiple nodes in a RabbitMQ cluster."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mq-6",
+    "question": "How do you publish a message to RabbitMQ in Golang?",
+    "answer": [
+      {
+        "type": "code",
+        "language": "go",
+        "content": "package main\n\nimport (\n    \"log\"\n    \"github.com/streadway/amqp\"\n)\n\nfunc main() {\n    conn, err := amqp.Dial(\"amqp://guest:guest@localhost:5672/\")\n    if err != nil {\n        log.Fatal(err)\n    }\n    defer conn.Close()\n\n    ch, err := conn.Channel()\n    if err != nil {\n        log.Fatal(err)\n    }\n    defer ch.Close()\n\n    q, err := ch.QueueDeclare(\"task_queue\", true, false, false, false, nil)\n    if err != nil {\n        log.Fatal(err)\n    }\n\n    body := \"Hello RabbitMQ!\"\n    err = ch.Publish(\"\", q.Name, false, false, \n        amqp.Publishing{\n            DeliveryMode: amqp.Persistent,\n            ContentType:  \"text/plain\",\n            Body:         []byte(body),\n        })\n    if err != nil {\n        log.Fatal(err)\n    }\n    log.Println(\"Message sent!\")\n}"
+      }
+    ]
+  },
+  {
+    "id": "mq-7",
+    "question": "How do you consume messages from RabbitMQ in C#?",
+    "answer": [
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "using System;\nusing RabbitMQ.Client;\nusing RabbitMQ.Client.Events;\nusing System.Text;\n\nclass Receive {\n    public static void Main() {\n        var factory = new ConnectionFactory() { HostName = \"localhost\" };\n        using var connection = factory.CreateConnection();\n        using var channel = connection.CreateModel();\n        \n        channel.QueueDeclare(queue: \"task_queue\", durable: true, exclusive: false, autoDelete: false, arguments: null);\n\n        var consumer = new EventingBasicConsumer(channel);\n        consumer.Received += (model, ea) => {\n            var body = ea.Body.ToArray();\n            var message = Encoding.UTF8.GetString(body);\n            Console.WriteLine(\"Received {0}\", message);\n        };\n\n        channel.BasicConsume(queue: \"task_queue\", autoAck: true, consumer: consumer);\n        Console.WriteLine(\"Waiting for messages...\");\n        Console.ReadLine();\n    }\n}"
+      }
+    ]
+  },
+  {
+    "id": "mq-8",
+    "question": "What are Dead-Letter Queues (DLQ) in RabbitMQ, and why are they useful?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "A Dead-Letter Queue (DLQ) is a queue where messages that cannot be processed successfully are moved instead of being lost."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Use Cases:**",
+          "Messages that exceed retry limits can be stored for debugging.",
+          "Unroutable messages that do not match any binding keys.",
+          "Handling expired messages that exceed their TTL (Time-to-Live)."
+        ]
+      },
+      {
+        "type": "code",
+        "language": "go",
+        "content": "args := amqp.Table{\"x-dead-letter-exchange\": \"dlx-exchange\"}\nch.QueueDeclare(\"task_queue\", true, false, false, false, args)"
+      }
+    ]
+  },
+  {
+    "id": "mq-9",
+    "question": "How can you scale RabbitMQ consumers in Golang?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**Multiple Consumers**: Run multiple instances of the consumer application.",
+          "**Prefetch Count (QoS settings)**: Limit the number of unacknowledged messages per consumer to prevent overload.",
+          "**Load Balancing**: RabbitMQ automatically distributes messages across consumers.",
+          "**Clustered Deployment**: Deploy RabbitMQ nodes in a cluster to distribute queues across multiple servers."
+        ]
+      },
+      {
+        "type": "code",
+        "language": "go",
+        "content": "ch.Qos(1, 0, false) // Prefetch count of 1 for fair load balancing"
+      }
+    ]
+  },
+
+  {
+    "id": "mq-01",
+    "question": "What is QueueDeclare in RabbitMQ?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "QueueDeclare is a function that creates a queue if it does not exist. It ensures that messages can be sent and received reliably."
+      },
+      {
+        "type": "code",
+        "content": "q, err := ch.QueueDeclare(\n    \"task_queue\", true, false, false, false, nil\n)",
+        "language": "go"
+      }
+    ]
+  },
+  {
+    "id": "mq-02",
+    "question": "What are the QueueDeclare parameters and their impact?",
+    "answer": [
+      {
+        "type": "table",
+        "columns": ["Parameter", "Type", "Description"],
+        "rows": [
+          [
+            "name",
+            "String",
+            "Queue name (if empty, RabbitMQ assigns a random name)."
+          ],
+          [
+            "durable",
+            "Bool",
+            "If true, the queue persists after a RabbitMQ restart."
+          ],
+          [
+            "autoDelete",
+            "Bool",
+            "If true, queue is deleted when the last consumer disconnects."
+          ],
+          [
+            "exclusive",
+            "Bool",
+            "If true, the queue is only for the current connection."
+          ],
+          [
+            "noWait",
+            "Bool",
+            "If true, does not wait for a response from RabbitMQ."
+          ],
+          ["arguments", "Map", "Custom queue settings like TTL, DLQ, priority."]
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mq-03",
+    "question": "How do you configure a Dead-Letter Queue (DLQ) in RabbitMQ?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Dead-Letter Queues (DLQs) store messages that cannot be processed successfully."
+      },
+      {
+        "type": "code",
+        "content": "args := amqp.Table{\n    \"x-dead-letter-exchange\": \"dlx-exchange\",\n}\nq, err := ch.QueueDeclare(\"task_queue\", true, false, false, false, args)",
+        "language": "go"
+      }
+    ]
+  }
+]

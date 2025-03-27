@@ -1,0 +1,97 @@
+[
+  {
+    "id": "cps-1",
+    "question": "Implement a thread-safe in-memory key-value store in Golang.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "A thread-safe key-value store requires synchronization mechanisms like `sync.Mutex` or `sync.RWMutex` to prevent race conditions when multiple goroutines access the store."
+      },
+      {
+        "type": "text",
+        "content": "**Example Implementation:**"
+      },
+      {
+        "type": "code",
+        "language": "go",
+        "content": "package main\n\nimport (\n\t\"sync\"\n\t\"fmt\"\n)\n\ntype Store struct {\n\tdata map[string]string\n\tmu   sync.RWMutex\n}\n\nfunc NewStore() *Store {\n\treturn &Store{data: make(map[string]string)}\n}\n\nfunc (s *Store) Set(key, value string) {\n\ts.mu.Lock()\n\ts.data[key] = value\n\ts.mu.Unlock()\n}\n\nfunc (s *Store) Get(key string) (string, bool) {\n\ts.mu.RLock()\n\tdefer s.mu.RUnlock()\n\tval, exists := s.data[key]\n\treturn val, exists\n}\n\nfunc main() {\n\tstore := NewStore()\n\tstore.Set(\"foo\", \"bar\")\n\tval, _ := store.Get(\"foo\")\n\tfmt.Println(\"Value:\", val)\n}"
+      }
+    ]
+  },
+  {
+    "id": "cps-2",
+    "question": "Write a rate limiter using Golang middleware.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Rate limiting ensures API requests are restricted to a fixed rate. We use `golang.org/x/time/rate` package to implement a token bucket rate limiter in middleware."
+      },
+      {
+        "type": "text",
+        "content": "**Example Implementation:**"
+      },
+      {
+        "type": "code",
+        "language": "go",
+        "content": "package main\n\nimport (\n\t\"fmt\"\n\t\"net/http\"\n\t\"time\"\n\t\"golang.org/x/time/rate\"\n)\n\ntype rateLimiter struct {\n\tlimiter *rate.Limiter\n}\n\nfunc (rl *rateLimiter) middleware(next http.Handler) http.Handler {\n\treturn http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {\n\t\tif !rl.limiter.Allow() {\n\t\t\thttp.Error(w, \"Too Many Requests\", http.StatusTooManyRequests)\n\t\t\treturn\n\t\t}\n\t\tnext.ServeHTTP(w, r)\n\t})\n}\n\nfunc main() {\n\trl := &rateLimiter{limiter: rate.NewLimiter(1, 5)} // 1 request per second, burst of 5\n\n\thttp.Handle(\"/\", rl.middleware(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {\n\t\tfmt.Fprintln(w, \"Hello, World!\")\n\t})))\n\n\thttp.ListenAndServe(\":8080\", nil)\n}"
+      }
+    ]
+  },
+  {
+    "id": "cps-3",
+    "question": "Implement a concurrent worker pool in Golang.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "A worker pool limits the number of concurrent workers processing tasks. It distributes tasks among workers using channels."
+      },
+      {
+        "type": "text",
+        "content": "**Example Implementation:**"
+      },
+      {
+        "type": "code",
+        "language": "go",
+        "content": "package main\n\nimport (\n\t\"fmt\"\n\t\"sync\"\n\t\"time\"\n)\n\nfunc worker(id int, jobs <-chan int, wg *sync.WaitGroup) {\n\tdefer wg.Done()\n\tfor job := range jobs {\n\t\tfmt.Printf(\"Worker %d processing job %d\\n\", id, job)\n\t\ttime.Sleep(time.Second)\n\t}\n}\n\nfunc main() {\n\tjobs := make(chan int, 5)\n\tvar wg sync.WaitGroup\n\n\tfor i := 1; i <= 3; i++ {\n\t\twg.Add(1)\n\t\tgo worker(i, jobs, &wg)\n\t}\n\n\tfor j := 1; j <= 5; j++ {\n\t\tjobs <- j\n\t}\n\tclose(jobs)\n\n\twg.Wait()\n}"
+      }
+    ]
+  },
+  {
+    "id": "cps-4",
+    "question": "Implement a REST API in Golang that connects to a PostgreSQL database.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "This implementation uses `gorm` for database interactions and `gin` for REST API handling."
+      },
+      {
+        "type": "text",
+        "content": "**Example Implementation:**"
+      },
+      {
+        "type": "code",
+        "language": "go",
+        "content": "package main\n\nimport (\n\t\"fmt\"\n\t\"github.com/gin-gonic/gin\"\n\t\"gorm.io/driver/postgres\"\n\t\"gorm.io/gorm\"\n)\n\ntype User struct {\n\tID   uint   `json:\"id\"`\n\tName string `json:\"name\"`\n}\n\nvar db *gorm.DB\n\nfunc initDB() {\n\tdsn := \"host=localhost user=postgres password=yourpassword dbname=testdb port=5432 sslmode=disable\"\n\tvar err error\n\tdb, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})\n\tif err != nil {\n\t\tpanic(\"Failed to connect to database\")\n\t}\n\tdb.AutoMigrate(&User{})\n}\n\nfunc getUsers(c *gin.Context) {\n\tvar users []User\n\tdb.Find(&users)\n\tc.JSON(200, users)\n}\n\nfunc main() {\n\tinitDB()\n\tr := gin.Default()\n\tr.GET(\"/users\", getUsers)\n\tr.Run(\":8080\")\n}"
+      }
+    ]
+  },
+  {
+    "id": "cps-5",
+    "question": "Design a task scheduler in Golang where tasks run at specific intervals.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "A task scheduler can be implemented using `time.Ticker` or `cron` library for periodic execution."
+      },
+      {
+        "type": "text",
+        "content": "**Example Implementation (Using time.Ticker):**"
+      },
+      {
+        "type": "code",
+        "language": "go",
+        "content": "package main\n\nimport (\n\t\"fmt\"\n\t\"time\"\n)\n\nfunc task() {\n\tfmt.Println(\"Task executed at\", time.Now())\n}\n\nfunc main() {\n\tticker := time.NewTicker(5 * time.Second)\n\tdefer ticker.Stop()\n\n\tfor range ticker.C {\n\t\ttask()\n\t}\n}"
+      }
+    ]
+  }
+]

@@ -1,0 +1,586 @@
+[
+  {
+    "id": "be-7",
+    "question": "Can you provide a simple microservice implementation in Go?",
+    "answer": [
+      {
+        "type": "code",
+        "language": "go",
+        "content": "package main\n\nimport (\n    \"github.com/gin-gonic/gin\"\n    \"gorm.io/driver/postgres\"\n    \"gorm.io/gorm\"\n    \"net/http\"\n)\n\n// User model\ntype User struct {\n    ID    uint   `json:\"id\" gorm:\"primaryKey\"`\n    Name  string `json:\"name\"`\n    Email string `json:\"email\"`\n}\n\nvar db *gorm.DB\n\nfunc init() {\n    var err error\n    dsn := \"host=localhost user=postgres password=yourpassword dbname=microservice port=5432 sslmode=disable\"\n    db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})\n    if err != nil {\n        panic(\"Failed to connect to database\")\n    }\n    db.AutoMigrate(&User{})\n}\n\nfunc main() {\n    r := gin.Default()\n    r.GET(\"/users\", getUsers)\n    r.POST(\"/users\", createUser)\n    r.Run(\":8080\")\n}\n\n// Get all users\nfunc getUsers(c *gin.Context) {\n    var users []User\n    db.Find(&users)\n    c.JSON(http.StatusOK, users)\n}\n\n// Create a new user\nfunc createUser(c *gin.Context) {\n    var user User\n    if err := c.ShouldBindJSON(&user); err != nil {\n        c.JSON(http.StatusBadRequest, gin.H{\"error\": err.Error()})\n        return\n    }\n    db.Create(&user)\n    c.JSON(http.StatusCreated, user)\n}"
+      }
+    ]
+  },
+  {
+    "id": "ms-1",
+    "question": "What is Microservice Architecture?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Microservice Architecture is an architectural style where an application is developed as a collection of small, independent services that communicate over a network. Each service is responsible for a specific functionality and can be deployed, scaled, and updated independently."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Independence**: Each microservice runs in its own process.",
+          "**Modularity**: Services are designed around business capabilities.",
+          "**Decentralized Data Management**: Each service manages its own database.",
+          "**Scalability**: Services can be scaled independently based on demand.",
+          "**Resilience**: Failure in one service does not impact the entire system."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ms-2",
+    "question": "How does Microservices differ from Monolithic Architecture?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Microservices and Monolithic architectures differ in terms of structure, scalability, and deployment."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Monolithic Architecture**:",
+          "- Single codebase with all features in one application.",
+          "- Difficult to scale specific parts of the application.",
+          "- Tight coupling between components.",
+          "- Deployment requires redeploying the entire application.",
+          "**Microservices Architecture**:",
+          "- Composed of independent, loosely coupled services.",
+          "- Each service can be scaled individually.",
+          "- Allows for a diverse technology stack.",
+          "- Services can be deployed independently."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ms-3",
+    "question": "What are the key advantages of Microservices?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**Scalability**: Individual services can be scaled as needed.",
+          "**Flexibility**: Different services can use different programming languages and databases.",
+          "**Resilience**: Failures in one service do not affect others.",
+          "**Faster Development**: Multiple teams can work on different services independently.",
+          "**Continuous Deployment**: Easier to deploy updates without affecting the entire application."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ms-4",
+    "question": "What are the main challenges of Microservices?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**Increased Complexity**: More services mean more points of failure.",
+          "**Data Management**: Handling distributed databases requires strategies like Saga Pattern.",
+          "**Service Discovery**: Managing inter-service communication dynamically.",
+          "**Security Concerns**: More exposed APIs increase security risks.",
+          "**Latency**: Network calls between microservices introduce delays."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ms-5",
+    "question": "What is the difference between REST and gRPC?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "REST and gRPC are both communication protocols used in microservices, but they have key differences."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**REST**:",
+          "- Uses HTTP with JSON for data exchange.",
+          "- Human-readable but has higher latency.",
+          "- Stateless communication.",
+          "**gRPC**:",
+          "- Uses HTTP/2 and Protocol Buffers for serialization.",
+          "- More efficient and faster than REST.",
+          "- Supports bi-directional streaming."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ms-6",
+    "question": "How does inter-service communication work in Microservices?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**Synchronous Communication**: Services call each other directly using REST or gRPC.",
+          "**Asynchronous Communication**: Services use message brokers like Kafka or RabbitMQ.",
+          "**Event-Driven Communication**: Services publish and subscribe to events to exchange information."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ms-7",
+    "question": "What is API Gateway, and why is it used?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "An API Gateway is a single entry point for managing requests between clients and microservices."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Routing**: Directs requests to the appropriate microservice.",
+          "**Authentication**: Manages security (OAuth, JWT).",
+          "**Load Balancing**: Distributes traffic across multiple instances.",
+          "**Rate Limiting**: Prevents abuse and ensures fair usage."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ms-8",
+    "question": "What is Service Discovery in Microservices?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Service Discovery is a mechanism that helps microservices dynamically find and communicate with each other."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Client-Side Discovery**: The client looks up the service location from a registry (e.g., Consul, Eureka).",
+          "**Server-Side Discovery**: The API Gateway handles service lookup and routing.",
+          "**Service Registry**: Stores available service instances and updates dynamically."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ms-9",
+    "question": "Explain the concept of database per service in Microservices.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Each microservice has its own dedicated database to ensure loose coupling."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Benefits**:",
+          "- Independent scaling of services.",
+          "- Avoids data conflicts across services.",
+          "- Allows for different database technologies (Polyglot Persistence).",
+          "**Challenges**:",
+          "- Managing distributed transactions.",
+          "- Maintaining consistency between services."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ms-10",
+    "question": "What is Polyglot Persistence?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Polyglot Persistence is the practice of using different databases for different microservices based on their requirements."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Example Usage**:",
+          "- **SQL (PostgreSQL, MySQL)** for transactional data.",
+          "- **NoSQL (MongoDB, Cassandra)** for flexible document storage.",
+          "- **Redis** for caching.",
+          "**Advantages**:",
+          "- Optimized performance for each service.",
+          "- Flexibility in choosing the best data storage model.",
+          "**Challenges**:",
+          "- Increased complexity in data management.",
+          "- Requires expertise in multiple database technologies."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ms-11",
+    "question": "How do you handle transactions across multiple Microservices?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Handling transactions in microservices requires ensuring data consistency across services, since a traditional database transaction (ACID) is not feasible."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Saga Pattern**: Manages distributed transactions using either choreography (event-driven) or orchestration (centralized controller).",
+          "**Two-Phase Commit (2PC)**: Ensures atomicity but introduces blocking and is not commonly used in modern microservices.",
+          "**Eventual Consistency**: Uses asynchronous messaging and retries to achieve consistency over time.",
+          "**Outbox Pattern**: Ensures messages are stored and reliably published along with the main database operation.",
+          "**Compensating Transactions**: In case of failure, performs actions to undo changes made by previous steps."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ms-12",
+    "question": "What is the Saga Pattern, and when would you use it?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "The Saga Pattern is a way to manage distributed transactions in microservices by breaking them into smaller, independent steps."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Choreography-Based Saga**: Each service listens for events and triggers the next step without a central coordinator.",
+          "**Orchestration-Based Saga**: A central orchestrator service manages and directs the transaction flow."
+        ]
+      },
+      {
+        "type": "text",
+        "content": "Used when multiple services need to update data while maintaining consistency and rollback mechanisms."
+      }
+    ]
+  },
+  {
+    "id": "ms-13",
+    "question": "Explain Circuit Breaker Pattern and its importance.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "The Circuit Breaker Pattern is used to prevent repeated failures by stopping calls to a failing service and providing fallback responses."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Closed State**: Requests are passed through normally.",
+          "**Open State**: After failures exceed a threshold, requests are blocked temporarily.",
+          "**Half-Open State**: Some requests are allowed to test if the service has recovered."
+        ]
+      },
+      {
+        "type": "text",
+        "content": "It improves system resilience and prevents cascading failures in microservices."
+      }
+    ]
+  },
+  {
+    "id": "ms-14",
+    "question": "How do you ensure security in a Microservices architecture?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**Authentication & Authorization**: Use OAuth2, JWT, or API Gateway authentication.",
+          "**Secure Communication**: Encrypt data in transit using TLS.",
+          "**API Gateway Security**: Centralized authentication and rate limiting.",
+          "**Service-to-Service Security**: Mutual TLS (mTLS) and API keys.",
+          "**Logging & Monitoring**: Detect security threats using SIEM tools."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ms-15",
+    "question": "What are the different ways of implementing Service Discovery?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**Client-Side Discovery**: Services query a registry (e.g., Consul, Eureka) to find instances.",
+          "**Server-Side Discovery**: API Gateway or Load Balancer routes requests dynamically.",
+          "**DNS-Based Discovery**: Services resolve addresses via DNS (e.g., Kubernetes DNS)."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ms-16",
+    "question": "What is eventual consistency in Microservices?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Eventual consistency ensures that after a period of time, all services have consistent data, even if updates happen asynchronously."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Event-Driven Architecture**: Services publish events to synchronize state.",
+          "**Retries & Idempotency**: Ensures operations can be repeated without causing errors.",
+          "**Compensating Transactions**: Rolls back incomplete operations to maintain consistency."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ms-17",
+    "question": "How do you monitor Microservices?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**Logging**: Use centralized logging (ELK Stack, Loki).",
+          "**Metrics Collection**: Monitor system performance (Prometheus, Grafana).",
+          "**Tracing**: Use distributed tracing (Jaeger, Zipkin) to track request flows.",
+          "**Health Checks**: Implement endpoint checks (/health, /metrics) to detect failures."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ms-18",
+    "question": "What are Distributed Tracing Tools, and why are they important?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Distributed tracing tools help track requests as they pass through multiple microservices."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Jaeger**: Open-source tool for request tracing and latency monitoring.",
+          "**Zipkin**: Traces requests across microservices and identifies performance bottlenecks.",
+          "**OpenTelemetry**: Standardized instrumentation for tracing and metrics."
+        ]
+      },
+      {
+        "type": "text",
+        "content": "They help diagnose slow response times and system failures."
+      }
+    ]
+  },
+  {
+    "id": "ms-19",
+    "question": "What is the CAP theorem, and how does it apply to Microservices?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "The CAP theorem states that in a distributed system, it is impossible to achieve **Consistency (C), Availability (A), and Partition Tolerance (P) simultaneously.**"
+      },
+      {
+        "type": "list",
+        "items": [
+          "**CP (Consistency & Partition Tolerance)**: Prioritizes data correctness but may sacrifice availability.",
+          "**AP (Availability & Partition Tolerance)**: Ensures uptime but may have stale data.",
+          "**CA (Consistency & Availability)**: Only feasible without network partitions (not practical for microservices)."
+        ]
+      },
+      {
+        "type": "text",
+        "content": "Microservices typically choose AP (Eventual Consistency) or CP (Strong Consistency) based on business needs."
+      }
+    ]
+  },
+  {
+    "id": "ms-20",
+    "question": "What are some best practices for deploying Microservices?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**Use CI/CD Pipelines**: Automate deployments using Jenkins, GitHub Actions, or GitLab CI.",
+          "**Containerization**: Deploy services using Docker and manage with Kubernetes.",
+          "**Service Mesh**: Use Istio or Linkerd for traffic management and observability.",
+          "**API Gateway**: Centralized request routing, authentication, and rate limiting.",
+          "**Rolling Updates & Canary Deployments**: Minimize downtime and test changes safely."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ms-21",
+    "question": "How do you scale Microservices in production?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Scaling microservices in production involves various strategies to ensure performance, reliability, and availability."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Horizontal Scaling**: Deploy multiple instances of a microservice and distribute traffic using a load balancer.",
+          "**Container Orchestration**: Use Kubernetes or Docker Swarm to manage containerized microservices efficiently.",
+          "**Auto-scaling**: Automatically scale up or down based on CPU/memory usage (Kubernetes HPA, AWS Auto Scaling).",
+          "**Load Balancing**: Use API Gateway or a dedicated load balancer (Nginx, Envoy) to distribute requests across instances.",
+          "**Database Sharding**: Split databases into smaller parts for better performance.",
+          "**Caching**: Use Redis, Memcached, or CDN to reduce database load and improve response time."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ms-22",
+    "question": "How do you handle versioning in Microservices APIs?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "API versioning ensures backward compatibility while introducing new features."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**URI Versioning**: Include version in the URL (e.g., `/api/v1/users`).",
+          "**Header Versioning**: Pass API version in HTTP headers (e.g., `Accept: application/vnd.company.v1+json`).",
+          "**Query Parameter Versioning**: Pass version as a query parameter (`/users?version=1`).",
+          "**Content Negotiation**: Clients request specific versions via `Accept` headers.",
+          "**Feature Toggles**: Gradually enable new features instead of strict versioning."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ms-23",
+    "question": "What is Kubernetes, and why is it used in Microservices?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Kubernetes is an open-source container orchestration platform used to automate deployment, scaling, and management of containerized applications."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Automated Deployment and Scaling**: Kubernetes manages replicas of microservices and scales them based on demand.",
+          "**Self-healing**: Restarts failed containers and reschedules them if necessary.",
+          "**Service Discovery and Load Balancing**: Automatically distributes traffic between microservice instances.",
+          "**Rolling Updates**: Allows seamless updates without downtime.",
+          "**Resource Management**: Efficiently allocates CPU and memory to containers."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ms-24",
+    "question": "Explain Event-Driven Microservices and their benefits.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Event-driven microservices communicate asynchronously by emitting and responding to events, rather than making direct API calls."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Decoupling**: Services are independent and do not need to know about each other.",
+          "**Scalability**: Improves performance by processing events asynchronously.",
+          "**Fault Tolerance**: A failed service does not block the entire system.",
+          "**Better Performance**: Reduces request-response latency in real-time applications.",
+          "**Common Tools**: Kafka, RabbitMQ, AWS SNS/SQS for event-driven architecture."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ms-25",
+    "question": "What is gRPC, and how is it different from REST?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**gRPC**: A high-performance, RPC-based protocol using HTTP/2 and Protocol Buffers.",
+          "**REST**: A resource-based architecture using HTTP and JSON/XML."
+        ]
+      },
+      {
+        "type": "text",
+        "content": "Key differences:"
+      },
+      {
+        "type": "list",
+        "items": [
+          "gRPC uses **binary serialization (Protocol Buffers)** for efficient data transfer, whereas REST uses **text-based JSON**.",
+          "gRPC supports **bidirectional streaming**, unlike REST, which follows a request-response model.",
+          "gRPC is more efficient over low-bandwidth connections due to its binary format."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ms-26",
+    "question": "How do you handle logging and debugging in a distributed Microservices system?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**Centralized Logging**: Use ELK Stack (Elasticsearch, Logstash, Kibana) or Fluentd for aggregating logs.",
+          "**Distributed Tracing**: Use tools like Jaeger, Zipkin to trace request flow across services.",
+          "**Structured Logging**: Use JSON-based logs for easier parsing.",
+          "**Error Monitoring**: Implement tools like Sentry or Prometheus to detect failures in real-time."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ms-27",
+    "question": "Explain CQRS (Command Query Responsibility Segregation) in Microservices.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "CQRS separates read and write operations into different models to optimize performance and scalability."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Command Model**: Handles write operations (Create, Update, Delete).",
+          "**Query Model**: Handles read operations separately.",
+          "**Benefits**: Improves performance, allows separate scaling, and enhances security by restricting write access."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ms-28",
+    "question": "What is Sidecar Pattern in Microservices?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "The Sidecar pattern runs an auxiliary process alongside the main microservice to handle cross-cutting concerns such as logging, monitoring, and security."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Use Cases**: Service mesh (Istio), logging agents (Fluentd), security proxies.",
+          "**Benefits**: Enhances modularity, isolates responsibilities from the main service."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ms-29",
+    "question": "What is a Strangler Pattern in Microservices?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "The Strangler Pattern gradually replaces a monolithic system by incrementally migrating functionalities to microservices."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Incremental Migration**: New features are implemented as microservices while old components are phased out.",
+          "**Reduces Risk**: Avoids full rewrites by enabling a step-by-step transition."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ms-30",
+    "question": "How do you test Microservices? (Unit, Integration, Contract Testing)",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**Unit Testing**: Testing individual service components using frameworks like JUnit (Java) or Go’s testing package.",
+          "**Integration Testing**: Ensuring services work together correctly using tools like Postman, REST-assured.",
+          "**Contract Testing**: Verifying API contracts between services using Pact.",
+          "**End-to-End Testing**: Simulating real-world scenarios using Selenium, Cypress.",
+          "**Performance Testing**: Load testing services using JMeter or k6."
+        ]
+      }
+    ]
+  }
+]

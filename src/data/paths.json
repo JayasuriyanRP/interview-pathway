@@ -1,9 +1,8 @@
-
 [
   {
     "id": "example-path",
     "title": "Example Path with All Content Types",
-    "description": "This path demonstrates all content types available in the app, including text, code, lists, tables, images, quotes and notes.",
+    "description": "This path demonstrates all content types available in the app, including text, code, lists, tables, images, quotes, and notes.",
     "icon": "Code",
     "count": 1,
     "level": "Beginner"
@@ -35,7 +34,7 @@
             "title": "React Hooks",
             "description": "Understanding React hooks and their applications",
             "count": 10,
-            "level": "Intermediate" 
+            "level": "Intermediate"
           },
           {
             "id": "frontend-react-state",
@@ -71,39 +70,48 @@
     "level": "Advanced",
     "subpaths": [
       {
-        "id": "backend-csharp-basic",
-        "title": "C# Basic",
-        "description": "Basic C# language features and .NET framework",
-        "count": 15,
-        "level": "Beginner"
-      },
-      {
         "id": "backend-csharp",
-        "title": "C# Advanced",
-        "description": "C# language features and .NET framework",
+        "title": "C#",
+        "description": "C# Topics",
         "count": 15,
-        "level": "Advanced"
-      },
-      {
-        "id": "backend-csharp-errorhandling",
-        "title": "C# ErrorHandling",
-        "description": "C# Error Handling questions",
-        "count": 15,
-        "level": "Advanced"
-      },
-      {
-        "id": "backend-solid",
-        "title": "Solid principles",
-        "description": "Solid Principles with C# and Golang",
-        "count": 15,
-        "level": "Advanced"
-      },
-      {
-        "id": "backend-csharp-design-patterns",
-        "title": "C# DesignPatterns",
-        "description": "C# Design Patterns",
-        "count": 15,
-        "level": "Advanced"
+        "level": "Beginner",
+        "subpaths": [
+          {
+            "id": "backend-csharp-basic",
+            "title": "C# Basic",
+            "description": "Basic C# language features and .NET framework",
+            "count": 15,
+            "level": "Beginner"
+          },
+          {
+            "id": "backend-csharp-advanced",
+            "title": "C# Advanced",
+            "description": "Advanced C# language features and .NET framework",
+            "count": 15,
+            "level": "Advanced"
+          },
+          {
+            "id": "backend-csharp-errorhandling",
+            "title": "C# Error Handling",
+            "description": "C# error handling concepts and techniques",
+            "count": 15,
+            "level": "Advanced"
+          },
+          {
+            "id": "backend-solid",
+            "title": "SOLID Principles",
+            "description": "SOLID principles in C# and Golang",
+            "count": 15,
+            "level": "Advanced"
+          },
+          {
+            "id": "backend-csharp-design-patterns",
+            "title": "C# Design Patterns",
+            "description": "Common design patterns in C# development",
+            "count": 15,
+            "level": "Advanced"
+          }
+        ]
       },
       {
         "id": "backend-golang",
@@ -122,7 +130,7 @@
           {
             "id": "backend-golang-concurrency",
             "title": "Concurrency",
-            "description": "Go goroutines, channels and concurrency patterns",
+            "description": "Go goroutines, channels, and concurrency patterns",
             "count": 10,
             "level": "Intermediate"
           },
@@ -132,15 +140,15 @@
             "description": "Advanced Go concepts and optimization techniques",
             "count": 6,
             "level": "Advanced"
+          },
+          {
+            "id": "backend-golang-problem-solving",
+            "title": "Golang Problem Solving",
+            "description": "Go language coding questions",
+            "count": 4,
+            "level": "Intermediate"
           }
         ]
-      },
-      {
-        "id": "backend-golang-problem-solving",
-        "title": "Golang Problem Solving",
-        "description": "Go language Coding Questions",
-        "count": 4,
-        "level": "Intermediate"
       },
       {
         "id": "backend-dotnet",

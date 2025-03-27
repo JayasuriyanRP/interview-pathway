@@ -1,0 +1,709 @@
+[
+  {
+    "id": "dotnet-1",
+    "question": "Why should I use .NET Core, and what are its best features?",
+    "answer": [
+      {
+        "type": "text",
+        "content": ".NET Core (now evolved into .NET 6+ as part of unified .NET) is a modern, open-source, cross-platform framework developed by Microsoft. It is designed for building high-performance, scalable, and cloud-ready applications."
+      },
+      {
+        "type": "text",
+        "content": "Here are the key reasons why you should use .NET Core:"
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Cross-Platform**: .NET Core runs on Windows, Linux, and macOS, making it ideal for cloud and container-based deployments.",
+          "**High Performance**: It is one of the fastest frameworks for web applications, optimized for high throughput and low memory usage.",
+          "**Microservices Architecture**: .NET Core supports the development of microservices-based applications using Docker and Kubernetes.",
+          "**Modern Development Support**: It includes support for asynchronous programming, dependency injection, and modern APIs.",
+          "**Open Source and Community-Driven**: Unlike the older .NET Framework, .NET Core is open-source and constantly evolving with contributions from the community.",
+          "**Unified Platform**: .NET Core supports multiple application types, including web apps (ASP.NET Core), desktop apps (via .NET 6+), IoT, and gaming (Unity).",
+          "**Better Security and Maintainability**: It receives frequent updates and security patches due to its open-source nature and Microsoft’s long-term support.",
+          "**Cloud-Ready**: Designed to work seamlessly with cloud services like Azure, AWS, and Google Cloud."
+        ]
+      },
+      {
+        "type": "text",
+        "content": "Example: A simple ASP.NET Core Web API"
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "using Microsoft.AspNetCore.Mvc;\n\n[ApiController]\n[Route(\"api/[controller]\")]\npublic class HelloWorldController : ControllerBase\n{\n    [HttpGet]\n    public IActionResult Get()\n    {\n        return Ok(\"Hello, .NET Core World!\");\n    }\n}"
+      },
+      {
+        "type": "text",
+        "content": "This example demonstrates how easy it is to create a minimal Web API using .NET Core with built-in dependency injection and routing."
+      }
+    ]
+  },
+  {
+    "id": "dotnet-1",
+    "question": "How does .NET compile code and generate executables?",
+    "answer": [
+      {
+        "type": "text",
+        "content": ".NET follows a multi-step compilation process to generate executable files. The compilation process involves the following steps:"
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Source Code Compilation**: The .NET compiler (like `csc` for C#) compiles source code into an intermediate representation called CIL (Common Intermediate Language).",
+          "**Assembly Generation**: The compiled CIL is stored in assemblies (`.exe` or `.dll` files) along with metadata about types and methods.",
+          "**JIT Compilation**: At runtime, the .NET Just-In-Time (JIT) compiler converts CIL into native machine code for execution.",
+          "**Execution by the CLR**: The Common Language Runtime (CLR) executes the native code, manages memory, garbage collection, and enforces security."
+        ]
+      },
+      {
+        "type": "text",
+        "content": "### Example: Compilation and Execution"
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "// Sample C# Program\nusing System;\n\nclass Program {\n    static void Main() {\n        Console.WriteLine(\"Hello, .NET!\");\n    }\n}"
+      },
+      {
+        "type": "text",
+        "content": "#### Step 1: Compile the code"
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "content": "csc Program.cs  # Compiles to Program.exe"
+      },
+      {
+        "type": "text",
+        "content": "This generates a `Program.exe` file containing CIL."
+      },
+      {
+        "type": "text",
+        "content": "#### Step 2: Inspect the CIL (Intermediate Language)"
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "content": "ildasm Program.exe  # Opens IL disassembler to view CIL"
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": ".method private hidebysig static void Main() cil managed {\n    .entrypoint\n    IL_0000: ldstr \"Hello, .NET!\"\n    IL_0005: call void [System.Console]::WriteLine(string)\n    IL_000a: ret\n}"
+      },
+      {
+        "type": "text",
+        "content": "#### Step 3: Run the Executable"
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "content": "./Program.exe  # Outputs 'Hello, .NET!'"
+      },
+      {
+        "type": "text",
+        "content": "### Summary\n- C# source code → compiled into CIL (.exe/.dll)\n- CIL is Just-In-Time compiled to native code\n- CLR manages execution, memory, and security"
+      }
+    ]
+  },
+  {
+    "id": "dotnet-1",
+    "question": "Explain the difference between value types and reference types in C#.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "In C#, data types are categorized as value types and reference types based on how they are stored in memory."
+      },
+      {
+        "type": "text",
+        "content": "**Value Types:**"
+      },
+      {
+        "type": "list",
+        "items": [
+          "Stored in the stack",
+          "Hold actual data",
+          "Assignment creates a copy",
+          "Examples: `int`, `float`, `double`, `char`, `bool`, `struct`"
+        ]
+      },
+      {
+        "type": "text",
+        "content": "**Reference Types:**"
+      },
+      {
+        "type": "list",
+        "items": [
+          "Stored in the heap (reference stored in the stack)",
+          "Hold a reference to the actual object",
+          "Assignment copies the reference, not the actual data",
+          "Examples: `class`, `string`, `array`, `interface`, `delegate`"
+        ]
+      },
+      {
+        "type": "text",
+        "content": "**Example demonstrating value vs. reference types:**"
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "using System;\n\nclass Program\n{\n    struct ValueTypeExample {\n        public int Number;\n    }\n    class ReferenceTypeExample {\n        public int Number;\n    }\n\n    static void Main() {\n        ValueTypeExample val1 = new ValueTypeExample { Number = 10 };\n        ValueTypeExample val2 = val1; // Copy of data\n        val2.Number = 20;\n        Console.WriteLine(val1.Number); // Output: 10 (Unchanged)\n        \n        ReferenceTypeExample ref1 = new ReferenceTypeExample { Number = 10 };\n        ReferenceTypeExample ref2 = ref1; // Reference to the same object\n        ref2.Number = 20;\n        Console.WriteLine(ref1.Number); // Output: 20 (Changed)\n    }\n}"
+      }
+    ]
+  },
+  {
+    "id": "dotnet-2",
+    "question": "What is Dependency Injection (DI) in .NET Core and how does it work?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Dependency Injection (DI) is a design pattern that enables better modularity and testability by injecting dependencies instead of hardcoding them inside a class."
+      },
+      {
+        "type": "text",
+        "content": "**Types of Dependency Injection:**"
+      },
+      {
+        "type": "list",
+        "items": [
+          "Constructor Injection (Most commonly used)",
+          "Method Injection",
+          "Property Injection"
+        ]
+      },
+      {
+        "type": "text",
+        "content": "**Example: Using Dependency Injection in .NET Core**"
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "using Microsoft.Extensions.DependencyInjection;\nusing System;\n\npublic interface IService {\n    void PrintMessage();\n}\npublic class MyService : IService {\n    public void PrintMessage() => Console.WriteLine(\"Hello from MyService\");\n}\n\nclass Program {\n    static void Main() {\n        var services = new ServiceCollection();\n        services.AddTransient<IService, MyService>(); // Register DI\n        var provider = services.BuildServiceProvider();\n        var service = provider.GetService<IService>();\n        service.PrintMessage(); // Output: Hello from MyService\n    }\n}"
+      }
+    ]
+  },
+  {
+    "id": "dotnet-3",
+    "question": "What is async/await in C#? How does it improve performance?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Async/Await is used in C# to perform asynchronous programming, allowing non-blocking execution of I/O-bound or long-running operations."
+      },
+      {
+        "type": "text",
+        "content": "**Benefits of async/await:**"
+      },
+      {
+        "type": "list",
+        "items": [
+          "Prevents blocking the main thread",
+          "Allows handling of multiple tasks concurrently",
+          "Improves responsiveness of applications"
+        ]
+      },
+      {
+        "type": "text",
+        "content": "**Example of async/await in C#:**"
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "using System;\nusing System.Threading.Tasks;\n\nclass Program {\n    static async Task Main() {\n        Console.WriteLine(\"Fetching data...\");\n        string result = await GetDataAsync();\n        Console.WriteLine(result);\n    }\n\n    static async Task<string> GetDataAsync() {\n        await Task.Delay(3000); // Simulating delay\n        return \"Data retrieved successfully!\";\n    }\n}"
+      }
+    ]
+  },
+  {
+    "id": "dotnet-4",
+    "question": "What is the difference between `IEnumerable`, `IQueryable`, `ICollection`, and `List` in C#?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "**IEnumerable<T>:**\n- Used for in-memory and LINQ-to-Objects queries.\n- Supports forward-only iteration.\n- Lazy loading is not supported."
+      },
+      {
+        "type": "text",
+        "content": "**IQueryable<T>:**\n- Used for querying remote data sources like databases (Entity Framework).\n- Executes queries at the database level."
+      },
+      {
+        "type": "text",
+        "content": "**ICollection<T>:**\n- Supports adding/removing elements.\n- Inherits from `IEnumerable<T>`."
+      },
+      {
+        "type": "text",
+        "content": "**List<T>:**\n- Implements `ICollection<T>` and `IEnumerable<T>`.\n- Provides random access via indexing."
+      }
+    ]
+  },
+  {
+    "id": "dotnet-5",
+    "question": "Explain Middleware in ASP.NET Core. How does the request pipeline work?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Middleware in ASP.NET Core is a sequence of components that handle HTTP requests and responses."
+      },
+      {
+        "type": "text",
+        "content": "**Example of Custom Middleware in .NET Core:**"
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "using Microsoft.AspNetCore.Builder;\nusing Microsoft.AspNetCore.Http;\nusing System.Threading.Tasks;\n\npublic class CustomMiddleware {\n    private readonly RequestDelegate _next;\n\n    public CustomMiddleware(RequestDelegate next) {\n        _next = next;\n    }\n\n    public async Task Invoke(HttpContext context) {\n        Console.WriteLine(\"Request: \" + context.Request.Path);\n        await _next(context);\n        Console.WriteLine(\"Response: \" + context.Response.StatusCode);\n    }\n}\n\npublic static class MiddlewareExtensions {\n    public static IApplicationBuilder UseCustomMiddleware(this IApplicationBuilder builder) {\n        return builder.UseMiddleware<CustomMiddleware>();\n    }\n}"
+      }
+    ]
+  },
+  {
+    "id": "dotnet-6",
+    "question": "What are best practices for dependency injection in .NET Core?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Dependency Injection (DI) is a fundamental pattern in .NET Core for managing dependencies in a loosely coupled manner."
+      },
+      {
+        "type": "text",
+        "content": "**Best Practices:**"
+      },
+      {
+        "type": "list",
+        "items": [
+          "Use Constructor Injection instead of Property Injection.",
+          "Use the built-in .NET Core DI container unless a third-party container is necessary.",
+          "Register services with the appropriate lifetimes (Transient, Scoped, Singleton).",
+          "Avoid direct instantiation of dependencies using `new` inside classes.",
+          "Use interfaces to abstract dependencies."
+        ]
+      },
+      {
+        "type": "text",
+        "content": "**Example of DI in .NET Core:**"
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "public interface IRepository {\n    void GetData();\n}\npublic class Repository : IRepository {\n    public void GetData() => Console.WriteLine(\"Fetching Data...\");\n}\npublic class Service {\n    private readonly IRepository _repository;\n    public Service(IRepository repository) {\n        _repository = repository;\n    }\n    public void Process() {\n        _repository.GetData();\n    }\n}\nvar services = new ServiceCollection();\nservices.AddTransient<IRepository, Repository>();\nvar provider = services.BuildServiceProvider();\nvar service = provider.GetService<Service>();\nservice?.Process();"
+      }
+    ]
+  },
+  {
+    "id": "dotnet-7",
+    "question": "How does async/await work internally in C#?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "The async/await mechanism in C# allows for asynchronous programming without blocking threads. It internally utilizes the `Task`-based asynchronous pattern (TAP) and the state machine concept."
+      },
+      {
+        "type": "text",
+        "content": "**Key concepts:**"
+      },
+      {
+        "type": "list",
+        "items": [
+          "`async` keyword marks a method as asynchronous.",
+          "`await` keyword suspends execution until the awaited task completes.",
+          "The compiler rewrites `async` methods into a state machine that executes callbacks on completion.",
+          "If `ConfigureAwait(false)` is used, the continuation does not return to the original context."
+        ]
+      },
+      {
+        "type": "text",
+        "content": "**Example of async/await usage:**"
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "using System;\nusing System.Threading.Tasks;\n\nclass Program {\n    static async Task Main() {\n        Console.WriteLine(\"Start fetching data...\");\n        string data = await GetDataAsync();\n        Console.WriteLine(data);\n    }\n\n    static async Task<string> GetDataAsync() {\n        await Task.Delay(3000);\n        return \"Data fetched successfully!\";\n    }\n}"
+      }
+    ]
+  },
+  {
+    "id": "dotnet-8",
+    "question": "Explain IQueryable vs. IEnumerable – when would you use each?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "**IEnumerable<T>:**"
+      },
+      {
+        "type": "list",
+        "items": [
+          "Executes queries in-memory.",
+          "Does not support query translation into SQL.",
+          "Best for working with in-memory collections."
+        ]
+      },
+      {
+        "type": "text",
+        "content": "**IQueryable<T>:**"
+      },
+      {
+        "type": "list",
+        "items": [
+          "Executes queries at the database level (deferred execution).",
+          "Supports query translation into SQL.",
+          "Best for performance when querying databases using Entity Framework."
+        ]
+      },
+      {
+        "type": "text",
+        "content": "**Example:**"
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "var data = dbContext.Users.AsEnumerable(); // Executed in-memory\nvar data = dbContext.Users.AsQueryable();  // Executed as SQL query in DB"
+      }
+    ]
+  },
+  {
+    "id": "dotnet-9",
+    "question": "How do you implement a background worker service in .NET Core?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "In .NET Core, background worker services are implemented using `IHostedService` or by extending `BackgroundService`."
+      },
+      {
+        "type": "text",
+        "content": "**Example of a Background Service:**"
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "public class MyBackgroundService : BackgroundService {\n    protected override async Task ExecuteAsync(CancellationToken stoppingToken) {\n        while (!stoppingToken.IsCancellationRequested) {\n            Console.WriteLine(\"Background task running...\");\n            await Task.Delay(5000, stoppingToken);\n        }\n    }\n}"
+      }
+    ]
+  },
+  {
+    "id": "dotnet-10",
+    "question": "How would you optimize EF Core queries to improve performance?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "To optimize EF Core queries, consider the following best practices:"
+      },
+      {
+        "type": "list",
+        "items": [
+          "Use `.AsNoTracking()` for read-only queries to avoid unnecessary tracking.",
+          "Use `.Select()` to fetch only necessary columns instead of full entities.",
+          "Apply pagination with `Skip()` and `Take()` to avoid fetching large data sets.",
+          "Use compiled queries for frequently used queries.",
+          "Avoid lazy loading when unnecessary and prefer eager loading (`Include()`).",
+          "Use raw SQL queries (`FromSqlRaw`) for complex queries."
+        ]
+      },
+      {
+        "type": "text",
+        "content": "**Example:**"
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "var users = dbContext.Users.AsNoTracking()\n                          .Where(u => u.Age > 30)\n                          .Select(u => new { u.Name, u.Email })\n                          .ToList();"
+      }
+    ]
+  },
+  {
+    "id": "dotnet-11",
+    "question": "What is SignalR, and when would you use it?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "SignalR is a real-time communication library in ASP.NET Core that enables bi-directional communication between servers and clients."
+      },
+      {
+        "type": "text",
+        "content": "**Use Cases:**"
+      },
+      {
+        "type": "list",
+        "items": [
+          "Chat applications",
+          "Live dashboards and notifications",
+          "Collaborative applications (e.g., Google Docs-like features)",
+          "Real-time stock market updates"
+        ]
+      },
+      {
+        "type": "text",
+        "content": "**Example of SignalR implementation:**"
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "public class ChatHub : Hub {\n    public async Task SendMessage(string user, string message) {\n        await Clients.All.SendAsync(\"ReceiveMessage\", user, message);\n    }\n}"
+      }
+    ]
+  },
+  {
+    "id": "dotnet-4",
+    "question": "What are the SOLID principles, and how have you applied them in C# projects?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "SOLID is a set of five design principles that improve maintainability and scalability in object-oriented design."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**S - Single Responsibility Principle (SRP):** A class should have only one reason to change.",
+          "**O - Open/Closed Principle (OCP):** Software entities should be open for extension but closed for modification.",
+          "**L - Liskov Substitution Principle (LSP):** Derived classes must be substitutable for their base classes.",
+          "**I - Interface Segregation Principle (ISP):** Clients should not be forced to depend on interfaces they do not use.",
+          "**D - Dependency Inversion Principle (DIP):** High-level modules should not depend on low-level modules. Both should depend on abstractions."
+        ]
+      },
+      {
+        "type": "text",
+        "content": "**Example: Applying SOLID in C#**"
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "public interface IEmailService {\n    void SendEmail(string to, string message);\n}\n\npublic class EmailService : IEmailService {\n    public void SendEmail(string to, string message) {\n        Console.WriteLine($\"Sending Email to {to}: {message}\");\n    }\n}\n\npublic class NotificationService {\n    private readonly IEmailService _emailService;\n    public NotificationService(IEmailService emailService) {\n        _emailService = emailService;\n    }\n    public void NotifyUser(string user, string message) {\n        _emailService.SendEmail(user, message);\n    }\n}\n"
+      }
+    ]
+  },
+  {
+    "id": "dotnet-5",
+    "question": "How do you implement event-driven architecture in C#?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Event-driven architecture (EDA) is a design pattern in which system components communicate via events rather than direct method calls."
+      },
+      {
+        "type": "text",
+        "content": "**Ways to implement Event-Driven Architecture:**"
+      },
+      {
+        "type": "list",
+        "items": [
+          "Using C# Events & Delegates",
+          "Message Queues (RabbitMQ, Kafka, Azure Service Bus)",
+          "Event Bus (MediatR pattern in .NET)"
+        ]
+      },
+      {
+        "type": "text",
+        "content": "**Example: Using C# Events & Delegates for Event-Driven Architecture**"
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "public class EventPublisher {\n    public delegate void Notify(string message);\n    public event Notify OnNotification;\n    public void SendNotification(string message) {\n        OnNotification?.Invoke(message);\n    }\n}\n\nclass Program {\n    static void Main() {\n        EventPublisher publisher = new EventPublisher();\n        publisher.OnNotification += msg => Console.WriteLine($\"Received: {msg}\");\n        publisher.SendNotification(\"Event-Driven Architecture in Action!\");\n    }\n}"
+      }
+    ]
+  },
+  {
+    "id": "dotnet-6",
+    "question": "What are MemoryCache and DistributedCache, and when would you use them?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "**MemoryCache (In-Memory Cache):**\n- Stores cache in the application's memory.\n- Works well for small to medium-scale applications.\n- Data is lost when the application restarts.\n- Suitable for single-instance applications."
+      },
+      {
+        "type": "text",
+        "content": "**DistributedCache (External Cache like Redis, SQL Server Cache):**\n- Stores cache externally (Redis, SQL Server, etc.).\n- Can be shared across multiple instances.\n- Suitable for cloud-based and microservices applications."
+      },
+      {
+        "type": "text",
+        "content": "**Example: Using MemoryCache in .NET Core**"
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "using Microsoft.Extensions.Caching.Memory;\nusing System;\n\nclass Program {\n    static void Main() {\n        var cache = new MemoryCache(new MemoryCacheOptions());\n        cache.Set(\"key\", \"Cached Data\", TimeSpan.FromMinutes(10));\n        Console.WriteLine(cache.Get(\"key\")); // Output: Cached Data\n    }\n}"
+      }
+    ]
+  },
+  {
+    "id": "dotnet-7",
+    "question": "What are Records in C#? How do they differ from Classes?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Records are reference types introduced in C# 9 that provide **immutable data** structures with built-in value equality."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Records vs. Classes:**",
+          "- **Records** use value-based equality (compare content).",
+          "- **Classes** use reference-based equality (compare memory references).",
+          "- Records are immutable by default."
+        ]
+      },
+      {
+        "type": "text",
+        "content": "**Example: Using Records vs. Classes**"
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "public record PersonRecord(string Name, int Age);\npublic class PersonClass {\n    public string Name { get; set; }\n    public int Age { get; set; }\n}\n\nclass Program {\n    static void Main() {\n        var person1 = new PersonRecord(\"John\", 30);\n        var person2 = new PersonRecord(\"John\", 30);\n        Console.WriteLine(person1 == person2); // Output: True (Value-based equality)\n\n        var class1 = new PersonClass { Name = \"John\", Age = 30 };\n        var class2 = new PersonClass { Name = \"John\", Age = 30 };\n        Console.WriteLine(class1 == class2); // Output: False (Reference-based equality)\n    }\n}"
+      }
+    ]
+  },
+  {
+    "id": "dotnet-1",
+    "question": "How do you implement a background worker service in .NET Core?",
+    "answer": [
+      {
+        "type": "text",
+        "content": ".NET Core provides the `BackgroundService` class to implement background worker services. You can use it for tasks such as message queue processing, scheduled jobs, or long-running background operations."
+      },
+      {
+        "type": "text",
+        "content": "Here’s how to implement a background worker service:"
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "public class MyBackgroundService : BackgroundService\n{\n    private readonly ILogger<MyBackgroundService> _logger;\n\n    public MyBackgroundService(ILogger<MyBackgroundService> logger)\n    {\n        _logger = logger;\n    }\n\n    protected override async Task ExecuteAsync(CancellationToken stoppingToken)\n    {\n        while (!stoppingToken.IsCancellationRequested)\n        {\n            _logger.LogInformation(\"Background task running at: {time}\", DateTimeOffset.Now);\n            await Task.Delay(5000, stoppingToken); // Runs every 5 seconds\n        }\n    }\n}\n\n// Register the background service in Program.cs\nbuilder.Services.AddHostedService<MyBackgroundService>();"
+      }
+    ]
+  },
+  {
+    "id": "dotnet-2",
+    "question": "Explain how the Actor Model works in Orleans or Akka.NET.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "The Actor Model is a concurrency framework where actors are isolated entities that communicate via messages. They do not share state directly, reducing race conditions and complexity in distributed systems."
+      },
+      {
+        "type": "text",
+        "content": "### Orleans:\n- Implements the Virtual Actor Model.\n- Manages actor lifecycles automatically (no need to explicitly create/destroy them).\n- Useful for scalable, stateful applications (e.g., IoT, real-time apps)."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "public interface IMyActor : IGrainWithStringKey\n{\n    Task<string> SayHello(string name);\n}\n\npublic class MyActor : Grain, IMyActor\n{\n    public Task<string> SayHello(string name) => Task.FromResult($\"Hello, {name}!\");\n}"
+      },
+      {
+        "type": "text",
+        "content": "### Akka.NET:\n- More traditional actor model with explicit actor creation and supervision.\n- Uses a hierarchical approach where actors can spawn child actors."
+      }
+    ]
+  },
+  {
+    "id": "dotnet-3",
+    "question": "How do you implement CQRS in a .NET Core application?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "CQRS (Command Query Responsibility Segregation) separates read and write operations to optimize performance and scalability."
+      },
+      {
+        "type": "text",
+        "content": "### Implementation Steps:"
+      },
+      {
+        "type": "list",
+        "items": [
+          "Commands modify data (write operations).",
+          "Queries fetch data (read operations).",
+          "Use MediatR to handle commands and queries.",
+          "Separate databases for reads/writes in some cases."
+        ]
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "// Command Handler using MediatR\npublic record CreateUserCommand(string Name) : IRequest<int>;\n\npublic class CreateUserHandler : IRequestHandler<CreateUserCommand, int>\n{\n    private readonly AppDbContext _context;\n    \n    public CreateUserHandler(AppDbContext context)\n    {\n        _context = context;\n    }\n    \n    public async Task<int> Handle(CreateUserCommand request, CancellationToken cancellationToken)\n    {\n        var user = new User { Name = request.Name };\n        _context.Users.Add(user);\n        await _context.SaveChangesAsync();\n        return user.Id;\n    }\n}"
+      }
+    ]
+  },
+  {
+    "id": "dotnet-4",
+    "question": "What are gRPC services in .NET, and how do they compare to REST APIs?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "gRPC (Google Remote Procedure Call) is a high-performance RPC framework used for inter-service communication in microservices."
+      },
+      {
+        "type": "list",
+        "items": [
+          "Uses HTTP/2 for improved performance.",
+          "Binary serialization with Protocol Buffers (Protobuf).",
+          "Supports bi-directional streaming.",
+          "Better for internal microservices compared to REST."
+        ]
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "syntax = \"proto3\";\npackage mygrpc;\n\nservice MyService {\n  rpc SayHello (HelloRequest) returns (HelloResponse);\n}\n\nmessage HelloRequest {\n  string name = 1;\n}\n\nmessage HelloResponse {\n  string message = 1;\n}"
+      }
+    ]
+  },
+  {
+    "id": "dotnet-5",
+    "question": "How would you optimize EF Core queries to improve performance?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "Use `.AsNoTracking()` for read-only queries.",
+          "Use projections (`Select`) instead of fetching full entities.",
+          "Optimize indexes in the database.",
+          "Use compiled queries for frequently executed queries.",
+          "Implement caching for repeated queries."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "dotnet-6",
+    "question": "How do you implement distributed tracing in a .NET Core microservice?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Distributed tracing helps track requests across microservices using tools like OpenTelemetry and Application Insights."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "builder.Services.AddOpenTelemetryTracing(builder =>\n{\n    builder.AddAspNetCoreInstrumentation()\n           .AddHttpClientInstrumentation()\n           .AddConsoleExporter();\n});"
+      }
+    ]
+  },
+  {
+    "id": "dotnet-7",
+    "question": "What is SignalR, and when would you use it?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "SignalR is a real-time communication library in .NET Core used for live chat, notifications, and live dashboards."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "public class ChatHub : Hub\n{\n    public async Task SendMessage(string user, string message)\n    {\n        await Clients.All.SendAsync(\"ReceiveMessage\", user, message);\n    }\n}"
+      }
+    ]
+  },
+  {
+    "id": "dotnet-8",
+    "question": "How does Kestrel work, and why is it used as the default web server in .NET?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "Kestrel is a cross-platform, high-performance web server built on libuv.",
+          "It is the default server in ASP.NET Core applications.",
+          "Supports asynchronous I/O operations for scalability.",
+          "Used behind Nginx/IIS in production for additional features like security."
+        ]
+      }
+    ]
+  }
+]

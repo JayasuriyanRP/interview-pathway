@@ -1,0 +1,100 @@
+[
+  {
+    "id": "fe-1",
+    "question": "Explain how the box model works in CSS.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "The CSS box model describes the rectangular boxes that are generated for elements in the document tree and laid out according to the visual formatting model. Each box has a content area (e.g., text, an image, etc.) and optional surrounding padding, border, and margin areas."
+      },
+      {
+        "type": "text",
+        "content": "Components from inside to outside:"
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Content** - The actual content of the box where text and images appear",
+          "**Padding** - Clears an area around the content (inside the box)",
+          "**Border** - A border that goes around the padding and content",
+          "**Margin** - Clears an area outside the border"
+        ]
+      },
+      {
+        "type": "text",
+        "content": "The total width of an element is calculated as: width + left padding + right padding + left border + right border + left margin + right margin"
+      },
+      {
+        "type": "text",
+        "content": "In modern CSS, you can change how the box model works by setting the `box-sizing` property:"
+      },
+      {
+        "type": "list",
+        "items": [
+          "`box-sizing: content-box` (default): Width and height only apply to the content area",
+          "`box-sizing: border-box`: Width and height include content, padding, and border (but not margin)"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "fe-2",
+    "question": "What is the difference between 'let', 'const', and 'var' in JavaScript?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "These three keywords are used for variable declarations in JavaScript but have different scoping rules and behaviors:"
+      },
+      {
+        "type": "text",
+        "content": "**var**:"
+      },
+      {
+        "type": "list",
+        "items": [
+          "Function-scoped or globally-scoped, not block-scoped",
+          "Can be redeclared and updated",
+          "Hoisted to the top of its scope and initialized with `undefined`",
+          "Can cause unexpected behavior in loops and conditional blocks"
+        ]
+      },
+      {
+        "type": "text",
+        "content": "**let**:"
+      },
+      {
+        "type": "list",
+        "items": [
+          "Block-scoped (available only within the block it's defined in)",
+          "Can be updated but not redeclared in the same scope",
+          "Hoisted but not initialized (in the \"temporal dead zone\" until declaration)",
+          "Introduced in ES6 (ES2015)"
+        ]
+      },
+      {
+        "type": "text",
+        "content": "**const**:"
+      },
+      {
+        "type": "list",
+        "items": [
+          "Block-scoped like `let`",
+          "Cannot be updated or redeclared",
+          "Must be initialized at declaration",
+          "For objects and arrays, the variable cannot be reassigned, but the properties/elements can be changed",
+          "Hoisted but not initialized (in the \"temporal dead zone\" until declaration)",
+          "Introduced in ES6 (ES2015)"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "fe-3",
+    "question": "Implement a debounce function in JavaScript.",
+    "answer": {
+      "type": "code",
+      "language": "javascript",
+      "content": "/**\n * Creates a debounced function that delays invoking the provided function\n * until after 'wait' milliseconds have elapsed since the last time it was invoked.\n * \n * @param {Function} func - The function to debounce\n * @param {number} wait - The number of milliseconds to delay\n * @return {Function} - The debounced function\n */\nfunction debounce(func, wait) {\n  let timeout;\n  \n  return function executedFunction(...args) {\n    const later = () => {\n      clearTimeout(timeout);\n      func(...args);\n    };\n    \n    clearTimeout(timeout);\n    timeout = setTimeout(later, wait);\n  };\n}\n\n// Example usage:\nconst handleSearch = debounce(function(event) {\n  console.log('Searching for:', event.target.value);\n  // API call or other expensive operation\n}, 500);\n\n// Attach to an input element\n// document.querySelector('input').addEventListener('input', handleSearch);"
+    }
+  }
+]

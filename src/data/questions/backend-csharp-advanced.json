@@ -1,0 +1,1208 @@
+[
+  {
+    "id": "cs-1",
+    "question": "What is C# and how does it differ from other programming languages?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "C# (pronounced C-Sharp) is a modern, object-oriented programming language developed by Microsoft as part of the .NET framework. It is designed to be simple, safe, and scalable for application development."
+      },
+      {
+        "type": "list",
+        "items": [
+          "C# is statically typed, whereas languages like JavaScript are dynamically typed.",
+          "It is compiled to Intermediate Language (IL) and runs on the .NET runtime, unlike C++ which compiles to machine code.",
+          "C# provides automatic garbage collection, whereas C++ requires manual memory management.",
+          "It supports both procedural and object-oriented programming paradigms, similar to Java."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "be-4",
+    "question": "What are the basic syntax rules and features of C#?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "C# is an object-oriented, statically-typed language developed by Microsoft for the .NET platform. It provides strong typing, garbage collection, and high-level abstraction."
+      },
+      {
+        "type": "text",
+        "content": "Here are the fundamental syntax rules and features of C#:"
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Namespace and Classes**: Code is organized using `namespace`, and functionality is encapsulated in `class`.",
+          "**Main Method**: Every C# program has a `Main` method as the entry point.",
+          "**Data Types**: Includes built-in types like `int`, `float`, `string`, `bool`, `object`, and user-defined types.",
+          "**Variables and Constants**: Declared using `var`, `int`, `string`, or `const`.",
+          "**Control Flow**: Uses `if-else`, `switch`, `for`, `while`, `foreach`, `try-catch` for exception handling.",
+          "**Methods**: Functions are defined using `returnType MethodName(parameters) {}`.",
+          "**Object-Oriented Programming (OOP)**: Supports classes, inheritance, polymorphism, and interfaces.",
+          "**Asynchronous Programming**: Uses `async` and `await` keywords for non-blocking execution."
+        ]
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "using System;\n\nnamespace HelloWorld\n{\n    class Program\n    {\n        static void Main(string[] args)\n        {\n            Console.WriteLine(\"Hello, C#!\");\n\n            // Variable declaration\n            int x = 10;\n            var y = 20; // Implicit typing\n\n            // Conditional statement\n            if (y > x)\n            {\n                Console.WriteLine(\"y is greater than x\");\n            }\n\n            // Loop\n            for (int i = 0; i < 5; i++)\n            {\n                Console.WriteLine(i);\n            }\n\n            // Function call\n            int sum = Add(5, 3);\n            Console.WriteLine(\"Sum: \" + sum);\n        }\n\n        // Function definition\n        static int Add(int a, int b)\n        {\n            return a + b;\n        }\n    }\n}"
+      }
+    ]
+  },
+  {
+    "id": "cs-2",
+    "question": "What are the key features of C#?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**Object-Oriented**: Supports classes, inheritance, polymorphism, and encapsulation.",
+          "**Automatic Memory Management**: Uses garbage collection to manage memory efficiently.",
+          "**Type Safety**: Prevents operations that lead to type errors.",
+          "**LINQ Support**: Provides a powerful query syntax for collections and databases.",
+          "**Asynchronous Programming**: Supports async/await for handling asynchronous operations.",
+          "**Cross-Platform**: With .NET Core, C# applications can run on Windows, macOS, and Linux."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cs-3",
+    "question": "Explain the difference between value types and reference types in C#.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "C# differentiates between value types and reference types based on how data is stored in memory."
+      },
+      {
+        "type": "text",
+        "content": "**Value Types:**"
+      },
+      {
+        "type": "list",
+        "items": [
+          "Stored in stack memory.",
+          "Contain actual values.",
+          "Examples: int, float, char, struct, enum."
+        ]
+      },
+      {
+        "type": "text",
+        "content": "**Reference Types:**"
+      },
+      {
+        "type": "list",
+        "items": [
+          "Stored in heap memory.",
+          "Contain references (addresses) to actual data.",
+          "Examples: class, interface, delegate, array, string."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cs-4",
+    "question": "What is the difference between var, dynamic, and object in C#?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**var**: Statically typed, inferred at compile-time. Cannot change type after initialization.",
+          "**dynamic**: Dynamically typed, resolved at runtime. Allows flexibility but reduces compile-time checks.",
+          "**object**: Base type for all types in C#. Requires explicit casting for specific type operations."
+        ]
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "var number = 10; // int type inferred\nobject obj = \"Hello\"; // Can store any type\ndynamic dyn = 100; // Type determined at runtime"
+      }
+    ]
+  },
+  {
+    "id": "cs-5",
+    "question": "What are nullable types in C#? How do you declare them?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Nullable types allow value types (like int, float) to hold a null value, useful for database operations."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "int? age = null; // Nullable int\ndouble? price = 9.99; // Nullable double"
+      }
+    ]
+  },
+  {
+    "id": "cs-6",
+    "question": "Explain boxing and unboxing with examples.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Boxing is converting a value type to an object type. Unboxing is converting an object type back to a value type."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "// Boxing\nint num = 10;\nobject obj = num; // num is boxed\n\n// Unboxing\nint unboxedNum = (int)obj; // Explicit cast required"
+      }
+    ]
+  },
+  {
+    "id": "cs-7",
+    "question": "What is the difference between const, readonly, and static in C#?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**const**: Value is assigned at compile-time and cannot be changed.",
+          "**readonly**: Value is assigned at runtime, can be changed in the constructor.",
+          "**static**: Shared across all instances of a class."
+        ]
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "const double PI = 3.14; // Compile-time constant\nreadonly int id; // Runtime constant\nstatic int counter; // Shared across instances"
+      }
+    ]
+  },
+  {
+    "id": "cs-8",
+    "question": "What are access modifiers in C#? Explain public, private, protected, and internal.",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**public**: Accessible from anywhere.",
+          "**private**: Accessible only within the same class.",
+          "**protected**: Accessible within the same class and derived classes.",
+          "**internal**: Accessible within the same assembly."
+        ]
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "class Example {\n    public int publicVar;\n    private int privateVar;\n    protected int protectedVar;\n    internal int internalVar;\n}"
+      }
+    ]
+  },
+  {
+    "id": "cs-9",
+    "question": "Explain the concept of namespace in C#.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "A namespace is a way to organize code and prevent naming conflicts in C#."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "namespace MyApp {\n    class Program {\n        static void Main() {\n            Console.WriteLine(\"Hello World\");\n        }\n    }\n}"
+      }
+    ]
+  },
+  {
+    "id": "cs-10",
+    "question": "What is the difference between == and .Equals() in C#?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**==**: Compares object references for reference types and values for value types.",
+          "**.Equals()**: Can be overridden to compare contents instead of references."
+        ]
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "string a = \"hello\";\nstring b = \"hello\";\nConsole.WriteLine(a == b); // true (compares values)\nConsole.WriteLine(a.Equals(b)); // true (compares values)\n\nobject obj1 = new object();\nobject obj2 = new object();\nConsole.WriteLine(obj1 == obj2); // false (different references)\nConsole.WriteLine(obj1.Equals(obj2)); // false (default implementation)"
+      }
+    ]
+  },
+  {
+    "id": "oop-1",
+    "question": "What is object-oriented programming (OOP)?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Object-Oriented Programming (OOP) is a programming paradigm that organizes code into objects, which are instances of classes. It provides a structured way of designing programs using principles such as encapsulation, inheritance, polymorphism, and abstraction."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Encapsulation**: Hides internal implementation details and only exposes necessary functionalities.",
+          "**Inheritance**: Allows a class to inherit properties and methods from another class.",
+          "**Polymorphism**: Enables a single interface to represent different data types.",
+          "**Abstraction**: Hides complex implementation details and exposes only the necessary parts of an object."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "oop-2",
+    "question": "Explain encapsulation, inheritance, polymorphism, and abstraction in C#.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "**Encapsulation**: The process of wrapping data and methods within a class and restricting direct access to some components."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "class Person {\n  private string name;\n  public string GetName() => name;\n  public void SetName(string newName) => name = newName;\n}"
+      },
+      {
+        "type": "text",
+        "content": "**Inheritance**: A mechanism where one class derives from another, reusing and extending its functionalities."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "class Animal { public void Eat() { Console.WriteLine(\"Eating\"); } }\nclass Dog : Animal { public void Bark() { Console.WriteLine(\"Barking\"); } }"
+      },
+      {
+        "type": "text",
+        "content": "**Polymorphism**: The ability of different classes to be treated as instances of the same class through a common interface."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "class Shape { public virtual void Draw() { Console.WriteLine(\"Drawing Shape\"); } }\nclass Circle : Shape { public override void Draw() { Console.WriteLine(\"Drawing Circle\"); } }"
+      },
+      {
+        "type": "text",
+        "content": "**Abstraction**: Hiding implementation details and exposing only essential functionalities."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "abstract class Vehicle {\n  public abstract void Move();\n}\nclass Car : Vehicle {\n  public override void Move() { Console.WriteLine(\"Car is moving\"); }\n}"
+      }
+    ]
+  },
+  {
+    "id": "oop-3",
+    "question": "What is the difference between an abstract class and an interface?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "An **abstract class** is a class that cannot be instantiated and may contain both abstract and non-abstract methods. An **interface** is a contract that defines only method signatures without implementation."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Abstract Class**: Can have method implementations, fields, and constructors.",
+          "**Interface**: Cannot have field members; only method signatures (before C# 8.0).",
+          "**Abstract Class**: Used when classes share behavior.",
+          "**Interface**: Used for multiple inheritance or enforcing behavior across classes."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "oop-4",
+    "question": "Can a class implement multiple interfaces in C#? Provide an example.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Yes, C# allows a class to implement multiple interfaces, enabling multiple inheritance of behavior."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "interface IA { void MethodA(); }\ninterface IB { void MethodB(); }\nclass MyClass : IA, IB {\n  public void MethodA() { Console.WriteLine(\"MethodA Implementation\"); }\n  public void MethodB() { Console.WriteLine(\"MethodB Implementation\"); }\n}"
+      }
+    ]
+  },
+  {
+    "id": "oop-5",
+    "question": "What is method overloading and method overriding? Give examples.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "**Method Overloading**: Defining multiple methods with the same name but different parameters."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "class MathOps {\n  public int Add(int a, int b) => a + b;\n  public double Add(double a, double b) => a + b;\n}"
+      },
+      {
+        "type": "text",
+        "content": "**Method Overriding**: A derived class provides a new implementation for a method from the base class."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "class Base {\n  public virtual void Show() { Console.WriteLine(\"Base Show\"); }\n}\nclass Derived : Base {\n  public override void Show() { Console.WriteLine(\"Derived Show\"); }\n}"
+      }
+    ]
+  },
+  {
+    "id": "oop-6",
+    "question": "What is a sealed class in C#? When would you use it?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "A **sealed class** prevents inheritance, ensuring no class can derive from it. It is used for security and performance reasons."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "sealed class Utility {\n  public void Display() { Console.WriteLine(\"Utility Class\"); }\n}"
+      }
+    ]
+  },
+  {
+    "id": "oop-7",
+    "question": "How does C# support multiple inheritance?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "C# does not support multiple inheritance with classes but allows multiple interface implementation."
+      }
+    ]
+  },
+  {
+    "id": "oop-8",
+    "question": "What is a partial class?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "A **partial class** allows a class to be split across multiple files, making large class definitions easier to manage."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "// File1.cs\npartial class MyClass {\n  public void Method1() { Console.WriteLine(\"Method1\"); }\n}\n// File2.cs\npartial class MyClass {\n  public void Method2() { Console.WriteLine(\"Method2\"); }\n}"
+      }
+    ]
+  },
+  {
+    "id": "oop-9",
+    "question": "What is a static class in C#? When should it be used?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "A **static class** cannot be instantiated and contains only static members. It is used for utility functions that do not require instance state."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "static class MathUtils {\n  public static int Square(int num) => num * num;\n}"
+      }
+    ]
+  },
+  {
+    "id": "oop-10",
+    "question": "What is the difference between a constructor and a destructor in C#?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**Constructor**: Initializes an object when it is created.",
+          "**Destructor**: Cleans up resources when the object is destroyed.",
+          "**Constructors**: Can be overloaded.",
+          "**Destructors**: Cannot be overloaded."
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "cs-21",
+    "question": "What are the different types of collections available in C#?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "C# provides various types of collections in the System.Collections and System.Collections.Generic namespaces."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Array** - Fixed-size, type-safe collection of elements.",
+          "**List<T>** - Dynamic array that grows as needed.",
+          "**Dictionary<TKey, TValue>** - Key-value pair collection for fast lookups.",
+          "**HashSet<T>** - Unordered collection of unique elements.",
+          "**Queue<T>** - FIFO (First In, First Out) collection.",
+          "**Stack<T>** - LIFO (Last In, First Out) collection.",
+          "**LinkedList<T>** - Doubly linked list implementation.",
+          "**SortedList<TKey, TValue>** - Sorted collection of key-value pairs.",
+          "**SortedDictionary<TKey, TValue>** - A dictionary where keys are sorted.",
+          "**ObservableCollection<T>** - A collection that notifies observers of changes."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cs-22",
+    "question": "What is the difference between an Array and a List in C#?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**Array**: Fixed size, type-safe, and provides fast access to elements using indices.",
+          "**List<T>**: Dynamic size, provides additional utility methods like Add, Remove, and supports LINQ operations.",
+          "**Performance**: Arrays are faster due to fixed memory allocation, while Lists offer flexibility at the cost of minor performance overhead."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cs-23",
+    "question": "Explain Stack and Queue with examples.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Stack and Queue are both linear data structures with different order of operations."
+      },
+      {
+        "type": "text",
+        "content": "**Stack (LIFO - Last In, First Out)**"
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "Stack<int> stack = new Stack<int>();\nstack.Push(1);\nstack.Push(2);\nstack.Push(3);\nConsole.WriteLine(stack.Pop()); // Outputs: 3"
+      },
+      {
+        "type": "text",
+        "content": "**Queue (FIFO - First In, First Out)**"
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "Queue<int> queue = new Queue<int>();\nqueue.Enqueue(1);\nqueue.Enqueue(2);\nqueue.Enqueue(3);\nConsole.WriteLine(queue.Dequeue()); // Outputs: 1"
+      }
+    ]
+  },
+  {
+    "id": "cs-24",
+    "question": "What is a Dictionary in C#? How does it differ from a List?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**Dictionary<TKey, TValue>**: Stores key-value pairs and provides fast lookups by key.",
+          "**List<T>**: Stores elements in an ordered manner, accessible by index.",
+          "**Performance**: Dictionary lookup is faster (O(1)) compared to searching in a List (O(n) in worst case).",
+          "**Use Case**: Use Dictionary for fast lookups and List for ordered collections where index-based access is required."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cs-25",
+    "question": "What is the difference between IEnumerable<T> and IQueryable<T>?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**IEnumerable<T>**: Used for in-memory collection iteration, executes queries immediately.",
+          "**IQueryable<T>**: Used for querying data from external sources (e.g., databases), supports deferred execution and optimization."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cs-26",
+    "question": "What are hash tables and how are they implemented in C#?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "A hash table is a data structure that stores key-value pairs using a hash function for fast lookups."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "Hashtable hashtable = new Hashtable();\nhashtable.Add(\"key1\", \"value1\");\nhashtable.Add(\"key2\", \"value2\");\nConsole.WriteLine(hashtable[\"key1\"]); // Outputs: value1"
+      }
+    ]
+  },
+  {
+    "id": "cs-27",
+    "question": "What is the difference between List<T> and ArrayList?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**List<T>**: Type-safe, generic collection introduced in .NET 2.0.",
+          "**ArrayList**: Non-generic, stores objects of any type (boxing/unboxing overhead).",
+          "**Performance**: List<T> is faster due to type safety and no need for type conversions."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cs-28",
+    "question": "Explain LINQ (Language Integrated Query) and its benefits.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "LINQ (Language Integrated Query) allows querying collections using C# syntax."
+      },
+      {
+        "type": "list",
+        "items": [
+          "Improves code readability.",
+          "Reduces the need for loops and conditional statements.",
+          "Supports multiple data sources (collections, XML, databases)."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cs-29",
+    "question": "What is the difference between First() and FirstOrDefault() in LINQ?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**First()**: Returns the first element, throws an exception if no elements exist.",
+          "**FirstOrDefault()**: Returns the first element or default value (null for reference types, 0 for int, etc.) if none exist."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cs-30",
+    "question": "What is the difference between Select and SelectMany in LINQ?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**Select**: Projects each element into a new form (1-to-1 mapping).",
+          "**SelectMany**: Flattens nested collections into a single sequence (1-to-many mapping)."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cs-17",
+    "question": "How does C# support multiple inheritance?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "C# does not support multiple inheritance directly. Instead, it uses interfaces to achieve similar functionality."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "interface IA { void MethodA(); }\ninterface IB { void MethodB(); }\nclass C : IA, IB { public void MethodA() {} public void MethodB() {} }"
+      }
+    ]
+  },
+  {
+    "id": "cs-18",
+    "question": "What is a partial class?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "A partial class allows splitting a class definition across multiple files for better organization."
+      }
+    ]
+  },
+  {
+    "id": "cs-19",
+    "question": "What is a static class in C#? When should it be used?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "A static class contains only static members and cannot be instantiated. It is used for utility methods."
+      }
+    ]
+  },
+  {
+    "id": "cs-20",
+    "question": "What is the difference between a constructor and a destructor in C#?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**Constructor**: Initializes an object when it is created.",
+          "**Destructor**: Cleans up resources before an object is garbage collected."
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "cs-31",
+    "question": "What is multithreading in C#? How does it improve performance?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Multithreading in C# is a feature that allows multiple threads to run concurrently, enabling parallel execution of tasks. It improves performance by utilizing multiple cores of a CPU efficiently and ensuring responsiveness in applications."
+      },
+      {
+        "type": "text",
+        "content": "Benefits of multithreading:"
+      },
+      {
+        "type": "list",
+        "items": [
+          "Improves application responsiveness (e.g., UI remains responsive while executing background tasks).",
+          "Enhances CPU utilization by running multiple tasks in parallel.",
+          "Reduces execution time by dividing work among threads."
+        ]
+      },
+      {
+        "type": "text",
+        "content": "Example of creating and starting a thread in C#:"
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "using System;\nusing System.Threading;\n\nclass Program {\n    static void PrintNumbers() {\n        for (int i = 1; i <= 5; i++) {\n            Console.WriteLine(i);\n            Thread.Sleep(500); // Simulating work\n        }\n    }\n\n    static void Main() {\n        Thread thread = new Thread(PrintNumbers);\n        thread.Start();\n    }\n}"
+      }
+    ]
+  },
+  {
+    "id": "cs-32",
+    "question": "Explain Thread vs Task in C#.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Both `Thread` and `Task` are used for parallel execution in C#, but they have different use cases."
+      },
+      {
+        "type": "text",
+        "content": "Key differences:"
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Thread:** Lower-level construct that represents a dedicated system thread.",
+          "**Task:** Higher-level abstraction from the Task Parallel Library (TPL) that manages threads internally."
+        ]
+      },
+      {
+        "type": "text",
+        "content": "Example using Thread:"
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "Thread thread = new Thread(() => Console.WriteLine(\"Running in thread\"));\nthread.Start();"
+      },
+      {
+        "type": "text",
+        "content": "Example using Task:"
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "Task.Run(() => Console.WriteLine(\"Running in task\"));"
+      }
+    ]
+  },
+  {
+    "id": "cs-33",
+    "question": "What is the difference between async and await in C#?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "`async` and `await` are used for asynchronous programming in C#."
+      },
+      {
+        "type": "text",
+        "content": "Key differences:"
+      },
+      {
+        "type": "list",
+        "items": [
+          "**async:** Used to define an asynchronous method. It allows the method to return a `Task`.",
+          "**await:** Suspends execution of the async method until the awaited task completes, preventing blocking."
+        ]
+      },
+      {
+        "type": "text",
+        "content": "Example:"
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "async Task<int> GetDataAsync() {\n    await Task.Delay(1000); // Simulate async operation\n    return 42;\n}\n\nasync Task Main() {\n    int result = await GetDataAsync();\n    Console.WriteLine(result);\n}"
+      }
+    ]
+  },
+  {
+    "id": "cs-34",
+    "question": "What is deadlock, and how do you prevent it?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "A deadlock occurs when two or more threads are waiting indefinitely for resources locked by each other, causing a circular wait."
+      },
+      {
+        "type": "text",
+        "content": "Ways to prevent deadlocks:"
+      },
+      {
+        "type": "list",
+        "items": [
+          "Avoid nested locks.",
+          "Use lock timeouts.",
+          "Follow a consistent locking order.",
+          "Use `Monitor.TryEnter` or `Mutex` with timeout."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cs-35",
+    "question": "What are Task.Run() and Task.Delay() used for in C#?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "`Task.Run()`: Executes a method asynchronously on a thread pool.",
+          "`Task.Delay()`: Introduces an asynchronous delay without blocking the thread."
+        ]
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "await Task.Run(() => Console.WriteLine(\"Running in Task\"));\nawait Task.Delay(1000); // Wait for 1 second"
+      }
+    ]
+  },
+  {
+    "id": "cs-36",
+    "question": "How does the lock keyword work in C#?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "The `lock` keyword ensures that only one thread can access a critical section at a time."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "private static object locker = new object();\n\nlock (locker) {\n    // Critical section\n}"
+      }
+    ]
+  },
+  {
+    "id": "cs-37",
+    "question": "What are concurrent collections in C#?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Concurrent collections are thread-safe collections provided by `System.Collections.Concurrent`."
+      },
+      {
+        "type": "list",
+        "items": [
+          "`ConcurrentDictionary<TKey, TValue>`",
+          "`ConcurrentQueue<T>`",
+          "`ConcurrentStack<T>`",
+          "`ConcurrentBag<T>`"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cs-38",
+    "question": "Explain CancellationToken and its usage in asynchronous programming.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "CancellationToken is used to cancel async operations in C#."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "CancellationTokenSource cts = new CancellationTokenSource();\nawait Task.Run(() => {\n    if (cts.Token.IsCancellationRequested) return;\n});"
+      }
+    ]
+  },
+  {
+    "id": "cs-39",
+    "question": "What is TPL (Task Parallel Library)?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "The Task Parallel Library (TPL) is a framework in C# for parallel execution of tasks, making multithreading easier."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "Task t = Task.Run(() => Console.WriteLine(\"Running task\"));"
+      }
+    ]
+  },
+  {
+    "id": "cs-40",
+    "question": "How does Parallel.ForEach work in C#?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Parallel.ForEach enables parallel execution over collections."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "Parallel.ForEach(Enumerable.Range(1, 10), (i) => {\n    Console.WriteLine(i);\n});"
+      }
+    ]
+  },
+  {
+    "id": "cs-41",
+    "question": "What is Garbage Collection (GC) in C#? How does it work?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Garbage Collection (GC) in C# is an automatic memory management feature provided by the .NET runtime. It helps in reclaiming memory occupied by objects that are no longer in use, preventing memory leaks."
+      },
+      {
+        "type": "text",
+        "content": "How it works:"
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Generational Garbage Collection**: Objects are divided into three generations (Gen 0, Gen 1, Gen 2) based on their lifespan.",
+          "**Mark-and-Sweep Algorithm**: The GC identifies objects that are no longer reachable and removes them.",
+          "**Compacting**: After collection, the memory is compacted to reduce fragmentation.",
+          "**Finalization**: If an object has a finalizer, GC runs it before reclaiming memory."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cs-42",
+    "question": "What are finalizers in C#?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "A finalizer is a special method in C# that is used to perform cleanup operations before an object is garbage collected."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "class MyClass\n{\n    ~MyClass()\n    {\n        // Cleanup code before object destruction\n        Console.WriteLine(\"Finalizer called\");\n    }\n}"
+      },
+      {
+        "type": "text",
+        "content": "Finalizers are non-deterministic and should be avoided unless necessary. Instead, IDisposable should be used for cleanup."
+      }
+    ]
+  },
+  {
+    "id": "cs-43",
+    "question": "What is the difference between Dispose() and Finalize()?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**Dispose()**: Used for deterministic cleanup, part of IDisposable interface, explicitly called by the developer.",
+          "**Finalize()**: Called by the Garbage Collector, used for non-managed resources cleanup, runs unpredictably."
+        ]
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "class MyClass : IDisposable\n{\n    public void Dispose()\n    {\n        // Cleanup resources\n        GC.SuppressFinalize(this); // Prevent finalizer call\n    }\n    ~MyClass()\n    {\n        // Finalizer\n    }\n}"
+      }
+    ]
+  },
+  {
+    "id": "cs-44",
+    "question": "How do you manage memory leaks in C#?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "Use **IDisposable** for resources like database connections, files, etc.",
+          "Use the **using** statement to automatically dispose objects.",
+          "Avoid static references that prevent objects from being collected.",
+          "Monitor memory usage using **dotMemory, PerfMon, or GC.GetTotalMemory()**.",
+          "Unsubscribe from events to prevent memory leaks due to event handler references."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cs-45",
+    "question": "What is the using statement in C#?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "The `using` statement in C# is used to ensure that objects implementing IDisposable are disposed of properly, avoiding memory leaks."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "using (StreamReader reader = new StreamReader(\"file.txt\"))\n{\n    string content = reader.ReadToEnd();\n}"
+      }
+    ]
+  },
+  {
+    "id": "cs-46",
+    "question": "What is Dependency Injection (DI) and how is it implemented in C#?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Dependency Injection (DI) is a design pattern that helps in managing dependencies between objects by injecting them rather than creating them within a class."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "public interface IService { void Serve(); }\npublic class MyService : IService { public void Serve() => Console.WriteLine(\"Service called\"); }\n\npublic class Client\n{\n    private readonly IService _service;\n    public Client(IService service) { _service = service; }\n    public void Start() { _service.Serve(); }\n}\n\n// Dependency Injection using .NET Core DI Container\nvar services = new ServiceCollection();\nservices.AddTransient<IService, MyService>();\nvar provider = services.BuildServiceProvider();\nvar client = provider.GetService<Client>();\nclient?.Start();"
+      }
+    ]
+  },
+  {
+    "id": "cs-47",
+    "question": "What is Reflection in C#?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Reflection in C# allows runtime inspection of assemblies, modules, and types. It enables dynamic object creation and method invocation."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "Type type = typeof(String);\nMethodInfo method = type.GetMethod(\"Substring\", new Type[] { typeof(int) });\nConsole.WriteLine(method.ReturnType);"
+      }
+    ]
+  },
+  {
+    "id": "cs-48",
+    "question": "Explain delegates and events in C#.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Delegates are type-safe function pointers that allow methods to be passed as parameters. Events are built on delegates and provide a mechanism for publishing and subscribing to notifications."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "public delegate void Notify();\npublic class Process\n{\n    public event Notify OnProcessCompleted;\n    public void Start() { OnProcessCompleted?.Invoke(); }\n}\n\n// Usage\nProcess process = new Process();\nprocess.OnProcessCompleted += () => Console.WriteLine(\"Process completed\");\nprocess.Start();"
+      }
+    ]
+  },
+  {
+    "id": "cs-49",
+    "question": "What is the difference between Func, Action, and Predicate in C#?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**Func<T>**: Represents a method that returns a value.",
+          "**Action<T>**: Represents a method that does not return a value.",
+          "**Predicate<T>**: Represents a method that returns a boolean value."
+        ]
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "Func<int, int> square = x => x * x; // Returns value\nAction<string> print = msg => Console.WriteLine(msg); // No return value\nPredicate<int> isEven = x => x % 2 == 0; // Returns boolean"
+      }
+    ]
+  },
+  {
+    "id": "cs-50",
+    "question": "What is Entity Framework (EF) and how does it work with C#?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Entity Framework (EF) is an ORM (Object-Relational Mapper) for .NET that simplifies database interactions by allowing developers to work with database entities as C# objects."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "public class Product\n{\n    public int Id { get; set; }\n    public string Name { get; set; }\n}\n\npublic class AppDbContext : DbContext\n{\n    public DbSet<Product> Products { get; set; }\n}\n\n// Usage\nusing (var context = new AppDbContext())\n{\n    context.Products.Add(new Product { Name = \"Laptop\" });\n    context.SaveChanges();\n}"
+      }
+    ]
+  },
+  {
+    "id": "cs-1",
+    "question": "Implement a generic repository pattern in C# using EF Core.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "The generic repository pattern in C# using Entity Framework Core provides a reusable and maintainable way to interact with the database."
+      },
+      {
+        "type": "text",
+        "content": "Key benefits of using the repository pattern:"
+      },
+      {
+        "type": "list",
+        "items": [
+          "Encapsulates data access logic, improving maintainability",
+          "Reduces code duplication",
+          "Enhances testability by providing an abstraction layer over EF Core"
+        ]
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "public interface IRepository<T> where T : class\n{\n    Task<IEnumerable<T>> GetAllAsync();\n    Task<T> GetByIdAsync(int id);\n    Task AddAsync(T entity);\n    Task UpdateAsync(T entity);\n    Task DeleteAsync(int id);\n}\n\npublic class Repository<T> : IRepository<T> where T : class\n{\n    private readonly DbContext _context;\n    private readonly DbSet<T> _dbSet;\n\n    public Repository(DbContext context)\n    {\n        _context = context;\n        _dbSet = context.Set<T>();\n    }\n\n    public async Task<IEnumerable<T>> GetAllAsync() => await _dbSet.ToListAsync();\n    public async Task<T> GetByIdAsync(int id) => await _dbSet.FindAsync(id);\n    public async Task AddAsync(T entity) { await _dbSet.AddAsync(entity); await _context.SaveChangesAsync(); }\n    public async Task UpdateAsync(T entity) { _dbSet.Update(entity); await _context.SaveChangesAsync(); }\n    public async Task DeleteAsync(int id) { var entity = await GetByIdAsync(id); if (entity != null) { _dbSet.Remove(entity); await _context.SaveChangesAsync(); } }\n}"
+      }
+    ]
+  },
+  {
+    "id": "cs-2",
+    "question": "Write an in-memory caching mechanism in C#.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "In-memory caching improves performance by reducing redundant database or API calls."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "public class MemoryCacheService\n{\n    private readonly IMemoryCache _cache;\n    public MemoryCacheService(IMemoryCache cache) { _cache = cache; }\n\n    public T GetOrCreate<T>(string key, Func<T> createItem, TimeSpan cacheDuration)\n    {\n        if (!_cache.TryGetValue(key, out T value))\n        {\n            value = createItem();\n            _cache.Set(key, value, cacheDuration);\n        }\n        return value;\n    }\n}"
+      }
+    ]
+  },
+  {
+    "id": "cs-3",
+    "question": "Implement a distributed lock system in C# using Redis.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Distributed locking ensures that multiple instances of an application do not execute critical sections simultaneously."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "public async Task<bool> AcquireLockAsync(string key, TimeSpan expiration)\n{\n    using var redis = ConnectionMultiplexer.Connect(\"localhost\");\n    var db = redis.GetDatabase();\n    return await db.StringSetAsync(key, \"locked\", expiration, When.NotExists);\n}\n\npublic async Task ReleaseLockAsync(string key)\n{\n    using var redis = ConnectionMultiplexer.Connect(\"localhost\");\n    var db = redis.GetDatabase();\n    await db.KeyDeleteAsync(key);\n}"
+      }
+    ]
+  },
+  {
+    "id": "cs-4",
+    "question": "Write a high-performance API in C# using ASP.NET Core.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Optimizing ASP.NET Core APIs for high performance includes techniques such as response caching, efficient database queries, and using asynchronous programming."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "[ApiController]\n[Route(\"api/[controller]\")]\npublic class PerformanceController : ControllerBase\n{\n    [HttpGet(\"data\")] \n    [ResponseCache(Duration = 60)]\n    public async Task<IActionResult> GetDataAsync()\n    {\n        var data = await GetDataFromDbAsync(); // Simulated async data fetch\n        return Ok(data);\n    }\n\n    private Task<string[]> GetDataFromDbAsync() => Task.FromResult(new[] { \"Item1\", \"Item2\" });\n}"
+      }
+    ]
+  },
+  {
+    "id": "cs-5",
+    "question": "Implement a message queue in C# using RabbitMQ or Azure Service Bus.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Message queues help in building scalable and decoupled applications. RabbitMQ and Azure Service Bus are popular message brokers."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "public async Task SendMessageAsync(string message)\n{\n    var factory = new ConnectionFactory() { HostName = \"localhost\" };\n    using var connection = factory.CreateConnection();\n    using var channel = connection.CreateModel();\n    channel.QueueDeclare(queue: \"task_queue\", durable: true, exclusive: false, autoDelete: false, arguments: null);\n    var body = Encoding.UTF8.GetBytes(message);\n    var properties = channel.CreateBasicProperties();\n    properties.Persistent = true;\n    channel.BasicPublish(exchange: \"\", routingKey: \"task_queue\", basicProperties: properties, body: body);\n}"
+      }
+    ]
+  },
+  {
+    "id": "cs-1",
+    "question": "Explain the syntax and usage of Func and Action in C#.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Func and Action are predefined delegates in C# used for encapsulating methods with different signatures."
+      },
+      {
+        "type": "text",
+        "content": "**Func<T, TResult>**:"
+      },
+      {
+        "type": "list",
+        "items": [
+          "Func is a generic delegate that represents a method that returns a value.",
+          "It can take up to 16 input parameters.",
+          "The last generic parameter is always the return type."
+        ]
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "Func<int, int, int> add = (a, b) => a + b;\nint result = add(5, 10); // Output: 15"
+      },
+      {
+        "type": "text",
+        "content": "**Action<T>**:"
+      },
+      {
+        "type": "list",
+        "items": [
+          "Action is a generic delegate that represents a method with parameters but no return value.",
+          "It can take up to 16 input parameters."
+        ]
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "Action<string> greet = name => Console.WriteLine($\"Hello, {name}!\");\ngreet(\"Alice\"); // Output: Hello, Alice!"
+      }
+    ]
+  },
+  {
+    "id": "cs-2",
+    "question": "Explain the syntax and usage of delegates and events in C#.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Delegates are type-safe pointers to methods, and events are a special kind of delegate used for notifications."
+      },
+      {
+        "type": "text",
+        "content": "**Delegate Syntax:**"
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "// Define a delegate\ndelegate void Notify(string message);\n\n// Use the delegate\nclass Program {\n    static void DisplayMessage(string msg) {\n        Console.WriteLine(msg);\n    }\n    static void Main() {\n        Notify notifier = DisplayMessage;\n        notifier(\"Hello, Delegates!\"); // Output: Hello, Delegates!\n    }\n}"
+      },
+      {
+        "type": "text",
+        "content": "**Event Syntax:**"
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "class Publisher {\n    public event Action<string> OnNotify;\n    \n    public void TriggerEvent() {\n        OnNotify?.Invoke(\"Event triggered!\");\n    }\n}\n\nclass Subscriber {\n    static void Main() {\n        Publisher pub = new Publisher();\n        pub.OnNotify += msg => Console.WriteLine(msg);\n        pub.TriggerEvent(); // Output: Event triggered!\n    }\n}"
+      }
+    ]
+  },
+  {
+    "id": "cs-3",
+    "question": "Explain the syntax and usage of generics in C#.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Generics allow defining classes, interfaces, and methods with a placeholder for data types, providing type safety and code reusability."
+      },
+      {
+        "type": "text",
+        "content": "**Generic Class Example:**"
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "class GenericBox<T> {\n    private T value;\n    public void SetValue(T val) {\n        value = val;\n    }\n    public T GetValue() {\n        return value;\n    }\n}\n\nclass Program {\n    static void Main() {\n        GenericBox<int> intBox = new GenericBox<int>();\n        intBox.SetValue(42);\n        Console.WriteLine(intBox.GetValue()); // Output: 42\n    }\n}"
+      },
+      {
+        "type": "text",
+        "content": "**Generic Method Example:**"
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "class Program {\n    static void Swap<T>(ref T a, ref T b) {\n        T temp = a;\n        a = b;\n        b = temp;\n    }\n    static void Main() {\n        int x = 5, y = 10;\n        Swap(ref x, ref y);\n        Console.WriteLine($\"x: {x}, y: {y}\"); // Output: x: 10, y: 5\n    }\n}"
+      }
+    ]
+  }
+]

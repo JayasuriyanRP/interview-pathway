@@ -1,0 +1,127 @@
+[
+  {
+    "id": "solid-1",
+    "question": "What are the SOLID principles?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "SOLID is an acronym for five design principles that improve the maintainability, scalability, and flexibility of software systems."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**S: Single Responsibility Principle (SRP)** - A class should have only one reason to change.",
+          "**O: Open/Closed Principle (OCP)** - Software entities should be open for extension but closed for modification.",
+          "**L: Liskov Substitution Principle (LSP)** - Subtypes must be substitutable for their base types.",
+          "**I: Interface Segregation Principle (ISP)** - Clients should not be forced to depend on interfaces they don’t use.",
+          "**D: Dependency Inversion Principle (DIP)** - High-level modules should not depend on low-level modules."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "solid-2",
+    "question": "Why do we need SOLID principles?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "SOLID principles help in designing maintainable, scalable, and testable software. They reduce dependencies, improve code readability, and allow easy modifications without affecting the entire system."
+      }
+    ]
+  },
+  {
+    "id": "solid-3",
+    "question": "Explain the Single Responsibility Principle (SRP) with analogy and example.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "SRP states that a class should only have one reason to change. This keeps code modular and easy to maintain."
+      },
+      {
+        "type": "text",
+        "content": "Analogy: Imagine a chef in a restaurant. If the chef is responsible for cooking, taking orders, and serving food, it's chaotic. Instead, different staff handle different tasks (chef cooks, waiter serves, cashier manages bills)."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "public class ReportGenerator \n{\n    public string GenerateReport() \n    {\n        return \"Report content\";\n    }\n}\n\npublic class ReportSaver \n{\n    public void SaveToFile(string report) \n    {\n        File.WriteAllText(\"report.txt\", report);\n    }\n}\n\n// Each class has a single responsibility, adhering to SRP."
+      }
+    ]
+  },
+  {
+    "id": "solid-4",
+    "question": "Explain the Open/Closed Principle (OCP) with analogy and example.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "OCP states that a class should be open for extension but closed for modification."
+      },
+      {
+        "type": "text",
+        "content": "Analogy: Imagine a power strip with multiple sockets. Instead of modifying the strip when a new device needs to be plugged in, we simply use an adapter, extending its functionality without changing its core design."
+      },
+      {
+        "type": "code",
+        "language": "go",
+        "content": "package main\n\nimport \"fmt\"\n\ntype Notifier interface {\n    Notify() string\n}\n\ntype EmailNotifier struct{}\nfunc (e EmailNotifier) Notify() string { return \"Sending Email\" }\n\ntype SMSNotifier struct{}\nfunc (s SMSNotifier) Notify() string { return \"Sending SMS\" }\n\nfunc SendNotification(n Notifier) {\n    fmt.Println(n.Notify())\n}\n\nfunc main() {\n    email := EmailNotifier{}\n    sms := SMSNotifier{}\n    SendNotification(email)\n    SendNotification(sms)\n}"
+      }
+    ]
+  },
+  {
+    "id": "solid-5",
+    "question": "Explain the Liskov Substitution Principle (LSP) with analogy and example.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "LSP states that subclasses should be replaceable by their parent class without altering correctness."
+      },
+      {
+        "type": "text",
+        "content": "Analogy: If a car rental company allows you to rent a regular car, an electric car, or a luxury car, they all should work the same way (drive, accelerate, brake). If a luxury car suddenly required a special kind of fuel that regular cars don't, it would violate LSP."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "public class Bird \n{\n    public virtual void Fly() { Console.WriteLine(\"Bird is flying\"); }\n}\n\npublic class Sparrow : Bird {}\n\npublic class Ostrich : Bird \n{\n    public override void Fly() { throw new NotSupportedException(\"Ostriches can't fly\"); }\n}\n\n// Ostrich breaks LSP because it cannot substitute Bird in all cases."
+      }
+    ]
+  },
+  {
+    "id": "solid-6",
+    "question": "Explain Interface Segregation Principle (ISP) with analogy and example.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "ISP states that clients should not be forced to depend on interfaces they do not use."
+      },
+      {
+        "type": "text",
+        "content": "Analogy: Imagine a remote control that controls both TV and Air Conditioner. If you only use it for the TV, then having Air Conditioner buttons is unnecessary. A better approach is to have separate remotes for each device."
+      },
+      {
+        "type": "code",
+        "language": "go",
+        "content": "package main\n\nimport \"fmt\"\n\ntype Printer interface { Print() }\ntype Scanner interface { Scan() }\n\ntype AllInOnePrinter struct{}\nfunc (a AllInOnePrinter) Print() { fmt.Println(\"Printing...\") }\nfunc (a AllInOnePrinter) Scan() { fmt.Println(\"Scanning...\") }\n\nfunc main() {\n    var p Printer = AllInOnePrinter{}\n    p.Print()\n}"
+      }
+    ]
+  },
+  {
+    "id": "solid-7",
+    "question": "Explain Dependency Inversion Principle (DIP) with analogy and example.",
+    "answer": [
+      {
+        "type": "text",
+        "content": "DIP states that high-level modules should not depend on low-level modules. Both should depend on abstractions."
+      },
+      {
+        "type": "text",
+        "content": "Analogy: A universal phone charger can charge different brands of phones by using a common standard (USB). The charger does not need to know the internal design of each phone; it just uses an interface (USB port)."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "public interface IPaymentProcessor \n{\n    void ProcessPayment();\n}\n\npublic class CreditCardPayment : IPaymentProcessor \n{\n    public void ProcessPayment() { Console.WriteLine(\"Processing credit card payment...\"); }\n}\n\npublic class PayPalPayment : IPaymentProcessor \n{\n    public void ProcessPayment() { Console.WriteLine(\"Processing PayPal payment...\"); }\n}\n\npublic class PaymentService \n{\n    private readonly IPaymentProcessor _paymentProcessor;\n    public PaymentService(IPaymentProcessor paymentProcessor) { _paymentProcessor = paymentProcessor; }\n    public void MakePayment() { _paymentProcessor.ProcessPayment(); }\n}\n\n// Now PaymentService can work with any payment method without modification."
+      }
+    ]
+  }
+]

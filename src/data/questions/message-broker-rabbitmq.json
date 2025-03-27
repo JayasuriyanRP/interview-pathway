@@ -1,0 +1,162 @@
+[
+  {
+    "id": "cps-2",
+    "question": "How to send JWT tokens along with messages in RabbitMQ and validate them in the consumer?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "To send JWT tokens along with messages in RabbitMQ, include the token in the message headers. The consumer extracts and validates the token before processing the message."
+      },
+      {
+        "type": "text",
+        "content": "**Producer Implementation:** Send JWT in message headers."
+      },
+      {
+        "type": "code",
+        "language": "go",
+        "content": "package main\n\nimport (\n\t\"fmt\"\n\t\"log\"\n\t\"github.com/streadway/amqp\"\n)\n\nfunc failOnError(err error, msg string) {\n\tif err != nil {\n\t\tlog.Fatalf(\"%s: %s\", msg, err)\n\t}\n}\n\nfunc main() {\n\t// Example JWT token\n\ttoken := \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\"\n\n\tconn, err := amqp.Dial(\"amqp://guest:guest@localhost:5672/\")\n\tfailOnError(err, \"Failed to connect to RabbitMQ\")\n\tdefer conn.Close()\n\n\tch, err := conn.Channel()\n\tfailOnError(err, \"Failed to open a channel\")\n\tdefer ch.Close()\n\n\tq, err := ch.QueueDeclare(\"user_task_queue\", true, false, false, false, nil)\n\tfailOnError(err, \"Failed to declare queue\")\n\n\tbody := \"Process user data\"\n\terr = ch.Publish(\n\t\t\"\",\n\t\tq.Name,\n\t\tfalse,\n\t\tfalse,\n\t\tamqp.Publishing{\n\t\t\tContentType: \"text/plain\",\n\t\t\tBody: []byte(body),\n\t\t\tHeaders: amqp.Table{\"Authorization\": token},\n\t\t},\n\t)\n\tfailOnError(err, \"Failed to publish message\")\n\n\tfmt.Printf(\" [x] Sent: %s with JWT\\n\", body)\n}"
+      },
+      {
+        "type": "text",
+        "content": "**Consumer Implementation:** Extract and validate JWT before processing."
+      },
+      {
+        "type": "code",
+        "language": "go",
+        "content": "package main\n\nimport (\n\t\"fmt\"\n\t\"log\"\n\t\"github.com/golang-jwt/jwt/v4\"\n\t\"github.com/streadway/amqp\"\n)\n\nvar secretKey = []byte(\"your-secret-key\")\n\nfunc verifyJWT(tokenString string) (bool, error) {\n\ttoken, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {\n\t\treturn secretKey, nil\n\t})\n\tif err != nil || !token.Valid {\n\t\treturn false, fmt.Errorf(\"invalid token\")\n\t}\n\treturn true, nil\n}\n\nfunc failOnError(err error, msg string) {\n\tif err != nil {\n\t\tlog.Fatalf(\"%s: %s\", msg, err)\n\t}\n}\n\nfunc main() {\n\tconn, err := amqp.Dial(\"amqp://guest:guest@localhost:5672/\")\n\tfailOnError(err, \"Failed to connect to RabbitMQ\")\n\tdefer conn.Close()\n\n\tch, err := conn.Channel()\n\tfailOnError(err, \"Failed to open a channel\")\n\tdefer ch.Close()\n\n\tq, err := ch.QueueDeclare(\"user_task_queue\", true, false, false, false, nil)\n\tfailOnError(err, \"Failed to declare queue\")\n\n\tmsgs, err := ch.Consume(q.Name, \"\", true, false, false, false, nil)\n\tfailOnError(err, \"Failed to register consumer\")\n\n\tfmt.Println(\" [*] Waiting for messages...\")\n\n\tfor msg := range msgs {\n\t\ttoken, ok := msg.Headers[\"Authorization\"].(string)\n\t\tif !ok {\n\t\t\tfmt.Println(\" [x] No valid JWT token found\")\n\t\t\tcontinue\n\t\t}\n\n\t\tvalid, err := verifyJWT(token)\n\t\tif !valid {\n\t\t\tfmt.Printf(\" [x] Invalid JWT: %s\\n\", err)\n\t\t\tcontinue\n\t\t}\n\n\t\tfmt.Printf(\" [✓] Valid JWT. Processing message: %s\\n\", msg.Body)\n\t}\n}"
+      },
+      {
+        "type": "list",
+        "content": [
+          "**Security Enhancements:**",
+          "Use HS256 or RS256 encryption for JWT.",
+          "Set an expiration time (`exp`) on the JWT to prevent misuse.",
+          "Secure RabbitMQ connections with authentication.",
+          "Use message TTL (`x-message-ttl`) to auto-expire sensitive messages."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mb-1",
+    "question": "What is a Message Broker, and why is it used?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "A message broker is a middleware component that facilitates communication between services by translating and routing messages between them."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Decoupling**: Enables asynchronous communication between microservices.",
+          "**Scalability**: Allows services to scale independently without direct coupling.",
+          "**Reliability**: Ensures message persistence and delivery guarantees.",
+          "**Flexibility**: Supports various messaging patterns like Pub/Sub and Queue-based communication."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mb-2",
+    "question": "What is the difference between a Message Queue and Publish-Subscribe model?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**Message Queue**: Messages are sent to a queue where a single consumer processes each message.",
+          "**Publish-Subscribe**: Messages are published to a topic where multiple subscribers can receive the message."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mb-3",
+    "question": "How does RabbitMQ handle message persistence?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "RabbitMQ allows message persistence by marking queues and messages as 'durable' so they are not lost in case of a broker restart."
+      },
+      {
+        "type": "list",
+        "items": [
+          "Queues must be declared as **durable**.",
+          "Messages must be marked as **persistent**.",
+          "RabbitMQ writes messages to disk to ensure durability."
+        ]
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "content": "channel.queue_declare(queue='task_queue', durable=True)\nchannel.basic_publish(exchange='', routing_key='task_queue', body=message, properties=pika.BasicProperties(delivery_mode=2))"
+      }
+    ]
+  },
+  {
+    "id": "mb-4",
+    "question": "What are partitions in Apache Kafka, and how do they help in scalability?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Kafka partitions allow a topic to be divided into smaller segments stored across multiple brokers, enabling parallel processing and higher throughput."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Parallel Processing**: Each partition is consumed by a separate consumer in a consumer group.",
+          "**Fault Tolerance**: Partitions can be replicated across brokers for redundancy.",
+          "**Load Balancing**: Kafka distributes partitions among brokers, preventing overload."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mb-5",
+    "question": "Write a simple producer and consumer using Kafka in Golang.",
+    "answer": [
+      {
+        "type": "code",
+        "language": "go",
+        "content": "package main\n\nimport (\n\t\"fmt\"\n\t\"log\"\n\t\"github.com/confluentinc/confluent-kafka-go/kafka\"\n)\n\nfunc main() {\n\t// Producer\n\tproducer, err := kafka.NewProducer(&kafka.ConfigMap{\"bootstrap.servers\": \"localhost:9092\"})\n\tif err != nil {\n\t\tlog.Fatal(err)\n\t}\n\tproducer.Produce(&kafka.Message{TopicPartition: kafka.TopicPartition{Topic: &\"my-topic\", Partition: kafka.PartitionAny}, Value: []byte(\"Hello Kafka\")}, nil)\n\tproducer.Flush(1000)\n\tproducer.Close()\n\n\t// Consumer\n\tconsumer, err := kafka.NewConsumer(&kafka.ConfigMap{\n\t\t\"bootstrap.servers\": \"localhost:9092\",\n\t\t\"group.id\": \"my-group\",\n\t\t\"auto.offset.reset\": \"earliest\",\n\t})\n\tif err != nil {\n\t\tlog.Fatal(err)\n\t}\n\tconsumer.Subscribe(\"my-topic\", nil)\n\tfor {\n\t\tmsg, err := consumer.ReadMessage(-1)\n\t\tif err == nil {\n\t\t\tfmt.Printf(\"Received: %s\\n\", string(msg.Value))\n\t\t}\n\t}\n\tconsumer.Close()\n}"
+      }
+    ]
+  },
+  {
+    "id": "mb-6",
+    "question": "What are some key differences between RabbitMQ and Apache Kafka?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "**RabbitMQ**: Uses a queue-based system with message acknowledgments for transactional messaging.",
+          "**Kafka**: Uses a distributed log-based architecture optimized for high-throughput event streaming.",
+          "**Message Durability**: Kafka stores messages for a configured retention period, whereas RabbitMQ deletes messages after they are consumed unless set to be persistent.",
+          "**Use Cases**: RabbitMQ is used for traditional message queues, while Kafka is ideal for real-time data streams and event-driven architectures."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mb-7",
+    "question": "What is message retention in Kafka, and how does it work?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Kafka retains messages for a specified time period, allowing consumers to reprocess data if needed."
+      },
+      {
+        "type": "list",
+        "items": [
+          "Retention period is defined using `log.retention.hours` in the Kafka configuration.",
+          "Messages are stored in partitions and remain available even after consumption.",
+          "Kafka provides 'offsets' to track consumer progress."
+        ]
+      },
+      {
+        "type": "code",
+        "language": "properties",
+        "content": "log.retention.hours=168  # Retain messages for 7 days"
+      }
+    ]
+  }
+]

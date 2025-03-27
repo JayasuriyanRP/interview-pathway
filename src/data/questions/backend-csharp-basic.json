@@ -1,0 +1,189 @@
+[
+  {
+    "id": "be-5",
+    "question": "What are the data types and variable declarations in C#?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "C# is a strongly typed language that provides various data types categorized into Value Types and Reference Types. It also supports type inference and dynamic typing."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Value Types**: `int`, `double`, `float`, `bool`, `char`, `struct`, `enum` - Stored directly in memory and hold their values.",
+          "**Reference Types**: `string`, `object`, `dynamic`, `class`, `interface`, `delegate` - Stored as references in heap memory.",
+          "**Nullable Types**: `int?`, `double?`, etc. - Allows value types to hold `null` values, useful in databases and optional fields.",
+          "**Implicit Typing**: `var` - Compiler infers type at compile-time, improving code readability.",
+          "**Dynamic Typing**: `dynamic` - Type is resolved at runtime, offering flexibility but with performance trade-offs."
+        ]
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "int age = 30;\ndouble price = 99.99;\nvar name = \"Alice\"; // Compiler infers string type\ndynamic value = 10; // Can change type dynamically\nvalue = \"Hello\"; // Now it's a string"
+      },
+      {
+        "type": "note",
+        "content": "Value types are stored in stack memory, while reference types are stored in heap memory, which affects performance and garbage collection."
+      }
+    ]
+  },
+  {
+    "id": "be-6",
+    "question": "What are the control flow keywords in C#?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Control flow statements determine the execution order of statements in a program and are essential for decision-making and loops."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Conditional Statements**: `if`, `else`, `switch`, `case` - Used for decision-making.",
+          "**Looping Statements**: `for`, `while`, `do-while`, `foreach` - Used for iteration and repetition.",
+          "**Jump Statements**: `break`, `continue`, `return`, `goto` - Used to alter the normal flow of execution."
+        ]
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "for (int i = 0; i < 5; i++)\n{\n    if (i == 3) continue; // Skips iteration\n    Console.WriteLine(i);\n}"
+      },
+      {
+        "type": "quote",
+        "content": "'Control flow determines how a program executes its statements, impacting efficiency and readability.' - Programming Principles"
+      }
+    ]
+  },
+  {
+    "id": "be-7",
+    "question": "How does exception handling work in C#?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "C# provides structured exception handling using `try`, `catch`, `finally`, and `throw` to handle errors gracefully."
+      },
+      {
+        "type": "list",
+        "items": [
+          "`try` - Defines a block of code to test for exceptions.",
+          "`catch` - Handles exceptions.",
+          "`finally` - Executes regardless of exception occurrence.",
+          "`throw` - Used to throw an exception."
+        ]
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "try\n{\n    int num = int.Parse(\"abc\"); // Throws FormatException\n}\ncatch (FormatException ex)\n{\n    Console.WriteLine(\"Invalid format: \" + ex.Message);\n}\nfinally\n{\n    Console.WriteLine(\"Execution completed.\");\n}"
+      }
+    ]
+  },
+  {
+    "id": "be-8",
+    "question": "What are the key Object-Oriented Programming (OOP) keywords in C#?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "C# is an object-oriented language and follows OOP principles like encapsulation, inheritance, and polymorphism."
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Class & Object Keywords**: `class`, `struct`, `new`",
+          "**Inheritance Keywords**: `base`, `this`, `virtual`, `override`, `abstract`, `sealed`",
+          "**Encapsulation Keywords**: `private`, `protected`, `public`, `internal`"
+        ]
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "class Animal\n{\n    public virtual void Speak() => Console.WriteLine(\"Animal speaks\");\n}\nclass Dog : Animal\n{\n    public override void Speak() => Console.WriteLine(\"Dog barks\");\n}"
+      }
+    ]
+  },
+  {
+    "id": "be-9",
+    "question": "What are access modifiers in C#?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Access modifiers define the scope and accessibility of classes, methods, and properties."
+      },
+      {
+        "type": "list",
+        "items": [
+          "`public` - Accessible everywhere.",
+          "`private` - Accessible only within the class.",
+          "`protected` - Accessible within the class and derived classes.",
+          "`internal` - Accessible within the same assembly.",
+          "`protected internal` - Combination of `protected` and `internal`.",
+          "`private protected` - Accessible within the same class and derived classes in the same assembly."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "be-10",
+    "question": "What are properties and indexers in C#?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Properties encapsulate class fields, providing controlled access. Indexers allow objects to be accessed like arrays."
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "class Person\n{\n    private string _name;\n    public string Name { get => _name; set => _name = value; }\n}"
+      }
+    ]
+  },
+  {
+    "id": "be-11",
+    "question": "What are delegates, events, and lambda expressions in C#?",
+    "answer": [
+      {
+        "type": "list",
+        "items": [
+          "`delegate` - Defines a function pointer.",
+          "`event` - Defines an event mechanism.",
+          "`=>` (Lambda) - Used for anonymous functions."
+        ]
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "delegate void PrintMessage(string message);\nclass Program\n{\n    static void Main()\n    {\n        PrintMessage print = msg => Console.WriteLine(msg);\n        print(\"Hello, C#\");\n    }\n}"
+      }
+    ]
+  },
+  {
+    "id": "be-12",
+    "question": "How does asynchronous programming work in C#?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "C# supports asynchronous programming using `async` and `await` keywords, improving responsiveness by avoiding blocking operations."
+      },
+      {
+        "type": "list",
+        "items": [
+          "`async` - Declares a method as asynchronous.",
+          "`await` - Pauses execution until the awaited task completes, preventing UI freeze.",
+          "`Task` and `Task<T>` - Represent asynchronous operations with return values.",
+          "`ValueTask<T>` - Optimized for scenarios where results are often immediately available.",
+          "`ConfigureAwait(false)` - Optimizes performance in non-UI applications by avoiding context switching."
+        ]
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "async Task<int> FetchData()\n{\n    await Task.Delay(2000);\n    return 42;\n}\n\nasync void CallAsync()\n{\n    int result = await FetchData();\n    Console.WriteLine(result);\n}"
+      },
+      {
+        "type": "note",
+        "content": "Using `async void` is generally discouraged except for event handlers, as it does not allow proper exception handling."
+      }
+    ]
+  }
+]
