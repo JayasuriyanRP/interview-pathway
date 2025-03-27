@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import { Code, Server, GitBranch, Network, ArrowRight, List } from "lucide-react";
+import { Code, Server, GitBranch, Network, ArrowRight, List, CheckCircle } from "lucide-react";
 
 interface PathCardProps {
   id: string;
@@ -11,6 +11,9 @@ interface PathCardProps {
   count: number;
   level: string;
   hasSubpaths?: boolean;
+  completed?: number;
+  total?: number;
+  isCompleted?: boolean;
 }
 
 const PathCard: React.FC<PathCardProps> = ({
@@ -21,6 +24,9 @@ const PathCard: React.FC<PathCardProps> = ({
   count,
   level,
   hasSubpaths = false,
+  completed = 0,
+  total = 0,
+  isCompleted = false,
 }) => {
   const getIcon = () => {
     switch (icon) {
@@ -41,16 +47,31 @@ const PathCard: React.FC<PathCardProps> = ({
 
   const linkTo = hasSubpaths ? `/subpaths/${id}` : `/path/${id}`;
   const actionText = hasSubpaths ? "View subpaths" : "Start learning";
+  
+  // Calculate progress percentage
+  const progressPercentage = total > 0 ? (completed / total) * 100 : 0;
 
   return (
     <Link
       to={linkTo}
-      className="path-card block bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300"
+      className={`path-card block bg-white rounded-xl p-6 border ${
+        isCompleted ? "border-green-200" : "border-gray-100"
+      } shadow-sm hover:shadow-md transition-all duration-300`}
     >
       <div className="flex flex-col h-full">
-        <div className="mb-4 p-3 bg-gray-50 rounded-lg inline-flex items-center justify-center w-12 h-12">
-          {getIcon()}
+        <div className="flex justify-between">
+          <div className={`mb-4 p-3 ${
+            isCompleted ? "bg-green-50" : "bg-gray-50"
+          } rounded-lg inline-flex items-center justify-center w-12 h-12`}>
+            {isCompleted ? <CheckCircle className="h-5 w-5 text-green-500" /> : getIcon()}
+          </div>
+          {isCompleted && (
+            <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">
+              Completed
+            </span>
+          )}
         </div>
+        
         <div className="flex-1">
           <div className="inline-block px-2.5 py-0.5 mb-2 text-xs font-medium rounded-full bg-gray-100 text-gray-800">
             {level}
@@ -60,6 +81,27 @@ const PathCard: React.FC<PathCardProps> = ({
             {description}
           </p>
         </div>
+        
+        {/* Progress bar */}
+        {!hasSubpaths && total > 0 && (
+          <div className="w-full mt-2 mb-4">
+            <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-green-500 transition-all duration-500 ease-in-out" 
+                style={{ width: `${progressPercentage}%` }}
+              ></div>
+            </div>
+            <div className="flex justify-between items-center mt-1">
+              <span className="text-xs text-gray-500">
+                {completed} of {total} completed
+              </span>
+              <span className="text-xs font-medium text-gray-600">
+                {progressPercentage.toFixed(0)}%
+              </span>
+            </div>
+          </div>
+        )}
+        
         <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
           <div className="text-sm text-gray-600">{count} questions</div>
           <div className="flex items-center text-sm font-medium text-blue-600">

@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from "react";
 import { Clipboard, ClipboardCheck } from "lucide-react";
 import Prism from "prismjs";
@@ -19,7 +20,6 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language, content }) => {
   const codeRef = useRef<HTMLElement>(null);
   const [copied, setCopied] = useState(false);
 
-  console.log(language);
   useEffect(() => {
     if (codeRef.current) {
       Prism.highlightElement(codeRef.current);
@@ -43,7 +43,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language, content }) => {
           aria-label="Copy code"
         >
           {copied ? <ClipboardCheck size={16} /> : <Clipboard size={16} />}
-          {copied ? "Copied" : "Copy"}
+          {copied ? "Copied!" : "Copy"}
         </button>
       </div>
 

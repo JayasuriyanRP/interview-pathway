@@ -1,6 +1,8 @@
+
 import React, { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, CheckCircle2 } from "lucide-react";
 import CodeBlock from "./CodeBlock";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 interface TableContent {
   type: "table";
@@ -9,50 +11,62 @@ interface TableContent {
 }
 
 interface ContentBlock {
-  type: "text" | "code" | "list" | "table";
+  type: "text" | "code" | "list" | "table" | "image" | "quote" | "note";
   content?: string;
   language?: string; // For code blocks
   items?: string[]; // For list blocks
   columns?: string[]; // For tables
   rows?: string[][]; // For tables
+  imageUrl?: string; // For image blocks
+  alt?: string; // For image blocks
+  highlight?: boolean; // For highlighting important text or notes
 }
 
 interface QuestionCardProps {
   id: number;
   question: string;
   answer: ContentBlock[] | any;
+  onMarkAsRead?: (id: number) => void;
+  isRead?: boolean;
 }
 
 const QuestionCard: React.FC<QuestionCardProps> = ({
   id,
   question,
   answer,
+  onMarkAsRead,
+  isRead = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleAnswer = () => {
     setIsOpen(!isOpen);
+    if (!isOpen && !isRead && onMarkAsRead) {
+      onMarkAsRead(id);
+    }
   };
 
   // Format inline code and bold text in strings
   const formatText = (text: string) => {
+    // Split by code blocks first
     const parts = text.split(/(`[^`]+`)/g);
 
     return parts.map((part, index) => {
       if (part.startsWith("`") && part.endsWith("`")) {
         return (
-          <code key={index} className="bg-gray-200 text-sm px-1 rounded">
+          <code key={index} className="bg-gray-200 px-1.5 py-0.5 rounded text-sm font-mono">
             {part.slice(1, -1)}
           </code>
         );
       }
 
+      // Then handle bold text
       const boldParts = part.split(/(\*\*[^*]+\*\*)/g);
 
       return boldParts.map((boldPart, boldIndex) => {
         if (boldPart.startsWith("**") && boldPart.endsWith("**")) {
           return (
-            <strong key={`${index}-${boldIndex}`}>
+            <strong key={`${index}-${boldIndex}`} className="font-semibold">
               {boldPart.slice(2, -2)}
             </strong>
           );
@@ -69,9 +83,9 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
         return <CodeBlock key={index} language={block.language || "text"} content={block.content!} />;
       case "list":
         return (
-          <ul key={index} className="list-disc pl-5 mb-4">
+          <ul key={index} className="list-disc pl-5 mb-4 space-y-1.5">
             {block.items?.map((item, i) => (
-              <li key={i} className="mb-2">{formatText(item)}</li>
+              <li key={i} className="mb-1.5">{formatText(item)}</li>
             ))}
           </ul>
         );
@@ -102,10 +116,50 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
             </table>
           </div>
         );
+      case "image":
+        return (
+          <figure key={index} className="my-4">
+            <img 
+              src={block.imageUrl} 
+              alt={block.alt || "Image"} 
+              className="rounded-lg max-w-full h-auto mx-auto"
+            />
+            {block.content && (
+              <figcaption className="text-sm text-center text-gray-500 mt-2">
+                {formatText(block.content)}
+              </figcaption>
+            )}
+          </figure>
+        );
+      case "quote":
+        return (
+          <blockquote 
+            key={index} 
+            className="pl-4 border-l-4 border-gray-300 italic my-4 text-gray-700"
+          >
+            {formatText(block.content!)}
+          </blockquote>
+        );
+      case "note":
+        return (
+          <div 
+            key={index} 
+            className={`p-4 my-4 rounded-lg ${
+              block.highlight 
+                ? "bg-amber-50 border border-amber-200" 
+                : "bg-blue-50 border border-blue-200"
+            }`}
+          >
+            <p className="text-sm font-medium mb-1">
+              {block.highlight ? "Important Note:" : "Note:"}
+            </p>
+            <div>{formatText(block.content!)}</div>
+          </div>
+        );
       case "text":
       default:
         return (
-          <p key={index} className="mb-4">
+          <p key={index} className="mb-4 leading-relaxed">
             {formatText(block.content!)}
           </p>
         );
@@ -114,7 +168,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
 
   const renderAnswer = () => {
     if (typeof answer === "string") {
-      return <p className="mb-4">{formatText(answer)}</p>;
+      return <p className="mb-4 leading-relaxed">{formatText(answer)}</p>;
     }
 
     if (Array.isArray(answer)) {
@@ -129,10 +183,20 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   };
 
   return (
-    <div className="mb-6 bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm transition-all duration-300">
-      <div className="p-6 cursor-pointer flex justify-between items-center" onClick={toggleAnswer}>
-        <h3 className="text-lg font-medium">{id + 1} - {formatText(question)}</h3>
-        <ChevronDown className={`h-5 w-5 text-gray-500 transition-transform duration-300 ${isOpen ? "transform rotate-180" : ""}`} />
+    <div className={`mb-6 bg-white rounded-xl overflow-hidden border ${isRead ? 'border-gray-100' : 'border-blue-100'} shadow-sm transition-all duration-300`}>
+      <div 
+        className="p-6 cursor-pointer flex justify-between items-center" 
+        onClick={toggleAnswer}
+      >
+        <div className="flex items-center gap-3">
+          {isRead && <CheckCircle2 size={18} className="text-green-500 flex-shrink-0" />}
+          <h3 className="text-lg font-medium">{id + 1} - {formatText(question)}</h3>
+        </div>
+        <ChevronDown 
+          className={`h-5 w-5 text-gray-500 transition-transform duration-300 ${
+            isOpen ? "transform rotate-180" : ""
+          }`} 
+        />
       </div>
       {isOpen && (
         <div className="px-6 pb-6 pt-2 border-t border-gray-100 animate-slideUp">
