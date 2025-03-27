@@ -1,5 +1,55 @@
 [
   {
+    "id": "microservices-intro",
+    "question": "What are Microservices, and how do they differ from Monolithic Architecture?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Microservices are an architectural style where an application is built as a collection of small, independent, and loosely coupled services. Each service is designed to perform a specific business function and can be developed, deployed, and scaled independently. These services communicate with each other using lightweight protocols, such as HTTP or messaging queues."
+      },
+      {
+        "type": "table",
+        "columns": ["Aspect", "Microservices", "Monolithic"],
+        "rows": [
+          [
+            "Structure",
+            "The application is divided into multiple small, independent services.",
+            "The application is built as a single, unified codebase."
+          ],
+          [
+            "Scalability",
+            "Individual services can be scaled independently based on demand.",
+            "The entire application must be scaled together, even if only one part requires scaling."
+          ],
+          [
+            "Development and Deployment",
+            "Teams can work on different services simultaneously, and each service can be deployed independently.",
+            "Changes to the application require rebuilding and redeploying the entire system."
+          ],
+          [
+            "Technology Stack",
+            "Different services can use different technologies, programming languages, or databases.",
+            "Typically uses a single technology stack for the entire application."
+          ],
+          [
+            "Fault Isolation",
+            "Failures in one service are less likely to impact the entire system.",
+            "A failure in one part of the application can potentially bring down the entire system."
+          ],
+          [
+            "Complexity",
+            "Higher operational complexity due to managing multiple services, communication, and deployment pipelines.",
+            "Simpler to develop and deploy initially, but harder to maintain and scale as the application grows."
+          ]
+        ]
+      },
+      {
+        "type": "note",
+        "content": "Microservices are well-suited for large, complex applications requiring flexibility and scalability, while monolithic architecture may be more appropriate for smaller, simpler applications."
+      }
+    ]
+  },
+  {
     "id": "be-7",
     "question": "Can you provide a simple microservice implementation in Go?",
     "answer": [
