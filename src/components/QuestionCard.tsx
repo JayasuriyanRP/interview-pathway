@@ -1,8 +1,12 @@
-
 import React, { useState } from "react";
 import { ChevronDown, CheckCircle2 } from "lucide-react";
 import CodeBlock from "./CodeBlock";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 interface TableContent {
   type: "table";
@@ -54,21 +58,27 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
     if (highlightQuery.trim()) {
       const terms = highlightQuery.toLowerCase().split(" ");
       let processedText = text;
-      
+
       // Apply highlighting for each search term
-      terms.forEach(term => {
+      terms.forEach((term) => {
         if (!term.trim()) return;
-        const regex = new RegExp(`(${term})`, 'gi');
-        processedText = processedText.replace(regex, '<span class="bg-yellow-200 dark:bg-yellow-900 rounded px-0.5">$1</span>');
+        const regex = new RegExp(`(${term})`, "gi");
+        processedText = processedText.replace(
+          regex,
+          '<span class="bg-yellow-200 dark:bg-yellow-900 rounded px-0.5">$1</span>'
+        );
       });
-      
+
       // Split by code blocks
       const parts = processedText.split(/(`[^`]+`)/g);
-      
+
       return parts.map((part, index) => {
         if (part.startsWith("`") && part.endsWith("`")) {
           return (
-            <code key={index} className="bg-gray-200 dark:bg-gray-700 px-1.5 py-0.5 rounded text-sm font-mono">
+            <code
+              key={index}
+              className="bg-gray-200 dark:bg-gray-700 px-1.5 py-0.5 rounded text-sm font-mono"
+            >
               {part.slice(1, -1)}
             </code>
           );
@@ -85,20 +95,28 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
               </strong>
             );
           }
-          
+
           // For normal text, allow the HTML to be rendered for highlighting
-          return <span key={`${index}-${boldIndex}`} dangerouslySetInnerHTML={{ __html: boldPart }} />;
+          return (
+            <span
+              key={`${index}-${boldIndex}`}
+              dangerouslySetInnerHTML={{ __html: boldPart }}
+            />
+          );
         });
       });
     }
-    
+
     // If no search query, use the original formatting
     const parts = text.split(/(`[^`]+`)/g);
 
     return parts.map((part, index) => {
       if (part.startsWith("`") && part.endsWith("`")) {
         return (
-          <code key={index} className="bg-gray-200 dark:bg-gray-700 px-1.5 py-0.5 rounded text-sm font-mono">
+          <code
+            key={index}
+            className="bg-gray-200 dark:bg-gray-700 px-1.5 py-0.5 rounded text-sm font-mono"
+          >
             {part.slice(1, -1)}
           </code>
         );
@@ -124,12 +142,20 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   const renderContentBlock = (block: ContentBlock, index: number) => {
     switch (block.type) {
       case "code":
-        return <CodeBlock key={index} language={block.language || "text"} content={block.content!} />;
+        return (
+          <CodeBlock
+            key={index}
+            language={block.language || "text"}
+            content={block.content!}
+          />
+        );
       case "list":
         return (
           <ul key={index} className="list-disc pl-5 mb-4 space-y-1.5">
             {block.items?.map((item, i) => (
-              <li key={i} className="mb-1.5">{formatText(item)}</li>
+              <li key={i} className="mb-1.5">
+                {formatText(item)}
+              </li>
             ))}
           </ul>
         );
@@ -140,7 +166,10 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
               <thead className="bg-gray-100 dark:bg-gray-800">
                 <tr>
                   {block.columns?.map((col, colIndex) => (
-                    <th key={colIndex} className="border border-gray-300 dark:border-gray-700 px-4 py-2 text-left">
+                    <th
+                      key={colIndex}
+                      className="border border-gray-300 dark:border-gray-700 px-4 py-2 text-left"
+                    >
                       {formatText(col)}
                     </th>
                   ))}
@@ -148,9 +177,15 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
               </thead>
               <tbody>
                 {block.rows?.map((row, rowIndex) => (
-                  <tr key={rowIndex} className="hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <tr
+                    key={rowIndex}
+                    className="hover:bg-gray-50 dark:hover:bg-gray-800"
+                  >
                     {row.map((cell, cellIndex) => (
-                      <td key={cellIndex} className="border border-gray-300 dark:border-gray-700 px-4 py-2">
+                      <td
+                        key={cellIndex}
+                        className="border border-gray-300 dark:border-gray-700 px-4 py-2"
+                      >
                         {formatText(cell)}
                       </td>
                     ))}
@@ -163,9 +198,9 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
       case "image":
         return (
           <figure key={index} className="my-4">
-            <img 
-              src={block.imageUrl} 
-              alt={block.alt || "Image"} 
+            <img
+              src={block.imageUrl}
+              alt={block.alt || "Image"}
               className="rounded-lg max-w-full h-auto mx-auto"
             />
             {block.content && (
@@ -177,8 +212,8 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
         );
       case "quote":
         return (
-          <blockquote 
-            key={index} 
+          <blockquote
+            key={index}
             className="pl-4 border-l-4 border-gray-300 dark:border-gray-700 italic my-4 text-gray-700 dark:text-gray-300"
           >
             {formatText(block.content!)}
@@ -186,11 +221,11 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
         );
       case "note":
         return (
-          <div 
-            key={index} 
+          <div
+            key={index}
             className={`p-4 my-4 rounded-lg ${
-              block.highlight 
-                ? "bg-amber-50 border border-amber-200 dark:bg-amber-900/30 dark:border-amber-800" 
+              block.highlight
+                ? "bg-amber-50 border border-amber-200 dark:bg-amber-900/30 dark:border-amber-800"
                 : "bg-blue-50 border border-blue-200 dark:bg-blue-900/30 dark:border-blue-800"
             }`}
           >
@@ -223,23 +258,35 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
       );
     }
 
-    return <p className="text-gray-500 dark:text-gray-400">No content available</p>;
+    return (
+      <p className="text-gray-500 dark:text-gray-400">No content available</p>
+    );
   };
 
   return (
-    <div className={`mb-6 bg-card rounded-xl overflow-hidden border ${isRead ? 'border-gray-100 dark:border-gray-800' : 'border-blue-100 dark:border-blue-800'} shadow-sm transition-all duration-300`}>
-      <div 
-        className="p-6 cursor-pointer flex justify-between items-center" 
+    <div
+      className={`mb-6 bg-card rounded-xl overflow-hidden border ${
+        isRead
+          ? "border-gray-100 dark:border-gray-800"
+          : "border-blue-100 dark:border-blue-800"
+      } shadow-sm transition-all duration-300`}
+    >
+      <div
+        className="p-4 sm:p-6 cursor-pointer flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0"
         onClick={toggleAnswer}
       >
         <div className="flex items-center gap-3">
-          {isRead && <CheckCircle2 size={18} className="text-green-500 flex-shrink-0" />}
-          <h3 className="text-lg font-medium">{id + 1} - {formatText(question)}</h3>
+          {isRead && (
+            <CheckCircle2 size={18} className="text-green-500 flex-shrink-0" />
+          )}
+          <h3 className="text-lg font-medium">
+            {id + 1} - {formatText(question)}
+          </h3>
         </div>
-        <ChevronDown 
+        <ChevronDown
           className={`h-5 w-5 text-gray-500 transition-transform duration-300 ${
             isOpen ? "transform rotate-180" : ""
-          }`} 
+          }`}
         />
       </div>
       {isOpen && (

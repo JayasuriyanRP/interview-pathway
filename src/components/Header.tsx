@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
@@ -11,7 +10,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ title, showBackButton = false }) => {
   return (
     <header className="relative z-10 px-6 py-8 md:py-10 w-full">
-      <div className="container mx-auto flex items-center justify-between">
+      <div className="w-full mx-auto flex items-center justify-start gap-4">
         <div className="flex items-center space-x-4">
           {showBackButton && (
             <Link

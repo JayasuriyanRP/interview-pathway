@@ -50,7 +50,7 @@ const SubpathsList = () => {
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       <Header title={path?.title} showBackButton={true} />
 
-      <main className="flex-1 px-6 pb-12">
+      <main className="flex-1 px-4 sm:px-6 md:px-8 lg:px-12 pb-8 sm:pb-10 md:pb-12">
         <div className="container mx-auto max-w-5xl">
           <div className="flex justify-between items-center mt-4 mb-6">
             <div className="inline-block px-3 py-1 text-sm font-medium rounded-full bg-secondary text-secondary-foreground">
