@@ -1,4 +1,3 @@
-
 # Questions Directory
 
 This directory contains separate JSON files for each learning path and subpath.
@@ -6,29 +5,31 @@ This directory contains separate JSON files for each learning path and subpath.
 ## File Structure
 
 - Each file should be named after the path or subpath ID: `[path-id].json`
-- Files should contain an array of question objects
+- **Each file should contain an array of question objects**
 
-## Question Format
+## JSON Structure
 
-Each question should follow this structure:
+Each file should be structured as an **array** of questions:
 
 ```json
-{
-  "id": "unique-question-id",
-  "question": "The question text?",
-  "answer": [
-    {
-      "type": "text",
-      "content": "Text content here"
-    },
-    {
-      "type": "code",
-      "language": "javascript",
-      "content": "// Code content here"
-    }
-    // More content blocks...
-  ]
-}
+[
+  {
+    "id": "unique-question-id",
+    "question": "The question text?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Text content here"
+      },
+      {
+        "type": "code",
+        "language": "javascript",
+        "content": "// Code content here"
+      }
+      // More content blocks...
+    ]
+  }
+]
 ```
 
 ## Available Content Block Types
