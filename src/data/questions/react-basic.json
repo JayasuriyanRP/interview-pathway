@@ -1,0 +1,107 @@
+[
+  {
+    "id": "basic-q1",
+    "question": "What is React, and why is it used?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "React is a popular JavaScript library developed by Facebook for building user interfaces, especially single-page applications. It allows developers to create reusable UI components and manage the state of web applications efficiently."
+      }
+    ]
+  },
+  {
+    "id": "basic-q2",
+    "question": "What is JSX in React?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "JSX stands for JavaScript XML. It allows developers to write HTML in React using a syntax that is similar to XML. JSX makes it easier to write and add HTML in React components."
+      },
+      {
+        "type": "code",
+        "language": "javascript",
+        "content": "const element = <h1>Hello, world!</h1>;"
+      }
+    ]
+  },
+  {
+    "id": "basic-q3",
+    "question": "What are React components?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "React components are the building blocks of a React application. They can be classified into two types: functional components and class components. Components return JSX that defines the UI of the application."
+      },
+      {
+        "type": "note",
+        "content": "With the advent of React Hooks, functional components are now more commonly used."
+      }
+    ]
+  },
+  {
+    "id": "intermediate-q20",
+    "question": "What is the Virtual DOM in React?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "The Virtual DOM is a lightweight copy of the actual DOM that React uses to improve performance. When changes occur, React updates the Virtual DOM first, compares it with the previous version using a process called 'diffing,' and updates the actual DOM only where necessary."
+      },
+      {
+        "type": "note",
+        "content": "This efficient updating process makes React applications faster."
+      }
+    ]
+  },
+  {
+    "id": "intermediate-q21",
+    "question": "What is the purpose of PropTypes in React?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "PropTypes is a library in React used to validate the props passed to a component. It ensures that components receive data in the correct format and helps catch bugs early in development."
+      },
+      {
+        "type": "code",
+        "language": "javascript",
+        "content": "import PropTypes from 'prop-types';\nMyComponent.propTypes = {\n  name: PropTypes.string,\n  age: PropTypes.number\n};"
+      }
+    ]
+  },
+  {
+    "id": "advanced-q50",
+    "question": "What are React Hooks, and why are they important?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "React Hooks are special functions introduced in React 16.8 that let developers use state and lifecycle methods in functional components. They simplify code and make it easier to share logic between components."
+      },
+      {
+        "type": "list",
+        "content": [
+          "useState - Manages state in functional components.",
+          "useEffect - Manages side effects like data fetching.",
+          "useContext - Simplifies context API usage."
+        ]
+      },
+      {
+        "type": "code",
+        "language": "javascript",
+        "content": "const [count, setCount] = useState(0);\nuseEffect(() => {\n  console.log('Count updated!');\n}, [count]);"
+      }
+    ]
+  },
+  {
+    "id": "advanced-q51",
+    "question": "What is Server-Side Rendering (SSR) in React?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "Server-Side Rendering (SSR) is a rendering method where React components are rendered on the server and sent to the client as a fully rendered HTML page. This improves performance and SEO."
+      },
+      {
+        "type": "quote",
+        "content": "SSR is often used with libraries like Next.js to optimize React applications."
+      }
+    ]
+  }
+]

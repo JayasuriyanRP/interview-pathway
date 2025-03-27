@@ -30,6 +30,12 @@
         "level": "Intermediate",
         "subpaths": [
           {
+            "id": "react-basic",
+            "title": "React Basics",
+            "description": "React Basics",
+            "level": "Basic"
+          },
+          {
             "id": "frontend-react-hooks",
             "title": "React Hooks",
             "description": "Understanding React hooks and their applications",
