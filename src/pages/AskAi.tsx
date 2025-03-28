@@ -26,12 +26,12 @@ export default function AskAI() {
       if (data && data.answer) {
         try {
           const parsedData = JSON.parse(data.answer); // First parse the response string
-        //   const finalJson = JSON.parse(parsedData);
+          //   const finalJson = JSON.parse(parsedData);
 
           console.log("parsedData -", parsedData);
-        //   console.log("finalJson -", finalJson);
+          //   console.log("finalJson -", finalJson);
           if (Array.isArray(parsedData) && parsedData.length > 0) {
-            setResponse(parsedData[0]); // Take the first question-answer pair
+            setResponse(parsedData); // Take the first question-answer pair
           } else {
             setResponse(null);
           }
@@ -110,14 +110,17 @@ export default function AskAI() {
       </Button>
 
       {/* AI Response in QuestionCard */}
-      {response && (
+      {response && response.length > 0 && (
         <div className="w-full max-w-lg mt-6">
-          <QuestionCard
-            id={0}
-            question={response.question}
-            answer={response.answer}
-            isRead={false}
-          />
+          {response.map((item, index) => (
+            <QuestionCard
+              key={index}
+              id={index}
+              question={item.question}
+              answer={item.answer}
+              isRead={false}
+            />
+          ))}
 
           {/* Copy Button */}
           <div className="relative mt-2 flex justify-end">

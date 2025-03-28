@@ -108,9 +108,9 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
     }
 
     // If no search query, use the original formatting
-    const parts = text.split(/(`[^`]+`)/g);
+    const parts = text?.split(/(`[^`]+`)/g);
 
-    return parts.map((part, index) => {
+    return parts?.map((part, index) => {
       if (part.startsWith("`") && part.endsWith("`")) {
         return (
           <code

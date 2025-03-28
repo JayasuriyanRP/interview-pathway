@@ -7,242 +7,228 @@ from flask_cors import CORS
 app = Flask(__name__)
 
 prompt = """
-You are an AI assistant. **This is VERY IMPORTANT: Generate ONLY a valid JSON response** in the following format:
+You are an AI assistant. **THIS IS CRITICAL: Generate ONLY a valid JSON response.**
 
-[
-    {{
-        \"id\": \"<unique-question-id>\",
-        \"question\": \"<Original Question>\",
-        \"answer\": [
-            {{
-                \"type\": \"text\",
-                \"content\": \"<Descriptive paragraph>\"
-            }},
-            {{
-                \"type\": \"list\",
-                \"items\": [
-                    \"<List item 1>\",
-                    \"<List item 2>\"
-                ]
-            }},
-            {{
-                \"type\": \"code\",
-                \"language\": \"<Programming language>\",
-                \"content\": \"<Code snippet (escaped properly)>\"
-            }},
-            {{
-                \"type\": \"table\",
-                \"columns\": [\"<Column 1>\", \"<Column 2>\"],
-                \"rows\": [
-                    [\"<Row 1 Col 1>\", \"<Row 1 Col 2>\"],
-                    [\"<Row 2 Col 1>\", \"<Row 2 Col 2>\"]
-                ]
-            }},
-            {{
-                \"type\": \"quote\",
-                \"content\": \"<Quotation text (ensure inner quotes are escaped)>\"
-            }},
-            {{
-                \"type\": \"note\",
-                \"content\": \"<Additional context>\",
-                \"highlight\": <true/false>
-            }}
-        ]
-    }}
+**Important Rule**
+1. Response should have this format. Inside answer property there can be any number of content type and content
+```
+[  
+  {
+    "question": "<Question>",
+    "answer": [
+      {
+        "type": "<ContentType>",
+        "content": "<Content>"
+      },
+      {
+        "type": "<ContentType>",
+        "content": "<Content>"
+      },
+      {
+        "type": "<ContentType>",
+        "content": "<Content>"
+      }
+    ]
+  }
 ]
-
-### 🚨 VERY IMPORTANT: STRICT JSON RULES 🚨
-1. **DO NOT** include any explanation, comments, or extra text—ONLY output a valid JSON.
-2. **DO NOT** use markdown fences (e.g., ```json or ```).
-3. **Ensure the JSON is directly parseable**:
-   - **Escape all newlines (`\\n`)** instead of using raw line breaks.
-   - **Escape all quotes (`\\\"`)** inside strings.
-   - **Maintain valid JSON syntax** at all times.
-4. **DO NOT** use triple quotes (`\"\"\"`) inside code blocks.
-5. **Ensure each programming language follows proper syntax, formatting, and best practices.**
+```
 
 
-### Formatting & Output Rules:
-1. **DO NOT** include any explanatory text, markdown, or additional formatting outside the JSON.
-2. **DO NOT** include markdown fences (e.g., ```json or ```).
-3. **DO NOT** use unescaped triple quotes (```\"\"\"```) inside JSON.
-4. **Escape ALL special characters properly**:
-   - **Newlines (\\n)** must be used in multi-line text and code blocks.
-   - **Quotes (\\\")** inside strings must be escaped.
-5. **Ensure JSON is directly parseable** with **no trailing commas** or syntax errors.
-6. **Use correct indentation and structure** to ensure readability.
-7. **Ensure each programming language adheres to best practices**.
+**Rules:**
+1. The response must be a **JSON array** containing **only one object**.
+2. Each object must contain:
+   - `"id"` (string) → random id.
+   - `"question"` (string) → The main question being answered.
+   - `"answer"` (array) → A list of content blocks related to the question.
+3. Each content block inside `"answer"` can contain any number and combination of content types:
+   - `"type"` (string) → The content type (**"text"**, **"code"**, **"list"**, **"table"**, **"image"**, **"quote"**, **"note"**).
+   - `"content"` (string/array) → The actual content.
+4. If `"type": "code"`, include:
+   - `"language"` (string) → The programming language.
+   - `"content"` (string) → The code snippet.
+5. If `"type": "list"`, include:
+   - `"items"` (array of strings) → List elements.
+6. If `"type": "table"`, include:
+   - `"columns"` (array of strings) → Table headers.
+   - `"rows"` (array of arrays) → Table data.
+7. Do not output anything except JSON.  
+   -  NO extra text like "Here's a valid JSON response"  
+   -  NO explanations.  
+   -  Start immediately with `[` and end with `]`
+8. DO NOT use markdown fences (e.g., ` ```json ` or ` ``` `).  
+9. Escape all newlines (`\\n`) and quotes (`\\\"`) properly inside code blocks.**  
+   - Incorrect: `"content": \"\"\"\nconst x = 10;\n\"\"\""`
+   - Correct: `"content": "const x = 10;\\n"`
+10. DO NOT use triple quotes (`\"\"\"`) inside code blocks.
 
-### Example of Correctly Formatted Code Content:
-For Golang:
-```json
-{
-    \"type\": \"code\",
-    \"language\": \"go\",
-    \"content\": \"package main\\n\\nimport (\\n\\t\\\"fmt\\\"\\n\\t\\\"time\\\"\\n)\\n\\nfunc task() {\\n\\tfmt.Println(\\\"Task executed at\\\", time.Now())\\n}\\n\\nfunc main() {\\n\\tticker := time.NewTicker(5 * time.Second)\\n\\tdefer ticker.Stop()\\n\\n\\tfor range ticker.C {\\n\\t\\ttask()\\n\\t}\\n}\"
-}
+###  **LANGUAGE-SPECIFIC CODE BLOCK RULES**  
 
-### Code Formatting Rules:
-
-#### ✅ React (JSX)
+####  React (JSX)
 {
     \"type\": \"code\",
     \"language\": \"jsx\",
     \"content\": \"import React from 'react';\\n\\nfunction App() {\\n    return <h1>Hello, World!</h1>;\\n}\\n\\nexport default App;\"
 }
 
-✔ Use **functional components**.  
-✔ Use **JSX syntax correctly**.  
-✔ Always **export the component** (`export default`).  
+- Use **functional components**.  
+- Use **JSX syntax correctly**.  
+- Always **export the component** (`export default`).  
 
 ---
 
-#### ✅ Angular (TypeScript)
+####  **Angular (TypeScript)**
 {
-    \"type\": \"code\",
-    \"language\": \"typescript\",
-    \"content\": \"import { Component } from '@angular/core';\\n\\n@Component({\\n  selector: 'app-root',\\n  template: '<h1>{{ title }}</h1>',\\n  styleUrls: ['./app.component.css']\\n})\\nexport class AppComponent {\\n  title = 'Hello Angular';\\n}\"
+    "type": "code",
+    "language": "typescript",
+    "content": "import { Component } from '@angular/core';\\n\\n@Component({\\n  selector: 'app-root',\\n  template: '<h1>{{ title }}</h1>',\\n  styleUrls: ['./app.component.css']\\n})\\nexport class AppComponent {\\n  title = 'Hello Angular';\\n}"
 }
 
-✔ Use **TypeScript** for Angular code.  
-✔ Follow **Angular decorators (`@Component`)**.  
-✔ Escape template literals properly.  
+
+- Use **TypeScript** for Angular code.  
+- Follow **Angular decorators (`@Component`)**.  
+- Escape template literals properly.  
 
 ---
 
-#### ✅ JavaScript (ES6+)
+####  JavaScript (ES6+)
 {
     \"type\": \"code\",
     \"language\": \"javascript\",
     \"content\": \"const sayHello = () => {\\n    console.log('Hello, World!');\\n};\\n\\nsayHello();\"
 }
 
-✔ Use **modern ES6+ syntax** (`const`, arrow functions, etc.).  
-✔ Ensure **proper indentation and semicolon usage**.  
+- Use **modern ES6+ syntax** (`const`, arrow functions, etc.).  
+- Ensure **proper indentation and semicolon usage**.  
 
 ---
 
-#### ✅ TypeScript
+####  TypeScript
 {
     \"type\": \"code\",
     \"language\": \"typescript\",
     \"content\": \"function greet(name: string): string {\\n    return `Hello, ${name}!`;\\n}\\n\\nconsole.log(greet('Alice'));"
 }
 
-✔ Use **TypeScript-specific types** (`string`, `number`, `boolean`).  
-✔ Ensure TypeScript functions have **type annotations**.  
+- Use **TypeScript-specific types** (`string`, `number`, `boolean`).  
+- Ensure TypeScript functions have **type annotations**.  
 
 ---
 
-#### ✅ Golang
+####  Golang
 {
     \"type\": \"code\",
     \"language\": \"go\",
     \"content\": \"package main\\n\\nimport (\\n\\t\\\"fmt\\\"\\n\\t\\\"time\\\"\\n)\\n\\nfunc task() {\\n\\tfmt.Println(\\\"Task executed at\\\", time.Now())\\n}\\n\\nfunc main() {\\n\\tticker := time.NewTicker(5 * time.Second)\\n\\tdefer ticker.Stop()\\n\\n\\tfor range ticker.C {\\n\\t\\ttask()\\n\\t}\\n}\"
 }
 
-✔ Escape all **newlines and quotes correctly**.  
-✔ Use Go **idioms** (`main()`, `defer`).  
+- Escape all **newlines and quotes correctly**.  
+- Use Go **idioms** (`main()`, `defer`).  
 
 ---
 
-#### ✅ C# (.NET)
+####  C# (.NET)
 {
     \"type\": \"code\",
     \"language\": \"csharp\",
     \"content\": \"using System;\\n\\nclass Program {\\n    static void Main() {\\n        Console.WriteLine(\\\"Hello, World!\\\");\\n    }\\n}\"
 }
 
-✔ Use **`using System;`** for basic console apps.  
-✔ Escape all **quotes and line breaks properly**.  
+- Use **`using System;`** for basic console apps.  
+- Escape all **quotes and line breaks properly**.  
 
 ---
 
-#### ✅ Python
+####  Python
 {
     \"type\": \"code\",
     \"language\": \"python\",
     \"content\": \"def greet(name):\\n    return f'Hello, {name}!'\\n\\nprint(greet('Alice'))\"
 }
 
-✔ Follow **PEP8 guidelines** (indentation, function names, spacing).  
-✔ Use **f-strings** for string formatting.  
+- Follow **PEP8 guidelines** (indentation, function names, spacing).  
+- Use **f-strings** for string formatting.  
 
 ---
 
-#### ✅ Java
+####  Java
 {
     \"type\": \"code\",
     \"language\": \"java\",
     \"content\": \"public class Main {\\n    public static void main(String[] args) {\\n        System.out.println(\\\"Hello, World!\\\");\\n    }\\n}\"
 }
 
-✔ Use **public class Main** as an entry point.  
-✔ Escape **double quotes** inside strings.  
+- Use **public class Main** as an entry point.  
+- Escape **double quotes** inside strings.  
 
 ---
 
-#### ✅ Swift (iOS)
+####  Swift (iOS)
 {
     \"type\": \"code\",
     \"language\": \"swift\",
     \"content\": \"import SwiftUI\\n\\nstruct ContentView: View {\\n    var body: some View {\\n        Text(\\\"Hello, World!\\\")\\n    }\\n}\"
 }
 
-✔ Follow **SwiftUI syntax** for UI components.  
-✔ Ensure proper **Swift syntax** for functions and variables.  
+- Follow **SwiftUI syntax** for UI components.  
+- Ensure proper **Swift syntax** for functions and variables.  
 
 ---
 
-#### ✅ Kotlin (Android)
+####  Kotlin (Android)
 {
     \"type\": \"code\",
     \"language\": \"kotlin\",
     \"content\": \"fun main() {\\n    println(\\\"Hello, World!\\\")\\n}\"
 }
 
-✔ Use **idiomatic Kotlin syntax**.  
-✔ Prefer **functions (`fun`)** over Java-style classes.  
+- Use **idiomatic Kotlin syntax**.  
+- Prefer **functions (`fun`)** over Java-style classes.  
 
 ---
 
-#### ✅ PowerShell
+####  PowerShell
 {
     \"type\": \"code\",
     \"language\": \"powershell\",
     \"content\": \"Write-Output 'Hello, World!'\\nStart-Sleep -Seconds 2\\nWrite-Output 'Goodbye!'"
 }
 
-✔ Use PowerShell **cmdlets** (`Write-Output`, `Start-Sleep`).  
-✔ Ensure correct **script structure**.  
+- Use PowerShell **cmdlets** (`Write-Output`, `Start-Sleep`).  
+- Ensure correct **script structure**.  
 
 ---
 
-#### ✅ SQL (MySQL / PostgreSQL)
+####  SQL (MySQL / PostgreSQL)
 {
     \"type\": \"code\",
     \"language\": \"sql\",
     \"content\": \"SELECT * FROM users WHERE status = 'active';\"
 }
 
-✔ Use **standard SQL syntax** (`SELECT`, `WHERE`).  
-✔ Ensure **query safety** (avoid injection risks).  
+- Use **standard SQL syntax** (`SELECT`, `WHERE`).  
+- Ensure **query safety** (avoid injection risks).  
 
 ---
 
-#### ✅ Bash / Shell Scripting
+####  Bash / Shell Scripting
 {
     \"type\": \"code\",
     \"language\": \"bash\",
     \"content\": \"#!/bin/bash\\necho 'Hello, World!'\\nsleep 2\\necho 'Goodbye!'"
 }
 
-✔ Use **`#!/bin/bash`** shebang for scripts.  
-✔ Use **echo** for output.  
+- Use **`#!/bin/bash`** shebang for scripts.  
+- Use **echo** for output.  
 
 ---
 
-By following these rules, the AI should generate **valid, structured JSON with properly formatted code for each language**.
+### 🔥 **FINAL WARNING:**
+-  **Start immediately with `[`**
+-  **End only with `]`**
+- ❌ **No explanations**
+- ❌ **No extra text**
+-  **Responses must use any combination of `"text"`, `"list"`, `"code"`, `"note"`, `"quote"`, and `"table"`**
+-  **All `"code"` blocks must be properly escaped**
 
 """
 
@@ -309,102 +295,6 @@ def ask_llama3():
     except Exception as e:
         print(f"❌ Error: {e}")  # Log errors
         return jsonify({"error": str(e)}), 500
-
-def process_questions(data):
-    """
-    Converts raw questions and answers into structured content blocks.
-    """
-    transformed_questions = []
-    for question_obj in data.get("questions", []):
-        question_id = question_obj.get("id", str(uuid.uuid4()))
-        question_text = question_obj.get("question", "No question provided")
-        print(question_text)
-        raw_answer = question_obj.get("answer", "").strip("```markdown\n").strip("```")
-
-        # Generate structured JSON using Llama 3
-        prompt = f"""
-Generate only a valid JSON response, with no additional text or explanation. 
-Transform the following question and answer into structured JSON format using these content block types:
-
-- **text**: Regular paragraph text.
-- **code**: Code blocks with syntax highlighting.
-- **list**: Bulleted or numbered lists.
-- **table**: Data presented in a structured tabular format.
-- **image**: Image URLs with optional captions.
-- **quote**: Quotations or citations.
-- **note**: Additional information, which may be highlighted for emphasis.
-
-Ensure the output is **ONLY** a JSON array formatted as follows:
-
-[
-    {{
-        "id": "<unique-question-id>",
-        "question": "<Original Question>",
-        "answer": [
-            {{
-                "type": "text",
-                "content": "<Descriptive paragraph>"
-            }},
-            {{
-                "type": "list",
-                "items": [
-                    "<List item 1>",
-                    "<List item 2>"
-                ]
-            }},
-            {{
-                "type": "code",
-                "language": "<Programming language>",
-                "content": "<Code snippet>"
-            }},
-            {{
-                "type": "table",
-                "columns": ["<Column 1>", "<Column 2>"],
-                "rows": [
-                    ["<Row 1 Col 1>", "<Row 1 Col 2>"],
-                    ["<Row 2 Col 1>", "<Row 2 Col 2>"]
-                ]
-            }},
-            {{
-                "type": "quote",
-                "content": "<Quotation text>"
-            }},
-            {{
-                "type": "note",
-                "content": "<Additional context>",
-                "highlight": <true/false>
-            }}
-        ]
-    }}
-]
-
-### Important Guidelines:
-- **DO NOT** include markdown fences (e.g., ```json or ```).
-- **DO NOT** use triple quotes (`\"\"\"`) inside code blocks.
-- **Escape all newlines (`\\n`) properly** in code blocks.
-- Ensure the JSON is **directly parseable** without any modification.
-- The output must be **valid JSON**.
-"""
-
-
-
-
-        llama_response = call_llama3(prompt, question_text)
-
-        # Convert Llama's response to JSON
-        try:
-            formatted_answer = json.loads(llama_response)
-        except json.JSONDecodeError:
-            formatted_answer = [{"type": "text", "content": "Failed to parse answer."}]
-
-        transformed_questions.append({
-            "id": question_id,
-            "question": question_text,
-            "answer": formatted_answer
-        })
-
-    return transformed_questions
-
 
 # Handle CORS preflight requests explicitly
 @app.route("/api/ask", methods=["OPTIONS"])
