@@ -5,6 +5,7 @@ import { ArrowRight, ExternalLink } from "lucide-react";
 import { CardFooter } from "./ui/card";
 import { Button } from "./ui/button";
 import { usePathQuestions } from "@/hooks/useData";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface NestedPathCardFooterProps {
   pathId: string;
@@ -27,28 +28,29 @@ const NestedPathCardFooter: React.FC<NestedPathCardFooterProps> = ({
 }) => {
   const { questions } = usePathQuestions(pathId);
   const actualQuestionCount = questions?.length || 0;
+  const isMobile = useIsMobile();
   
   return (
     <CardFooter className="flex justify-between pt-2 border-t">
-      <span className="text-sm text-muted-foreground">
+      <span className="text-xs sm:text-sm text-muted-foreground">
         {hasNestedPaths 
           ? `${subpathsCount} subpaths` 
           : `${actualQuestionCount} questions`}
       </span>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1 sm:gap-2">
         {hasNestedPaths ? (
           <>
             <Button
               variant="ghost"
               size="sm"
-              className="p-0 h-auto"
+              className="p-0 h-auto text-xs sm:text-sm"
               onClick={handleToggleExpand}
             >
               {isExpanded ? "Collapse" : "Expand"}
             </Button>
             <Link
               to={`/subpaths/${pathId}`}
-              className="flex items-center text-sm font-medium text-indigo-600 dark:text-indigo-400"
+              className="flex items-center text-xs sm:text-sm font-medium text-indigo-600 dark:text-indigo-400"
               onClick={() => onPathClick && onPathClick(pathId)}
             >
               View
@@ -58,11 +60,11 @@ const NestedPathCardFooter: React.FC<NestedPathCardFooterProps> = ({
         ) : (
           <Link
             to={`/path/${pathId}`}
-            className="flex items-center text-sm font-medium text-indigo-600 dark:text-indigo-400"
+            className="flex items-center text-xs sm:text-sm font-medium text-indigo-600 dark:text-indigo-400"
             onClick={() => onPathClick && onPathClick(pathId)}
           >
             Start learning
-            <ArrowRight className="ml-1 h-4 w-4" />
+            <ArrowRight className="ml-1 h-3 w-3 sm:h-4 sm:w-4" />
           </Link>
         )}
       </div>

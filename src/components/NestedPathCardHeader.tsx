@@ -6,6 +6,7 @@ import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { getIconComponent } from "@/utils/iconUtils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface NestedPathCardHeaderProps {
   title: string;
@@ -29,6 +30,7 @@ const NestedPathCardHeader: React.FC<NestedPathCardHeaderProps> = ({
   icon = "List",
 }) => {
   const IconComponent = getIconComponent(icon);
+  const isMobile = useIsMobile();
 
   return (
     <CardHeader className="pb-2">
@@ -50,7 +52,7 @@ const NestedPathCardHeader: React.FC<NestedPathCardHeaderProps> = ({
           )}
           <div
             className={cn(
-              "p-2 rounded-lg inline-flex items-center justify-center w-10 h-10",
+              "p-2 rounded-lg inline-flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10",
               isCompleted 
                 ? "bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400" 
                 : "bg-secondary"
@@ -59,7 +61,7 @@ const NestedPathCardHeader: React.FC<NestedPathCardHeaderProps> = ({
             {isCompleted ? (
               <CheckCircle className="h-4 w-4 text-indigo-500 dark:text-indigo-400" />
             ) : (
-              <IconComponent className="h-5 w-5" />
+              <IconComponent className="h-4 w-4 sm:h-5 sm:w-5" />
             )}
           </div>
         </div>
@@ -70,8 +72,8 @@ const NestedPathCardHeader: React.FC<NestedPathCardHeaderProps> = ({
           {level}
         </Badge>
       </div>
-      <CardTitle className="text-lg mt-2">{title}</CardTitle>
-      <CardDescription className="line-clamp-2">
+      <CardTitle className={cn("mt-2", isMobile ? "text-base" : "text-lg")}>{title}</CardTitle>
+      <CardDescription className="line-clamp-2 text-xs sm:text-sm">
         {description}
       </CardDescription>
     </CardHeader>

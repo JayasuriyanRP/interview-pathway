@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ChevronLeft, Home } from "lucide-react";
@@ -78,10 +79,10 @@ const Header: React.FC<HeaderProps> = ({ title, showBackButton = false, path = [
 
           <div className="md:hidden">
             {title ? (
-              <h1 className="text-lg font-semibold">{title}</h1>
+              <h1 className="text-base font-semibold truncate max-w-[200px]">{title}</h1>
             ) : (
               <Link to="/" className="flex items-center">
-                <span className="text-lg font-semibold">Interview Pathways</span>
+                <span className="text-base font-semibold">Interview Pathways</span>
               </Link>
             )}
           </div>
