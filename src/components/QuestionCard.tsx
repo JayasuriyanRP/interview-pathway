@@ -224,8 +224,8 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
           <div
             key={index}
             className={`p-4 my-4 rounded-lg ${block.highlight
-                ? "bg-amber-50 border border-amber-200 dark:bg-amber-900/30 dark:border-amber-800"
-                : "bg-blue-50 border border-blue-200 dark:bg-blue-900/30 dark:border-blue-800"
+              ? "bg-amber-50 border border-amber-200 dark:bg-amber-900/30 dark:border-amber-800"
+              : "bg-blue-50 border border-blue-200 dark:bg-blue-900/30 dark:border-blue-800"
               }`}
           >
             <p className="text-sm font-medium mb-1">
@@ -265,8 +265,8 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   return (
     <div
       className={`mb-6 bg-card rounded-xl overflow-hidden border ${isRead
-          ? "border-gray-100 dark:border-gray-800"
-          : "border-blue-100 dark:border-blue-800"
+        ? "border-gray-100 dark:border-gray-800"
+        : "border-blue-100 dark:border-blue-800"
         } shadow-sm transition-all duration-300`}
     >
       <div
@@ -277,9 +277,10 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
           {isRead && (
             <CheckCircle2 size={18} className="text-green-500 flex-shrink-0" />
           )}
-          <h3 className="text-lg font-medium">
+          <h3 className="text-base sm:text-lg md:text-xl font-medium">
             {id + 1} - {formatText(question)}
           </h3>
+
         </div>
         <ChevronDown
           className={`h-5 w-5 text-gray-500 transition-transform duration-300 ${isOpen ? "rotate-180" : ""
