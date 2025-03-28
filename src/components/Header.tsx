@@ -1,33 +1,95 @@
+
 import React from "react";
-import { Link } from "react-router-dom";
-import { ChevronLeft } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { ChevronLeft, Home } from "lucide-react";
+import { Button } from "./ui/button";
+import ThemeToggle from "./ThemeToggle";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "./ui/breadcrumb";
 
 interface HeaderProps {
   title?: string;
   showBackButton?: boolean;
+  path?: { id: string; title: string }[];
 }
 
-const Header: React.FC<HeaderProps> = ({ title, showBackButton = false }) => {
+const Header: React.FC<HeaderProps> = ({ title, showBackButton = false, path = [] }) => {
+  const navigate = useNavigate();
+  
   return (
-    <header className="relative z-10 px-6 py-8 md:py-10 w-full">
-      <div className="w-full mx-auto flex items-center justify-start gap-4">
-        <div className="flex items-center space-x-4">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-16 items-center px-4 sm:px-6">
+        <div className="flex flex-1 items-center gap-2">
           {showBackButton && (
-            <Link
-              to="/"
-              className="p-2 rounded-full hover:bg-gray-100 transition-colors duration-200"
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => navigate(-1)}
+              className="mr-2"
               aria-label="Go back"
             >
               <ChevronLeft className="h-5 w-5" />
-            </Link>
+            </Button>
           )}
-          {title ? (
-            <h1 className="text-xl font-medium">{title}</h1>
-          ) : (
-            <Link to="/" className="text-xl font-medium">
-              Interview Pathways
-            </Link>
-          )}
+          
+          <div className="hidden md:flex">
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink asChild>
+                    <Link to="/">
+                      <Home className="h-4 w-4 mr-1" />
+                      Home
+                    </Link>
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                
+                {path.map((item, index) => (
+                  <React.Fragment key={item.id}>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                      {index === path.length - 1 ? (
+                        <BreadcrumbPage>{item.title}</BreadcrumbPage>
+                      ) : (
+                        <BreadcrumbLink asChild>
+                          <Link to={`/subpaths/${item.id}`}>{item.title}</Link>
+                        </BreadcrumbLink>
+                      )}
+                    </BreadcrumbItem>
+                  </React.Fragment>
+                ))}
+                
+                {title && path.length === 0 && (
+                  <>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                      <BreadcrumbPage>{title}</BreadcrumbPage>
+                    </BreadcrumbItem>
+                  </>
+                )}
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
+          
+          <div className="md:hidden">
+            {title ? (
+              <h1 className="text-lg font-semibold">{title}</h1>
+            ) : (
+              <Link to="/" className="flex items-center">
+                <span className="text-lg font-semibold">Interview Pathways</span>
+              </Link>
+            )}
+          </div>
+        </div>
+        
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
         </div>
       </div>
     </header>

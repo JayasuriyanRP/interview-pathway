@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -16,28 +17,28 @@
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
+    --primary: 245 45% 55%;
     --primary-foreground: 0 0% 98%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
+    --accent: 245 45% 95%;
     --accent-foreground: 240 5.9% 10%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
+    --ring: 245 45% 55%;
     --radius: 0.75rem;
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary: 245 45% 55%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent: 245 45% 95%;
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-ring: 245 45% 55%;
   }
 
   .dark {
@@ -47,27 +48,27 @@
     --card-foreground: 0 0% 98%;
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
+    --primary: 245 45% 55%;
+    --primary-foreground: 0 0% 98%;
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
+    --accent: 245 45% 20%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --ring: 245 45% 55%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary: 245 45% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 240 3.7% 15.9%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-ring: 245 45% 55%;
   }
 }
 
@@ -82,6 +83,7 @@
   }
 }
 
+/* Improved glass card effect */
 .glass-card {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -95,8 +97,24 @@
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+/* Improved path card with animation */
 .path-card {
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.path-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(99, 102, 241, 0) 50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
 }
 
 .path-card:hover {
@@ -104,10 +122,19 @@
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
 }
 
+.path-card:hover::after {
+  opacity: 1;
+}
+
 .dark .path-card:hover {
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
 }
 
+.dark .path-card::after {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(99, 102, 241, 0) 50%);
+}
+
+/* Animation classes */
 .question-enter {
   opacity: 0;
   transform: translateY(20px);
@@ -145,6 +172,7 @@ pre {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Animation delay utilities */
 .animate-delay-100 {
   animation-delay: 100ms;
 }
@@ -195,6 +223,7 @@ pre {
   margin-bottom: 1.5em;
 }
 
+/* Accessibility improvements */
 @media (prefers-reduced-motion) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -212,4 +241,33 @@ pre {
 .code-wrap-enabled code {
   white-space: pre-wrap !important;
   word-break: break-all;
+}
+
+/* Gradient backgrounds */
+.gradient-header {
+  background: linear-gradient(90deg, rgba(79, 70, 229, 0.1) 0%, rgba(147, 51, 234, 0.05) 100%);
+}
+
+.dark .gradient-header {
+  background: linear-gradient(90deg, rgba(79, 70, 229, 0.2) 0%, rgba(147, 51, 234, 0.1) 100%);
+}
+
+/* Responsive improvements */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Custom badge styles */
+.badge-beginner {
+  @apply bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300;
+}
+
+.badge-intermediate {
+  @apply bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300;
+}
+
+.badge-advanced {
+  @apply bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300;
 }

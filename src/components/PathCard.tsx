@@ -2,6 +2,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Code, Server, GitBranch, Network, ArrowRight, List, CheckCircle } from "lucide-react";
+import { Badge } from "./ui/badge";
+import { cn } from "@/lib/utils";
 
 interface PathCardProps {
   id: string;
@@ -51,31 +53,51 @@ const PathCard: React.FC<PathCardProps> = ({
   // Calculate progress percentage
   const progressPercentage = total > 0 ? (completed / total) * 100 : 0;
 
+  // Level-based badge style
+  const getBadgeClass = () => {
+    switch (level.toLowerCase()) {
+      case 'beginner':
+        return 'badge-beginner';
+      case 'intermediate':
+        return 'badge-intermediate';
+      case 'advanced':
+        return 'badge-advanced';
+      default:
+        return '';
+    }
+  };
+
   return (
     <Link
       to={linkTo}
-      className={`path-card block bg-card rounded-xl p-6 border ${
-        isCompleted ? "border-green-200 dark:border-green-900" : "border-border"
-      } shadow-sm hover:shadow-md transition-all duration-300`}
+      className={cn(
+        "path-card block bg-card rounded-xl p-6 border shadow-sm hover:shadow-md transition-all duration-300",
+        isCompleted ? "border-indigo-200 dark:border-indigo-900" : "border-border"
+      )}
     >
       <div className="flex flex-col h-full">
         <div className="flex justify-between">
-          <div className={`mb-4 p-3 ${
-            isCompleted ? "bg-green-50 dark:bg-green-900/20" : "bg-secondary"
-          } rounded-lg inline-flex items-center justify-center w-12 h-12`}>
-            {isCompleted ? <CheckCircle className="h-5 w-5 text-green-500 dark:text-green-400" /> : getIcon()}
+          <div className={cn(
+            "mb-4 p-3 rounded-lg inline-flex items-center justify-center w-12 h-12",
+            isCompleted 
+              ? "bg-indigo-50 dark:bg-indigo-900/20" 
+              : "bg-indigo-100 dark:bg-indigo-900/30"
+          )}>
+            {isCompleted ? (
+              <CheckCircle className="h-5 w-5 text-indigo-500 dark:text-indigo-400" />
+            ) : getIcon()}
           </div>
           {isCompleted && (
-            <span className="text-xs font-medium text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 px-2 py-1 rounded-full">
+            <Badge className="bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300">
               Completed
-            </span>
+            </Badge>
           )}
         </div>
         
         <div className="flex-1">
-          <div className="inline-block px-2.5 py-0.5 mb-2 text-xs font-medium rounded-full bg-secondary text-secondary-foreground">
+          <Badge className={cn("mb-2", getBadgeClass())}>
             {level}
-          </div>
+          </Badge>
           <h3 className="text-xl font-medium mb-2">{title}</h3>
           <p className="text-muted-foreground mb-4 text-sm line-clamp-2">
             {description}
@@ -87,7 +109,7 @@ const PathCard: React.FC<PathCardProps> = ({
           <div className="w-full mt-2 mb-4">
             <div className="h-1.5 w-full bg-secondary rounded-full overflow-hidden">
               <div 
-                className="h-full bg-green-500 transition-all duration-500 ease-in-out" 
+                className="h-full bg-indigo-500 transition-all duration-500 ease-in-out" 
                 style={{ width: `${progressPercentage}%` }}
               ></div>
             </div>
@@ -96,7 +118,7 @@ const PathCard: React.FC<PathCardProps> = ({
                 {completed} of {total} completed
               </span>
               <span className="text-xs font-medium text-muted-foreground">
-                {progressPercentage.toFixed(0)}%
+                {Math.round(progressPercentage)}%
               </span>
             </div>
           </div>
@@ -106,7 +128,7 @@ const PathCard: React.FC<PathCardProps> = ({
           <div className="text-sm text-muted-foreground">
             {hasSubpaths ? `${count} subpaths` : `${count} questions`}
           </div>
-          <div className="flex items-center text-sm font-medium text-blue-600 dark:text-blue-400">
+          <div className="flex items-center text-sm font-medium text-indigo-600 dark:text-indigo-400">
             {actionText}
             <ArrowRight className="ml-1 h-4 w-4" />
           </div>
