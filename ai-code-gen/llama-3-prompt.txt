@@ -1,0 +1,112 @@
+**Updated Prompt for Transforming JSON Data**
+
+### Objective
+You are provided with a JSON file that contains a set of questions and answers related to programming concepts. Your task is to transform the data while ensuring proper formatting, accurate representation of content, and appropriate structuring using different content types.
+
+### Input Format
+The input JSON contains an array of questions, each having the following fields:
+- **id**: Unique identifier for the question.
+- **question**: The question text.
+- **answer**: The detailed explanation of the answer (may contain code, tables, lists, or text).
+- **level**: Difficulty level (e.g., Beginner, Intermediate, Advanced).
+- **created_at**: Timestamp of when the question was created.
+- **topic**: Identifier for the topic category.
+
+### Output Format
+Transform the input into a well-structured JSON format with the following rules:
+
+1. **Maintain Structure**:
+   - Preserve all provided fields.
+   - Ensure consistency in formatting across all entries.
+
+2. **Use Appropriate Content Types**:
+   - `"text"`: General explanations, descriptions, and overviews.
+   - `"code"`: Any programming-related content, ensuring proper syntax highlighting.
+   - `"list"`: Bullet points for enumerations or ordered lists.
+   - `"table"`: Structured tabular data for comparisons or feature lists.
+   - `"image"`: If applicable, indicate placeholders for diagrams or visual representations.
+   - `"quote"`: Use for important references or key statements.
+   - `"note"`: Additional information that is supplementary but useful.
+
+3. **Ensure Proper Code Formatting**:
+   - If an answer contains a code snippet, wrap it inside the `"code"` content type.
+   - Include a text block before the code block explaining its context.
+   - Ensure no syntax errors in any programming language.
+   - Properly escape special characters to prevent JSON parsing errors.
+
+4. **Improve Readability**:
+   - Add headers, descriptions, and examples where necessary.
+   - Convert lengthy paragraphs into structured lists or tables when relevant.
+
+5. **Examples for Different Content Types**:
+   
+   **Text Example:**
+   ```json
+   {
+       "type": "text",
+       "content": "In C#, a shallow copy creates a new object but keeps references to the original object's fields."
+   }
+   ```
+   
+   **Code Example:**
+   ```json
+   {
+       "type": "code",
+       "language": "csharp",
+       "content": "class Person { public string Name; public Address Address; }"
+   }
+   ```
+   
+   **List Example:**
+   ```json
+   {
+       "type": "list",
+       "content": [
+           "Shallow Copy: Copies object references instead of creating new ones.",
+           "Deep Copy: Creates independent copies of all objects."
+       ]
+   }
+   ```
+   
+   **Table Example:**
+   ```json
+   {
+       "type": "table",
+       "headers": ["Aspect", "Shallow Copy", "Deep Copy"],
+       "rows": [
+           ["Object References", "Same References", "New Instances"],
+           ["Implementation", "Uses MemberwiseClone()", "Requires Manual Copying"]
+       ]
+   }
+   ```
+   
+   **Quote Example:**
+   ```json
+   {
+       "type": "quote",
+       "content": "A deep copy ensures complete independence between the original and the copied object."
+   }
+   ```
+   
+   **Note Example:**
+   ```json
+   {
+       "type": "note",
+       "content": "Deep copies are more performance-intensive compared to shallow copies."
+   }
+   ```
+
+6. **Error Handling**:
+   - Ensure that JSON output does not contain invalid characters.
+   - If a code block is malformed, correct it while keeping its original intent intact.
+   - Avoid redundant content or excessive nesting.
+
+7. **Consistency Across Entries**:
+   - Make sure that every transformed question follows the same structured pattern.
+   - Ensure tables, lists, and descriptions are consistently formatted across all answers.
+
+### Final Thoughts
+Use this prompt to process and transform the input JSON efficiently while maintaining correctness, readability, and proper formatting. Ensure that all content types are used appropriately, and programming code is structured properly to avoid JSON errors.
+
+This prompt is optimized for Llama 3 and similar LLMs that support structured outputs. Feel free to tweak it based on specific needs or model capabilities.
+
