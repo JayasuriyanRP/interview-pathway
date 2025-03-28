@@ -290,7 +290,10 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
         />
       </div>
       {isOpen && (
-        <div className="px-6 pb-6 pt-2 border-t border-border animate-slideUp">
+        <div
+          className="px-2 sm:px-6 pb-4 sm:pb-6 pt-1 sm:pt-2 border-t border-border animate-slideUp
+"
+        >
           {renderAnswer()}
         </div>
       )}
