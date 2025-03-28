@@ -14,7 +14,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { 
+import {
   Card,
   CardContent,
   CardDescription
@@ -29,21 +29,21 @@ const Index = () => {
   // Filter paths based on search query and level filter
   const getFilteredPaths = () => {
     if (!paths) return [];
-    
+
     return paths.filter((path) => {
-      const matchesSearch = !searchQuery.trim() || 
+      const matchesSearch = !searchQuery.trim() ||
         path.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         path.description.toLowerCase().includes(searchQuery.toLowerCase());
-        
-      const matchesLevel = !levelFilter || 
+
+      const matchesLevel = !levelFilter ||
         path.level.toLowerCase() === levelFilter.toLowerCase();
-        
+
       return matchesSearch && matchesLevel;
     });
   };
 
   const filteredPaths = getFilteredPaths();
-  
+
   const clearFilters = () => {
     setSearchQuery("");
     setLevelFilter(null);
@@ -70,9 +70,9 @@ const Index = () => {
             </div>
             <h2 className="text-lg font-medium mb-2">Error loading data</h2>
             <CardDescription>{error.message}</CardDescription>
-            <Button 
-              variant="outline" 
-              onClick={() => window.location.reload()} 
+            <Button
+              variant="outline"
+              onClick={() => window.location.reload()}
               className="mt-4"
             >
               Try Again
@@ -172,7 +172,7 @@ const Index = () => {
                 )}
               </div>
             ) : null}
-            
+
             {filteredPaths.length === 0 && (searchQuery || levelFilter) && (
               <div className="mt-4 p-6 text-center bg-card rounded-xl border border-border">
                 <p className="text-muted-foreground">
@@ -189,7 +189,7 @@ const Index = () => {
             )}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredPaths.map((path, index) => {
               // Get subpaths count directly from the JSON data
               const subpathCount = path.subpaths ? path.subpaths.length : 0;
