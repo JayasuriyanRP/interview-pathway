@@ -4,7 +4,7 @@ import { ChevronRight, ChevronDown, CheckCircle } from "lucide-react";
 import { CardHeader, CardTitle, CardDescription } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
-import { cn } from "@/lib/utils";
+import { cn, getBadgeClass } from "@/lib/utils";
 import { getIconComponent } from "@/utils/iconUtils";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -53,8 +53,8 @@ const NestedPathCardHeader: React.FC<NestedPathCardHeaderProps> = ({
           <div
             className={cn(
               "p-2 rounded-lg inline-flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10",
-              isCompleted 
-                ? "bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400" 
+              isCompleted
+                ? "bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400"
                 : "bg-secondary"
             )}
           >
@@ -65,10 +65,7 @@ const NestedPathCardHeader: React.FC<NestedPathCardHeaderProps> = ({
             )}
           </div>
         </div>
-        <Badge 
-          variant="default" 
-          className="bg-indigo-500 hover:bg-indigo-600 text-xs"
-        >
+        <Badge className={cn("mb-1", getBadgeClass(level))}>
           {level}
         </Badge>
       </div>

@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Code, Server, GitBranch, Network, ArrowRight, List, CheckCircle } from "lucide-react";
 import { Badge } from "./ui/badge";
-import { cn } from "@/lib/utils";
+import { cn, getBadgeClass } from "@/lib/utils";
 
 interface PathCardProps {
   id: string;
@@ -53,20 +53,6 @@ const PathCard: React.FC<PathCardProps> = ({
   // Calculate progress percentage
   const progressPercentage = total > 0 ? (completed / total) * 100 : 0;
 
-  // Level-based badge style
-  const getBadgeClass = () => {
-    switch (level.toLowerCase()) {
-      case 'beginner':
-        return 'badge-beginner';
-      case 'intermediate':
-        return 'badge-intermediate';
-      case 'advanced':
-        return 'badge-advanced';
-      default:
-        return '';
-    }
-  };
-
   return (
     <Link
       to={linkTo}
@@ -93,7 +79,7 @@ const PathCard: React.FC<PathCardProps> = ({
             </div>
 
             <div>
-              <Badge className={cn("mb-1", getBadgeClass())}>
+              <Badge className={cn("mb-1", getBadgeClass(level))}>
                 {level}
               </Badge>
               <h3 className="text-xl font-medium">{title}</h3>
