@@ -15,6 +15,7 @@ interface NestedPathCardHeaderProps {
   isExpanded: boolean;
   isCompleted?: boolean;
   handleToggleExpand: (e: React.MouseEvent) => void;
+  icon?: string;
 }
 
 const NestedPathCardHeader: React.FC<NestedPathCardHeaderProps> = ({
@@ -25,8 +26,9 @@ const NestedPathCardHeader: React.FC<NestedPathCardHeaderProps> = ({
   isExpanded,
   isCompleted = false,
   handleToggleExpand,
+  icon = "List",
 }) => {
-  const IconComponent = getIconComponent();
+  const IconComponent = getIconComponent(icon);
 
   return (
     <CardHeader className="pb-2">

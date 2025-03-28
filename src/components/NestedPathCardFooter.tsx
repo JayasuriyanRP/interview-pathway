@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { CardFooter } from "./ui/card";
 import { Button } from "./ui/button";
+import { usePathQuestions } from "@/hooks/useData";
 
 interface NestedPathCardFooterProps {
   pathId: string;
@@ -24,12 +25,15 @@ const NestedPathCardFooter: React.FC<NestedPathCardFooterProps> = ({
   handleToggleExpand,
   onPathClick,
 }) => {
+  const { questions } = usePathQuestions(pathId);
+  const actualQuestionCount = questions?.length || 0;
+  
   return (
     <CardFooter className="flex justify-between pt-2 border-t">
       <span className="text-sm text-muted-foreground">
         {hasNestedPaths 
           ? `${subpathsCount} subpaths` 
-          : `${questionsCount} questions`}
+          : `${actualQuestionCount} questions`}
       </span>
       <div className="flex items-center gap-2">
         {hasNestedPaths ? (
