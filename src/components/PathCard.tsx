@@ -131,7 +131,7 @@ const PathCard: React.FC<PathCardProps> = ({
           </div>
         )}
 
-        <div className="flex items-center justify-between mt-auto pt-4 border-t border-border">
+        <div className="flex items-center justify-between mt-2 pt-2 border-t border-border">
           <div className="text-sm text-muted-foreground">
             {hasSubpaths ? `${count} subpaths` : `${count} questions`}
           </div>
