@@ -1,0 +1,69 @@
+
+import React from "react";
+import { Link } from "react-router-dom";
+import { ArrowRight, ExternalLink } from "lucide-react";
+import { CardFooter } from "./ui/card";
+import { Button } from "./ui/button";
+
+interface NestedPathCardFooterProps {
+  pathId: string;
+  hasNestedPaths: boolean;
+  isExpanded: boolean;
+  subpathsCount: number;
+  questionsCount: number;
+  handleToggleExpand: (e: React.MouseEvent) => void;
+  onPathClick?: (pathId: string) => void;
+}
+
+const NestedPathCardFooter: React.FC<NestedPathCardFooterProps> = ({
+  pathId,
+  hasNestedPaths,
+  isExpanded,
+  subpathsCount,
+  questionsCount,
+  handleToggleExpand,
+  onPathClick,
+}) => {
+  return (
+    <CardFooter className="flex justify-between pt-2 border-t">
+      <span className="text-sm text-muted-foreground">
+        {hasNestedPaths 
+          ? `${subpathsCount} subpaths` 
+          : `${questionsCount} questions`}
+      </span>
+      <div className="flex items-center gap-2">
+        {hasNestedPaths ? (
+          <>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="p-0 h-auto"
+              onClick={handleToggleExpand}
+            >
+              {isExpanded ? "Collapse" : "Expand"}
+            </Button>
+            <Link
+              to={`/subpaths/${pathId}`}
+              className="flex items-center text-sm font-medium text-indigo-600 dark:text-indigo-400"
+              onClick={() => onPathClick && onPathClick(pathId)}
+            >
+              View
+              <ExternalLink className="ml-1 h-3 w-3" />
+            </Link>
+          </>
+        ) : (
+          <Link
+            to={`/path/${pathId}`}
+            className="flex items-center text-sm font-medium text-indigo-600 dark:text-indigo-400"
+            onClick={() => onPathClick && onPathClick(pathId)}
+          >
+            Start learning
+            <ArrowRight className="ml-1 h-4 w-4" />
+          </Link>
+        )}
+      </div>
+    </CardFooter>
+  );
+};
+
+export default NestedPathCardFooter;
