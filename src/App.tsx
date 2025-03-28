@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import SubpathsList from "./pages/SubpathsList";
 import NestedPathExample from "./components/NestedPathExample";
 import AskAI from "./pages/AskAi";
+import AIConverter from "./pages/AIConverter";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +28,7 @@ const App = () => (
             <Route path="/examples" element={<LearningPath />} />
             <Route path="/nested-example" element={<NestedPathExample />} />
             <Route path="/ask-ai" element={<AskAI />} />
+            <Route path="/convert-ai" element={<AIConverter />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

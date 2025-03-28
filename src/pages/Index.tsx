@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import Header from "../components/Header";
 import PathCard from "../components/PathCard";
@@ -14,11 +13,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { 
-  Card,
-  CardContent,
-  CardDescription
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription } from "@/components/ui/card";
 
 const Index = () => {
   const { paths, loading, error } = useData();
@@ -29,21 +24,22 @@ const Index = () => {
   // Filter paths based on search query and level filter
   const getFilteredPaths = () => {
     if (!paths) return [];
-    
+
     return paths.filter((path) => {
-      const matchesSearch = !searchQuery.trim() || 
+      const matchesSearch =
+        !searchQuery.trim() ||
         path.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         path.description.toLowerCase().includes(searchQuery.toLowerCase());
-        
-      const matchesLevel = !levelFilter || 
-        path.level.toLowerCase() === levelFilter.toLowerCase();
-        
+
+      const matchesLevel =
+        !levelFilter || path.level.toLowerCase() === levelFilter.toLowerCase();
+
       return matchesSearch && matchesLevel;
     });
   };
 
   const filteredPaths = getFilteredPaths();
-  
+
   const clearFilters = () => {
     setSearchQuery("");
     setLevelFilter(null);
@@ -70,9 +66,9 @@ const Index = () => {
             </div>
             <h2 className="text-lg font-medium mb-2">Error loading data</h2>
             <CardDescription>{error.message}</CardDescription>
-            <Button 
-              variant="outline" 
-              onClick={() => window.location.reload()} 
+            <Button
+              variant="outline"
+              onClick={() => window.location.reload()}
               className="mt-4"
             >
               Try Again
@@ -112,8 +108,19 @@ const Index = () => {
                 </Button>
 
                 <Link to="/ask-ai">
-                  <Button variant="default" className="bg-indigo-600 hover:bg-indigo-700">
+                  <Button
+                    variant="default"
+                    className="bg-indigo-600 hover:bg-indigo-700"
+                  >
                     Ask AI
+                  </Button>
+                </Link>
+                <Link to="/convert-ai">
+                  <Button
+                    variant="default"
+                    className="bg-indigo-600 hover:bg-indigo-700"
+                  >
+                    Convert from skillora.ai
                   </Button>
                 </Link>
               </div>
@@ -135,10 +142,15 @@ const Index = () => {
               </div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="self-stretch sm:self-auto gap-2">
+                  <Button
+                    variant="outline"
+                    className="self-stretch sm:self-auto gap-2"
+                  >
                     <Filter className="h-4 w-4" />
                     <span>
-                      {levelFilter ? `Level: ${levelFilter}` : "Filter by Level"}
+                      {levelFilter
+                        ? `Level: ${levelFilter}`
+                        : "Filter by Level"}
                     </span>
                   </Button>
                 </DropdownMenuTrigger>
@@ -149,7 +161,9 @@ const Index = () => {
                   <DropdownMenuItem onClick={() => setLevelFilter("Beginner")}>
                     Beginner
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setLevelFilter("Intermediate")}>
+                  <DropdownMenuItem
+                    onClick={() => setLevelFilter("Intermediate")}
+                  >
                     Intermediate
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => setLevelFilter("Advanced")}>
@@ -163,7 +177,8 @@ const Index = () => {
             {searchQuery || levelFilter ? (
               <div className="flex justify-between items-center mt-3 text-sm">
                 <div className="text-muted-foreground">
-                  {filteredPaths.length} {filteredPaths.length === 1 ? "path" : "paths"} found
+                  {filteredPaths.length}{" "}
+                  {filteredPaths.length === 1 ? "path" : "paths"} found
                 </div>
                 {(searchQuery || levelFilter) && (
                   <Button variant="link" size="sm" onClick={clearFilters}>
@@ -172,17 +187,13 @@ const Index = () => {
                 )}
               </div>
             ) : null}
-            
+
             {filteredPaths.length === 0 && (searchQuery || levelFilter) && (
               <div className="mt-4 p-6 text-center bg-card rounded-xl border border-border">
                 <p className="text-muted-foreground">
                   No learning paths match your search criteria.
                 </p>
-                <Button
-                  variant="link"
-                  onClick={clearFilters}
-                  className="mt-2"
-                >
+                <Button variant="link" onClick={clearFilters} className="mt-2">
                   Clear filters
                 </Button>
               </div>
@@ -199,13 +210,15 @@ const Index = () => {
               const isCompleted = isPathCompleted(path.id);
               const subpathsCompleted = path.subpaths
                 ? path.subpaths.filter((subpath) => isPathCompleted(subpath.id))
-                  .length
+                    .length
                 : 0;
 
               return (
                 <div
                   key={path.id}
-                  className={`animate-fadeIn animate-delay-${Math.min(index, 3) * 100}`}
+                  className={`animate-fadeIn animate-delay-${
+                    Math.min(index, 3) * 100
+                  }`}
                 >
                   <PathCard
                     {...path}

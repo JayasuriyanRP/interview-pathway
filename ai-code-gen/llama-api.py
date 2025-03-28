@@ -11,38 +11,31 @@ You are an AI assistant. **THIS IS CRITICAL: Generate ONLY a valid JSON response
 
 **Important Rule**
 1. Response should have this format. Inside answer property there can be any number of content type and content
-
-The output should be in the following JSON structure:
-
-```json
-{
-  "questions": [
-    {
-      "id": "<UUID>",
-      "question": "<Question>",
-      "answer": [
-        {
-          "type": "text",
-          "content": "<Paragraph content>"
-        },
-        {
-          "type": "list",
-          "items": ["<list item 1>", "<list item 2>", ...]
-        },
-        {
-          "type": "code",
-          "language": "<language>",
-          "content": "<code content>"
-        }
-      ],
-      "level": "<Beginner/Intermediate/Advanced>",
-    }
-  ]
-}
+```
+[  
+  {
+    "question": "<Question>",
+    "answer": [
+      {
+        "type": "<ContentType>",
+        "content": "<Content>"
+      },
+      {
+        "type": "<ContentType>",
+        "content": "<Content>"
+      },
+      {
+        "type": "<ContentType>",
+        "content": "<Content>"
+      }
+    ]
+  }
+]
+```
 
 
 **Rules:**
-1. The response must be a **JSON array** containing **one object per question**.
+1. The response must be a **JSON array** containing **only one object**.
 2. Each object must contain:
    - `"id"` (string) → random id.
    - `"question"` (string) → The main question being answered.
@@ -67,18 +60,6 @@ The output should be in the following JSON structure:
    - Incorrect: `"content": \"\"\"\nconst x = 10;\n\"\"\""`
    - Correct: `"content": "const x = 10;\\n"`
 10. DO NOT use triple quotes (`\"\"\"`) inside code blocks.
-11. For each question in the input request, extract the following content into the correct format:
-    - The `question` field should be the main question.
-    - The `answer` field should contain separate content blocks, based on content type (e.g., text, code, list).
-12. For `answer` containing markdown content:
-    - The markdown needs to be processed and converted into appropriate content types.
-    - **Headings (e.g., '### Key Benefits of Using a Microservices Architecture')** should be included as `text` content with the heading level noted.
-    - **Lists (e.g., numbered or bulleted lists)** should be extracted and converted into `list` content, with each list item represented as a separate string inside the `items` array.
-    - **Code blocks (e.g., anything inside '```code block```')** should be extracted as `code` content with the appropriate language (e.g., `language: 'markdown'` if the content is markdown, or other applicable languages).
-    - **Paragraphs or plain text** should be extracted as `text` content.
-    - Special characters (like quotes or newlines) in markdown content need to be escaped properly in the `content` fields.
-13. Ensure each content block is appropriately categorized (text, code, list, etc.) by processing the markdown appropriately, and be sure to escape special characters like quotes and newlines correctly.
-14. The reponse should have the array of object. Each object shall have question and answer. Each answer should be any array of content type
 
 ###  **LANGUAGE-SPECIFIC CODE BLOCK RULES**  
 
@@ -257,7 +238,6 @@ CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 
 # Ollama 3 API endpoint
 OLLAMA_API_URL = "http://localhost:11434/api/generate"
-
 def call_llama3(prompt, question):
     """
     Sends a request to the locally running Llama 3 model via Ollama API,
@@ -274,6 +254,28 @@ def call_llama3(prompt, question):
         print(f"❌ Error: {e}")
         return "Error communicating with Llama 3"
 
+# @app.route("/api/ask", methods=["POST"])
+# def ask_llama3():
+#     """
+#     API endpoint to send both a prompt and a question to Llama 3 and get a response.
+#     """
+#     try:
+#         data = request.get_json()
+#         prompt = data.get("prompt", "").strip()
+#         question = data.get("question", "").strip()
+
+#         if not prompt or not question:
+#             return jsonify({"error": "Both prompt and question are required"}), 400
+
+#         response_text = call_llama3(prompt, question)
+
+#         return jsonify({
+#             "prompt": prompt,
+#             "question": question,
+#             "answer": response_text
+#         }), 200
+#     except Exception as e:
+#         return jsonify({"error": str(e)}), 500
 @app.route("/api/ask", methods=["POST"])
 def ask_llama3():
     try:
