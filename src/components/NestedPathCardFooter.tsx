@@ -29,25 +29,17 @@ const NestedPathCardFooter: React.FC<NestedPathCardFooterProps> = ({
   const { questions } = usePathQuestions(pathId);
   const actualQuestionCount = questions?.length || 0;
   const isMobile = useIsMobile();
-  
+
   return (
     <CardFooter className="flex justify-between pt-2 border-t">
       <span className="text-xs sm:text-sm text-muted-foreground">
-        {hasNestedPaths 
-          ? `${subpathsCount} subpaths` 
+        {hasNestedPaths
+          ? `${subpathsCount} subpaths`
           : `${actualQuestionCount} questions`}
       </span>
       <div className="flex items-center gap-1 sm:gap-2">
         {hasNestedPaths ? (
           <>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="p-0 h-auto text-xs sm:text-sm"
-              onClick={handleToggleExpand}
-            >
-              {isExpanded ? "Collapse" : "Expand"}
-            </Button>
             <Link
               to={`/subpaths/${pathId}`}
               className="flex items-center text-xs sm:text-sm font-medium text-indigo-600 dark:text-indigo-400"

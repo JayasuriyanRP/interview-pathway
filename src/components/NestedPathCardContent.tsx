@@ -31,7 +31,7 @@ const NestedPathCardContent: React.FC<NestedPathCardContentProps> = ({
   onPathClick,
 }) => {
   const { isSubpathCompleted, getPathProgress } = useProgress();
-  
+
   if (!isExpanded || !hasNestedPaths) {
     return null;
   }
@@ -64,12 +64,12 @@ const NestedPathCardContent: React.FC<NestedPathCardContentProps> = ({
 const ProgressDisplay = ({ pathId }: { pathId: string }) => {
   const { questions } = usePathQuestions(pathId);
   const { getPathProgress } = useProgress();
-  
+
   const progress = getPathProgress(pathId, questions);
-  const progressPercentage = progress.total > 0 
-    ? Math.round((progress.completed / progress.total) * 100) 
+  const progressPercentage = progress.total > 0
+    ? Math.round((progress.completed / progress.total) * 100)
     : 0;
-  
+
   return (
     <div className="space-y-1">
       <Progress value={progressPercentage} className="h-1" />

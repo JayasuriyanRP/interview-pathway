@@ -33,21 +33,21 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
   level = 0,
   onPathClick,
 }) => {
-  const [isExpanded, setIsExpanded] = useState(level === 0);
+  const [isExpanded, setIsExpanded] = useState(false);
   const hasNestedPaths = path.subpaths && path.subpaths.length > 0;
   const { getPathProgress } = useProgress();
   const { questions } = usePathQuestions(path.id);
-  
+
   const handleToggleExpand = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setIsExpanded(!isExpanded);
   };
 
-  const cardBg = level === 0 
-    ? "bg-card" 
-    : level === 1 
-      ? "bg-card/90" 
+  const cardBg = level === 0
+    ? "bg-card"
+    : level === 1
+      ? "bg-card/90"
       : "bg-card/80";
 
   // For paths without subpaths, use a sheet for better mobile experience
@@ -88,7 +88,7 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
           <div className="pt-6">
             <h2 className="text-xl font-bold">{path.title}</h2>
             <p className="mt-2 text-muted-foreground">{path.description}</p>
-            
+
             <div className="mt-4">
               <h3 className="text-md font-semibold mb-2">Questions</h3>
               <ul className="space-y-2">

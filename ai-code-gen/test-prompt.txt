@@ -1,0 +1,78 @@
+
+**Task:**
+Convert the given JSON input into a structured format as specified below. Follow the rules carefully to ensure the correct transformation.
+
+---
+
+**Input Format:**
+The input JSON will contain an "answer" field that may include various Markdown content, such as text, lists, and code snippets. Your task is to parse this content and transform it into a structured JSON format.
+
+---
+
+**Output Format:**
+The output must be a JSON array containing a single object with the following properties:
+- **"id"**: A randomly generated string as the unique identifier.
+- **"question"**: The main question being answered.
+- **"answer"**: An array containing structured content blocks.
+  - Each block must have a **"type"** property and a corresponding **"content"** property.
+  - Supported types:
+    - **"text"**: For descriptive paragraphs.
+    - **"list"**: For key points; must use **"items"** as an array of strings.
+    - **"code"**: For programming code snippets; must include **"language"** (e.g., "csharp").
+    - **"note"**: For additional important information.
+  
+---
+
+**Rules:**
+1. **Extract textual descriptions** as **"text"** type.
+2. **Extract bullet points** and store them as a **"list"** with **"items"**.
+3. **Extract code snippets** from markdown and store them as **"code"** with the corresponding language.
+4. **Maintain the logical order** of content.
+5. **Ensure valid JSON output** with properly escaped special characters.
+6. **DO NOT include any additional explanations or markdown formatting in the output.**
+
+---
+
+**Example Input:**
+```json
+{
+  "question": "What is the purpose of the 'Pattern Matching' feature in C#?",
+  "answer": "```markdown\n### Purpose of the 'Pattern Matching' Feature in C#\n\nThe purpose of the 'pattern matching' feature in C# is to enable developers to write more concise, readable, and type-safe code.\n\n#### Key Benefits:\n- Type Checking and Casting Simplification\n- Improved Readability\n- Deconstruction\n- Enhanced Switch Expressions\n- Combining Conditions\n\n```csharp\nif (obj is string str)\n{\n    Console.WriteLine(\"String length: {str.Length}\");\n}\n```\n```"
+}
+```
+
+**Example Output:**
+```json
+[
+  {
+    "id": "random_id",
+    "question": "What is the purpose of the 'Pattern Matching' feature in C#?",
+    "answer": [
+      {
+        "type": "text",
+        "content": "The purpose of the 'pattern matching' feature in C# is to enable developers to write more concise, readable, and type-safe code."
+      },
+      {
+        "type": "list",
+        "items": [
+          "Type Checking and Casting Simplification",
+          "Improved Readability",
+          "Deconstruction",
+          "Enhanced Switch Expressions",
+          "Combining Conditions"
+        ]
+      },
+      {
+        "type": "code",
+        "language": "csharp",
+        "content": "if (obj is string str)\n{\n    Console.WriteLine(\"String length: {str.Length}\");\n}"
+      }
+    ]
+  }
+]
+```
+
+---
+
+**Instruction:**
+Given an input JSON object, apply the above rules to extract and structure the information accordingly. The final response must be a **valid JSON array** containing **only one object** in the specified format. Ensure proper escaping of special characters where needed. Do not include any additional explanations.

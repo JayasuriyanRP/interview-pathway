@@ -200,7 +200,7 @@ const Index = () => {
             )}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredPaths.map((path, index) => {
               // Get subpaths count directly from the JSON data
               const subpathCount = path.subpaths ? path.subpaths.length : 0;
