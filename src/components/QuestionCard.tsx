@@ -223,11 +223,10 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
         return (
           <div
             key={index}
-            className={`p-4 my-4 rounded-lg ${
-              block.highlight
+            className={`p-4 my-4 rounded-lg ${block.highlight
                 ? "bg-amber-50 border border-amber-200 dark:bg-amber-900/30 dark:border-amber-800"
                 : "bg-blue-50 border border-blue-200 dark:bg-blue-900/30 dark:border-blue-800"
-            }`}
+              }`}
           >
             <p className="text-sm font-medium mb-1">
               {block.highlight ? "Important Note:" : "Note:"}
@@ -265,14 +264,13 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
 
   return (
     <div
-      className={`mb-6 bg-card rounded-xl overflow-hidden border ${
-        isRead
+      className={`mb-6 bg-card rounded-xl overflow-hidden border ${isRead
           ? "border-gray-100 dark:border-gray-800"
           : "border-blue-100 dark:border-blue-800"
-      } shadow-sm transition-all duration-300`}
+        } shadow-sm transition-all duration-300`}
     >
       <div
-        className="p-4 sm:p-6 cursor-pointer flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0"
+        className="p-4 sm:p-6 cursor-pointer flex flex-row justify-between items-center gap-3"
         onClick={toggleAnswer}
       >
         <div className="flex items-center gap-3">
@@ -284,9 +282,8 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
           </h3>
         </div>
         <ChevronDown
-          className={`h-5 w-5 text-gray-500 transition-transform duration-300 ${
-            isOpen ? "transform rotate-180" : ""
-          }`}
+          className={`h-5 w-5 text-gray-500 transition-transform duration-300 ${isOpen ? "rotate-180" : ""
+            }`}
         />
       </div>
       {isOpen && (

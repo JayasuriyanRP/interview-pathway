@@ -104,20 +104,18 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
 
       {/* Code Block */}
       <div
-        className={`bg-gray-900 overflow-x-auto ${
-          showLineNumbers ? "line-numbers" : ""
-        }`}
+        className={`bg-gray-900 overflow-x-auto ${showLineNumbers ? "line-numbers" : ""
+          }`}
       >
         <pre
           className={`p-0 sm:p-4 md:p-6 lg:p-8 rounded-lg bg-gray-100 dark:bg-gray-800 overflow-auto min-w-full 
-          ${
-            wrapEnabled ? "break-words whitespace-pre-wrap" : "whitespace-pre"
-          }`}
+          ${wrapEnabled ? "break-words whitespace-pre-wrap" : "whitespace-pre"
+            }`}
           style={{ margin: 0 }}
         >
           <code
             ref={codeRef}
-            className={`language-${normalizedLanguage} block !text-[0.55rem] sm:!text-xs md:!text-sm lg:!text-base xl:!text-lg tracking-tight`}
+            className={`language-${normalizedLanguage} block !text-[0.70rem] sm:!text-xs md:!text-sm lg:!text-base xl:!text-lg tracking-tight`}
           >
             {content}
           </code>
