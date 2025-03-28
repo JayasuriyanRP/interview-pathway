@@ -5,100 +5,199 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for cross-origin requests
 
-OLLAMA_API_URL = "http://localhost:11434/api/generate"  # Ollama 3 API endpoint
+prompt = f"""
+        You are an AI that converts technical explanations into structured JSON format. 
+        Your task is to transform the following question and answer into a structured JSON response using these content block types:
 
-def call_llama3(prompt):
+        1. **text** - Regular paragraph text
+        2. **code** - Code blocks with syntax highlighting
+        3. **list** - Bulleted or numbered lists
+        4. **table** - Data presented in a structured tabular format
+        5. **image** - Image URLs with optional captions
+        6. **quote** - Quotations or citations
+        7. **note** - Additional information, which may be highlighted for emphasis
+
+        ### **Example JSON Output Format**
+        ```json
+        [
+        {{
+            "id": "<unique-question-id>",
+            "question": "<Original Question>",
+            "answer": [
+            {{
+                "type": "text",
+                "content": "<Descriptive paragraph>"
+            }},
+            {{
+                "type": "list",
+                "items": [
+                "<List item 1>",
+                "<List item 2>"
+                ]
+            }},
+            {{
+                "type": "code",
+                "language": "<Programming language>",
+                "content": "<Code snippet>"
+            }},
+            {{
+                "type": "table",
+                "columns": ["<Column 1>", "<Column 2>"],
+                "rows": [
+                ["<Row 1 Col 1>", "<Row 1 Col 2>"],
+                ["<Row 2 Col 1>", "<Row 2 Col 2>"]
+                ]
+            }},
+            {{
+                "type": "quote",
+                "content": "<Quotation text>"
+            }},
+            {{
+                "type": "note",
+                "content": "<Additional context>",
+                "highlight": <true/false>
+            }}
+            ]
+        }}
+        ]
+        """
+
+# Allow all origins (for testing). Restrict this in production.
+CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
+
+# Ollama 3 API endpoint
+OLLAMA_API_URL = "http://localhost:11434/api/generate"
+def call_llama3(prompt, question):
     """
-    Sends a structured formatting request to the locally running Llama 3 model via Ollama API.
+    Sends a request to the locally running Llama 3 model via Ollama API,
+    using both a prompt and a user question.
     """
-    payload = {"model": "llama3", "prompt": prompt, "stream": False}
-    response = requests.post(OLLAMA_API_URL, json=payload)
+    full_prompt = f"{prompt}\n\n### Question:\n{question}"
+    payload = {"model": "llama3", "prompt": full_prompt, "stream": False}
 
-    if response.status_code == 200:
+    try:
+        response = requests.post(OLLAMA_API_URL, json=payload, timeout=30)
+        response.raise_for_status()
         return response.json().get("response", "").strip()
-    else:
-        print(f"❌ Error: Failed to get response from Llama 3: {response.text}")
-        return ""
+    except requests.exceptions.RequestException as e:
+        print(f"❌ Error: {e}")
+        return "Error communicating with Llama 3"
+
+# @app.route("/api/ask", methods=["POST"])
+# def ask_llama3():
+#     """
+#     API endpoint to send both a prompt and a question to Llama 3 and get a response.
+#     """
+#     try:
+#         data = request.get_json()
+#         prompt = data.get("prompt", "").strip()
+#         question = data.get("question", "").strip()
+
+#         if not prompt or not question:
+#             return jsonify({"error": "Both prompt and question are required"}), 400
+
+#         response_text = call_llama3(prompt, question)
+
+#         return jsonify({
+#             "prompt": prompt,
+#             "question": question,
+#             "answer": response_text
+#         }), 200
+#     except Exception as e:
+#         return jsonify({"error": str(e)}), 500
+@app.route("/api/ask", methods=["POST"])
+def ask_llama3():
+    try:
+        data = request.get_json()
+        question = data.get("question", "").strip()
+
+        print(f"📩 Received question: {question}")  # Log request
+
+        if not question:
+            return jsonify({"error": "Question is required"}), 400
+
+        response_text = call_llama3(prompt, question)
+
+        print(f"📤 Llama3 Response: {response_text}")  # Log response
+
+        return jsonify({"question": question, "answer": response_text}), 200
+    except Exception as e:
+        print(f"❌ Error: {e}")  # Log errors
+        return jsonify({"error": str(e)}), 500
 
 def process_questions(data):
     """
     Converts raw questions and answers into structured content blocks.
     """
     transformed_questions = []
-
     for question_obj in data.get("questions", []):
         question_id = question_obj.get("id", str(uuid.uuid4()))
         question_text = question_obj.get("question", "No question provided")
+        print(question_text)
         raw_answer = question_obj.get("answer", "").strip("```markdown\n").strip("```")
 
         # Generate structured JSON using Llama 3
         prompt = f"""
-        Convert the following question and answer into structured JSON using these content block types:
+Generate only a valid JSON response, with no additional text or explanation. 
+Transform the following question and answer into structured JSON format using these content block types:
 
-        1. **text** - Regular paragraph text
-        2. **code** - Code blocks with syntax highlighting
-        3. **list** - Bulleted lists
-        4. **table** - Structured data in table format
-        5. **image** - Images with optional captions
-        6. **quote** - Quotations or citations
-        7. **note** - Additional information or context (can be highlighted)
+- **text**: Regular paragraph text.
+- **code**: Code blocks with syntax highlighting.
+- **list**: Bulleted or numbered lists.
+- **table**: Data presented in a structured tabular format.
+- **image**: Image URLs with optional captions.
+- **quote**: Quotations or citations.
+- **note**: Additional information, which may be highlighted for emphasis.
 
-        Ensure the JSON output follows this structure:
+Ensure the output is **ONLY** a JSON array formatted as follows:
 
-        [
-        {{
-            "id": "<unique-question-id>",
-            "question": "Question",
-            "answer": [
+```json
+[
+    {{
+        "id": "<unique-question-id>",
+        "question": "<Original Question>",
+        "answer": [
             {{
                 "type": "text",
-                "content": "<paragraph content>"
-            }},
-            {{
-                "type": "code",
-                "language": "<language>",
-                "content": "<code snippet>"
+                "content": "<Descriptive paragraph>"
             }},
             {{
                 "type": "list",
                 "items": [
-                "<list item 1>",
-                "<list item 2>"
+                    "<List item 1>",
+                    "<List item 2>"
                 ]
+            }},
+            {{
+                "type": "code",
+                "language": "<Programming language>",
+                "content": "<Code snippet>"
             }},
             {{
                 "type": "table",
-                "columns": ["<column 1>", "<column 2>"],
+                "columns": ["<Column 1>", "<Column 2>"],
                 "rows": [
-                ["<row 1 col 1>", "<row 1 col 2>"],
-                ["<row 2 col 1>", "<row 2 col 2>"]
+                    ["<Row 1 Col 1>", "<Row 1 Col 2>"],
+                    ["<Row 2 Col 1>", "<Row 2 Col 2>"]
                 ]
             }},
             {{
-                "type": "image",
-                "imageUrl": "<image URL>",
-                "alt": "<image description>",
-                "content": "<caption>"
-            }},
-            {{
                 "type": "quote",
-                "content": "<quote content>"
+                "content": "<Quotation text>"
             }},
             {{
                 "type": "note",
-                "content": "<note content>",
+                "content": "<Additional context>",
                 "highlight": <true/false>
             }}
-            ]
-        }}
         ]
+    }}
+]"""
 
-        Only output valid JSON. Do not include explanations.
-        """
-    
-        llama_response = call_llama3(prompt)
+
+
+        llama_response = call_llama3(prompt, question_text)
 
         # Convert Llama's response to JSON
         try:
@@ -114,17 +213,23 @@ def process_questions(data):
 
     return transformed_questions
 
-@app.route("/format", methods=["POST"])
-def format_questions():
-    """
-    API endpoint to format questions and answers into structured content blocks.
-    """
-    try:
-        data = request.get_json()
-        formatted_data = process_questions(data)
-        return jsonify(formatted_data), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+
+# Handle CORS preflight requests explicitly
+@app.route("/api/ask", methods=["OPTIONS"])
+def handle_preflight():
+    response = jsonify({"message": "Preflight OK"})
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "POST, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type"
+    return response, 200
+
+# Add global CORS headers for all responses
+@app.after_request
+def add_cors_headers(response):
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+    return response
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5000)
