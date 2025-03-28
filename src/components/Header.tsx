@@ -20,7 +20,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ title, showBackButton = false, path = [] }) => {
   const navigate = useNavigate();
-  
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center px-4 sm:px-6">
@@ -36,19 +36,19 @@ const Header: React.FC<HeaderProps> = ({ title, showBackButton = false, path = [
               <ChevronLeft className="h-5 w-5" />
             </Button>
           )}
-          
+
           <div className="hidden md:flex">
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
                   <BreadcrumbLink asChild>
-                    <Link to="/">
-                      <Home className="h-4 w-4 mr-1" />
-                      Home
+                    <Link to="/" className="flex items-center gap-1">
+                      <Home className="h-4 w-4" />
+                      <span>Home</span>
                     </Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
-                
+
                 {path.map((item, index) => (
                   <React.Fragment key={item.id}>
                     <BreadcrumbSeparator />
@@ -63,7 +63,7 @@ const Header: React.FC<HeaderProps> = ({ title, showBackButton = false, path = [
                     </BreadcrumbItem>
                   </React.Fragment>
                 ))}
-                
+
                 {title && path.length === 0 && (
                   <>
                     <BreadcrumbSeparator />
@@ -75,7 +75,7 @@ const Header: React.FC<HeaderProps> = ({ title, showBackButton = false, path = [
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-          
+
           <div className="md:hidden">
             {title ? (
               <h1 className="text-lg font-semibold">{title}</h1>
@@ -86,7 +86,7 @@ const Header: React.FC<HeaderProps> = ({ title, showBackButton = false, path = [
             )}
           </div>
         </div>
-        
+
         <div className="flex items-center gap-2">
           <ThemeToggle />
         </div>
