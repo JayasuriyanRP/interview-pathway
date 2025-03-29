@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ChevronLeft, Home, User } from "lucide-react";
@@ -31,8 +30,14 @@ const HeaderWithAuth: React.FC<HeaderProps> = ({
   path = [],
 }) => {
   const navigate = useNavigate();
-  const { isSignedIn, user } = useUser();
-  const { signOut } = useClerk();
+  
+  // Check if Clerk is available before using its hooks
+  const hasClerkKey = !!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+  const userHook = hasClerkKey ? useUser() : { isSignedIn: false, user: null };
+  const clerkHook = hasClerkKey ? useClerk() : { signOut: () => {} };
+  
+  const { isSignedIn, user } = userHook;
+  const { signOut } = clerkHook;
 
   const handleBack = () => {
     navigate(-1);
