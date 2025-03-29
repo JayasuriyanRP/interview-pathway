@@ -69,6 +69,10 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
     setTimeout(() => setCopied(false), 1500);
   };
 
+  const toggleWrap = () => {
+    setWrapEnabled(!wrapEnabled);
+  };
+
   return (
     <div className="my-4 overflow-hidden rounded-lg border border-gray-700 shadow-sm">
       {/* Header */}
@@ -85,7 +89,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
         <div className="flex items-center gap-3">
           {/* Wrap Toggle Button */}
           <button
-            onClick={() => setWrapEnabled(!wrapEnabled)}
+            onClick={toggleWrap}
             className="flex items-center gap-1 text-xs font-medium hover:text-white transition"
             aria-label="Toggle Wrap"
           >
@@ -107,13 +111,12 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
 
       {/* Code Block */}
       <div
-        className={`bg-gray-900 overflow-x-auto ${showLineNumbers ? "line-numbers" : ""
-          }`}
+        className={`bg-gray-900 overflow-x-auto ${showLineNumbers ? "line-numbers" : ""}`}
       >
         <pre
-          className={`p-0 sm:p-4 md:p-6 lg:p-8 rounded-lg bg-gray-100 dark:bg-gray-800 overflow-auto min-w-full 
-          ${wrapEnabled ? "break-words whitespace-pre-wrap" : "whitespace-pre"
-            }`}
+          className={`p-0 sm:p-4 md:p-6 lg:p-8 rounded-lg bg-gray-100 dark:bg-gray-800 overflow-auto min-w-full ${
+            wrapEnabled ? "whitespace-pre-wrap break-words" : "whitespace-pre"
+          }`}
           style={{ margin: 0 }}
         >
           <code
