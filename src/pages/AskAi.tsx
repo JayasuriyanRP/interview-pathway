@@ -1,18 +1,29 @@
-import { useState } from "react";
+
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Loader2, Copy, Check } from "lucide-react";
+import { Loader2, Send } from "lucide-react";
 import { Button } from "../components/ui/button";
-import ThemeToggle from "../components/ThemeToggle";
+import { Card, CardContent } from "../components/ui/card";
+import { Textarea } from "../components/ui/textarea";
+import { useToast } from "../components/ui/use-toast";
+import Header from "../components/Header";
 import QuestionCard from "../components/QuestionCard";
 
-export default function AskAI() {
+const AskAI = () => {
   const [question, setQuestion] = useState("");
-  const [response, setResponse] = useState<any | null>(null);
+  const [responses, setResponses] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const { toast } = useToast();
 
   const fetchAnswer = async () => {
-    if (!question.trim()) return;
+    if (!question.trim()) {
+      toast({
+        title: "Empty Question",
+        description: "Please enter a question to ask the AI.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     setLoading(true);
     try {
@@ -21,132 +32,130 @@ export default function AskAI() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question }),
       });
+      
+      if (!res.ok) {
+        throw new Error("Failed to get response from AI service");
+      }
+      
       const data = await res.json();
 
       if (data && data.answer) {
-        try {
-          const parsedData = JSON.parse(data.answer); // First parse the response string
-          //   const finalJson = JSON.parse(parsedData);
-
-          console.log("parsedData -", parsedData);
-          //   console.log("finalJson -", finalJson);
-          if (Array.isArray(parsedData) && parsedData.length > 0) {
-            setResponse(parsedData); // Take the first question-answer pair
-          } else {
-            setResponse(null);
-          }
-          //   }
-          //   // Extract JSON block from ```json ... ```
-          //   const match = data.answer.match(/```json\s*([\s\S]*?)\s*```/);
-          //   if (match && match[1]) {
-          //     let cleanedJson = match[1].trim(); // Extract JSON
-
-          //     // Fix multiline code blocks by replacing """ with valid JSON format
-          //     cleanedJson = cleanedJson.replace(
-          //       /"""([\s\S]*?)"""/g,
-          //       (match, code) => {
-          //         return JSON.stringify(code.replace(/\r?\n/g, "\\n")); // Convert to JSON-friendly string
-          //       }
-          //     );
-
-          //     // Parse the fixed JSON
-          //     const parsedAnswer = JSON.parse(data.answer);
-
-          //     if (Array.isArray(parsedAnswer) && parsedAnswer.length > 0) {
-          //       setResponse(parsedAnswer[0]); // Take the first question-answer pair
-          //     } else {
-          //       setResponse(null);
-          //     }
-          //   } else {
-          //     console.error("No valid JSON found in response.");
-          //     setResponse(null);
-          //   }
-        } catch (error) {
-          console.error("Error parsing AI response JSON:", error);
-          setResponse(null);
-        }
+        // Add the new response
+        setResponses((prev) => [
+          ...prev,
+          {
+            question,
+            answer: [{ type: "text", content: data.answer }],
+          },
+        ]);
+        setQuestion(""); // Clear the input
       } else {
-        setResponse(null);
+        toast({
+          title: "AI Response Error",
+          description: "The AI service returned an empty or invalid response.",
+          variant: "destructive",
+        });
       }
     } catch (error) {
       console.error("Error fetching answer:", error);
-      setResponse({ error: "Failed to get response. Try again." });
+      toast({
+        title: "Error",
+        description: "Failed to get a response. Please try again later.",
+        variant: "destructive",
+      });
     }
     setLoading(false);
   };
 
-  const handleCopy = () => {
-    if (!response) return;
-    navigator.clipboard.writeText(JSON.stringify(response, null, 2));
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      fetchAnswer();
+    }
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-background text-foreground p-6 transition-colors duration-300">
-      {/* Header Section */}
-      <div className="w-full max-w-3xl flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">AI Q&A JSON Formatter</h1>
-        <ThemeToggle />
-      </div>
+    <div className="min-h-screen flex flex-col bg-background">
+      <Header title="Ask AI" showBackButton={true} />
 
-      {/* Question Input */}
-      <textarea
-        className="w-full max-w-lg p-3 border rounded-md shadow-sm bg-card border-border focus:ring-2 focus:ring-blue-400 transition"
-        placeholder="Enter your question..."
-        value={question}
-        onChange={(e) => setQuestion(e.target.value)}
-        rows={4}
-      />
+      <main className="flex-1 container mx-auto max-w-4xl px-4 py-8">
+        <div className="space-y-6">
+          <h1 className="text-2xl sm:text-3xl font-bold">
+            Ask AI About Technical Interviews
+          </h1>
+          <p className="text-muted-foreground text-sm sm:text-base">
+            Get instant answers to your technical interview questions. Our AI is trained on
+            interview materials and can provide accurate, relevant information.
+          </p>
 
-      {/* Submit Button */}
-      <Button
-        onClick={fetchAnswer}
-        disabled={loading}
-        className="mt-4 px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition flex items-center gap-2"
-      >
-        {loading && <Loader2 className="animate-spin h-5 w-5" />}
-        {loading ? "Generating..." : "Submit"}
-      </Button>
+          <Card className="mt-6">
+            <CardContent className="p-4 sm:p-6">
+              <div className="flex flex-col space-y-4">
+                <Textarea
+                  placeholder="Ask a technical interview question..."
+                  value={question}
+                  onChange={(e) => setQuestion(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  className="min-h-32 text-base sm:text-lg resize-none"
+                />
+                <div className="flex justify-end">
+                  <Button
+                    onClick={fetchAnswer}
+                    disabled={loading || !question.trim()}
+                    className="px-4 py-2"
+                  >
+                    {loading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Thinking...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="mr-2 h-4 w-4" />
+                        Ask Question
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
-      {/* AI Response in QuestionCard */}
-      {response && response.length > 0 && (
-        <div className="w-full max-w-lg mt-6">
-          {response.map((item, index) => (
-            <QuestionCard
-              key={index}
-              id={index}
-              question={item.question}
-              answer={item.answer}
-              isRead={false}
-            />
-          ))}
+          {/* AI Responses */}
+          {responses.length > 0 && (
+            <div className="mt-8 space-y-6">
+              <h2 className="text-xl font-semibold">Responses</h2>
+              <div className="space-y-6">
+                {responses.map((response, index) => (
+                  <QuestionCard
+                    key={index}
+                    id={index}
+                    question={response.question}
+                    answer={response.answer}
+                    isRead={true}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
 
-          {/* Copy Button */}
-          <div className="relative mt-2 flex justify-end">
-            <button
-              onClick={handleCopy}
-              className="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded flex items-center gap-1"
-            >
-              {copied ? (
-                <Check className="w-4 h-4 text-green-400" />
-              ) : (
-                <Copy className="w-4 h-4" />
-              )}
-              <span className="text-sm">
-                {copied ? "Copied!" : "Copy JSON"}
-              </span>
-            </button>
+          {responses.length === 0 && !loading && (
+            <div className="mt-10 text-center py-10">
+              <p className="text-muted-foreground">
+                No questions asked yet. Try asking something about technical interviews!
+              </p>
+            </div>
+          )}
+
+          <div className="mt-6 flex justify-center">
+            <Link to="/">
+              <Button variant="outline">Back to Home</Button>
+            </Link>
           </div>
         </div>
-      )}
-
-      {/* Back to Home Button */}
-      <Link to="/">
-        <Button variant="outline" className="mt-6">
-          Back to Home
-        </Button>
-      </Link>
+      </main>
     </div>
   );
-}
+};
+
+export default AskAI;

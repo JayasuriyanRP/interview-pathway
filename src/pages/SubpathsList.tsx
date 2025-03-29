@@ -66,13 +66,11 @@ const SubpathsList = () => {
   }
 
   // Filter subpaths based on search query
-  const filteredSubpaths = searchQuery.trim()
-    ? path.subpaths.filter(
-        (subpath) =>
-          subpath.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          subpath.description.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    : path.subpaths;
+  const filteredSubpaths = path.subpaths.filter(subpath => 
+    searchQuery === "" || 
+    subpath.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    subpath.description.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
@@ -89,7 +87,7 @@ const SubpathsList = () => {
             title={path.title}
             description={path.description}
             level={path.level}
-            totalSubpaths={filteredSubpaths.length}
+            totalSubpaths={path.subpaths.length}
           />
 
           {/* Search and Filter */}

@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card } from "./ui/card";
 import { cn } from "@/lib/utils";
@@ -6,8 +5,10 @@ import NestedPathCardHeader from "./NestedPathCardHeader";
 import NestedPathCardContent from "./NestedPathCardContent";
 import NestedPathCardFooter from "./NestedPathCardFooter";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import { Button } from "./ui/button"; // Add this import
 import { usePathQuestions } from "@/hooks/useData";
 import { useProgress } from "@/hooks/useProgress";
+import { Link } from "react-router-dom";
 
 interface Subpath {
   id: string;
@@ -35,13 +36,23 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const hasNestedPaths = path.subpaths && path.subpaths.length > 0;
-  const { getPathProgress } = useProgress();
+  const { getPathProgress, isSubpathCompleted } = useProgress();
   const { questions } = usePathQuestions(path.id);
+  
+  // Calculate the actual progress
+  const progress = getPathProgress(path.id, questions);
+  const isPathCompleted = isSubpathCompleted(path.id);
 
   const handleToggleExpand = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setIsExpanded(!isExpanded);
+  };
+
+  const handlePathClick = () => {
+    if (onPathClick) {
+      onPathClick(path.id);
+    }
   };
 
   const cardBg = level === 0
@@ -58,10 +69,11 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
           <Card
             className={cn(
               `w-full transition-all duration-200 cursor-pointer hover:shadow-md ${isNested ? `ml-${Math.min(level * 3, 8)}` : ""}`,
-              isCompleted ? "border-indigo-200 dark:border-indigo-900" : "",
+              isPathCompleted ? "border-indigo-200 dark:border-indigo-900" : "",
               cardBg,
               level > 0 && "border-l-4 border-l-indigo-500"
             )}
+            onClick={handlePathClick}
           >
             <NestedPathCardHeader
               title={path.title}
@@ -69,7 +81,7 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
               level={path.level}
               hasNestedPaths={hasNestedPaths}
               isExpanded={isExpanded}
-              isCompleted={isCompleted}
+              isCompleted={isPathCompleted}
               handleToggleExpand={handleToggleExpand}
             />
 
@@ -78,7 +90,7 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
               hasNestedPaths={hasNestedPaths}
               isExpanded={isExpanded}
               subpathsCount={path.subpaths?.length || 0}
-              questionsCount={path.count}
+              questionsCount={questions?.length || 0}
               handleToggleExpand={handleToggleExpand}
               onPathClick={onPathClick}
             />
@@ -103,50 +115,76 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
                 )}
               </ul>
             </div>
+            
+            <div className="mt-6">
+              <Link
+                to={`/path/${path.id}`}
+                className="w-full inline-block"
+              >
+                <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white">
+                  Start Learning
+                </Button>
+              </Link>
+            </div>
           </div>
         </SheetContent>
       </Sheet>
     );
   }
 
+  // Make the entire card clickable if it has subpaths
+  const CardWrapper = hasNestedPaths 
+    ? ({ children }: { children: React.ReactNode }) => (
+        <Link to={`/subpaths/${path.id}`} onClick={handlePathClick}>
+          {children}
+        </Link>
+      )
+    : ({ children }: { children: React.ReactNode }) => (
+        <Link to={`/path/${path.id}`} onClick={handlePathClick}>
+          {children}
+        </Link>
+      );
+
   // For top-level paths and paths with subpaths, use the regular card view
   return (
-    <Card
-      className={cn(
-        `w-full transition-all duration-200 hover:shadow-md ${isNested ? `ml-${Math.min(level * 3, 8)}` : ""}`,
-        isCompleted ? "border-indigo-200 dark:border-indigo-900" : "",
-        cardBg,
-        level > 0 && "border-l-4 border-l-indigo-500"
-      )}
-    >
-      <NestedPathCardHeader
-        title={path.title}
-        description={path.description}
-        level={path.level}
-        hasNestedPaths={hasNestedPaths}
-        isExpanded={isExpanded}
-        isCompleted={isCompleted}
-        handleToggleExpand={handleToggleExpand}
-      />
+    <CardWrapper>
+      <Card
+        className={cn(
+          `w-full transition-all duration-200 hover:shadow-md ${isNested ? `ml-${Math.min(level * 3, 8)}` : ""}`,
+          isPathCompleted ? "border-indigo-200 dark:border-indigo-900" : "",
+          cardBg,
+          level > 0 && "border-l-4 border-l-indigo-500"
+        )}
+      >
+        <NestedPathCardHeader
+          title={path.title}
+          description={path.description}
+          level={path.level}
+          hasNestedPaths={hasNestedPaths}
+          isExpanded={isExpanded}
+          isCompleted={isPathCompleted}
+          handleToggleExpand={handleToggleExpand}
+        />
 
-      <NestedPathCardContent
-        isExpanded={isExpanded}
-        hasNestedPaths={hasNestedPaths}
-        subpaths={path.subpaths || []}
-        level={level}
-        onPathClick={onPathClick}
-      />
+        <NestedPathCardContent
+          isExpanded={isExpanded}
+          hasNestedPaths={hasNestedPaths}
+          subpaths={path.subpaths || []}
+          level={level}
+          onPathClick={onPathClick}
+        />
 
-      <NestedPathCardFooter
-        pathId={path.id}
-        hasNestedPaths={hasNestedPaths}
-        isExpanded={isExpanded}
-        subpathsCount={path.subpaths?.length || 0}
-        questionsCount={path.count}
-        handleToggleExpand={handleToggleExpand}
-        onPathClick={onPathClick}
-      />
-    </Card>
+        <NestedPathCardFooter
+          pathId={path.id}
+          hasNestedPaths={hasNestedPaths}
+          isExpanded={isExpanded}
+          subpathsCount={path.subpaths?.length || 0}
+          questionsCount={questions?.length || 0}
+          handleToggleExpand={handleToggleExpand}
+          onPathClick={onPathClick}
+        />
+      </Card>
+    </CardWrapper>
   );
 };
 
