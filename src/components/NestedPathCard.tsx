@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card } from "./ui/card";
 import { cn } from "@/lib/utils";
@@ -6,6 +5,7 @@ import NestedPathCardHeader from "./NestedPathCardHeader";
 import NestedPathCardContent from "./NestedPathCardContent";
 import NestedPathCardFooter from "./NestedPathCardFooter";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import { Button } from "./ui/button"; // Add this import
 import { usePathQuestions } from "@/hooks/useData";
 import { useProgress } from "@/hooks/useProgress";
 import { Link } from "react-router-dom";
