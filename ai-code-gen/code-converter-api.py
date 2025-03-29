@@ -1,4 +1,5 @@
 import os
+import re
 import json
 import uuid
 import requests
@@ -38,6 +39,29 @@ def call_llama3(prompt, question):
         print(f"❌ Error: {e}")
         return "Error communicating with Llama 3"
 
+def extract_json_content(text):
+    """
+    Extracts and returns the content inside the ```json ... ``` tag from the input text.
+    Returns None if no such tag is found.
+    """
+    pattern = r'```json\s*(.*?)\s*```'
+    match = re.search(pattern, text, re.DOTALL)
+    if match:
+        return match.group(1).strip()
+    return text
+
+def remove_markdown_tags(text):
+    """
+    Extracts and returns the content inside the markdown block delimiters (```markdown and ```)
+    and removes the delimiters. If no markdown block is found, returns the original text.
+    """
+    # Regex to match content inside a markdown block delimited by ```markdown and ```
+    pattern = r'```markdown\s*(.*?)\s*```'
+    match = re.search(pattern, text, re.DOTALL)
+    if match:
+        return match.group(1).strip()
+    return text
+
 @app.route("/api/generate", methods=["POST"])
 def generate_from_file():
     try:
@@ -56,14 +80,17 @@ def generate_from_file():
 
         results = []
         for q in data["questions"]:
-            question_text = q.get("question", "").strip()
-            if not question_text:
+            question  = q.get("question", "").strip()
+            trimmed_answer_text  = q.get("answer", "").strip()
+            trimmed_answer_text  = remove_markdown_tags(trimmed_answer_text)
+            if not trimmed_answer_text:
                 continue
 
-            print(f"Processing: {question_text}")
+            print(f"Processing: {question}")
             
-            response_text = call_llama3(prompt, question_text)
+            response_text = call_llama3(prompt, trimmed_answer_text)
             
+            response_text = extract_json_content(response_text)
             print(response_text)
             try:
                 response_data = json.loads(response_text)  # Ensure response is parsed JSON
@@ -77,7 +104,7 @@ def generate_from_file():
             
             formatted_question = {
                 "id": response_data.get("id", str(uuid.uuid4())),
-                "question": response_data.get("question", ""),
+                "question": question,
                 "answer": response_data.get("answer", [])
             }
             
@@ -106,11 +133,11 @@ def ask_llama3():
         results = []
         
         for q in questions:
-            question_text = q.get("question", "").strip()
-            if not question_text:
+            trimmed_answer_text = q.get("question", "").strip()
+            if not trimmed_answer_text:
                 continue
             
-            response_text = call_llama3(prompt, question_text)
+            response_text = call_llama3(prompt, trimmed_answer_text)
             response_data = json.loads(response_text)  # Ensure the API response is valid JSON
             
             formatted_questions = []
