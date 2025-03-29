@@ -90,6 +90,13 @@
             "level": "Beginner"
           },
           {
+            "id": "c-sharp-async",
+            "title": "C# Async",
+            "description": "C# Async Programming",
+            "count": 15,
+            "level": "Beginner"
+          },
+          {
             "id": "backend-csharp-advanced",
             "title": "C# Advanced",
             "description": "Advanced C# language features and .NET framework",
