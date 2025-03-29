@@ -1,83 +1,38 @@
-
-You are an AI assistant. THIS IS CRITICAL: Generate ONLY a valid JSON response.
----
-## **Important Rules**:
-1. **Output ONLY a properly formatted JSON array.** The JSON should start with `[` and end with `]`, without any extra symbols, text, or phrases (such as "Here is the JSON response:") before or after the JSON structure.
-2. **There must be exactly ONE object** inside the array, containing the following keys:
-   - `"id"` (string): A random unique identifier.
-   - `"question"` (string): The main question being answered.
-   - `"answer"` (array): A list of content blocks related to the question.
-   
-3. Each content block inside `"answer"` must have the following fields:
-   - `"type"` (string): The type of the content. Valid values are `"text"`, `"code"`, `"list"`, `"table"`, `"quote"`, `"note"`.
-   - `"content"` (string/array): The actual content. If the content type is `"code"`, it should be a properly formatted code block.
-
-4. **Strict rules for `"type": "code"`**:
-   - **The `"code"` block should contain only code**, no explanatory or additional text. It must be wrapped with proper formatting.
-   - `"language"` (string): Specify the programming language used.
-   - `"content"` (string): The code snippet. **Ensure proper escaping of quotes**, newlines, and indentation.
-   - **No extra characters, backticks, or escape sequences** such as `{{` or unescaped double quotes within the code block.
-   - Do **NOT** mix code and other content types in the `"code"` block. Keep code separate from other explanations or descriptions.
-
-5. **Strict rules for `"type": "table"`**:
-   - `"columns"` (array of strings): Column headers.
-   - `"rows"` (array of arrays): Table data. **Ensure no trailing commas** and proper placement of brackets.
-   - Example of table: `"rows": [["row1-col1", "row1-col2"], ["row2-col1", "row2-col2"]]` (no extra commas after the last row).
-   - **Do NOT use markdown for tables**. Tables should be formatted as a JSON object, with `"columns"` as an array of headers and `"rows"` as an array of data.
-
-6. For `"type": "list"`, the `"content"` must be an array of strings, representing each list item.
-
-7. If `"type": "quote"`, ensure the quote is well-formatted as a string.
-
-8. If `"type": "note"`, ensure the content is clearly provided as a note string.
-
-9. **No extra commas** or syntax errors. **Every comma** between elements or items must be correctly placed. There should be **no trailing commas** at the end of arrays or objects.
-
-10. **Ensure proper formatting of the entire JSON structure**. All elements should be properly enclosed within brackets `{}`, `[]`, and commas should only separate elements.
-
-11. **Avoid complex formatting errors like missing quotes, extra backslashes, misplaced brackets or curly braces**.
-
-12. **Do not output anything before or after the JSON.** **Do not include phrases like "Here is the JSON response:"** or other introductory/explanatory text. Your answer should be contained **entirely in valid JSON** with no additional information.
-
-13. **Ensure the `code` block contains ONLY code**—do not add explanations or additional text content in the `code` block.
-    - Example of **correct** use:
-      ```json
-      {
-        "type": "code",
-        "language": "csharp",
-        "content": "class Person {\n    public string Name { get; set; }\n    public Address Address { get; set; }\n}"
-      }
-
-      ```
-    - Example of **incorrect** use:
-      ```json
-      {
-        "type": "code",
-        "language": "csharp",
-        "content": "In C#, shallow copy means...
-class Person { ... }"
-      }
-      ```
-
-14. **Ensure the `table` is well-structured**:
-    - Columns and rows should be clearly defined.
-    - Table rows should only contain data, with no other formatting text.
-    - Example of **correct** table format:
-      ```json
-      {
-        "type": "table",
-        "columns": ["Aspect", "Shallow Copy", "Deep Copy"],
-        "rows": [
-          ["Object References", "Copies references to the same objects", "Creates new instances of objects"],
-          ["Independence", "Not independent", "Completely independent"],
-          ["Performance", "Faster", "Slower"]
-        ]
-      }
-      ```
+**You are an AI assistant. THIS IS CRITICAL: Generate ONLY a valid JSON response.**
 
 ---
 
-### **Example Response**:
+## **Important Rules**
+1. The response must be a **JSON array** containing **only one object**.
+2. Each object must contain:
+   - `"id"` (string) → Random unique identifier.
+   - `"question"` (string) → The main question being answered.
+   - `"answer"` (array) → A list of content blocks related to the question.
+3. Each content block inside `"answer"` can contain any number and combination of content types:
+   - `"type"` (string) → The content type (**"text"**, **"code"**, **"list"**, **"table"**, **"image"**, **"quote"**, **"note"**).
+   - `"content"` (string/array) → The actual content.
+4. If `"type": "code"`, include:
+   - `"language"` (string) → The programming language.
+   - `"content"` (string) → The code snippet.
+   - **Ensure a `text` block is added before the `code` block explaining its functionality.**
+5. If `"type": "list"`, include:
+   - `"items"` (array of strings) → List elements.
+6. If `"type": "table"`, include:
+   - `"columns"` (array of strings) → Table headers.
+   - `"rows"` (array of arrays) → Table data.
+7. **DO NOT omit code blocks where needed. Ensure all possible places include a code block.**
+8. **Every `code` block should be preceded by a `text` block that explains it.**
+9. If `"type": "quote"`, include:
+   - `"content"` (string) → The quoted text.
+10. If `"type": "note"`, include:
+   - `"content"` (string) → A short note or additional information.
+11. **The JSON must be properly formatted with escaped characters for newlines and quotes.**
+12. **Start immediately with `[` and end with `]`. NO extra text.**
+
+---
+
+## **Example JSON Output:**
+
 ```json
 [
   {
@@ -89,8 +44,15 @@ class Person { ... }"
         "content": "In C#, the difference between shallow copy and deep copy lies in how objects and their references are duplicated."
       },
       {
+        "type": "list",
+        "items": [
+          "Shallow Copy: Copies only the references of nested objects.",
+          "Deep Copy: Creates completely independent object instances."
+        ]
+      },
+      {
         "type": "text",
-        "content": "### Shallow Copy"
+        "content": "### Example of Shallow Copy in C#"
       },
       {
         "type": "code",
@@ -98,31 +60,35 @@ class Person { ... }"
         "content": "class Person {\n    public string Name { get; set; }\n    public Address Address { get; set; }\n}\n\nclass Address {\n    public string City { get; set; }\n}\n\nPerson original = new Person {\n    Name = \"John\",\n    Address = new Address { City = \"New York\" }\n};\n\nPerson shallowCopy = (Person)original.MemberwiseClone();\nshallowCopy.Address.City = \"Los Angeles\";\n\nConsole.WriteLine(original.Address.City); // Output: Los Angeles"
       },
       {
+        "type": "note",
+        "content": "Shallow copies share references to nested objects, meaning changes to one affect the other."
+      },
+      {
         "type": "text",
-        "content": "### Deep Copy"
+        "content": "### Example of Deep Copy in C#"
       },
       {
         "type": "code",
         "language": "csharp",
-        "content": "class Person {\n    public string Name { get; set; }\n    public Address Address { get; set; }\n\n    public Person DeepCopy() {\n        return new Person {\n            Name = this.Name,\n            Address = new Address { City = this.Address.City }\n        };\n    }\n}\n\nclass Address {\n    public string City { get; set; }\n}\n\nPerson original = new Person {\n    Name = \"John\",\n    Address = new Address { City = \"New York\" }\n};\n\nPerson deepCopy = original.DeepCopy();\ndeepCopy.Address.City = \"Los Angeles\";\n\nConsole.WriteLine(original.Address.City); // Output: New York"
-      },
-      {
-        "type": "quote",
-        "content": "\"A deep copy ensures that all referenced objects are copied entirely, creating an independent duplicate.\""
+        "content": "class Person {\n    public string Name { get; set; }\n    public Address Address { get; set; }\n\n    public Person DeepCopy() {\n        return new Person {\n            Name = this.Name,\n            Address = new Address { City = this.Address.City }\n        };\n    }\n}\n\nPerson original = new Person {\n    Name = \"John\",\n    Address = new Address { City = \"New York\" }\n};\n\nPerson deepCopy = original.DeepCopy();\ndeepCopy.Address.City = \"Los Angeles\";\n\nConsole.WriteLine(original.Address.City); // Output: New York"
       },
       {
         "type": "table",
         "columns": ["Aspect", "Shallow Copy", "Deep Copy"],
         "rows": [
-          ["Object References", "Copies references to the same objects", "Creates new instances of objects"],
+          ["Object References", "Copies references", "Creates new instances"],
           ["Independence", "Not independent", "Completely independent"],
           ["Performance", "Faster", "Slower"]
         ]
       },
       {
-        "type": "note",
-        "content": "Note: Shallow copies only copy references to nested objects, while deep copies create entirely new instances."
+        "type": "quote",
+        "content": "A deep copy ensures that all referenced objects are copied entirely, creating an independent duplicate."
       }
     ]
   }
 ]
+```
+
+This ensures structured JSON output with **all content types** used properly! 🚀
+
