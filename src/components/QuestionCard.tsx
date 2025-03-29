@@ -1,355 +1,157 @@
 
 import React, { useState } from "react";
-import { ChevronDown, CheckCircle2, ExternalLink } from "lucide-react";
+import { Card, CardContent, CardFooter } from "./ui/card";
+import { Button } from "./ui/button";
+import { ExternalLink, ChevronDown, ChevronUp, Edit, Trash } from "lucide-react";
+import { cn } from "@/lib/utils";
 import CodeBlock from "./CodeBlock";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-
-interface ExternalLink {
-  title: string;
-  url: string;
-}
-
-interface TableContent {
-  type: "table";
-  columns: string[];
-  rows: string[][];
-}
-
-interface ContentBlock {
-  type: "text" | "code" | "list" | "table" | "image" | "quote" | "note";
-  content?: string;
-  language?: string; // For code blocks
-  items?: string[]; // For list blocks
-  columns?: string[]; // For tables
-  rows?: string[][]; // For tables
-  imageUrl?: string; // For image blocks
-  alt?: string; // For image blocks
-  highlight?: boolean; // For highlighting important text or notes
-  links?: ExternalLink[]; // External links
-}
+import { Link, useParams } from "react-router-dom";
+import { useProgress } from "@/hooks/useProgress";
+import { useUser } from "@clerk/clerk-react";
+import { useToast } from "./ui/use-toast";
 
 interface QuestionCardProps {
   id: number;
   question: string;
-  answer: ContentBlock[] | any;
-  onMarkAsRead?: (id: number) => void;
+  answer: Array<{
+    type: string;
+    content: string;
+    url?: string;
+    language?: string;
+  }>;
   isRead?: boolean;
-  highlightQuery?: string;
+  isEditable?: boolean;
 }
 
 const QuestionCard: React.FC<QuestionCardProps> = ({
   id,
   question,
   answer,
-  onMarkAsRead,
   isRead = false,
-  highlightQuery = "",
+  isEditable = false,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const { pathId } = useParams<{ pathId: string }>();
+  const { markQuestionAsRead } = useProgress();
+  const { isSignedIn } = useUser();
+  const { toast } = useToast();
 
-  const toggleAnswer = () => {
-    setIsOpen(!isOpen);
-    if (!isOpen && !isRead && onMarkAsRead) {
-      onMarkAsRead(id);
+  const handleToggle = () => {
+    setExpanded(!expanded);
+    if (pathId && !isRead) {
+      markQuestionAsRead(pathId, id);
     }
   };
 
-  // Format inline code and bold text in strings with search highlighting
-  const formatText = (text: string) => {
-    // First handle the search highlight if query exists
-    if (highlightQuery.trim()) {
-      const terms = highlightQuery.toLowerCase().split(" ");
-      let processedText = text;
-
-      // Apply highlighting for each search term
-      terms.forEach((term) => {
-        if (!term.trim()) return;
-        const regex = new RegExp(`(${term})`, "gi");
-        processedText = processedText.replace(
-          regex,
-          '<span class="bg-yellow-200 dark:bg-yellow-900 rounded px-0.5">$1</span>'
-        );
-      });
-
-      // Split by code blocks
-      const parts = processedText.split(/(`[^`]+`)/g);
-
-      return parts.map((part, index) => {
-        if (part.startsWith("`") && part.endsWith("`")) {
-          return (
-            <code
-              key={index}
-              className="bg-gray-200 dark:bg-gray-700 px-1.5 py-0.5 rounded text-sm font-mono"
-            >
-              {part.slice(1, -1)}
-            </code>
-          );
-        }
-
-        // Handle bold text within each part
-        const boldParts = part.split(/(\*\*[^*]+\*\*)/g);
-
-        return boldParts.map((boldPart, boldIndex) => {
-          if (boldPart.startsWith("**") && boldPart.endsWith("**")) {
-            return (
-              <strong key={`${index}-${boldIndex}`} className="font-semibold">
-                {boldPart.slice(2, -2)}
-              </strong>
-            );
-          }
-
-          // For normal text, allow the HTML to be rendered for highlighting
-          return (
-            <span
-              key={`${index}-${boldIndex}`}
-              dangerouslySetInnerHTML={{ __html: boldPart }}
-            />
-          );
-        });
-      });
-    }
-
-    // If no search query, use the original formatting
-    const parts = text?.split(/(`[^`]+`)/g);
-
-    return parts?.map((part, index) => {
-      if (part.startsWith("`") && part.endsWith("`")) {
-        return (
-          <code
-            key={index}
-            className="bg-gray-200 dark:bg-gray-700 px-1.5 py-0.5 rounded text-sm font-mono"
-          >
-            {part.slice(1, -1)}
-          </code>
-        );
-      }
-
-      // Handle bold text
-      const boldParts = part.split(/(\*\*[^*]+\*\*)/g);
-
-      return boldParts.map((boldPart, boldIndex) => {
-        if (boldPart.startsWith("**") && boldPart.endsWith("**")) {
-          return (
-            <strong key={`${index}-${boldIndex}`} className="font-semibold">
-              {boldPart.slice(2, -2)}
-            </strong>
-          );
-        }
-        return boldPart;
-      });
+  const handleDeleteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toast({
+      title: "Coming soon",
+      description: "Delete functionality will be available soon.",
     });
   };
 
-  // Helper to extract links from a content block
-  const getExternalLinks = (block: ContentBlock): ExternalLink[] => {
-    return block.links || [];
-  };
-
-  // Function to get all external links from answer
-  const getAllExternalLinks = (): ExternalLink[] => {
-    if (!Array.isArray(answer)) {
-      return [];
-    }
-    
-    const allLinks: ExternalLink[] = [];
-    answer.forEach(block => {
-      if (block.links && Array.isArray(block.links)) {
-        allLinks.push(...block.links);
-      }
-    });
-    
-    return allLinks;
-  };
-
-  // Render a single content block
-  const renderContentBlock = (block: ContentBlock, index: number) => {
-    switch (block.type) {
+  // Render the answer parts based on their type
+  const renderAnswerPart = (part: any, index: number) => {
+    switch (part.type) {
       case "code":
         return (
           <CodeBlock
             key={index}
-            language={block.language || "text"}
-            content={block.content!}
+            language={part.language || "javascript"}
+            code={part.content}
           />
         );
-      case "list":
+      case "link":
         return (
-          <ul key={index} className="list-disc pl-5 mb-4 space-y-1.5">
-            {block.items?.map((item, i) => (
-              <li key={i} className="mb-1.5">
-                {formatText(item)}
-              </li>
-            ))}
-          </ul>
-        );
-      case "table":
-        return (
-          <div key={index} className="overflow-x-auto my-4">
-            <table className="table-auto border-collapse border border-gray-200 dark:border-gray-700 w-full text-sm">
-              <thead className="bg-gray-100 dark:bg-gray-800">
-                <tr>
-                  {block.columns?.map((col, colIndex) => (
-                    <th
-                      key={colIndex}
-                      className="border border-gray-300 dark:border-gray-700 px-4 py-2 text-left"
-                    >
-                      {formatText(col)}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {block.rows?.map((row, rowIndex) => (
-                  <tr
-                    key={rowIndex}
-                    className="hover:bg-gray-50 dark:hover:bg-gray-800"
-                  >
-                    {row.map((cell, cellIndex) => (
-                      <td
-                        key={cellIndex}
-                        className="border border-gray-300 dark:border-gray-700 px-4 py-2"
-                      >
-                        {formatText(cell)}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        );
-      case "image":
-        return (
-          <figure key={index} className="my-4">
-            <img
-              src={block.imageUrl}
-              alt={block.alt || "Image"}
-              className="rounded-lg max-w-full h-auto mx-auto"
-            />
-            {block.content && (
-              <figcaption className="text-sm text-center text-gray-500 dark:text-gray-400 mt-2">
-                {formatText(block.content)}
-              </figcaption>
-            )}
-          </figure>
-        );
-      case "quote":
-        return (
-          <blockquote
-            key={index}
-            className="pl-4 border-l-4 border-gray-300 dark:border-gray-700 italic my-4 text-gray-700 dark:text-gray-300"
-          >
-            {formatText(block.content!)}
-          </blockquote>
-        );
-      case "note":
-        return (
-          <div
-            key={index}
-            className={`p-4 my-4 rounded-lg ${block.highlight
-              ? "bg-amber-50 border border-amber-200 dark:bg-amber-900/30 dark:border-amber-800"
-              : "bg-blue-50 border border-blue-200 dark:bg-blue-900/30 dark:border-blue-800"
-              }`}
-          >
-            <p className="text-sm font-medium mb-1">
-              {block.highlight ? "Important Note:" : "Note:"}
-            </p>
-            <div>{formatText(block.content!)}</div>
+          <div key={index} className="mt-4 flex items-center">
+            <a
+              href={part.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 flex items-center"
+            >
+              {part.content || "Learn more"}
+              <ExternalLink className="ml-1 h-4 w-4" />
+            </a>
           </div>
         );
       case "text":
       default:
         return (
-          <p key={index} className="mb-4 leading-relaxed">
-            {formatText(block.content!)}
-          </p>
+          <div
+            key={index}
+            className="prose dark:prose-invert max-w-none"
+            dangerouslySetInnerHTML={{ __html: part.content.replace(/\n/g, "<br />") }}
+          />
         );
     }
   };
 
-  const renderAnswer = () => {
-    if (typeof answer === "string") {
-      return <p className="mb-4 leading-relaxed">{formatText(answer)}</p>;
-    }
-
-    if (Array.isArray(answer)) {
-      // Collect all external links
-      const allLinks = getAllExternalLinks();
-      
-      return (
-        <div className="prose prose-sm max-w-none dark:prose-invert">
-          {answer.map((block, index) => renderContentBlock(block, index))}
-          
-          {/* Render external links if present */}
-          {allLinks.length > 0 && (
-            <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
-              <h4 className="text-sm font-medium mb-2 flex items-center">
-                <ExternalLink className="w-4 h-4 mr-2" />
-                External Resources
-              </h4>
-              <ul className="space-y-2">
-                {allLinks.map((link, i) => (
-                  <li key={i} className="text-sm">
-                    <a 
-                      href={link.url} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-blue-600 dark:text-blue-400 hover:underline flex items-center"
-                    >
-                      {link.title}
-                      <ExternalLink className="w-3 h-3 ml-1 inline-block" />
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-      );
-    }
-
-    return (
-      <p className="text-gray-500 dark:text-gray-400">No content available</p>
-    );
-  };
-
   return (
-    <div
-      className={`mb-6 bg-card rounded-xl overflow-hidden border ${isRead
-        ? "border-gray-100 dark:border-gray-800"
-        : "border-blue-100 dark:border-blue-800"
-        } shadow-sm transition-all duration-300`}
-    >
-      <div
-        className="p-4 sm:p-6 cursor-pointer flex flex-row justify-between items-center gap-3"
-        onClick={toggleAnswer}
-      >
-        <div className="flex items-center gap-3">
-          {isRead && (
-            <CheckCircle2 size={18} className="text-green-500 flex-shrink-0" />
-          )}
-          <h3 className="text-base sm:text-lg md:text-xl font-medium">
-            {id + 1} - {formatText(question)}
-          </h3>
-        </div>
-        <ChevronDown
-          className={`h-5 w-5 text-gray-500 transition-transform duration-300 ${isOpen ? "rotate-180" : ""
-            }`}
-        />
-      </div>
-      {isOpen && (
-        <div
-          className="px-2 sm:px-6 pb-4 sm:pb-6 pt-1 sm:pt-2 border-t border-border animate-slideUp"
-        >
-          {renderAnswer()}
-        </div>
+    <Card
+      className={cn(
+        "transition-all duration-300 overflow-hidden",
+        isRead ? "border-muted" : "border-primary",
+        expanded ? "shadow-md" : "hover:shadow-sm"
       )}
-    </div>
+    >
+      <CardContent
+        className="p-5 cursor-pointer flex justify-between items-start"
+        onClick={handleToggle}
+      >
+        <div className="flex-1 pr-4">
+          <p
+            className={cn(
+              "text-lg font-medium transition-all",
+              isRead ? "text-muted-foreground" : ""
+            )}
+          >
+            {question}
+          </p>
+        </div>
+        <div className="flex items-center">
+          {expanded ? (
+            <ChevronUp className="h-5 w-5 text-muted-foreground" />
+          ) : (
+            <ChevronDown className="h-5 w-5 text-muted-foreground" />
+          )}
+        </div>
+      </CardContent>
+
+      {expanded && (
+        <>
+          <CardContent className="px-5 pt-0 pb-4">
+            <div className="border-t pt-4 space-y-4">
+              {Array.isArray(answer) ? (
+                answer.map((part, i) => renderAnswerPart(part, i))
+              ) : (
+                <p>{answer}</p>
+              )}
+            </div>
+          </CardContent>
+          
+          {isSignedIn && isEditable && pathId && (
+            <CardFooter className="px-5 py-3 border-t flex justify-end gap-2 bg-muted/30">
+              <Link to={`/path/${pathId}/edit-question/${id}`}>
+                <Button variant="ghost" size="sm">
+                  <Edit className="h-4 w-4 mr-1" />
+                  Edit
+                </Button>
+              </Link>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={handleDeleteClick}
+              >
+                <Trash className="h-4 w-4 mr-1" />
+                Delete
+              </Button>
+            </CardFooter>
+          )}
+        </>
+      )}
+    </Card>
   );
 };
 
