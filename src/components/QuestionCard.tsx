@@ -63,7 +63,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
           <CodeBlock
             key={index}
             language={part.language || "javascript"}
-            content={part.content} // Changed from 'value' to 'content' to match CodeBlock props
+            content={part.content}
           />
         );
       case "link":
@@ -86,7 +86,9 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
           <div
             key={index}
             className="prose dark:prose-invert max-w-none"
-            dangerouslySetInnerHTML={{ __html: part.content.replace(/\n/g, "<br />") }}
+            dangerouslySetInnerHTML={{ 
+              __html: part.content ? part.content.replace(/\n/g, "<br />") : "" 
+            }}
           />
         );
     }
