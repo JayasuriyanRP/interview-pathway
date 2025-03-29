@@ -33,7 +33,11 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   const [expanded, setExpanded] = useState(false);
   const { pathId } = useParams<{ pathId: string }>();
   const { markQuestionAsRead } = useProgress();
-  const { isSignedIn } = useUser();
+  
+  // Check if Clerk is available
+  const hasClerkKey = !!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+  const { isSignedIn } = hasClerkKey ? useUser() : { isSignedIn: false };
+  
   const { toast } = useToast();
 
   const handleToggle = () => {
@@ -59,7 +63,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
           <CodeBlock
             key={index}
             language={part.language || "javascript"}
-            code={part.content}
+            content={part.content} // Changed from 'value' to 'content' to match CodeBlock props
           />
         );
       case "link":

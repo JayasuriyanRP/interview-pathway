@@ -24,7 +24,12 @@ import { Input } from "../components/ui/input";
 const Index = () => {
   const { paths, loading, error } = useData();
   const { isPathCompleted, getPathProgress } = useProgress();
-  const { isSignedIn } = useUser();
+  
+  // Check if Clerk is available before using useUser
+  const hasClerkKey = !!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+  const userHook = hasClerkKey ? useUser() : { isSignedIn: false };
+  const { isSignedIn } = userHook;
+  
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredPaths, setFilteredPaths] = useState<any[]>([]);
   const [filterDialogOpen, setFilterDialogOpen] = useState(false);

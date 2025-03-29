@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useUser, useAuth } from "@clerk/clerk-react";
 import { Link } from "react-router-dom";
 import { PlusCircle, Edit, Trash, FolderPlus } from "lucide-react";
@@ -10,16 +10,22 @@ import { useToast } from "../components/ui/use-toast";
 import EmptyState from "../components/EmptyState";
 import LoadingState from "../components/LoadingState";
 import { useData } from "../hooks/useData";
+import HeaderWithAuth from "../components/HeaderWithAuth";
 
 const Dashboard = () => {
-  const { isLoaded, isSignedIn, user } = useUser();
-  const { getToken } = useAuth();
+  // Check if Clerk is available
+  const hasClerkKey = !!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+  
+  // Get clerk user data if available
+  const userHook = hasClerkKey ? useUser() : { isLoaded: true, isSignedIn: true, user: null };
+  const { isLoaded, isSignedIn, user } = userHook;
+  
   const { paths, loading } = useData();
   const { toast } = useToast();
   const [userPaths, setUserPaths] = useState<any[]>([]);
 
   // This would need to be expanded to actually fetch user's content
-  React.useEffect(() => {
+  useEffect(() => {
     // For now, just show the demo paths from useData
     setUserPaths(paths);
   }, [paths]);
@@ -28,7 +34,7 @@ const Dashboard = () => {
     return <LoadingState />;
   }
 
-  if (!isSignedIn) {
+  if (!isSignedIn && hasClerkKey) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
         <Header title="Dashboard" />
@@ -45,7 +51,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <Header title="Dashboard" />
+      <HeaderWithAuth title="Dashboard" />
       
       <main className="flex-1 container mx-auto max-w-5xl px-4 py-8">
         <div className="flex justify-between items-center mb-6">

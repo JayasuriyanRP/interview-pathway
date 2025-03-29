@@ -22,8 +22,17 @@ import ImportFromDrive from "./pages/ImportFromDrive";
 
 const queryClient = new QueryClient();
 
-// Protected route component
+// Check if Clerk is available
+const hasClerkKey = !!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+
+// Protected route component that works with or without Clerk
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  // If Clerk is not available, show the children directly
+  if (!hasClerkKey) {
+    return <>{children}</>;
+  }
+
+  // If Clerk is available, use SignedIn/SignedOut components
   return (
     <>
       <SignedIn>{children}</SignedIn>
@@ -51,9 +60,13 @@ const App = () => (
             <Route path="/ask-ai" element={<AskAI />} />
             <Route path="/convert-ai" element={<AIConverter />} />
             
-            {/* Auth routes */}
-            <Route path="/sign-in/*" element={<SignIn />} />
-            <Route path="/sign-up/*" element={<SignUp />} />
+            {/* Auth routes - only render if Clerk is available */}
+            {hasClerkKey && (
+              <>
+                <Route path="/sign-in/*" element={<SignIn />} />
+                <Route path="/sign-up/*" element={<SignUp />} />
+              </>
+            )}
             
             {/* Protected routes */}
             <Route path="/dashboard" element={
