@@ -62,7 +62,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   // Format inline code and bold text in strings with search highlighting
   const formatText = (text: string) => {
     // First handle the search highlight if query exists
-    if (highlightQuery.trim()) {
+    if (highlightQuery?.trim()) {
       const terms = highlightQuery.toLowerCase().split(" ");
       let processedText = text;
 
@@ -166,6 +166,40 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
     return allLinks;
   };
 
+  // Parse markdown code blocks
+  const parseMarkdownCodeBlocks = (markdownText: string) => {
+    if (!markdownText) return [];
+    
+    const codeBlockRegex = /```(\w*)\n([\s\S]*?)```/g;
+    const blocks: ContentBlock[] = [];
+    let lastIndex = 0;
+    let match;
+
+    // Extract code blocks
+    while ((match = codeBlockRegex.exec(markdownText)) !== null) {
+      // Add text before code block
+      const textBefore = markdownText.slice(lastIndex, match.index).trim();
+      if (textBefore) {
+        blocks.push({ type: "text", content: textBefore });
+      }
+
+      // Add code block
+      const language = match[1] || "text";
+      const code = match[2].trim();
+      blocks.push({ type: "code", language, content: code });
+
+      lastIndex = match.index + match[0].length;
+    }
+
+    // Add remaining text after last code block
+    const textAfter = markdownText.slice(lastIndex).trim();
+    if (textAfter) {
+      blocks.push({ type: "text", content: textAfter });
+    }
+
+    return blocks;
+  };
+
   // Render a single content block
   const renderContentBlock = (block: ContentBlock, index: number) => {
     switch (block.type) {
@@ -174,7 +208,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
           <CodeBlock
             key={index}
             language={block.language || "text"}
-            content={block.content!}
+            content={block.content || ""}
           />
         );
       case "list":
@@ -244,7 +278,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
             key={index}
             className="pl-4 border-l-4 border-gray-300 dark:border-gray-700 italic my-4 text-gray-700 dark:text-gray-300"
           >
-            {formatText(block.content!)}
+            {formatText(block.content || "")}
           </blockquote>
         );
       case "note":
@@ -259,21 +293,33 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
             <p className="text-sm font-medium mb-1">
               {block.highlight ? "Important Note:" : "Note:"}
             </p>
-            <div>{formatText(block.content!)}</div>
+            <div>{formatText(block.content || "")}</div>
           </div>
         );
       case "text":
       default:
         return (
           <p key={index} className="mb-4 leading-relaxed">
-            {formatText(block.content!)}
+            {formatText(block.content || "")}
           </p>
         );
     }
   };
 
   const renderAnswer = () => {
+    // Handle markdown code blocks in string answers
     if (typeof answer === "string") {
+      if (answer.startsWith("```") && answer.includes("```")) {
+        // This is likely a markdown formatted string with code blocks
+        const blocks = parseMarkdownCodeBlocks(answer);
+        return (
+          <div className="prose prose-sm max-w-none dark:prose-invert">
+            {blocks.map((block, index) => renderContentBlock(block, index))}
+          </div>
+        );
+      }
+      
+      // Regular text answer
       return <p className="mb-4 leading-relaxed">{formatText(answer)}</p>;
     }
 

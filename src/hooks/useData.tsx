@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 
 interface Subpath {
@@ -46,10 +47,33 @@ export const useData = () => {
         // Function to load per-path question files
         const loadPathQuestions = async (pathId: string) => {
           try {
+            // First try direct path
             const response = await import(`../data/questions/${pathId}.json`);
             questionsData[pathId] = response.default;
           } catch (err) {
-            console.log(`No specific question file for ${pathId}`);
+            // Next try nested folder structure
+            try {
+              // Try to find files in specific language folders (e.g., c-sharp, golang, js, ts, react)
+              const folders = ['c-sharp', 'golang', 'js', 'ts', 'react'];
+              let loaded = false;
+              
+              for (const folder of folders) {
+                try {
+                  const response = await import(`../data/questions/${folder}/${pathId}.json`);
+                  questionsData[pathId] = response.default;
+                  loaded = true;
+                  break; // Exit the loop if we found the file
+                } catch (nestedErr) {
+                  // Continue to next folder
+                }
+              }
+              
+              if (!loaded) {
+                console.log(`No specific question file for ${pathId} in nested folders`);
+              }
+            } catch (nestedErr) {
+              console.log(`No specific question file for ${pathId}`);
+            }
           }
         };
 

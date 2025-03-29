@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from "react";
 import { Clipboard, ClipboardCheck, WrapText, X } from "lucide-react";
 import Prism from "prismjs";
@@ -14,6 +15,7 @@ import "prismjs/components/prism-yaml";
 import "prismjs/components/prism-bash";
 import "prismjs/components/prism-sql";
 import "prismjs/components/prism-markup"; // HTML
+import "prismjs/components/prism-markdown"; // Markdown
 import "prismjs/plugins/line-numbers/prism-line-numbers.css";
 import "prismjs/plugins/line-numbers/prism-line-numbers";
 
@@ -47,6 +49,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
     yml: "yaml",
     cs: "csharp",
     golang: "go",
+    md: "markdown",
   };
 
   const normalizedLanguage = languageMap[language] || language;
@@ -58,7 +61,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
       }
       Prism.highlightElement(codeRef.current);
     }
-  }, [content, normalizedLanguage, showLineNumbers]);
+  }, [content, normalizedLanguage, showLineNumbers, wrapEnabled]);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(content);
