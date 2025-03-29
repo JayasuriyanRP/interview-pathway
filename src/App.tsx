@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -12,6 +13,9 @@ import NestedPathExample from "./components/NestedPathExample";
 import AskAI from "./pages/AskAi";
 import AIConverter from "./pages/AIConverter";
 
+// To be implemented later for Google Auth integration
+// import { AuthProvider } from "./context/AuthContext";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -21,6 +25,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          {/* To be wrapped with AuthProvider later */}
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/path/:pathId" element={<LearningPath />} />

@@ -1,5 +1,6 @@
+
 import React, { useState } from "react";
-import { ChevronDown, CheckCircle2 } from "lucide-react";
+import { ChevronDown, CheckCircle2, ExternalLink } from "lucide-react";
 import CodeBlock from "./CodeBlock";
 import {
   Accordion,
@@ -7,6 +8,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+
+interface ExternalLink {
+  title: string;
+  url: string;
+}
 
 interface TableContent {
   type: "table";
@@ -24,6 +30,7 @@ interface ContentBlock {
   imageUrl?: string; // For image blocks
   alt?: string; // For image blocks
   highlight?: boolean; // For highlighting important text or notes
+  links?: ExternalLink[]; // External links
 }
 
 interface QuestionCardProps {
@@ -138,6 +145,27 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
     });
   };
 
+  // Helper to extract links from a content block
+  const getExternalLinks = (block: ContentBlock): ExternalLink[] => {
+    return block.links || [];
+  };
+
+  // Function to get all external links from answer
+  const getAllExternalLinks = (): ExternalLink[] => {
+    if (!Array.isArray(answer)) {
+      return [];
+    }
+    
+    const allLinks: ExternalLink[] = [];
+    answer.forEach(block => {
+      if (block.links && Array.isArray(block.links)) {
+        allLinks.push(...block.links);
+      }
+    });
+    
+    return allLinks;
+  };
+
   // Render a single content block
   const renderContentBlock = (block: ContentBlock, index: number) => {
     switch (block.type) {
@@ -250,9 +278,37 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
     }
 
     if (Array.isArray(answer)) {
+      // Collect all external links
+      const allLinks = getAllExternalLinks();
+      
       return (
         <div className="prose prose-sm max-w-none dark:prose-invert">
           {answer.map((block, index) => renderContentBlock(block, index))}
+          
+          {/* Render external links if present */}
+          {allLinks.length > 0 && (
+            <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
+              <h4 className="text-sm font-medium mb-2 flex items-center">
+                <ExternalLink className="w-4 h-4 mr-2" />
+                External Resources
+              </h4>
+              <ul className="space-y-2">
+                {allLinks.map((link, i) => (
+                  <li key={i} className="text-sm">
+                    <a 
+                      href={link.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-blue-600 dark:text-blue-400 hover:underline flex items-center"
+                    >
+                      {link.title}
+                      <ExternalLink className="w-3 h-3 ml-1 inline-block" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       );
     }
@@ -280,7 +336,6 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
           <h3 className="text-base sm:text-lg md:text-xl font-medium">
             {id + 1} - {formatText(question)}
           </h3>
-
         </div>
         <ChevronDown
           className={`h-5 w-5 text-gray-500 transition-transform duration-300 ${isOpen ? "rotate-180" : ""
@@ -289,8 +344,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
       </div>
       {isOpen && (
         <div
-          className="px-2 sm:px-6 pb-4 sm:pb-6 pt-1 sm:pt-2 border-t border-border animate-slideUp
-"
+          className="px-2 sm:px-6 pb-4 sm:pb-6 pt-1 sm:pt-2 border-t border-border animate-slideUp"
         >
           {renderAnswer()}
         </div>

@@ -1,18 +1,30 @@
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Loader2, Copy, Check } from "lucide-react";
+import { Loader2, Copy, Check, ArrowRight } from "lucide-react";
 import { Button } from "../components/ui/button";
-import ThemeToggle from "../components/ThemeToggle";
+import Header from "../components/Header";
 import QuestionCard from "../components/QuestionCard";
+import { Card, CardContent } from "../components/ui/card";
+import { Textarea } from "../components/ui/textarea";
+import { useToast } from "../components/ui/use-toast";
 
 export default function AIConverter() {
   const [question, setQuestion] = useState("");
   const [response, setResponse] = useState<any | null>(null);
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+  const { toast } = useToast();
 
   const fetchAnswer = async () => {
-    if (!question.trim()) return;
+    if (!question.trim()) {
+      toast({
+        title: "Empty Input",
+        description: "Please enter content to convert.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     setLoading(true);
     try {
@@ -21,56 +33,52 @@ export default function AIConverter() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question }),
       });
+      
+      if (!res.ok) {
+        throw new Error("Failed to get response from conversion service");
+      }
+      
       const data = await res.json();
 
       if (data && data.answer) {
         try {
-          const parsedData = JSON.parse(data.answer); // First parse the response string
-          //   const finalJson = JSON.parse(parsedData);
-
+          const parsedData = JSON.parse(data.answer);
           console.log("parsedData -", parsedData);
-          //   console.log("finalJson -", finalJson);
+          
           if (Array.isArray(parsedData) && parsedData.length > 0) {
-            setResponse(parsedData); // Take the first question-answer pair
+            setResponse(parsedData);
           } else {
             setResponse(null);
+            toast({
+              title: "Format Error",
+              description: "The response couldn't be properly formatted.",
+              variant: "destructive",
+            });
           }
-          //   }
-          //   // Extract JSON block from ```json ... ```
-          //   const match = data.answer.match(/```json\s*([\s\S]*?)\s*```/);
-          //   if (match && match[1]) {
-          //     let cleanedJson = match[1].trim(); // Extract JSON
-
-          //     // Fix multiline code blocks by replacing """ with valid JSON format
-          //     cleanedJson = cleanedJson.replace(
-          //       /"""([\s\S]*?)"""/g,
-          //       (match, code) => {
-          //         return JSON.stringify(code.replace(/\r?\n/g, "\\n")); // Convert to JSON-friendly string
-          //       }
-          //     );
-
-          //     // Parse the fixed JSON
-          //     const parsedAnswer = JSON.parse(data.answer);
-
-          //     if (Array.isArray(parsedAnswer) && parsedAnswer.length > 0) {
-          //       setResponse(parsedAnswer[0]); // Take the first question-answer pair
-          //     } else {
-          //       setResponse(null);
-          //     }
-          //   } else {
-          //     console.error("No valid JSON found in response.");
-          //     setResponse(null);
-          //   }
         } catch (error) {
           console.error("Error parsing AI response JSON:", error);
           setResponse(null);
+          toast({
+            title: "Parsing Error",
+            description: "The response couldn't be parsed as valid JSON.",
+            variant: "destructive",
+          });
         }
       } else {
         setResponse(null);
+        toast({
+          title: "Empty Response",
+          description: "The service returned an empty response.",
+          variant: "destructive",
+        });
       }
     } catch (error) {
       console.error("Error fetching answer:", error);
-      setResponse({ error: "Failed to get response. Try again." });
+      toast({
+        title: "Service Error",
+        description: "Failed to get response. Try again later.",
+        variant: "destructive",
+      });
     }
     setLoading(false);
   };
@@ -79,74 +87,107 @@ export default function AIConverter() {
     if (!response) return;
     navigator.clipboard.writeText(JSON.stringify(response, null, 2));
     setCopied(true);
+    toast({
+      title: "Copied!",
+      description: "JSON data copied to clipboard.",
+    });
     setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-background text-foreground p-6 transition-colors duration-300">
-      {/* Header Section */}
-      <div className="w-full max-w-3xl flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">AI Q&A JSON Formatter</h1>
-        <ThemeToggle />
-      </div>
+    <div className="min-h-screen flex flex-col bg-background">
+      <Header title="AI Converter" showBackButton={true} />
 
-      {/* Question Input */}
-      <textarea
-        className="w-full max-w-lg p-3 border rounded-md shadow-sm bg-card border-border focus:ring-2 focus:ring-blue-400 transition"
-        placeholder="Enter your question..."
-        value={question}
-        onChange={(e) => setQuestion(e.target.value)}
-        rows={4}
-      />
+      <main className="flex-1 container mx-auto max-w-4xl px-4 py-8">
+        <div className="space-y-6">
+          <h1 className="text-2xl sm:text-3xl font-bold">
+            Convert From Skillora.ai Format
+          </h1>
+          <p className="text-muted-foreground text-sm sm:text-base">
+            Paste content from Skillora.ai to convert it into our Q&A format
+          </p>
 
-      {/* Submit Button */}
-      <Button
-        onClick={fetchAnswer}
-        disabled={loading}
-        className="mt-4 px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition flex items-center gap-2"
-      >
-        {loading && <Loader2 className="animate-spin h-5 w-5" />}
-        {loading ? "Generating..." : "Submit"}
-      </Button>
+          <Card className="mt-6">
+            <CardContent className="p-4 sm:p-6">
+              <div className="flex flex-col space-y-4">
+                <Textarea
+                  placeholder="Paste your content from Skillora.ai here..."
+                  value={question}
+                  onChange={(e) => setQuestion(e.target.value)}
+                  className="min-h-40 text-base resize-none"
+                />
+                <div className="flex justify-end">
+                  <Button
+                    onClick={fetchAnswer}
+                    disabled={loading || !question.trim()}
+                    className="px-4 py-2"
+                  >
+                    {loading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Converting...
+                      </>
+                    ) : (
+                      <>
+                        <ArrowRight className="mr-2 h-4 w-4" />
+                        Convert
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
-      {/* AI Response in QuestionCard */}
-      {response && response.length > 0 && (
-        <div className="w-full max-w-lg mt-6">
-          {response.map((item, index) => (
-            <QuestionCard
-              key={index}
-              id={index}
-              question={item.question}
-              answer={item.answer}
-              isRead={false}
-            />
-          ))}
+          {/* Converted Content */}
+          {response && response.length > 0 && (
+            <div className="mt-8 space-y-6">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-semibold">Converted Result</h2>
+                <Button
+                  onClick={handleCopy}
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-1"
+                >
+                  {copied ? (
+                    <Check className="w-4 h-4 text-green-500" />
+                  ) : (
+                    <Copy className="w-4 h-4" />
+                  )}
+                  <span>{copied ? "Copied!" : "Copy JSON"}</span>
+                </Button>
+              </div>
+              
+              <div className="space-y-6">
+                {response.map((item, index) => (
+                  <QuestionCard
+                    key={index}
+                    id={index}
+                    question={item.question}
+                    answer={item.answer}
+                    isRead={false}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
 
-          {/* Copy Button */}
-          <div className="relative mt-2 flex justify-end">
-            <button
-              onClick={handleCopy}
-              className="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded flex items-center gap-1"
-            >
-              {copied ? (
-                <Check className="w-4 h-4 text-green-400" />
-              ) : (
-                <Copy className="w-4 h-4" />
-              )}
-              <span className="text-sm">
-                {copied ? "Copied!" : "Copy JSON"}
-              </span>
-            </button>
+          {!response && !loading && (
+            <div className="mt-10 text-center py-10">
+              <p className="text-muted-foreground">
+                No content converted yet. Paste some content and click Convert.
+              </p>
+            </div>
+          )}
+
+          <div className="mt-6 flex justify-center">
+            <Link to="/">
+              <Button variant="outline">Back to Home</Button>
+            </Link>
           </div>
         </div>
-      )}
-
-      {/* Back to Home Button */}
-      <Link to="/">
-        <Button variant="outline" className="mt-6">
-          Back to Home
-        </Button>
-      </Link>
+      </main>
     </div>
   );
-}
+};

@@ -39,16 +39,14 @@ const NestedPathCardFooter: React.FC<NestedPathCardFooterProps> = ({
       </span>
       <div className="flex items-center gap-1 sm:gap-2">
         {hasNestedPaths ? (
-          <>
-            <Link
-              to={`/subpaths/${pathId}`}
-              className="flex items-center text-xs sm:text-sm font-medium text-indigo-600 dark:text-indigo-400"
-              onClick={() => onPathClick && onPathClick(pathId)}
-            >
-              View
-              <ExternalLink className="ml-1 h-3 w-3" />
-            </Link>
-          </>
+          <Link
+            to={`/subpaths/${pathId}`}
+            className="flex items-center text-xs sm:text-sm font-medium text-indigo-600 dark:text-indigo-400"
+            onClick={() => onPathClick && onPathClick(pathId)}
+          >
+            View
+            <ExternalLink className="ml-1 h-3 w-3" />
+          </Link>
         ) : (
           <Link
             to={`/path/${pathId}`}
