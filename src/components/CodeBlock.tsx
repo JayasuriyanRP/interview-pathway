@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import { Clipboard, ClipboardCheck, WrapText, X } from "lucide-react";
 import Prism from "prismjs";
@@ -111,7 +110,9 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
 
       {/* Code Block */}
       <div
-        className={`bg-gray-900 overflow-x-auto ${showLineNumbers ? "line-numbers" : ""}`}
+        className={`bg-gray-900 overflow-x-auto ${
+          showLineNumbers ? "line-numbers" : ""
+        }`}
       >
         <pre
           className={`p-0 sm:p-4 md:p-6 lg:p-8 rounded-lg bg-gray-100 dark:bg-gray-800 overflow-auto min-w-full ${
@@ -121,7 +122,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
         >
           <code
             ref={codeRef}
-            className={`language-${normalizedLanguage} block !text-[0.70rem] sm:!text-xs md:!text-sm lg:!text-base xl:!text-lg tracking-tight`}
+            className={`language-${normalizedLanguage} block !text-[0.80rem] sm:!text-xs md:!text-sm lg:!text-base xl:!text-lg tracking-tight`}
           >
             {content}
           </code>

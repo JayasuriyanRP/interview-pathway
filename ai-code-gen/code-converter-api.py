@@ -3,6 +3,7 @@ import os
 import re
 import json
 import uuid
+import time
 import requests
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
@@ -102,7 +103,7 @@ def generate_from_file():
             response_text = call_llama3(prompt, trimmed_answer_text)
             
             response_text = extract_json_content(response_text)
-            print(response_text)
+            
             try:
                 response_data = json.loads(response_text)  # Ensure response is parsed JSON
             except json.JSONDecodeError as e:
@@ -120,6 +121,8 @@ def generate_from_file():
             }
             
             results.append(formatted_question)
+
+            time.sleep(10)
 
         # Save results to file
         output_filename = f"processed_questions_{uuid.uuid4()}.json"
