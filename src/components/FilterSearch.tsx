@@ -13,11 +13,15 @@ import {
 interface FilterSearchProps {
   searchQuery: string;
   setSearchQuery: (query: string) => void;
+  levelFilter?: string | null;
+  setLevelFilter?: (level: string | null) => void;
 }
 
 const FilterSearch: React.FC<FilterSearchProps> = ({
   searchQuery,
   setSearchQuery,
+  levelFilter,
+  setLevelFilter,
 }) => {
   return (
     <div className="flex flex-col sm:flex-row gap-2">
@@ -31,28 +35,32 @@ const FilterSearch: React.FC<FilterSearchProps> = ({
           className="pl-9 w-full"
         />
       </div>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="gap-2">
-            <Filter className="h-4 w-4" />
-            <span className="hidden sm:inline">Filter</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => setSearchQuery("")}>
-            All Levels
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setSearchQuery("beginner")}>
-            Beginner
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setSearchQuery("intermediate")}>
-            Intermediate
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setSearchQuery("advanced")}>
-            Advanced
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      {setLevelFilter && (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="gap-2">
+              <Filter className="h-4 w-4" />
+              <span className="hidden sm:inline">
+                {levelFilter ? `Level: ${levelFilter}` : "Filter by Level"}
+              </span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => setLevelFilter(null)}>
+              All Levels
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setLevelFilter("Beginner")}>
+              Beginner
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setLevelFilter("Intermediate")}>
+              Intermediate
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setLevelFilter("Advanced")}>
+              Advanced
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
     </div>
   );
 };

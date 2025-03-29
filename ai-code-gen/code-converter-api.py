@@ -1,3 +1,4 @@
+
 import os
 import re
 import json
@@ -21,7 +22,6 @@ def call_llama3(prompt, question):
     using both a prompt and a user question.
     """
     full_prompt = f"{prompt}\n\n### Question:\n{question}"
-    # payload = {"model": "llama3", "prompt": full_prompt, "stream": False}
     payload = {
         "model": "llama3",
         "prompt": full_prompt,
@@ -61,6 +61,17 @@ def remove_markdown_tags(text):
     if match:
         return match.group(1).strip()
     return text
+
+def extract_language_from_answer(answer):
+    """
+    Extracts language from the answer if it's in a code block
+    """
+    if isinstance(answer, str) and answer.startswith("```"):
+        # Try to extract language from code block
+        match = re.match(r"```(\w+)", answer)
+        if match:
+            return match.group(1)
+    return None
 
 @app.route("/api/generate", methods=["POST"])
 def generate_from_file():
@@ -138,15 +149,21 @@ def ask_llama3():
                 continue
             
             response_text = call_llama3(prompt, trimmed_answer_text)
-            response_data = json.loads(response_text)  # Ensure the API response is valid JSON
+            
+            try:
+                response_data = json.loads(response_text)  # Ensure the API response is valid JSON
+            except json.JSONDecodeError:
+                print("Failed to parse JSON from response")
+                continue
             
             formatted_questions = []
-            for item in response_data:
-                formatted_questions.append({
-                    "id": str(uuid.uuid4()),
-                    "question": item.get("question", ""),
-                    "answer": item.get("answer", [])
-                })
+            for item in response_data if isinstance(response_data, list) else [response_data]:
+                if "question" in item and "answer" in item:
+                    formatted_questions.append({
+                        "id": item.get("id", str(uuid.uuid4())),
+                        "question": item.get("question", ""),
+                        "answer": item.get("answer", [])
+                    })
             
             results.extend(formatted_questions)
         

@@ -7,8 +7,8 @@ interface Subpath {
   description: string;
   count: number;
   level: string;
-  subpaths?: Subpath[]; // ✅ Corrected key name
-  icon: string; // ✅ Ensure paths have an icon
+  subpaths?: Subpath[];
+  icon: string;
 }
 
 interface Path extends Subpath {
@@ -31,7 +31,7 @@ export const useData = () => {
       try {
         // Load paths data
         const pathsResponse = await import("../data/paths.json");
-        setPaths(pathsResponse.default as Path[]); // ✅ Ensure proper typing
+        setPaths(pathsResponse.default as Path[]);
 
         // Initialize questions object
         const questionsData: Record<string, Question[]> = {};

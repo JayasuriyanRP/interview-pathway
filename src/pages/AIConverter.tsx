@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -122,6 +123,10 @@ export default function AIConverter() {
                   <Download className="w-4 h-4" /> Download JSON
                 </a>
               </Button>
+              <p className="text-sm text-muted-foreground mt-2">
+                This file can be used in the data/questions folder of your project.
+                Consider placing it in a subfolder matching the language or topic.
+              </p>
             </div>
           )}
 

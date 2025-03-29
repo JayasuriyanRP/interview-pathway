@@ -15,6 +15,7 @@ const SubpathsList = () => {
   const { path, loading, error } = usePath(pathId);
   const { paths } = useData();
   const [searchQuery, setSearchQuery] = useState("");
+  const [levelFilter, setLevelFilter] = useState<string | null>(null);
   const [breadcrumbPath, setBreadcrumbPath] = useState<{ id: string; title: string }[]>([]);
 
   // Build breadcrumb path
@@ -65,12 +66,20 @@ const SubpathsList = () => {
     return <ErrorState />;
   }
 
-  // Filter subpaths based on search query
-  const filteredSubpaths = path.subpaths.filter(subpath => 
-    searchQuery === "" || 
-    subpath.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    subpath.description.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Filter subpaths based on search query and level filter
+  const filteredSubpaths = path.subpaths.filter(subpath => {
+    const matchesSearch = 
+      searchQuery === "" || 
+      subpath.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      subpath.description.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    const matchesLevel =
+      !levelFilter || 
+      subpath.level === levelFilter ||
+      subpath.level === "All Levels";
+    
+    return matchesSearch && matchesLevel;
+  });
 
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
@@ -94,13 +103,18 @@ const SubpathsList = () => {
           <FilterSearch 
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
+            levelFilter={levelFilter}
+            setLevelFilter={setLevelFilter}
           />
 
           {/* Empty State */}
           {filteredSubpaths.length === 0 && (
             <EmptyState 
               message="No subpaths found matching your search criteria."
-              onClearSearch={() => setSearchQuery("")}
+              onClearSearch={() => {
+                setSearchQuery("");
+                setLevelFilter(null);
+              }}
             />
           )}
 

@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Card } from "./ui/card";
 import { cn } from "@/lib/utils";
@@ -5,7 +6,7 @@ import NestedPathCardHeader from "./NestedPathCardHeader";
 import NestedPathCardContent from "./NestedPathCardContent";
 import NestedPathCardFooter from "./NestedPathCardFooter";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
-import { Button } from "./ui/button"; // Add this import
+import { Button } from "./ui/button";
 import { usePathQuestions } from "@/hooks/useData";
 import { useProgress } from "@/hooks/useProgress";
 import { Link } from "react-router-dom";
@@ -36,12 +37,12 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const hasNestedPaths = path.subpaths && path.subpaths.length > 0;
-  const { getPathProgress, isSubpathCompleted } = useProgress();
+  const { getPathProgress, isSubpathCompleted, isPathCompleted } = useProgress();
   const { questions } = usePathQuestions(path.id);
   
   // Calculate the actual progress
   const progress = getPathProgress(path.id, questions);
-  const isPathCompleted = isSubpathCompleted(path.id);
+  const isPathActuallyCompleted = isCompleted || isSubpathCompleted(path.id) || isPathCompleted(path.id);
 
   const handleToggleExpand = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -69,7 +70,7 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
           <Card
             className={cn(
               `w-full transition-all duration-200 cursor-pointer hover:shadow-md ${isNested ? `ml-${Math.min(level * 3, 8)}` : ""}`,
-              isPathCompleted ? "border-indigo-200 dark:border-indigo-900" : "",
+              isPathActuallyCompleted ? "border-indigo-200 dark:border-indigo-900" : "",
               cardBg,
               level > 0 && "border-l-4 border-l-indigo-500"
             )}
@@ -81,7 +82,7 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
               level={path.level}
               hasNestedPaths={hasNestedPaths}
               isExpanded={isExpanded}
-              isCompleted={isPathCompleted}
+              isCompleted={isPathActuallyCompleted}
               handleToggleExpand={handleToggleExpand}
             />
 
@@ -91,6 +92,7 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
               isExpanded={isExpanded}
               subpathsCount={path.subpaths?.length || 0}
               questionsCount={questions?.length || 0}
+              progress={progress}
               handleToggleExpand={handleToggleExpand}
               onPathClick={onPathClick}
             />
@@ -151,7 +153,7 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
       <Card
         className={cn(
           `w-full transition-all duration-200 hover:shadow-md ${isNested ? `ml-${Math.min(level * 3, 8)}` : ""}`,
-          isPathCompleted ? "border-indigo-200 dark:border-indigo-900" : "",
+          isPathActuallyCompleted ? "border-indigo-200 dark:border-indigo-900" : "",
           cardBg,
           level > 0 && "border-l-4 border-l-indigo-500"
         )}
@@ -162,7 +164,7 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
           level={path.level}
           hasNestedPaths={hasNestedPaths}
           isExpanded={isExpanded}
-          isCompleted={isPathCompleted}
+          isCompleted={isPathActuallyCompleted}
           handleToggleExpand={handleToggleExpand}
         />
 
@@ -180,6 +182,7 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
           isExpanded={isExpanded}
           subpathsCount={path.subpaths?.length || 0}
           questionsCount={questions?.length || 0}
+          progress={progress}
           handleToggleExpand={handleToggleExpand}
           onPathClick={onPathClick}
         />

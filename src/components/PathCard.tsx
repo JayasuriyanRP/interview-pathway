@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { Code, Server, GitBranch, Network, ArrowRight, List, CheckCircle } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { cn, getBadgeClass } from "@/lib/utils";
+import { usePathQuestions } from "@/hooks/useData";
+import { useProgress } from "@/hooks/useProgress";
 
 interface PathCardProps {
   id: string;
@@ -30,6 +32,20 @@ const PathCard: React.FC<PathCardProps> = ({
   total = 0,
   isCompleted = false,
 }) => {
+  const { questions } = usePathQuestions(id);
+  const { getPathProgress, isPathCompleted, isSubpathCompleted } = useProgress();
+  
+  // Get actual progress data
+  const progress = getPathProgress(id, questions);
+  
+  // Use provided completion status or calculate it
+  const actualIsCompleted = isCompleted || isPathCompleted(id) || isSubpathCompleted(id);
+  
+  // Calculate progress percentage - use either passed props or calculated values
+  const actualCompleted = completed > 0 ? completed : progress.completed;
+  const actualTotal = total > 0 ? total : progress.total;
+  const progressPercentage = actualTotal > 0 ? (actualCompleted / actualTotal) * 100 : 0;
+
   const getIcon = () => {
     switch (icon) {
       case "Code":
@@ -50,9 +66,6 @@ const PathCard: React.FC<PathCardProps> = ({
   const linkTo = hasSubpaths ? `/subpaths/${id}` : `/path/${id}`;
   const actionText = hasSubpaths ? "View subpaths" : "Start learning";
 
-  // Calculate progress percentage
-  const progressPercentage = total > 0 ? (completed / total) * 100 : 0;
-
   return (
     <Link
       to={linkTo}
@@ -60,7 +73,7 @@ const PathCard: React.FC<PathCardProps> = ({
         "path-card block rounded-xl p-3 border shadow-sm hover:shadow-md transition-all duration-300",
         "sm:p-4 md:p-5 lg:p-6", // Adjust padding for different screen sizes
         "border-border", // Default border
-        isCompleted ? "border-indigo-200 dark:border-indigo-900" : "" // Conditional border
+        actualIsCompleted ? "border-indigo-200 dark:border-indigo-900" : "" // Conditional border
       )}
     >
       <div className="flex flex-col h-full">
@@ -69,11 +82,11 @@ const PathCard: React.FC<PathCardProps> = ({
           <div className="flex items-center gap-3 flex-1">
             <div className={cn(
               "p-3 rounded-lg inline-flex items-center justify-center w-12 h-12",
-              isCompleted
+              actualIsCompleted
                 ? "bg-indigo-50 dark:bg-indigo-900/20"
                 : "bg-indigo-100 dark:bg-indigo-900/30"
             )}>
-              {isCompleted ? (
+              {actualIsCompleted ? (
                 <CheckCircle className="h-5 w-5 text-indigo-500 dark:text-indigo-400" />
               ) : getIcon()}
             </div>
@@ -90,7 +103,7 @@ const PathCard: React.FC<PathCardProps> = ({
           </div>
 
           {/* Completed Badge (Right-Aligned) */}
-          {isCompleted && (
+          {actualIsCompleted && (
             <Badge className="bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300">
               Completed
             </Badge>
@@ -98,7 +111,7 @@ const PathCard: React.FC<PathCardProps> = ({
         </div>
 
         {/* Progress bar */}
-        {!hasSubpaths && total > 0 && (
+        {!hasSubpaths && actualTotal > 0 && (
           <div className="w-full mt-2 mb-4">
             <div className="h-1.5 w-full bg-secondary rounded-full overflow-hidden">
               <div
@@ -108,7 +121,7 @@ const PathCard: React.FC<PathCardProps> = ({
             </div>
             <div className="flex justify-between items-center mt-1">
               <span className="text-xs text-muted-foreground">
-                {completed} of {total} completed
+                {actualCompleted} of {actualTotal} completed
               </span>
               <span className="text-xs font-medium text-muted-foreground">
                 {Math.round(progressPercentage)}%
