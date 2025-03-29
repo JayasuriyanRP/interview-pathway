@@ -20,7 +20,10 @@ const LearningPath = () => {
   const { path, loading: pathLoading, error: pathError } = usePath(pathId);
   const { questions, loading: questionsLoading, error: questionsError } = usePathQuestions(pathId);
   const { isQuestionRead, markPathAsCompleted } = useProgress();
-  const { isSignedIn } = useUser();
+  
+  // Check if Clerk is available
+  const hasClerkKey = !!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+  const { isSignedIn } = hasClerkKey ? useUser() : { isSignedIn: false };
   
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredQuestions, setFilteredQuestions] = useState<any[]>([]);
@@ -93,8 +96,8 @@ const LearningPath = () => {
               setSearchQuery={setSearchQuery}
             />
             <QuestionFilter 
-              filterState={filterState}
-              setFilterState={setFilterState}
+              filter={filterState} // Changed from filterState to filter to match component props
+              setFilter={setFilterState} // Changed from setFilterState to setFilter to match component props
             />
           </div>
         </div>
