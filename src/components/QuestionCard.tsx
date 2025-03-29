@@ -63,7 +63,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
           <CodeBlock
             key={index}
             language={part.language || "javascript"}
-            value={part.content} // Changed from 'code' to 'value' to match CodeBlock props
+            content={part.content} // Changed from 'value' to 'content' to match CodeBlock props
           />
         );
       case "link":

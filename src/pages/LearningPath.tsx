@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { usePath, usePathQuestions } from "../hooks/useData";
@@ -96,8 +95,8 @@ const LearningPath = () => {
               setSearchQuery={setSearchQuery}
             />
             <QuestionFilter 
-              filter={filterState} // Changed from filterState to filter to match component props
-              setFilter={setFilterState} // Changed from setFilterState to setFilter to match component props
+              filter={filterState}
+              setFilter={setFilterState}
             />
           </div>
         </div>
