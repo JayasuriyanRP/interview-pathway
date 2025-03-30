@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { toast } from "sonner";
@@ -52,7 +51,10 @@ export const useProgress = () => {
     }));
   };
 
-  const markSubpathAsCompleted = (subpathId: string, showToast: boolean = true) => {
+  const markSubpathAsCompleted = (
+    subpathId: string,
+    showToast: boolean = true
+  ) => {
     setProgress((prev) => ({
       ...prev,
       subpaths: {
@@ -65,7 +67,7 @@ export const useProgress = () => {
       },
       lastUpdated: Date.now(),
     }));
-    
+
     if (showToast) {
       toast.success("Subpath marked as completed", {
         position: "top-center",
@@ -87,7 +89,7 @@ export const useProgress = () => {
       },
       lastUpdated: Date.now(),
     }));
-    
+
     if (showToast) {
       toast.success("Learning path marked as completed", {
         position: "top-center",
@@ -112,17 +114,24 @@ export const useProgress = () => {
     pathId: string,
     questions: any[]
   ): { completed: number; total: number } => {
-    const questionsInPath = questions || [];
-    const completedQuestions = questionsInPath.filter((_, index) =>
-      isQuestionRead(pathId, index)
-    ).length;
+    try {
+      const questionsInPath = questions || [];
+      const completedQuestions =
+        questionsInPath.filter((_, index) => isQuestionRead(pathId, index))
+          .length ?? 0;
 
-    return {
-      completed: completedQuestions,
-      total: questionsInPath.length,
-    };
+      return {
+        completed: completedQuestions,
+        total: questionsInPath.length,
+      };
+    } catch {
+      return {
+        completed: 0,
+        total: 0,
+      };
+    }
   };
-  
+
   const getLastReadTimestamp = (id: string): number => {
     return progress.lastRead[id] || 0;
   };
@@ -135,7 +144,7 @@ export const useProgress = () => {
       lastRead: {},
       lastUpdated: Date.now(),
     });
-    
+
     if (showToast) {
       toast.success("All learning progress has been reset", {
         position: "top-center",

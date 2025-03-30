@@ -141,7 +141,7 @@
             "level": "Beginner"
           },
           {
-            "id": "backend-golang-concurrency",
+            "id": "go-routines",
             "title": "Concurrency",
             "description": "Go goroutines, channels, and concurrency patterns",
             "count": 10,
