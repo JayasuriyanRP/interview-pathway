@@ -130,36 +130,120 @@
         "id": "backend-golang",
         "title": "Golang",
         "description": "Go language and ecosystem for backend development",
-        "count": 12,
+        "count": 18,
         "level": "Intermediate",
         "subpaths": [
           {
-            "id": "backend-golang-basics",
+            "id": "go-basics",
             "title": "Golang Basics",
-            "description": "Fundamentals of Go language programming",
-            "count": 8,
+            "description": "Fundamentals of Go language programming, including variables, data types, and syntax.",
+            "count": 6,
             "level": "Beginner"
           },
           {
+            "id": "go-oper-and-expressions",
+            "title": "Operators and Expressions",
+            "description": "Understanding Go's operators, expressions, precedence, and evaluation.",
+            "count": 4,
+            "level": "Beginner"
+          },
+          {
+            "id": "go-control-flow",
+            "title": "Control Flow in Go",
+            "description": "If-else statements, loops, switch cases, and defer-panic-recover mechanisms.",
+            "count": 5,
+            "level": "Beginner"
+          },
+          {
+            "id": "go-func-and-methods",
+            "title": "Functions and Methods",
+            "description": "Understanding function declarations, return values, and methods in Go.",
+            "count": 6,
+            "level": "Intermediate"
+          },
+          {
+            "id": "go-data-structures",
+            "title": "Go Data Structures",
+            "description": "Arrays, slices, maps, structs, and linked lists in Go.",
+            "count": 7,
+            "level": "Intermediate"
+          },
+          {
+            "id": "go-interfaces-poly",
+            "title": "Interfaces and Polymorphism",
+            "description": "Implicit interface implementation, empty interfaces, and type assertions.",
+            "count": 6,
+            "level": "Intermediate"
+          },
+          {
+            "id": "go-error-handling",
+            "title": "Error Handling in Go",
+            "description": "Managing errors using built-in error handling mechanisms and best practices.",
+            "count": 5,
+            "level": "Intermediate"
+          },
+          {
             "id": "go-routines",
-            "title": "Concurrency",
-            "description": "Go goroutines, channels, and concurrency patterns",
+            "title": "Concurrency in Go",
+            "description": "Understanding goroutines, channels, WaitGroups, and concurrency patterns.",
             "count": 10,
             "level": "Intermediate"
           },
           {
-            "id": "backend-golang-advanced",
-            "title": "Advanced Go",
-            "description": "Advanced Go concepts and optimization techniques",
-            "count": 6,
+            "id": "go-memory-management",
+            "title": "Memory Management in Go",
+            "description": "Garbage collection, stack vs heap allocation, and escape analysis.",
+            "count": 5,
             "level": "Advanced"
           },
           {
-            "id": "backend-golang-problem-solving",
-            "title": "Golang Problem Solving",
-            "description": "Go language coding questions",
+            "id": "go-module-dependency",
+            "title": "Go Modules and Dependencies",
+            "description": "Managing dependencies using Go modules and package management best practices.",
             "count": 4,
             "level": "Intermediate"
+          },
+          {
+            "id": "go-database",
+            "title": "Go and Databases",
+            "description": "Working with SQL and NoSQL databases, including database/sql and GORM.",
+            "count": 6,
+            "level": "Intermediate"
+          },
+          {
+            "id": "go-string-manipulation",
+            "title": "String and Byte Manipulation",
+            "description": "String operations, byte manipulation, and using the strings package effectively.",
+            "count": 5,
+            "level": "Intermediate"
+          },
+          {
+            "id": "go-web-development",
+            "title": "Web Development with Go",
+            "description": "Building web applications, REST APIs, and working with net/http.",
+            "count": 8,
+            "level": "Advanced"
+          },
+          {
+            "id": "go-testing-debugging",
+            "title": "Testing and Debugging in Go",
+            "description": "Unit testing, benchmarking, and debugging techniques using Go tooling.",
+            "count": 6,
+            "level": "Intermediate"
+          },
+          {
+            "id": "go-security-bestpractices",
+            "title": "Security Best Practices",
+            "description": "Secure coding, input validation, and preventing race conditions in Go.",
+            "count": 5,
+            "level": "Advanced"
+          },
+          {
+            "id": "go-advance",
+            "title": "Advanced Go Topics",
+            "description": "Reflection, generics, unsafe package, and advanced Go optimization techniques.",
+            "count": 6,
+            "level": "Advanced"
           }
         ]
       },

@@ -16,7 +16,7 @@ const MarkdownView = ({ content }: { content: string }) => {
   const handleCopy = (codeText: string, key: string) => {
     navigator.clipboard.writeText(codeText);
     setCopiedMap((prev) => ({ ...prev, [key]: true }));
-  
+
     setTimeout(() => {
       setCopiedMap((prev) => {
         const newMap = { ...prev };
@@ -67,7 +67,7 @@ const MarkdownView = ({ content }: { content: string }) => {
                 </pre>
               </div>
             ) : (
-              <code className="bg-gray-200 px-1 rounded" {...props}>
+              <code className=" px-1 rounded" {...props}>
                 {children}
               </code>
             );
