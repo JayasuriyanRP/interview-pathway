@@ -9,14 +9,28 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
-  plugins: [
-    react(),
-    mode === 'development' &&
-    componentTagger(),
-  ].filter(Boolean),
+  plugins: [react(), mode === "development" && componentTagger()].filter(
+    Boolean
+  ),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+    },
+  },
+  build: {
+    rollupOptions: {
+      // Rollup plugin to minify JSON files
+      plugins: [
+        {
+          name: "minify-json",
+          transform(code, id) {
+            if (id.endsWith(".json")) {
+              // Minify JSON by removing spaces and newlines
+              return JSON.stringify(JSON.parse(code));
+            }
+          },
+        },
+      ],
     },
   },
 }));
