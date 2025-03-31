@@ -31,7 +31,7 @@ const Question: React.FC<QuestionProps> = ({
   onUndoRead,
   isRead = false,
   highlightQuery = "",
-  isExpanded = false, // New prop
+  isExpanded = false,
 }) => {
   const [isOpen, setIsOpen] = useState(isExpanded);
 
@@ -65,23 +65,30 @@ const Question: React.FC<QuestionProps> = ({
       } shadow-sm transition-all duration-300`}
     >
       <div
-        className="p-4 sm:p-6 cursor-pointer flex flex-row justify-between items-center gap-3"
+        className="p-4 sm:p-6 cursor-pointer flex flex-col sm:flex-row items-start sm:items-center gap-3"
         onClick={toggleAnswer}
       >
-        <div className="flex items-center gap-3 flex-1">
-          {isRead && (
-            <CheckCircle2 size={18} className="text-green-500 flex-shrink-0" />
-          )}
-          <span className="text-sm sm:text-base md:text-lg font-semibold text-gray-500 dark:text-gray-400">
-            {id + 1}.
-          </span>
-          <h3 className="text-base sm:text-lg md:text-xl font-medium flex-1">
-            {question}
-          </h3>
+        <div className="flex flex-1 flex-col sm:flex-row sm:items-center gap-2">
+          <div className="flex items-center gap-2">
+            {isRead && (
+              <CheckCircle2
+                size={16}
+                className="text-green-500 flex-shrink-0"
+              />
+            )}
+            <h3 className="font-medium text-gray-500 dark:text-gray-400">
+              {id + 1}.
+            </h3>
+            <h3 className="font-medium leading-tight">{question}</h3>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
+
+        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 mt-2 sm:mt-0">
           {level && (
-            <Badge variant={levelBadgeVariant[level] || "default"}>
+            <Badge
+              variant={levelBadgeVariant[level] || "default"}
+              className="py-0.5 px-2"
+            >
               {level}
             </Badge>
           )}
@@ -92,7 +99,7 @@ const Question: React.FC<QuestionProps> = ({
               className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
               onClick={handleUndoRead}
             >
-              <Undo size={18} />
+              <Undo size={16} />
             </button>
           )}
           <ChevronDown
@@ -102,6 +109,7 @@ const Question: React.FC<QuestionProps> = ({
           />
         </div>
       </div>
+
       {isOpen && (
         <div className="px-2 sm:px-6 pb-4 sm:pb-6 pt-1 sm:pt-2 border-t border-border animate-slideUp">
           {isMarkdown ? (
