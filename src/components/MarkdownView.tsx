@@ -85,6 +85,47 @@ const MarkdownView = ({ content }: { content: string }) => {
               </code>
             );
           },
+          h1: ({ children }) => (
+            <h1 className="font-bold mt-4 mb-2">{children}</h1>
+          ),
+          h2: ({ children }) => (
+            <h2 className="font-semibold mt-4 mb-2">{children}</h2>
+          ),
+          h3: ({ children }) => (
+            <h3 className="font-medium mt-4 mb-2">{children}</h3>
+          ),
+          p: ({ children }) => (
+            <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+              {children}
+            </p>
+          ),
+          ul: ({ children }) => <ul className="list-disc pl-6">{children}</ul>,
+          ol: ({ children }) => (
+            <ol className="list-decimal pl-6">{children}</ol>
+          ),
+          blockquote: ({ children }) => (
+            <blockquote className="border-l-4 border-gray-500 pl-4 italic text-gray-600 dark:text-gray-400">
+              {children}
+            </blockquote>
+          ),
+          a: ({ children, href }) => (
+            <a href={href} className="text-blue-500 hover:underline">
+              {children}
+            </a>
+          ),
+          strong: ({ children }) => (
+            <strong className="font-bold text-gray-900 dark:text-gray-100">
+              {children}
+            </strong>
+          ),
+          em: ({ children }) => (
+            <em className="italic text-gray-800 dark:text-gray-200">
+              {children}
+            </em>
+          ),
+          hr: () => (
+            <hr className="border-t border-gray-300 dark:border-gray-700 my-4" />
+          ),
         }}
       >
         {content}
