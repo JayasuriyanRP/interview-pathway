@@ -1,9 +1,17 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
-import { Code, Server, GitBranch, Network, ArrowRight, List, CheckCircle } from "lucide-react";
+import {
+  Code,
+  Server,
+  GitBranch,
+  Network,
+  ArrowRight,
+  List,
+  CheckCircle,
+  Users,
+} from "lucide-react";
 import { Badge } from "./ui/badge";
-import { cn, getBadgeClass } from "@/lib/utils";
+import { cn, getBadgeClass, getPathIcon } from "@/lib/utils";
 import { usePathQuestions } from "@/hooks/useData";
 import { useProgress } from "@/hooks/useProgress";
 
@@ -33,35 +41,21 @@ const PathCard: React.FC<PathCardProps> = ({
   isCompleted = false,
 }) => {
   const { questions } = usePathQuestions(id);
-  const { getPathProgress, isPathCompleted, isSubpathCompleted } = useProgress();
-  
+  const { getPathProgress, isPathCompleted, isSubpathCompleted } =
+    useProgress();
+
   // Get actual progress data
   const progress = getPathProgress(id, questions);
-  
+
   // Use provided completion status or calculate it
-  const actualIsCompleted = isCompleted || isPathCompleted(id) || isSubpathCompleted(id);
-  
+  const actualIsCompleted =
+    isCompleted || isPathCompleted(id) || isSubpathCompleted(id);
+
   // Calculate progress percentage - use either passed props or calculated values
   const actualCompleted = completed > 0 ? completed : progress.completed;
   const actualTotal = total > 0 ? total : progress.total;
-  const progressPercentage = actualTotal > 0 ? (actualCompleted / actualTotal) * 100 : 0;
-
-  const getIcon = () => {
-    switch (icon) {
-      case "Code":
-        return <Code className="h-5 w-5" />;
-      case "Server":
-        return <Server className="h-5 w-5" />;
-      case "GitBranch":
-        return <GitBranch className="h-5 w-5" />;
-      case "Network":
-        return <Network className="h-5 w-5" />;
-      case "List":
-        return <List className="h-5 w-5" />;
-      default:
-        return <Code className="h-5 w-5" />;
-    }
-  };
+  const progressPercentage =
+    actualTotal > 0 ? (actualCompleted / actualTotal) * 100 : 0;
 
   const linkTo = hasSubpaths ? `/subpaths/${id}` : `/path/${id}`;
   const actionText = hasSubpaths ? "View subpaths" : "Start learning";
@@ -80,15 +74,19 @@ const PathCard: React.FC<PathCardProps> = ({
         <div className="flex justify-between items-center">
           {/* Icon + Title in a single row */}
           <div className="flex items-center gap-3 flex-1">
-            <div className={cn(
-              "p-3 rounded-lg inline-flex items-center justify-center w-12 h-12",
-              actualIsCompleted
-                ? "bg-indigo-50 dark:bg-indigo-900/20"
-                : "bg-indigo-100 dark:bg-indigo-900/30"
-            )}>
+            <div
+              className={cn(
+                "p-3 rounded-lg inline-flex items-center justify-center w-12 h-12",
+                actualIsCompleted
+                  ? "bg-indigo-50 dark:bg-indigo-900/20"
+                  : "bg-indigo-100 dark:bg-indigo-900/30"
+              )}
+            >
               {actualIsCompleted ? (
                 <CheckCircle className="h-5 w-5 text-indigo-500 dark:text-indigo-400" />
-              ) : getIcon()}
+              ) : (
+                getPathIcon(icon)
+              )}
             </div>
 
             <div>

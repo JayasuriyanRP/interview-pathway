@@ -3,7 +3,7 @@
     "id": "example-path",
     "title": "Example Path with All Content Types",
     "description": "This path demonstrates all content types available in the app, including text, code, lists, tables, images, quotes, and notes.",
-    "icon": "Code",
+    "icon": "FileText",
     "count": 1,
     "level": "Beginner"
   },
@@ -11,7 +11,7 @@
     "id": "frontend",
     "title": "Frontend Development",
     "description": "Master essential frontend interview questions covering HTML, CSS, JavaScript, and popular frameworks.",
-    "icon": "Code",
+    "icon": "Monitor",
     "count": 42,
     "level": "Intermediate",
     "subpaths": [
@@ -71,7 +71,7 @@
     "id": "backend",
     "title": "Backend Development",
     "description": "Prepare for backend interviews with questions on server architecture, databases, and API design.",
-    "icon": "Server",
+    "icon": "Database",
     "count": 38,
     "level": "Advanced",
     "subpaths": [
@@ -291,7 +291,7 @@
     "id": "system-design",
     "title": "System Design",
     "description": "Learn how to design scalable systems and tackle complex architectural interview questions.",
-    "icon": "Network",
+    "icon": "architecture",
     "count": 25,
     "level": "Advanced",
     "subpaths": [
@@ -481,7 +481,7 @@
     "id": "job-roles",
     "title": "Job Roles",
     "description": "Collections of Questions based on Job Roles",
-    "icon": "Job",
+    "icon": "Briefcase",
     "level": "Advanced",
     "subpaths": [
       {
