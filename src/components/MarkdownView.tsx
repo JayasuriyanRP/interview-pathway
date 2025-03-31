@@ -126,6 +126,23 @@ const MarkdownView = ({ content }: { content: string }) => {
           hr: () => (
             <hr className="border-t border-gray-300 dark:border-gray-700 my-4" />
           ),
+          table: ({ children }) => (
+            <div className="overflow-x-auto">
+              <table className="border-collapse border border-gray-300 dark:border-gray-700 w-full text-sm">
+                {children}
+              </table>
+            </div>
+          ),
+          th: ({ children }) => (
+            <th className="border border-gray-300 dark:border-gray-700 px-4 py-2 bg-gray-100 dark:bg-gray-800 text-left">
+              {children}
+            </th>
+          ),
+          td: ({ children }) => (
+            <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">
+              {children}
+            </td>
+          ),
         }}
       >
         {content}
