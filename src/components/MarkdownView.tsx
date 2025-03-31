@@ -73,7 +73,7 @@ const MarkdownView = ({ content }: { content: string }) => {
                     <Clipboard size={16} />
                   )}
                 </button>
-                <pre className="rounded-lg p-4 overflow-auto bg-gray-900 text-white">
+                <pre className="rounded-lg p-4 overflow-auto bg-gray-900 text-white whitespace-pre-wrap break-words">
                   <code className={`language-${match[1]}`} {...props}>
                     {codeText}
                   </code>
