@@ -51,6 +51,24 @@ export const useProgress = () => {
     }));
   };
 
+  const undoMarkQuestionAsRead = (pathId: string, questionId: number) => {
+    const key = `${pathId}-${questionId}`;
+    setProgress((prev) => {
+      const updatedQuestions = { ...prev.questions };
+      delete updatedQuestions[key];
+
+      const updatedLastRead = { ...prev.lastRead };
+      delete updatedLastRead[key];
+
+      return {
+        ...prev,
+        questions: updatedQuestions,
+        lastRead: updatedLastRead,
+        lastUpdated: Date.now(),
+      };
+    });
+  };
+
   const markSubpathAsCompleted = (
     subpathId: string,
     showToast: boolean = true
@@ -155,6 +173,7 @@ export const useProgress = () => {
 
   return {
     markQuestionAsRead,
+    undoMarkQuestionAsRead,
     markSubpathAsCompleted,
     markPathAsCompleted,
     isQuestionRead,

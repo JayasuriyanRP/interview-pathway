@@ -11,6 +11,11 @@ import { Button } from "../components/ui/button";
 import ThemeToggle from "../components/ThemeToggle";
 
 const LearningPath = () => {
+  const [expandAll, setExpandAll] = useState(false);
+
+  const toggleExpandAll = () => {
+    setExpandAll((prev) => !prev);
+  };
   const { pathId } = useParams<{ pathId: string }>();
   const [searchParams] = useSearchParams();
   const highlightedQuestion = searchParams.get("q");
@@ -32,6 +37,7 @@ const LearningPath = () => {
 
   const {
     markQuestionAsRead,
+    undoMarkQuestionAsRead,
     isQuestionRead,
     getPathProgress,
     markSubpathAsCompleted,
@@ -61,6 +67,11 @@ const LearningPath = () => {
   const handleMarkAsRead = (questionId: number) => {
     if (pathId) {
       markQuestionAsRead(pathId, questionId);
+    }
+  };
+  const handleUndoMarkAsRead = (questionId: number) => {
+    if (pathId) {
+      undoMarkQuestionAsRead(pathId, questionId);
     }
   };
 
@@ -197,6 +208,15 @@ const LearningPath = () => {
                     <BookOpen className="h-4 w-4 mr-1" />
                     Mark all as read
                   </Button>
+
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={toggleExpandAll}
+                    className="text-purple-600 hover:text-purple-800 dark:text-purple-400 dark:hover:text-purple-300"
+                  >
+                    {expandAll ? "Collapse All" : "Expand All"}
+                  </Button>
                 </div>
               </div>
             </div>
@@ -232,9 +252,12 @@ const LearningPath = () => {
                       id={originalIndex}
                       question={question.question}
                       answer={question.answer}
+                      level={question.level}
                       onMarkAsRead={handleMarkAsRead}
+                      onUndoRead={handleUndoMarkAsRead}
                       isRead={isQuestionRead(pathId || "", originalIndex)}
                       highlightQuery={searchQuery}
+                      isExpanded={expandAll}
                     />
                   </div>
                 );

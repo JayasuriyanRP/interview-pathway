@@ -4,7 +4,6 @@
     "title": "Example Path with All Content Types",
     "description": "This path demonstrates all content types available in the app, including text, code, lists, tables, images, quotes, and notes.",
     "icon": "FileText",
-    "count": 1,
     "level": "Beginner"
   },
   {
@@ -12,21 +11,18 @@
     "title": "Frontend Development",
     "description": "Master essential frontend interview questions covering HTML, CSS, JavaScript, and popular frameworks.",
     "icon": "Monitor",
-    "count": 42,
     "level": "Intermediate",
     "subpaths": [
       {
         "id": "frontend-html",
         "title": "HTML",
         "description": "HTML interview questions and answers",
-        "count": 20,
         "level": "Intermediate"
       },
       {
         "id": "frontend-react",
         "title": "React",
         "description": "React framework interview questions and answers",
-        "count": 20,
         "level": "Intermediate",
         "subpaths": [
           {
@@ -39,21 +35,18 @@
             "id": "frontend-react-hooks",
             "title": "React Hooks",
             "description": "Understanding React hooks and their applications",
-            "count": 10,
             "level": "Intermediate"
           },
           {
             "id": "frontend-react-state",
             "title": "State Management",
             "description": "Various state management approaches in React",
-            "count": 8,
             "level": "Advanced"
           },
           {
             "id": "frontend-react-patterns",
             "title": "Design Patterns",
             "description": "Common React design patterns and best practices",
-            "count": 12,
             "level": "Advanced"
           }
         ]
@@ -62,7 +55,6 @@
         "id": "frontend-javascript",
         "title": "JavaScript",
         "description": "Core JavaScript concepts and patterns",
-        "count": 22,
         "level": "All Levels"
       }
     ]
@@ -72,56 +64,48 @@
     "title": "Backend Development",
     "description": "Prepare for backend interviews with questions on server architecture, databases, and API design.",
     "icon": "Database",
-    "count": 38,
     "level": "Advanced",
     "subpaths": [
       {
         "id": "backend-csharp",
         "title": "C#",
         "description": "C# Topics",
-        "count": 15,
         "level": "Beginner",
         "subpaths": [
           {
             "id": "backend-csharp-basic",
             "title": "C# Basic",
             "description": "Basic C# language features and .NET framework",
-            "count": 15,
             "level": "Beginner"
           },
           {
             "id": "c-sharp-async",
             "title": "C# Async",
             "description": "C# Async Programming",
-            "count": 15,
             "level": "Beginner"
           },
           {
             "id": "backend-csharp-advanced",
             "title": "C# Advanced",
             "description": "Advanced C# language features and .NET framework",
-            "count": 15,
             "level": "Advanced"
           },
           {
             "id": "backend-csharp-errorhandling",
             "title": "C# Error Handling",
             "description": "C# error handling concepts and techniques",
-            "count": 15,
             "level": "Advanced"
           },
           {
             "id": "backend-solid",
             "title": "SOLID Principles",
             "description": "SOLID principles in C# and Golang",
-            "count": 15,
             "level": "Advanced"
           },
           {
             "id": "backend-csharp-design-patterns",
             "title": "C# Design Patterns",
             "description": "Common design patterns in C# development",
-            "count": 15,
             "level": "Advanced"
           }
         ]
@@ -130,120 +114,109 @@
         "id": "backend-golang",
         "title": "Golang",
         "description": "Go language and ecosystem for backend development",
-        "count": 18,
         "level": "Intermediate",
         "subpaths": [
           {
             "id": "go-basics",
             "title": "Golang Basics",
             "description": "Fundamentals of Go language programming, including variables, data types, and syntax.",
-            "count": 6,
             "level": "Beginner"
           },
           {
             "id": "go-oper-and-expressions",
             "title": "Operators and Expressions",
             "description": "Understanding Go's operators, expressions, precedence, and evaluation.",
-            "count": 4,
             "level": "Beginner"
           },
           {
             "id": "go-control-flow",
             "title": "Control Flow in Go",
             "description": "If-else statements, loops, switch cases, and defer-panic-recover mechanisms.",
-            "count": 5,
             "level": "Beginner"
           },
           {
             "id": "go-func-and-methods",
             "title": "Functions and Methods",
             "description": "Understanding function declarations, return values, and methods in Go.",
-            "count": 6,
             "level": "Intermediate"
           },
           {
             "id": "go-data-structures",
             "title": "Go Data Structures",
             "description": "Arrays, slices, maps, structs, and linked lists in Go.",
-            "count": 7,
             "level": "Intermediate"
           },
           {
             "id": "go-interfaces-poly",
             "title": "Interfaces and Polymorphism",
             "description": "Implicit interface implementation, empty interfaces, and type assertions.",
-            "count": 6,
             "level": "Intermediate"
           },
           {
             "id": "go-error-handling",
             "title": "Error Handling in Go",
             "description": "Managing errors using built-in error handling mechanisms and best practices.",
-            "count": 5,
             "level": "Intermediate"
           },
           {
             "id": "go-routines",
             "title": "Concurrency in Go",
             "description": "Understanding goroutines, channels, WaitGroups, and concurrency patterns.",
-            "count": 10,
             "level": "Intermediate"
           },
           {
             "id": "go-memory-management",
             "title": "Memory Management in Go",
             "description": "Garbage collection, stack vs heap allocation, and escape analysis.",
-            "count": 5,
             "level": "Advanced"
           },
           {
             "id": "go-module-dependency",
             "title": "Go Modules and Dependencies",
             "description": "Managing dependencies using Go modules and package management best practices.",
-            "count": 4,
             "level": "Intermediate"
           },
           {
             "id": "go-database",
             "title": "Go and Databases",
             "description": "Working with SQL and NoSQL databases, including database/sql and GORM.",
-            "count": 6,
             "level": "Intermediate"
           },
           {
             "id": "go-string-manipulation",
             "title": "String and Byte Manipulation",
             "description": "String operations, byte manipulation, and using the strings package effectively.",
-            "count": 5,
             "level": "Intermediate"
           },
           {
             "id": "go-web-development",
             "title": "Web Development with Go",
             "description": "Building web applications, REST APIs, and working with net/http.",
-            "count": 8,
             "level": "Advanced"
           },
           {
             "id": "go-testing-debugging",
             "title": "Testing and Debugging in Go",
             "description": "Unit testing, benchmarking, and debugging techniques using Go tooling.",
-            "count": 6,
             "level": "Intermediate"
           },
           {
             "id": "go-security-bestpractices",
             "title": "Security Best Practices",
             "description": "Secure coding, input validation, and preventing race conditions in Go.",
-            "count": 5,
             "level": "Advanced"
           },
           {
             "id": "go-advance",
             "title": "Advanced Go Topics",
             "description": "Reflection, generics, unsafe package, and advanced Go optimization techniques.",
-            "count": 6,
             "level": "Advanced"
+          },
+          {
+            "id": "go-open-ended-questions",
+            "title": "Go Open-Ended Questions",
+            "description": "A collection of thought-provoking questions in Golang that have multiple correct answers, covering concurrency, error handling, and design patterns.",
+            "level": "Intermediate"
           }
         ]
       },
@@ -251,7 +224,6 @@
         "id": "backend-dotnet",
         "title": "ASP.NET Core",
         "description": ".NET web application framework",
-        "count": 11,
         "level": "Advanced"
       }
     ]
@@ -261,28 +233,24 @@
     "title": "Data Structures & Algorithms",
     "description": "Practice common algorithmic problems and data structures frequently asked in technical interviews.",
     "icon": "GitBranch",
-    "count": 50,
     "level": "All Levels",
     "subpaths": [
       {
         "id": "algorithms-arrays",
         "title": "Arrays & Strings",
         "description": "Common array and string manipulation problems",
-        "count": 15,
         "level": "Beginner"
       },
       {
         "id": "algorithms-graphs",
         "title": "Graphs & Trees",
         "description": "Tree and graph traversal algorithms",
-        "count": 20,
         "level": "Intermediate"
       },
       {
         "id": "algorithms-dynamic",
         "title": "Dynamic Programming",
         "description": "Dynamic programming concepts and problems",
-        "count": 15,
         "level": "Advanced"
       }
     ]
@@ -292,21 +260,18 @@
     "title": "System Design",
     "description": "Learn how to design scalable systems and tackle complex architectural interview questions.",
     "icon": "architecture",
-    "count": 25,
     "level": "Advanced",
     "subpaths": [
       {
         "id": "system-design-scalability",
         "title": "Scalability",
         "description": "Building systems that scale to millions of users",
-        "count": 10,
         "level": "Advanced"
       },
       {
         "id": "system-design-microservices",
         "title": "Microservices",
         "description": "Microservice architecture patterns and practices",
-        "count": 15,
         "level": "Advanced"
       },
       {
@@ -314,7 +279,6 @@
         "title": "System Design with UML",
         "description": "Learn how to design scalable and efficient systems using UML diagrams",
         "icon": "Architecture",
-        "count": 25,
         "level": "Intermediate"
       }
     ]
@@ -324,35 +288,30 @@
     "title": "Message Brokers",
     "description": "Learn about message brokers, their architecture, and how they enable efficient asynchronous communication in distributed systems.",
     "icon": "Server",
-    "count": 40,
     "level": "All Levels",
     "subpaths": [
       {
         "id": "message-broker-basics",
         "title": "Message Broker Fundamentals",
         "description": "Understand the basics of message brokers, their purpose, and key terminologies like producers, consumers, queues, and topics.",
-        "count": 10,
         "level": "Beginner"
       },
       {
         "id": "message-broker-rabbitmq",
         "title": "RabbitMQ",
         "description": "Learn how to set up and use RabbitMQ for message queuing with different exchange types and routing mechanisms.",
-        "count": 10,
         "level": "Intermediate"
       },
       {
         "id": "message-broker-kafka",
         "title": "Apache Kafka",
         "description": "Explore Kafka's architecture, how to produce and consume messages, and work with Kafka topics, partitions, and brokers.",
-        "count": 10,
         "level": "Intermediate"
       },
       {
         "id": "message-broker-advanced",
         "title": "Advanced Message Broker Concepts",
         "description": "Deep dive into distributed messaging patterns, message durability, fault tolerance, and scaling message brokers.",
-        "count": 10,
         "level": "Advanced"
       }
     ]
@@ -369,35 +328,30 @@
         "title": "Backend Development",
         "description": "Prepare for backend interviews with questions on server architecture, databases, and API design.",
         "icon": "Server",
-        "count": 38,
         "level": "Advanced",
         "subpaths": [
           {
             "id": "backend-csharp",
             "title": "C#",
             "description": "C# Topics",
-            "count": 15,
             "level": "Beginner",
             "subpaths": [
               {
                 "id": "backend-csharp-basic",
                 "title": "C# Basic",
                 "description": "Basic C# language features and .NET framework",
-                "count": 15,
                 "level": "Beginner"
               },
               {
                 "id": "backend-csharp-advanced",
                 "title": "C# Advanced",
                 "description": "Advanced C# language features and .NET framework",
-                "count": 15,
                 "level": "Advanced"
               },
               {
                 "id": "backend-csharp-errorhandling",
                 "title": "C# Error Handling",
                 "description": "C# error handling concepts and techniques",
-                "count": 15,
                 "level": "Advanced"
               }
             ]
@@ -406,21 +360,18 @@
             "id": "backend-golang",
             "title": "Golang",
             "description": "Go language and ecosystem for backend development",
-            "count": 12,
             "level": "Intermediate",
             "subpaths": [
               {
                 "id": "backend-golang-basics",
                 "title": "Golang Basics",
                 "description": "Fundamentals of Go language programming",
-                "count": 8,
                 "level": "Beginner"
               },
               {
                 "id": "backend-golang-concurrency",
                 "title": "Concurrency",
                 "description": "Go goroutines, channels, and concurrency patterns",
-                "count": 10,
                 "level": "Intermediate"
               }
             ]
@@ -432,21 +383,18 @@
         "title": "Frontend Development",
         "description": "Cheatsheets for JavaScript, React, Vue, and frontend frameworks.",
         "icon": "Monitor",
-        "count": 25,
         "level": "Intermediate",
         "subpaths": [
           {
             "id": "frontend-javascript",
             "title": "JavaScript",
             "description": "JavaScript concepts and best practices",
-            "count": 10,
             "level": "Beginner"
           },
           {
             "id": "frontend-react",
             "title": "React",
             "description": "React fundamentals, hooks, and advanced concepts",
-            "count": 12,
             "level": "Intermediate"
           }
         ]
@@ -456,21 +404,18 @@
         "title": "Cloud Computing",
         "description": "AWS, Azure, Google Cloud, and DevOps concepts.",
         "icon": "Cloud",
-        "count": 20,
         "level": "Advanced",
         "subpaths": [
           {
             "id": "cloud-aws",
             "title": "AWS",
             "description": "Amazon Web Services concepts and best practices",
-            "count": 10,
             "level": "Intermediate"
           },
           {
             "id": "cloud-docker",
             "title": "Docker & Kubernetes",
             "description": "Containerization and orchestration",
-            "count": 8,
             "level": "Advanced"
           }
         ]
@@ -489,7 +434,6 @@
         "title": "Full Stack Developer",
         "description": "Master both frontend and backend technologies to become a Full Stack Developer",
         "icon": "Globe",
-        "count": 50,
         "level": "Intermediate"
       },
       {
@@ -497,7 +441,6 @@
         "title": "Frontend Developer",
         "description": "Prepare for a career as a Frontend Developer",
         "icon": "Code",
-        "count": 45,
         "level": "Intermediate"
       },
       {
@@ -505,7 +448,6 @@
         "title": "Backend Developer",
         "description": "Prepare for a role as a Backend Developer, mastering server-side logic and database management.",
         "icon": "Database",
-        "count": 50,
         "level": "Intermediate"
       },
       {
@@ -513,7 +455,6 @@
         "title": "Technical Lead Software Development",
         "description": "Prepare for Technical Lead in Software Development",
         "icon": "Server",
-        "count": 38,
         "level": "Advanced"
       },
       {
@@ -521,7 +462,6 @@
         "title": "Software and Cloud Architect",
         "description": "Prepare for a role as a Software and Cloud Architect with expertise in designing scalable and resilient systems.",
         "icon": "Cloud",
-        "count": 50,
         "level": "Expert"
       },
       {
@@ -529,7 +469,6 @@
         "title": "Software Architect",
         "description": "Prepare for the role of Software Architect by mastering system design, scalability, and technical leadership.",
         "icon": "Architecture",
-        "count": 50,
         "level": "Expert"
       }
     ]

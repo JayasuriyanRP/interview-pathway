@@ -16,6 +16,7 @@ interface Question {
   id: string;
   question: string;
   answer: any;
+  level: any;
 }
 
 export const useData = () => {
