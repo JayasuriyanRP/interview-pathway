@@ -1,4 +1,3 @@
-
 import React from "react";
 import { CardFooter } from "./ui/card";
 import { ChevronDown, ChevronRight } from "lucide-react";
@@ -27,8 +26,9 @@ const NestedPathCardFooter: React.FC<NestedPathCardFooterProps> = ({
   handleToggleExpand,
   onPathClick,
 }) => {
-  const progressPercentage = progress?.total ? 
-    Math.round((progress.completed / progress.total) * 100) : 0;
+  const progressPercentage = progress?.total
+    ? Math.round((progress.completed / progress.total) * 100)
+    : 0;
 
   return (
     <CardFooter className="pt-0 pb-3 px-4 flex flex-col">
@@ -62,8 +62,8 @@ const NestedPathCardFooter: React.FC<NestedPathCardFooterProps> = ({
       <div className="flex items-center justify-between pt-2 w-full">
         <div className="text-sm text-muted-foreground">
           {hasNestedPaths
-            ? `${subpathsCount} subpath${subpathsCount !== 1 ? 's' : ''}`
-            : `${questionsCount} question${questionsCount !== 1 ? 's' : ''}`}
+            ? `${subpathsCount} subpath${subpathsCount !== 1 ? "s" : ""}`
+            : `${questionsCount} question${questionsCount !== 1 ? "s" : ""}`}
         </div>
 
         {hasNestedPaths ? (
@@ -74,7 +74,7 @@ const NestedPathCardFooter: React.FC<NestedPathCardFooterProps> = ({
             className="p-0 h-auto hover:bg-transparent"
           >
             <span className="text-sm font-medium text-indigo-600 dark:text-indigo-400 mr-1">
-              {isExpanded ? "Collapse" : "Expand"}
+              {isExpanded ? "Collapse" : "View Subpath"}
             </span>
             {isExpanded ? (
               <ChevronDown className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />

@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card } from "./ui/card";
 import { cn } from "@/lib/utils";
@@ -37,17 +36,19 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const hasNestedPaths = path.subpaths && path.subpaths.length > 0;
-  const { getPathProgress, isSubpathCompleted, isPathCompleted } = useProgress();
+  const { getPathProgress, isSubpathCompleted, isPathCompleted } =
+    useProgress();
   const { questions } = usePathQuestions(path.id);
-  
+
   // Calculate the actual progress
   const progress = getPathProgress(path.id, questions);
-  const isPathActuallyCompleted = isCompleted || isSubpathCompleted(path.id) || isPathCompleted(path.id);
+  const isPathActuallyCompleted =
+    isCompleted || isSubpathCompleted(path.id) || isPathCompleted(path.id);
 
   const handleToggleExpand = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsExpanded(!isExpanded);
+    // setIsExpanded(!isExpanded);
   };
 
   const handlePathClick = () => {
@@ -56,11 +57,8 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
     }
   };
 
-  const cardBg = level === 0
-    ? "bg-card"
-    : level === 1
-      ? "bg-card/90"
-      : "bg-card/80";
+  const cardBg =
+    level === 0 ? "bg-card" : level === 1 ? "bg-card/90" : "bg-card/80";
 
   // For paths without subpaths, use a sheet for better mobile experience
   if (!hasNestedPaths && level > 0) {
@@ -69,10 +67,15 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
         <SheetTrigger asChild>
           <Card
             className={cn(
-              `w-full transition-all duration-200 cursor-pointer hover:shadow-md ${isNested ? `ml-${Math.min(level * 3, 8)}` : ""}`,
-              isPathActuallyCompleted ? "border-indigo-200 dark:border-indigo-900" : "",
+              `w-full transition-all duration-200 cursor-pointer hover:shadow-md ${
+                isNested ? `ml-${Math.min(level * 3, 8)}` : ""
+              }`,
+              isPathActuallyCompleted
+                ? "border-indigo-200 dark:border-indigo-900"
+                : "",
               cardBg,
-              level > 0 && "border-l-4 border-l-indigo-500"
+              level > 0 && "border-l-4 border-l-indigo-500",
+              hasNestedPaths ? "bg-blue-100 dark:bg-blue-500" : ""
             )}
             onClick={handlePathClick}
           >
@@ -113,16 +116,15 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
                     </li>
                   ))
                 ) : (
-                  <li className="text-muted-foreground">No questions available</li>
+                  <li className="text-muted-foreground">
+                    No questions available
+                  </li>
                 )}
               </ul>
             </div>
-            
+
             <div className="mt-6">
-              <Link
-                to={`/path/${path.id}`}
-                className="w-full inline-block"
-              >
+              <Link to={`/path/${path.id}`} className="w-full inline-block">
                 <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white">
                   Start Learning
                 </Button>
@@ -135,7 +137,7 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
   }
 
   // Make the entire card clickable if it has subpaths
-  const CardWrapper = hasNestedPaths 
+  const CardWrapper = hasNestedPaths
     ? ({ children }: { children: React.ReactNode }) => (
         <Link to={`/subpaths/${path.id}`} onClick={handlePathClick}>
           {children}
@@ -152,10 +154,17 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
     <CardWrapper>
       <Card
         className={cn(
-          `w-full transition-all duration-200 hover:shadow-md ${isNested ? `ml-${Math.min(level * 3, 8)}` : ""}`,
-          isPathActuallyCompleted ? "border-indigo-200 dark:border-indigo-900" : "",
+          `w-full transition-all duration-200 hover:shadow-md ${
+            isNested ? `ml-${Math.min(level * 3, 8)}` : ""
+          }`,
+          isPathActuallyCompleted
+            ? "border-indigo-200 dark:border-indigo-900"
+            : "",
           cardBg,
-          level > 0 && "border-l-4 border-l-indigo-500"
+          level > 0 && "border-l-4 border-l-indigo-500",
+          hasNestedPaths
+            ? "bg-blue-100 hover:bg-blue-200 dark:bg-blue-950 dark:hover:bg-blue-900 border-l-4 border-blue-600 dark:border-blue-500"
+            : ""
         )}
       >
         <NestedPathCardHeader

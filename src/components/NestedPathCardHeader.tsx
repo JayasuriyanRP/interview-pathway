@@ -1,4 +1,3 @@
-
 import React from "react";
 import { ChevronRight, ChevronDown, CheckCircle } from "lucide-react";
 import { CardHeader, CardTitle, CardDescription } from "./ui/card";
@@ -36,7 +35,7 @@ const NestedPathCardHeader: React.FC<NestedPathCardHeaderProps> = ({
     <CardHeader className="pb-2">
       <div className="flex justify-between items-start">
         <div className="flex gap-2 items-center">
-          {hasNestedPaths && (
+          {/* {hasNestedPaths && (
             <Button
               variant="ghost"
               size="sm"
@@ -49,7 +48,7 @@ const NestedPathCardHeader: React.FC<NestedPathCardHeaderProps> = ({
                 <ChevronRight className="h-4 w-4" />
               )}
             </Button>
-          )}
+          )} */}
           <div
             className={cn(
               "p-2 rounded-lg inline-flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10",
@@ -65,11 +64,11 @@ const NestedPathCardHeader: React.FC<NestedPathCardHeaderProps> = ({
             )}
           </div>
         </div>
-        <Badge className={cn("mb-1", getBadgeClass(level))}>
-          {level}
-        </Badge>
+        <Badge className={cn("mb-1", getBadgeClass(level))}>{level}</Badge>
       </div>
-      <CardTitle className={cn("mt-2", isMobile ? "text-base" : "text-lg")}>{title}</CardTitle>
+      <CardTitle className={cn("mt-2", isMobile ? "text-base" : "text-lg")}>
+        {title}
+      </CardTitle>
       <CardDescription className="line-clamp-2 text-xs sm:text-sm">
         {description}
       </CardDescription>

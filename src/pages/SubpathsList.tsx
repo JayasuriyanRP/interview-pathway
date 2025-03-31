@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../components/Header";
@@ -9,6 +8,7 @@ import FilterSearch from "../components/FilterSearch";
 import PathHeader from "../components/PathHeader";
 import EmptyState from "../components/EmptyState";
 import { usePath, useData } from "../hooks/useData";
+import { levelOrder } from "@/lib/utils";
 
 const SubpathsList = () => {
   const { pathId } = useParams<{ pathId: string }>();
@@ -16,7 +16,9 @@ const SubpathsList = () => {
   const { paths } = useData();
   const [searchQuery, setSearchQuery] = useState("");
   const [levelFilter, setLevelFilter] = useState<string | null>(null);
-  const [breadcrumbPath, setBreadcrumbPath] = useState<{ id: string; title: string }[]>([]);
+  const [breadcrumbPath, setBreadcrumbPath] = useState<
+    { id: string; title: string }[]
+  >([]);
 
   // Build breadcrumb path
   useEffect(() => {
@@ -31,20 +33,19 @@ const SubpathsList = () => {
           if (item.id === targetId) {
             return [...currentPath, { id: item.id, title: item.title }];
           }
-          
+
           // Check in subpaths if they exist
           if (item.subpaths && item.subpaths.length > 0) {
-            const pathWithSubpath = buildPath(
-              item.subpaths,
-              targetId,
-              [...currentPath, { id: item.id, title: item.title }]
-            );
+            const pathWithSubpath = buildPath(item.subpaths, targetId, [
+              ...currentPath,
+              { id: item.id, title: item.title },
+            ]);
             if (pathWithSubpath) return pathWithSubpath;
           }
         }
         return null;
       };
-      
+
       const result = buildPath(paths, pathId);
       if (result) {
         // Remove the last item as it's the current path
@@ -66,33 +67,33 @@ const SubpathsList = () => {
     return <ErrorState />;
   }
 
+  const sortedSubpaths = path.subpaths.sort((a, b) => {
+    return levelOrder[a.level] - levelOrder[b.level];
+  });
+
   // Filter subpaths based on search query and level filter
-  const filteredSubpaths = path.subpaths.filter(subpath => {
-    const matchesSearch = 
-      searchQuery === "" || 
+  const filteredSubpaths = sortedSubpaths.filter((subpath) => {
+    const matchesSearch =
+      searchQuery === "" ||
       subpath.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       subpath.description.toLowerCase().includes(searchQuery.toLowerCase());
-    
+
     const matchesLevel =
-      !levelFilter || 
+      !levelFilter ||
       subpath.level === levelFilter ||
       subpath.level === "All Levels";
-    
+
     return matchesSearch && matchesLevel;
   });
 
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
-      <Header 
-        title={path?.title} 
-        showBackButton={true} 
-        path={breadcrumbPath}
-      />
+      <Header title={path?.title} showBackButton={true} path={breadcrumbPath} />
 
       <main className="flex-1 container mx-auto max-w-5xl px-4 py-6">
         <div className="space-y-6">
           {/* Header Section */}
-          <PathHeader 
+          <PathHeader
             title={path.title}
             description={path.description}
             level={path.level}
@@ -100,7 +101,7 @@ const SubpathsList = () => {
           />
 
           {/* Search and Filter */}
-          <FilterSearch 
+          <FilterSearch
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
             levelFilter={levelFilter}
@@ -109,7 +110,7 @@ const SubpathsList = () => {
 
           {/* Empty State */}
           {filteredSubpaths.length === 0 && (
-            <EmptyState 
+            <EmptyState
               message="No subpaths found matching your search criteria."
               onClearSearch={() => {
                 setSearchQuery("");
@@ -121,9 +122,9 @@ const SubpathsList = () => {
           {/* Nested Subpath Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredSubpaths.map((subpath) => (
-              <NestedPathCard 
-                key={subpath.id} 
-                path={subpath} 
+              <NestedPathCard
+                key={subpath.id}
+                path={subpath}
                 onPathClick={handlePathClick}
               />
             ))}
