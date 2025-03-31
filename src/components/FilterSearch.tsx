@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Input } from "@/components/ui/input";
 import { Search, Filter } from "lucide-react";
@@ -57,6 +56,9 @@ const FilterSearch: React.FC<FilterSearchProps> = ({
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => setLevelFilter("Advanced")}>
               Advanced
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setLevelFilter("Expert")}>
+              Expert
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
