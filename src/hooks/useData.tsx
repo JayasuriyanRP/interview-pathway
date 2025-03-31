@@ -53,6 +53,8 @@ export const useData = () => {
                 "js",
                 "react",
                 "ts",
+                "job-roles",
+                ,
               ];
               let loaded = false;
 

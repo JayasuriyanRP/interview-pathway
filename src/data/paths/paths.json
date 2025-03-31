@@ -308,6 +308,14 @@
         "description": "Microservice architecture patterns and practices",
         "count": 15,
         "level": "Advanced"
+      },
+      {
+        "id": "system-design-uml",
+        "title": "System Design with UML",
+        "description": "Learn how to design scalable and efficient systems using UML diagrams",
+        "icon": "Architecture",
+        "count": 25,
+        "level": "Intermediate"
       }
     ]
   },
@@ -466,6 +474,63 @@
             "level": "Advanced"
           }
         ]
+      }
+    ]
+  },
+  {
+    "id": "job-roles",
+    "title": "Job Roles",
+    "description": "Collections of Questions based on Job Roles",
+    "icon": "Job",
+    "level": "Advanced",
+    "subpaths": [
+      {
+        "id": "full-stack",
+        "title": "Full Stack Developer",
+        "description": "Master both frontend and backend technologies to become a Full Stack Developer",
+        "icon": "Globe",
+        "count": 50,
+        "level": "Intermediate"
+      },
+      {
+        "id": "frontend-developer",
+        "title": "Frontend Developer",
+        "description": "Prepare for a career as a Frontend Developer",
+        "icon": "Code",
+        "count": 45,
+        "level": "Intermediate"
+      },
+      {
+        "id": "backend-developer",
+        "title": "Backend Developer",
+        "description": "Prepare for a role as a Backend Developer, mastering server-side logic and database management.",
+        "icon": "Database",
+        "count": 50,
+        "level": "Intermediate"
+      },
+      {
+        "id": "tech-lead",
+        "title": "Technical Lead Software Development",
+        "description": "Prepare for Technical Lead in Software Development",
+        "icon": "Server",
+        "count": 38,
+        "level": "Advanced"
+      },
+      {
+        "id": "cloud-architect",
+        "title": "Software and Cloud Architect",
+        "description": "Prepare for a role as a Software and Cloud Architect with expertise in designing scalable and resilient systems.",
+        "icon": "Cloud",
+        "count": 50,
+        "level": "Expert"
+      },
+      {
+        "id": "software-architect",
+        "title": "Software Architect",
+        "description": "Prepare for the role of Software Architect by mastering system design, scalability, and technical leadership.",
+        "icon": "Architecture",
+        "count": 50,
+        "level": "Expert"
       }
     ]
   }
