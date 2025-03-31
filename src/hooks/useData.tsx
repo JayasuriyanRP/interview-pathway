@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 
 interface Subpath {
@@ -11,8 +10,7 @@ interface Subpath {
   icon: string;
 }
 
-interface Path extends Subpath {
-}
+interface Path extends Subpath {}
 
 interface Question {
   id: string;
@@ -30,19 +28,11 @@ export const useData = () => {
     const fetchData = async () => {
       try {
         // Load paths data
-        const pathsResponse = await import("../data/paths.json");
+        const pathsResponse = await import("../data/paths/paths.json");
         setPaths(pathsResponse.default as Path[]);
 
         // Initialize questions object
         const questionsData: Record<string, Question[]> = {};
-
-        // Load main questions file for backward compatibility
-        try {
-          const mainQuestionsResponse = await import("../data/questions.json");
-          Object.assign(questionsData, mainQuestionsResponse.default);
-        } catch (err) {
-          console.log("No main questions.json file found, using per-path files");
-        }
 
         // Function to load per-path question files
         const loadPathQuestions = async (pathId: string) => {
@@ -54,12 +44,23 @@ export const useData = () => {
             // Next try nested folder structure
             try {
               // Try to find files in specific language folders (e.g., c-sharp, golang, js, ts, react)
-              const folders = ['c-sharp', 'golang', 'js', 'ts', 'react'];
+              const folders = [
+                "c-sharp",
+                "data-structures-and-algorithms",
+                "example",
+                "golang",
+                "html",
+                "js",
+                "react",
+                "ts",
+              ];
               let loaded = false;
-              
+
               for (const folder of folders) {
                 try {
-                  const response = await import(`../data/questions/${folder}/${pathId}.json`);
+                  const response = await import(
+                    `../data/questions/${folder}/${pathId}.json`
+                  );
                   questionsData[pathId] = response.default;
                   loaded = true;
                   break; // Exit the loop if we found the file
@@ -67,9 +68,11 @@ export const useData = () => {
                   // Continue to next folder
                 }
               }
-              
+
               if (!loaded) {
-                console.log(`No specific question file for ${pathId} in nested folders`);
+                console.log(
+                  `No specific question file for ${pathId} in nested folders`
+                );
               }
             } catch (nestedErr) {
               console.log(`No specific question file for ${pathId}`);

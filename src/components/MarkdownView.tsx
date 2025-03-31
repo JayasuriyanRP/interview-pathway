@@ -75,7 +75,7 @@ const MarkdownView = ({ content }: { content: string }) => {
           h1: ({ children }) => <h1 className="text-3xl font-bold mt-4 mb-2">{children}</h1>,
           h2: ({ children }) => <h2 className="text-2xl font-semibold mt-4 mb-2">{children}</h2>,
           h3: ({ children }) => <h3 className="text-xl font-medium mt-4 mb-2">{children}</h3>,
-          p: ({ children }) => <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">{children}</p>,
+          p: ({ children }) => <p   className="text-gray-700 dark:text-gray-300 leading-relaxed">{children}</p>,
           ul: ({ children }) => <ul className="list-disc pl-6">{children}</ul>,
           ol: ({ children }) => <ol className="list-decimal pl-6">{children}</ol>,
           blockquote: ({ children }) => (
