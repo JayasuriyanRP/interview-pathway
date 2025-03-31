@@ -159,7 +159,7 @@
             "level": "Intermediate"
           },
           {
-            "id": "go-routines",
+            "id": "go-concurrency",
             "title": "Concurrency in Go",
             "description": "Understanding goroutines, channels, WaitGroups, and concurrency patterns.",
             "level": "Intermediate"
@@ -404,26 +404,6 @@
                 "title": "C# Error Handling",
                 "description": "C# error handling concepts and techniques",
                 "level": "Advanced"
-              }
-            ]
-          },
-          {
-            "id": "backend-golang",
-            "title": "Golang",
-            "description": "Go language and ecosystem for backend development",
-            "level": "Intermediate",
-            "subpaths": [
-              {
-                "id": "backend-golang-basics",
-                "title": "Golang Basics",
-                "description": "Fundamentals of Go language programming",
-                "level": "Beginner"
-              },
-              {
-                "id": "backend-golang-concurrency",
-                "title": "Concurrency",
-                "description": "Go goroutines, channels, and concurrency patterns",
-                "level": "Intermediate"
               }
             ]
           }
