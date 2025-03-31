@@ -80,7 +80,11 @@ const Question: React.FC<QuestionProps> = ({
           </h3>
         </div>
         <div className="flex items-center gap-2">
-          <Badge variant={levelBadgeVariant[level] || "default"}>{level}</Badge>
+          {level && (
+            <Badge variant={levelBadgeVariant[level] || "default"}>
+              {level}
+            </Badge>
+          )}
           {isRead && (
             <button
               type="button"

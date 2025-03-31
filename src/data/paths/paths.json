@@ -279,7 +279,58 @@
         "title": "System Design with UML",
         "description": "Learn how to design scalable and efficient systems using UML diagrams",
         "icon": "Architecture",
-        "level": "Intermediate"
+        "level": "Intermediate",
+        "subpaths": [
+          {
+            "id": "uml-advanced",
+            "title": "Advanced UML Concepts",
+            "description": "Deep dive into advanced UML techniques and best practices.",
+            "icon": "Expert",
+            "level": "Advanced"
+          },
+          {
+            "id": "uml-basics",
+            "title": "UML Basics",
+            "description": "Understand the fundamental concepts of UML and how to use them.",
+            "icon": "Book",
+            "level": "Beginner"
+          },
+          {
+            "id": "uml-behaviour-diagram",
+            "title": "UML Behavioral Diagrams",
+            "description": "Learn about UML diagrams that describe the dynamic behavior of a system.",
+            "icon": "Flowchart",
+            "level": "Intermediate"
+          },
+          {
+            "id": "uml-class-diagram",
+            "title": "UML Class Diagrams",
+            "description": "Explore how to represent objects, attributes, and relationships in UML.",
+            "icon": "Hierarchy",
+            "level": "Intermediate"
+          },
+          {
+            "id": "uml-diagrams",
+            "title": "Overview of UML Diagrams",
+            "description": "Get a comprehensive understanding of different UML diagram types.",
+            "icon": "Diagram",
+            "level": "Beginner"
+          },
+          {
+            "id": "uml-interaction-diagram",
+            "title": "UML Interaction Diagrams",
+            "description": "Study how objects interact through sequence and communication diagrams.",
+            "icon": "Interaction",
+            "level": "Intermediate"
+          },
+          {
+            "id": "uml-structure-diagram",
+            "title": "UML Structure Diagrams",
+            "description": "Learn how to model the static aspects of a system using UML structure diagrams.",
+            "icon": "Blueprint",
+            "level": "Intermediate"
+          }
+        ]
       }
     ]
   },

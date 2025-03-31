@@ -56,7 +56,7 @@ export const useData = () => {
                 "ts",
                 "job-roles",
                 "message-broker",
-                ,
+                "uml",
               ];
               let loaded = false;
 
