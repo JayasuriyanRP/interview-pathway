@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
+import { debounce } from "lodash";
 import { getDatabase, ref, set, get, onValue } from "firebase/database";
 import { initializeApp } from "firebase/app";
 
@@ -75,31 +76,38 @@ export const useProgress = () => {
       });
   }, [database]);
 
-  // Real-time sync with Firebase
   useEffect(() => {
     if (!database) return;
+
     const progressRef = ref(database, "progressData");
 
+    // Listen for real-time changes
     const unsubscribe = onValue(progressRef, (snapshot) => {
       if (snapshot.exists()) {
         const remoteData = snapshot.val() as ProgressData;
+
+        // Prevent overwriting newer local data
         if (remoteData.lastUpdated > progress.lastUpdated) {
           setProgress(remoteData);
           localStorage.setItem(storageKey, JSON.stringify(remoteData));
         }
       }
     });
-    return () => unsubscribe();
+
+    return () => unsubscribe(); // Cleanup on unmount
   }, [database, progress.lastUpdated]);
 
+  const saveToFirebase = debounce((progress: ProgressData) => {
+    if (!database) return;
+    set(ref(database, "progressData"), progress);
+  }, 2000); // Wait 2 sec before writing
+  
   // Update Firebase whenever progress changes
   useEffect(() => {
     if (!progress || Object.keys(progress).length === 0) return; // Prevent overwriting with empty progress
     localStorage.setItem(storageKey, JSON.stringify(progress));
 
-    if (database) {
-      set(ref(database, "progressData"), progress);
-    }
+    saveToFirebase(progress);
   }, [progress, database]);
 
   // Helper function to update progress
@@ -271,24 +279,20 @@ export const useProgress = () => {
       toast.error("Cloud sync failed. Database is not initialized.");
       return;
     }
-
+  
     setIsSyncing(true);
     try {
       const progressRef = ref(database, "progressData");
       const snapshot = await get(progressRef);
-
+  
       if (snapshot.exists()) {
         const remoteProgress = snapshot.val() as ProgressData;
-
-        // 🔹 Always pull latest data if `forcePull` is true
-        if (
-          forcePull ||
-          remoteProgress.lastUpdated > (progress.lastUpdated || 0)
-        ) {
+  
+        if (forcePull || remoteProgress.lastUpdated > (progress.lastUpdated || 0)) {
           setProgress(remoteProgress);
           localStorage.setItem(storageKey, JSON.stringify(remoteProgress));
           toast.success("Pulled latest progress from cloud.");
-        } else {
+        } else if (remoteProgress.lastUpdated < progress.lastUpdated) {
           await set(progressRef, progress);
           toast.success("Updated cloud with your latest progress.");
         }
@@ -303,6 +307,7 @@ export const useProgress = () => {
       setIsSyncing(false);
     }
   };
+  
 
   return {
     markQuestionAsRead,
