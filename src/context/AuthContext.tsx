@@ -1,8 +1,17 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { toast } from 'sonner';
+import { 
+  getAuth, 
+  signInWithPopup, 
+  GoogleAuthProvider, 
+  onAuthStateChanged, 
+  User as FirebaseUser,
+  signOut as firebaseSignOut 
+} from 'firebase/auth';
+import { initializeApp } from 'firebase/app';
 
-// This is a placeholder until we fully integrate Firebase
+// Define our user type based on Firebase User
 type User = {
   uid: string;
   email: string | null;
@@ -22,15 +31,38 @@ interface AuthContextType {
 // Create the auth context
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Initialize Firebase - this will use the values from localStorage after login
+const initFirebase = () => {
+  try {
+    const firebaseConfig = JSON.parse(localStorage.getItem('firebase_config') || '{}');
+    
+    // Check if we have the required config
+    if (firebaseConfig.apiKey && firebaseConfig.authDomain) {
+      return initializeApp(firebaseConfig);
+    } else {
+      console.warn('Firebase config not found in localStorage');
+      return null;
+    }
+  } catch (error) {
+    console.error('Error initializing Firebase:', error);
+    return null;
+  }
+};
+
 // Auth context provider component
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [firebaseApp, setFirebaseApp] = useState<any>(null);
 
   useEffect(() => {
-    // This is a placeholder for Firebase's onAuthStateChanged
-    // When we integrate Firebase, this will be replaced with actual code
+    // Initialize Firebase if we have config
+    const app = initFirebase();
+    setFirebaseApp(app);
+
+    // Even if Firebase is not initialized, we can still check localStorage
+    // for previously authenticated user
     const storedUser = localStorage.getItem('auth_user');
     if (storedUser) {
       try {
@@ -42,33 +74,54 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setLoading(false);
   }, []);
 
-  // Sync user to localStorage when it changes
+  // Set up Firebase auth state listener when the app is initialized
   useEffect(() => {
-    if (user) {
-      localStorage.setItem('auth_user', JSON.stringify(user));
-    } else {
-      localStorage.removeItem('auth_user');
-    }
-  }, [user]);
+    if (!firebaseApp) return;
 
-  // Sign in with Google - placeholder function
+    const auth = getAuth(firebaseApp);
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      setLoading(true);
+      if (firebaseUser) {
+        const formattedUser = formatUser(firebaseUser);
+        setUser(formattedUser);
+        localStorage.setItem('auth_user', JSON.stringify(formattedUser));
+      } else {
+        setUser(null);
+        localStorage.removeItem('auth_user');
+      }
+      setLoading(false);
+    });
+
+    return () => unsubscribe(); // Cleanup on unmount
+  }, [firebaseApp]);
+
+  // Format Firebase user to our User type
+  const formatUser = (firebaseUser: FirebaseUser): User => {
+    return {
+      uid: firebaseUser.uid,
+      email: firebaseUser.email,
+      displayName: firebaseUser.displayName,
+      photoURL: firebaseUser.photoURL,
+    };
+  };
+
+  // Sign in with Google
   const signInWithGoogle = async (): Promise<void> => {
+    if (!firebaseApp) {
+      setError('Firebase is not initialized. Please save your Firebase configuration first.');
+      toast.error('Firebase is not initialized. Please save your configuration first.');
+      return;
+    }
+
     try {
       setLoading(true);
       setError(null);
       
-      // Placeholder for Firebase Google sign-in
-      // This will be replaced with actual Firebase code
+      const auth = getAuth(firebaseApp);
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
       
-      // Mock successful sign-in for now
-      const mockUser = {
-        uid: 'mock-uid-' + Math.random().toString(36).substring(2, 9),
-        email: 'user@example.com',
-        displayName: 'Demo User',
-        photoURL: null,
-      };
-      
-      setUser(mockUser);
+      // User is automatically set via the onAuthStateChanged listener
       toast.success('Signed in successfully');
     } catch (err: any) {
       setError(err.message || 'Failed to sign in');
@@ -79,16 +132,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Sign out - placeholder function
+  // Sign out
   const signOut = async (): Promise<void> => {
+    if (!firebaseApp) {
+      return;
+    }
+
     try {
       setLoading(true);
       setError(null);
       
-      // Placeholder for Firebase sign-out
-      // This will be replaced with actual Firebase code
+      const auth = getAuth(firebaseApp);
+      await firebaseSignOut(auth);
       
-      setUser(null);
+      // User is automatically set to null via the onAuthStateChanged listener
       toast.success('Signed out successfully');
     } catch (err: any) {
       setError(err.message || 'Failed to sign out');

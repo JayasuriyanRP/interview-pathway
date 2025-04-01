@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ChevronLeft, Home } from "lucide-react";
 import { Button } from "./ui/button";
 import ThemeToggle from "./ThemeToggle";
+import UserMenu from "./UserMenu";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -89,6 +90,7 @@ const Header: React.FC<HeaderProps> = ({ title, showBackButton = false, path = [
         </div>
 
         <div className="flex items-center gap-2">
+          <UserMenu />
           <ThemeToggle />
         </div>
       </div>
