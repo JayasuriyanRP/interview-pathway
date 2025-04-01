@@ -46,36 +46,39 @@ const FirebaseConfigModal = () => {
   const [saving, setSaving] = useState(false);
   const { user } = useAuth();
   
-  // Initialize the form with data from localStorage if available
+  // Get saved config from localStorage
+  const getSavedConfig = () => {
+    try {
+      const savedConfig = localStorage.getItem('firebase_config');
+      return savedConfig 
+        ? JSON.parse(savedConfig)
+        : {
+            apiKey: "",
+            authDomain: "",
+            projectId: "",
+            storageBucket: "",
+            messagingSenderId: "",
+            appId: "",
+            databaseURL: "",
+          };
+    } catch (error) {
+      console.error("Error loading Firebase config from localStorage:", error);
+      return {
+        apiKey: "",
+        authDomain: "",
+        projectId: "",
+        storageBucket: "",
+        messagingSenderId: "",
+        appId: "",
+        databaseURL: "",
+      };
+    }
+  };
+
+  // Initialize the form with data from localStorage directly (not as a function)
   const form = useForm<FirebaseConfigType>({
     resolver: zodResolver(firebaseConfigSchema),
-    defaultValues: () => {
-      try {
-        const savedConfig = localStorage.getItem('firebase_config');
-        return savedConfig 
-          ? JSON.parse(savedConfig)
-          : {
-              apiKey: "",
-              authDomain: "",
-              projectId: "",
-              storageBucket: "",
-              messagingSenderId: "",
-              appId: "",
-              databaseURL: "",
-            };
-      } catch (error) {
-        console.error("Error loading Firebase config from localStorage:", error);
-        return {
-          apiKey: "",
-          authDomain: "",
-          projectId: "",
-          storageBucket: "",
-          messagingSenderId: "",
-          appId: "",
-          databaseURL: "",
-        };
-      }
-    }
+    defaultValues: getSavedConfig()
   });
 
   const handleSave = (data: FirebaseConfigType) => {
