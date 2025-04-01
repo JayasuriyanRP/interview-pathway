@@ -101,7 +101,7 @@ export const useProgress = () => {
     if (!database) return;
     set(ref(database, "progressData"), progress);
   }, 2000); // Wait 2 sec before writing
-  
+
   // Update Firebase whenever progress changes
   useEffect(() => {
     if (!progress || Object.keys(progress).length === 0) return; // Prevent overwriting with empty progress
@@ -145,11 +145,9 @@ export const useProgress = () => {
       const updatedPaths = { ...progress.paths };
       delete updatedPaths[pathId];
 
-      const updatedSubpaths = Object.fromEntries(
-        Object.entries(progress.subpaths).filter(
-          ([key]) => !key.startsWith(`${pathId}-`)
-        )
-      );
+      // Instead of filtering out, set the subpath to false for the reset pathId
+      const updatedSubpaths = { ...progress.subpaths };
+      updatedSubpaths[pathId] = false; // Explicitly reset to false for the specific pathId
 
       const newProgress: ProgressData = {
         ...progress,
@@ -279,16 +277,19 @@ export const useProgress = () => {
       toast.error("Cloud sync failed. Database is not initialized.");
       return;
     }
-  
+
     setIsSyncing(true);
     try {
       const progressRef = ref(database, "progressData");
       const snapshot = await get(progressRef);
-  
+
       if (snapshot.exists()) {
         const remoteProgress = snapshot.val() as ProgressData;
-  
-        if (forcePull || remoteProgress.lastUpdated > (progress.lastUpdated || 0)) {
+
+        if (
+          forcePull ||
+          remoteProgress.lastUpdated > (progress.lastUpdated || 0)
+        ) {
           setProgress(remoteProgress);
           localStorage.setItem(storageKey, JSON.stringify(remoteProgress));
           toast.success("Pulled latest progress from cloud.");
@@ -307,7 +308,6 @@ export const useProgress = () => {
       setIsSyncing(false);
     }
   };
-  
 
   return {
     markQuestionAsRead,
