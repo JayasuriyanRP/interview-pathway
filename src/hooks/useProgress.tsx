@@ -86,10 +86,10 @@ export const useProgress = () => {
       if (snapshot.exists()) {
         const remoteData = snapshot.val() as ProgressData;
 
-        // Prevent overwriting newer local data
+        // Only update if the remote data is newer or we need to sync
         if (remoteData.lastUpdated > progress.lastUpdated) {
           setProgress(remoteData);
-          localStorage.setItem(storageKey, JSON.stringify(remoteData));
+          localStorage.setItem(storageKey, JSON.stringify(remoteData)); // Update localStorage
         }
       }
     });
@@ -196,19 +196,27 @@ export const useProgress = () => {
   // **Restored Functions**
 
   const markQuestionAsRead = (pathId: string, questionId: string) => {
-    setProgress((prev) => {
-      return {
-        ...prev,
-        questions: {
-          ...prev.questions,
-          [`${pathId}-${questionId}`]: true,
-        },
-        lastRead: {
-          ...prev.lastRead,
-          [`${pathId}-${questionId}`]: Date.now(),
-        },
-      };
+    const questionKey = `${pathId}-${questionId}`;
+    const updatedQuestions = { ...progress.questions, [questionKey]: true };
+    const updatedLastRead = { ...progress.lastRead, [questionKey]: Date.now() };
+
+    // Update local state first
+    setProgress((prev) => ({
+      ...prev,
+      questions: updatedQuestions,
+      lastRead: updatedLastRead,
+    }));
+
+    // Update Firebase
+    const progressRef = ref(database, "progressData");
+    set(progressRef, {
+      ...progress,
+      questions: updatedQuestions,
+      lastRead: updatedLastRead,
+      lastUpdated: Date.now(),
     });
+
+    toast.success(`Question ${questionId} marked as read!`);
   };
 
   const undoMarkQuestionAsRead = (pathId: string, questionId: string) => {
@@ -286,12 +294,13 @@ export const useProgress = () => {
       if (snapshot.exists()) {
         const remoteProgress = snapshot.val() as ProgressData;
 
+        // Only update if the remote data is newer or we force a pull
         if (
           forcePull ||
           remoteProgress.lastUpdated > (progress.lastUpdated || 0)
         ) {
-          setProgress(remoteProgress);
-          localStorage.setItem(storageKey, JSON.stringify(remoteProgress));
+          setProgress(remoteProgress); // Update the state with latest progress
+          localStorage.setItem(storageKey, JSON.stringify(remoteProgress)); // Store to localStorage
           toast.success("Pulled latest progress from cloud.");
         } else if (remoteProgress.lastUpdated < progress.lastUpdated) {
           await set(progressRef, progress);
