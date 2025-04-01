@@ -1,8 +1,15 @@
-
 import { useState, useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { toast } from "sonner";
 import { useAuth } from "@/context/AuthContext";
+import { 
+  getFirestore, 
+  doc, 
+  setDoc, 
+  getDoc, 
+  Timestamp 
+} from "firebase/firestore";
+import { initializeApp } from "firebase/app";
 
 type ProgressItem = {
   id: string;
@@ -20,7 +27,7 @@ type ProgressData = {
 
 export const useProgress = () => {
   const { toast: uiToast } = useToast();
-  const { user } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   
   // User-specific key for localStorage
   const storageKey = user ? `learning-progress-${user.uid}` : "learning-progress";
@@ -37,17 +44,92 @@ export const useProgress = () => {
           lastUpdated: Date.now(),
         };
   });
+  
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [firestore, setFirestore] = useState<any>(null);
+
+  // Initialize Firestore when possible
+  useEffect(() => {
+    if (isAuthenticated) {
+      try {
+        const firebaseConfig = JSON.parse(localStorage.getItem('firebase_config') || '{}');
+        
+        // Check if we have the required config
+        if (firebaseConfig.apiKey && firebaseConfig.authDomain) {
+          const app = initializeApp(firebaseConfig, 'progress-app');
+          const db = getFirestore(app);
+          setFirestore(db);
+        }
+      } catch (error) {
+        console.error('Error initializing Firebase for progress tracking:', error);
+      }
+    }
+  }, [isAuthenticated]);
+
+  // Load progress data from Firebase when user logs in
+  useEffect(() => {
+    const fetchProgressFromFirebase = async () => {
+      if (!user || !firestore) return;
+      
+      try {
+        setIsSyncing(true);
+        const progressRef = doc(firestore, "userProgress", user.uid);
+        const progressSnapshot = await getDoc(progressRef);
+        
+        if (progressSnapshot.exists()) {
+          const remoteProgress = progressSnapshot.data() as ProgressData;
+          
+          // Get local progress
+          const localProgress = JSON.parse(localStorage.getItem(storageKey) || '{}') as ProgressData;
+          
+          // Compare timestamps and use the most recent data
+          if (remoteProgress.lastUpdated > (localProgress.lastUpdated || 0)) {
+            // Remote is newer, update local
+            setProgress(remoteProgress);
+            localStorage.setItem(storageKey, JSON.stringify(remoteProgress));
+          } else if ((localProgress.lastUpdated || 0) > remoteProgress.lastUpdated) {
+            // Local is newer, update remote
+            await setDoc(progressRef, localProgress);
+          }
+        } else {
+          // No remote progress, upload the local one if it exists
+          const localProgress = JSON.parse(localStorage.getItem(storageKey) || '{}');
+          if (localProgress.lastUpdated) {
+            await setDoc(progressRef, localProgress);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching progress from Firebase:', error);
+      } finally {
+        setIsSyncing(false);
+      }
+    };
+
+    if (user && firestore) {
+      fetchProgressFromFirebase();
+    }
+  }, [user, firestore, storageKey]);
 
   // Update localStorage when progress changes
   useEffect(() => {
     localStorage.setItem(storageKey, JSON.stringify(progress));
     
-    // This is where we'll sync with Firebase in the future
-    if (user) {
-      // Future implementation: sync with Firebase
-      console.log("Progress updated for user:", user.uid);
+    // Sync with Firebase if user is logged in
+    const syncToFirebase = async () => {
+      if (user && firestore) {
+        try {
+          const progressRef = doc(firestore, "userProgress", user.uid);
+          await setDoc(progressRef, progress);
+        } catch (error) {
+          console.error('Error syncing progress to Firebase:', error);
+        }
+      }
+    };
+    
+    if (user && firestore) {
+      syncToFirebase();
     }
-  }, [progress, storageKey, user]);
+  }, [progress, storageKey, user, firestore]);
 
   // When user changes, reload progress from localStorage
   useEffect(() => {
@@ -66,17 +148,17 @@ export const useProgress = () => {
     }
   }, [storageKey]);
 
+  // Rest of the hook remains the same
   const markQuestionAsRead = (pathId: string, questionId: number) => {
-    const key = `${pathId}-${questionId}`;
     setProgress((prev) => ({
       ...prev,
       questions: {
         ...prev.questions,
-        [key]: true,
+        [`${pathId}-${questionId}`]: true,
       },
       lastRead: {
         ...prev.lastRead,
-        [key]: Date.now(),
+        [`${pathId}-${questionId}`]: Date.now(),
       },
       lastUpdated: Date.now(),
     }));
@@ -186,14 +268,16 @@ export const useProgress = () => {
   };
 
   const resetProgress = (showToast: boolean = true) => {
-    setProgress({
+    const newProgress = {
       questions: {},
       paths: {},
       subpaths: {},
       lastRead: {},
       lastUpdated: Date.now(),
-    });
-
+    };
+    
+    setProgress(newProgress);
+    
     if (showToast) {
       toast.success("All learning progress has been reset", {
         position: "top-center",
@@ -202,23 +286,59 @@ export const useProgress = () => {
     }
   };
 
-  // This will be used when we integrate Firebase
+  // Sync with Firebase (useful for manual sync)
   const syncWithCloud = async (): Promise<void> => {
-    if (!user) return;
-    
-    try {
-      // Future implementation: sync with Firebase
-      console.log("Syncing progress with cloud for user:", user.uid);
-      toast.success("Progress synced with cloud", {
+    if (!user || !firestore) {
+      toast.error("You need to be logged in to sync with the cloud", {
         position: "top-center",
         duration: 3000,
       });
+      return;
+    }
+    
+    try {
+      setIsSyncing(true);
+      
+      // Get the current progress from Firebase
+      const progressRef = doc(firestore, "userProgress", user.uid);
+      const progressSnapshot = await getDoc(progressRef);
+      
+      if (progressSnapshot.exists()) {
+        const remoteProgress = progressSnapshot.data() as ProgressData;
+        
+        // Compare timestamps
+        if (remoteProgress.lastUpdated > progress.lastUpdated) {
+          // Remote is newer
+          setProgress(remoteProgress);
+          localStorage.setItem(storageKey, JSON.stringify(remoteProgress));
+          toast.success("Pulled latest progress from cloud", {
+            position: "top-center",
+            duration: 3000,
+          });
+        } else {
+          // Local is newer or same age
+          await setDoc(progressRef, progress);
+          toast.success("Updated cloud with your latest progress", {
+            position: "top-center",
+            duration: 3000,
+          });
+        }
+      } else {
+        // No document exists yet, create it
+        await setDoc(progressRef, progress);
+        toast.success("Progress synced to cloud for the first time", {
+          position: "top-center",
+          duration: 3000,
+        });
+      }
     } catch (error) {
       console.error("Error syncing progress with cloud:", error);
       toast.error("Failed to sync progress with cloud", {
         position: "top-center",
         duration: 3000,
       });
+    } finally {
+      setIsSyncing(false);
     }
   };
 
@@ -234,5 +354,6 @@ export const useProgress = () => {
     getLastReadTimestamp,
     resetProgress,
     syncWithCloud,
+    isSyncing,
   };
 };
