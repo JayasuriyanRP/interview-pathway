@@ -133,6 +133,8 @@ const AskAI = () => {
                     question={response.question}
                     answer={response.answer}
                     isRead={true}
+                    level="Beginner" // Adding missing required prop
+                    isExpanded={true} // Adding missing required prop
                   />
                 ))}
               </div>
