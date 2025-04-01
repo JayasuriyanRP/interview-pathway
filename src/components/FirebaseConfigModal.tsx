@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { Label } from "./ui/label";
 import {
   Dialog,
   DialogContent,
@@ -12,9 +11,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
-import { Loader2, Settings } from "lucide-react";
+import { Loader2, Database } from "lucide-react";
 import { toast } from "sonner";
-import { useAuth } from "@/context/AuthContext";
 import { 
   Form,
   FormControl,
@@ -44,7 +42,6 @@ type FirebaseConfigType = z.infer<typeof firebaseConfigSchema>;
 const FirebaseConfigModal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [saving, setSaving] = useState(false);
-  const { user } = useAuth();
   
   // Get saved config from localStorage
   const getSavedConfig = () => {
@@ -75,7 +72,7 @@ const FirebaseConfigModal = () => {
     }
   };
 
-  // Initialize the form with data from localStorage directly (not as a function)
+  // Initialize the form with data from localStorage directly
   const form = useForm<FirebaseConfigType>({
     resolver: zodResolver(firebaseConfigSchema),
     defaultValues: getSavedConfig()
@@ -108,16 +105,16 @@ const FirebaseConfigModal = () => {
           variant="outline" 
           size="icon" 
           className="ml-2"
-          title="Firebase Configuration"
+          title="Firebase Database Configuration"
         >
-          <Settings className="h-4 w-4" />
+          <Database className="h-4 w-4" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Firebase Configuration</DialogTitle>
+          <DialogTitle>Firebase Database Configuration</DialogTitle>
           <DialogDescription>
-            Enter your Firebase project details to enable authentication, database storage, and progress tracking.
+            Enter your Firebase project details to enable database storage and progress tracking.
           </DialogDescription>
         </DialogHeader>
         
