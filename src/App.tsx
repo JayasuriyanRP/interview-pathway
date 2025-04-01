@@ -12,31 +12,39 @@ import SubpathsList from "./pages/SubpathsList";
 import NestedPathExample from "./components/NestedPathExample";
 import AskAI from "./pages/AskAi";
 import AIConverter from "./pages/AIConverter";
+import { AuthProvider } from "./context/AuthContext";
 
-// To be implemented later for Google Auth integration
-// import { AuthProvider } from "./context/AuthContext";
-
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      cacheTime: 1000 * 60 * 30, // 30 minutes
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
       <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          {/* To be wrapped with AuthProvider later */}
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/path/:pathId" element={<LearningPath />} />
-            <Route path="/subpaths/:pathId" element={<SubpathsList />} />
-            <Route path="/examples" element={<LearningPath />} />
-            <Route path="/nested-example" element={<NestedPathExample />} />
-            <Route path="/ask-ai" element={<AskAI />} />
-            <Route path="/convert-ai" element={<AIConverter />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
+        <AuthProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/path/:pathId" element={<LearningPath />} />
+              <Route path="/subpaths/:pathId" element={<SubpathsList />} />
+              <Route path="/examples" element={<LearningPath />} />
+              <Route path="/nested-example" element={<NestedPathExample />} />
+              <Route path="/ask-ai" element={<AskAI />} />
+              <Route path="/convert-ai" element={<AIConverter />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </AuthProvider>
       </TooltipProvider>
     </ThemeProvider>
   </QueryClientProvider>

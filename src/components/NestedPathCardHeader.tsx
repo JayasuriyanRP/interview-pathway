@@ -1,10 +1,11 @@
+
 import React from "react";
 import { ChevronRight, ChevronDown, CheckCircle } from "lucide-react";
 import { CardHeader, CardTitle, CardDescription } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { cn, getBadgeClass } from "@/lib/utils";
-import { getIconComponent } from "@/utils/iconUtils";
+import { getIconComponent, getSkillIcon } from "@/utils/iconUtils";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface NestedPathCardHeaderProps {
@@ -28,7 +29,8 @@ const NestedPathCardHeader: React.FC<NestedPathCardHeaderProps> = ({
   handleToggleExpand,
   icon = "List",
 }) => {
-  const IconComponent = getIconComponent(icon);
+  // Get the appropriate icon based on title and provided icon
+  const IconComponent = getIconComponent(getSkillIcon(title) || icon);
   const isMobile = useIsMobile();
 
   return (

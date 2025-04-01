@@ -1,14 +1,17 @@
-import React, { useEffect, useRef } from "react";
+
+import React, { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import Prism from "prismjs";
 import "prismjs/themes/prism-tomorrow.css";
-import { Clipboard, ClipboardCheck } from "lucide-react";
+import { Clipboard, ClipboardCheck, WrapText } from "lucide-react";
+import { Button } from "./ui/button";
 
 const MarkdownView = ({ content }: { content: string }) => {
   const copiedMapRef = useRef<{ [key: string]: boolean }>({});
   const copyTimeouts = useRef<{ [key: string]: NodeJS.Timeout }>({});
+  const [wrapEnabled, setWrapEnabled] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {
     Prism.highlightAll();
@@ -34,6 +37,13 @@ const MarkdownView = ({ content }: { content: string }) => {
     }, 2000);
   };
 
+  const toggleWrap = (key: string) => {
+    setWrapEnabled(prev => ({
+      ...prev,
+      [key]: !prev[key]
+    }));
+  };
+
   return (
     <div className="prose prose-lg max-w-none">
       <ReactMarkdown
@@ -54,26 +64,35 @@ const MarkdownView = ({ content }: { content: string }) => {
           }) {
             const match = /language-(\w+)/.exec(className || "");
             const codeText = String(children).replace(/\n$/, "");
-            const uniqueKey = `${codeText}-${match?.[1] || "plain"}`;
+            const uniqueKey = `${codeText.substring(0, 20)}-${match?.[1] || "plain"}`;
 
             return !inline && match ? (
               <div className="relative">
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    const codeElement = e.currentTarget
-                      .nextSibling as HTMLElement;
-                    handleCopy(codeText, uniqueKey, codeElement);
-                  }}
-                  className="absolute top-2 right-2 bg-gray-700 text-white p-1 rounded-md hover:bg-gray-600"
-                >
-                  {copiedMapRef.current[uniqueKey] ? (
-                    <ClipboardCheck size={16} />
-                  ) : (
-                    <Clipboard size={16} />
-                  )}
-                </button>
-                <pre className="rounded-lg p-4 overflow-auto bg-gray-900 text-white whitespace-pre-wrap break-words">
+                <div className="absolute top-2 right-2 flex space-x-1">
+                  <button
+                    onClick={() => toggleWrap(uniqueKey)}
+                    className="bg-gray-700 text-white p-1 rounded-md hover:bg-gray-600"
+                    title="Toggle word wrap"
+                  >
+                    <WrapText size={16} />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const codeElement = e.currentTarget.parentElement?.nextElementSibling?.querySelector('code') as HTMLElement;
+                      handleCopy(codeText, uniqueKey, codeElement);
+                    }}
+                    className="bg-gray-700 text-white p-1 rounded-md hover:bg-gray-600"
+                    title="Copy code"
+                  >
+                    {copiedMapRef.current[uniqueKey] ? (
+                      <ClipboardCheck size={16} />
+                    ) : (
+                      <Clipboard size={16} />
+                    )}
+                  </button>
+                </div>
+                <pre className={`rounded-lg p-4 overflow-auto bg-gray-900 text-white ${wrapEnabled[uniqueKey] ? 'whitespace-pre-wrap break-words' : ''}`}>
                   <code className={`language-${match[1]}`} {...props}>
                     {codeText}
                   </code>

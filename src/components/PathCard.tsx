@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import {
@@ -11,9 +12,10 @@ import {
   Users,
 } from "lucide-react";
 import { Badge } from "./ui/badge";
-import { cn, getBadgeClass, getPathIcon } from "@/lib/utils";
+import { cn, getBadgeClass } from "@/lib/utils";
 import { usePathQuestions } from "@/hooks/useData";
 import { useProgress } from "@/hooks/useProgress";
+import { getIconComponent, getSkillIcon } from "@/utils/iconUtils";
 
 interface PathCardProps {
   id: string;
@@ -59,6 +61,9 @@ const PathCard: React.FC<PathCardProps> = ({
 
   const linkTo = hasSubpaths ? `/subpaths/${id}` : `/path/${id}`;
   const actionText = hasSubpaths ? "View subpaths" : "Start learning";
+  
+  // Get the appropriate icon based on title and provided icon
+  const IconComponent = getIconComponent(getSkillIcon(title) || icon);
 
   return (
     <Link
@@ -85,7 +90,7 @@ const PathCard: React.FC<PathCardProps> = ({
               {actualIsCompleted ? (
                 <CheckCircle className="h-5 w-5 text-indigo-500 dark:text-indigo-400" />
               ) : (
-                getPathIcon(icon)
+                <IconComponent className="h-5 w-5" />
               )}
             </div>
 

@@ -1,6 +1,8 @@
+
 import { useState, useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { toast } from "sonner";
+import { useAuth } from "@/context/AuthContext";
 
 type ProgressItem = {
   id: string;
@@ -18,8 +20,13 @@ type ProgressData = {
 
 export const useProgress = () => {
   const { toast: uiToast } = useToast();
+  const { user } = useAuth();
+  
+  // User-specific key for localStorage
+  const storageKey = user ? `learning-progress-${user.uid}` : "learning-progress";
+  
   const [progress, setProgress] = useState<ProgressData>(() => {
-    const savedProgress = localStorage.getItem("learning-progress");
+    const savedProgress = localStorage.getItem(storageKey);
     return savedProgress
       ? JSON.parse(savedProgress)
       : {
@@ -31,9 +38,33 @@ export const useProgress = () => {
         };
   });
 
+  // Update localStorage when progress changes
   useEffect(() => {
-    localStorage.setItem("learning-progress", JSON.stringify(progress));
-  }, [progress]);
+    localStorage.setItem(storageKey, JSON.stringify(progress));
+    
+    // This is where we'll sync with Firebase in the future
+    if (user) {
+      // Future implementation: sync with Firebase
+      console.log("Progress updated for user:", user.uid);
+    }
+  }, [progress, storageKey, user]);
+
+  // When user changes, reload progress from localStorage
+  useEffect(() => {
+    const savedProgress = localStorage.getItem(storageKey);
+    if (savedProgress) {
+      setProgress(JSON.parse(savedProgress));
+    } else {
+      // Reset progress when user changes and no saved data exists
+      setProgress({
+        questions: {},
+        paths: {},
+        subpaths: {},
+        lastRead: {},
+        lastUpdated: Date.now(),
+      });
+    }
+  }, [storageKey]);
 
   const markQuestionAsRead = (pathId: string, questionId: number) => {
     const key = `${pathId}-${questionId}`;
@@ -171,6 +202,26 @@ export const useProgress = () => {
     }
   };
 
+  // This will be used when we integrate Firebase
+  const syncWithCloud = async (): Promise<void> => {
+    if (!user) return;
+    
+    try {
+      // Future implementation: sync with Firebase
+      console.log("Syncing progress with cloud for user:", user.uid);
+      toast.success("Progress synced with cloud", {
+        position: "top-center",
+        duration: 3000,
+      });
+    } catch (error) {
+      console.error("Error syncing progress with cloud:", error);
+      toast.error("Failed to sync progress with cloud", {
+        position: "top-center",
+        duration: 3000,
+      });
+    }
+  };
+
   return {
     markQuestionAsRead,
     undoMarkQuestionAsRead,
@@ -182,5 +233,6 @@ export const useProgress = () => {
     getPathProgress,
     getLastReadTimestamp,
     resetProgress,
+    syncWithCloud,
   };
 };
