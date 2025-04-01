@@ -15,54 +15,74 @@ import {
 import { Loader2, Settings } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/context/AuthContext";
+import { 
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormDescription,
+  FormMessage 
+} from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
-interface FirebaseConfig {
-  apiKey: string;
-  authDomain: string;
-  projectId: string;
-  storageBucket: string;
-  messagingSenderId: string;
-  appId: string;
-}
+// Schema for Firebase configuration validation
+const firebaseConfigSchema = z.object({
+  apiKey: z.string().min(1, "API Key is required"),
+  authDomain: z.string().min(1, "Auth Domain is required"),
+  projectId: z.string().min(1, "Project ID is required"),
+  storageBucket: z.string().optional(),
+  messagingSenderId: z.string().optional(),
+  appId: z.string().optional(),
+  databaseURL: z.string().optional(),
+});
+
+type FirebaseConfigType = z.infer<typeof firebaseConfigSchema>;
 
 const FirebaseConfigModal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [saving, setSaving] = useState(false);
   const { user } = useAuth();
   
-  const [config, setConfig] = useState<FirebaseConfig>(() => {
-    const savedConfig = localStorage.getItem('firebase_config');
-    return savedConfig 
-      ? JSON.parse(savedConfig)
-      : {
+  // Initialize the form with data from localStorage if available
+  const form = useForm<FirebaseConfigType>({
+    resolver: zodResolver(firebaseConfigSchema),
+    defaultValues: () => {
+      try {
+        const savedConfig = localStorage.getItem('firebase_config');
+        return savedConfig 
+          ? JSON.parse(savedConfig)
+          : {
+              apiKey: "",
+              authDomain: "",
+              projectId: "",
+              storageBucket: "",
+              messagingSenderId: "",
+              appId: "",
+              databaseURL: "",
+            };
+      } catch (error) {
+        console.error("Error loading Firebase config from localStorage:", error);
+        return {
           apiKey: "",
           authDomain: "",
           projectId: "",
           storageBucket: "",
           messagingSenderId: "",
           appId: "",
+          databaseURL: "",
         };
+      }
+    }
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setConfig((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSave = () => {
-    // Validate required fields
-    if (!config.apiKey || !config.authDomain || !config.projectId) {
-      toast.error("API Key, Auth Domain, and Project ID are required");
-      return;
-    }
-
+  const handleSave = (data: FirebaseConfigType) => {
     setSaving(true);
     try {
       // Store in local storage
-      localStorage.setItem("firebase_config", JSON.stringify(config));
+      localStorage.setItem("firebase_config", JSON.stringify(data));
       toast.success("Firebase configuration saved successfully");
       setIsOpen(false);
       
@@ -77,11 +97,6 @@ const FirebaseConfigModal = () => {
       setSaving(false);
     }
   };
-
-  // Don't show the config button for non-authenticated users
-  if (!user) {
-    return null;
-  }
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -99,85 +114,129 @@ const FirebaseConfigModal = () => {
         <DialogHeader>
           <DialogTitle>Firebase Configuration</DialogTitle>
           <DialogDescription>
-            Enter your Firebase project details to enable authentication and database storage.
+            Enter your Firebase project details to enable authentication, database storage, and progress tracking.
           </DialogDescription>
         </DialogHeader>
-        <div className="space-y-4 py-4">
-          <div className="space-y-2">
-            <Label htmlFor="apiKey">API Key *</Label>
-            <Input
-              id="apiKey"
+        
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleSave)} className="space-y-4 py-4">
+            <FormField
+              control={form.control}
               name="apiKey"
-              placeholder="API Key"
-              value={config.apiKey}
-              onChange={handleChange}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>API Key *</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Firebase API Key" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="authDomain">Auth Domain *</Label>
-            <Input
-              id="authDomain"
+            
+            <FormField
+              control={form.control}
               name="authDomain"
-              placeholder="example-app.firebaseapp.com"
-              value={config.authDomain}
-              onChange={handleChange}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Auth Domain *</FormLabel>
+                  <FormControl>
+                    <Input placeholder="example-app.firebaseapp.com" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="projectId">Project ID *</Label>
-            <Input
-              id="projectId"
+            
+            <FormField
+              control={form.control}
               name="projectId"
-              placeholder="example-app"
-              value={config.projectId}
-              onChange={handleChange}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Project ID *</FormLabel>
+                  <FormControl>
+                    <Input placeholder="example-app" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="storageBucket">Storage Bucket</Label>
-            <Input
-              id="storageBucket"
+            
+            <FormField
+              control={form.control}
+              name="databaseURL"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Database URL</FormLabel>
+                  <FormControl>
+                    <Input placeholder="https://example-app.firebaseio.com" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Required for Realtime Database
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
               name="storageBucket"
-              placeholder="example-app.appspot.com"
-              value={config.storageBucket}
-              onChange={handleChange}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Storage Bucket</FormLabel>
+                  <FormControl>
+                    <Input placeholder="example-app.appspot.com" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="messagingSenderId">Messaging Sender ID</Label>
-            <Input
-              id="messagingSenderId"
+            
+            <FormField
+              control={form.control}
               name="messagingSenderId"
-              placeholder="12345678901"
-              value={config.messagingSenderId}
-              onChange={handleChange}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Messaging Sender ID</FormLabel>
+                  <FormControl>
+                    <Input placeholder="123456789012" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="appId">App ID</Label>
-            <Input
-              id="appId"
+            
+            <FormField
+              control={form.control}
               name="appId"
-              placeholder="1:12345678901:web:abcd123456"
-              value={config.appId}
-              onChange={handleChange}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>App ID</FormLabel>
+                  <FormControl>
+                    <Input placeholder="1:123456789012:web:abcdef123456" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-        </div>
-        <DialogFooter>
-          <Button type="button" variant="secondary" onClick={() => setIsOpen(false)}>
-            Cancel
-          </Button>
-          <Button type="submit" onClick={handleSave} disabled={saving}>
-            {saving ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving...
-              </>
-            ) : (
-              "Save"
-            )}
-          </Button>
-        </DialogFooter>
+            
+            <DialogFooter>
+              <Button type="button" variant="secondary" onClick={() => setIsOpen(false)}>
+                Cancel
+              </Button>
+              <Button type="submit" disabled={saving}>
+                {saving ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving...
+                  </>
+                ) : (
+                  "Save Configuration"
+                )}
+              </Button>
+            </DialogFooter>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );

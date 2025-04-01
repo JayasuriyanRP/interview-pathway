@@ -7,7 +7,9 @@ import {
   doc, 
   setDoc, 
   getDoc, 
-  Timestamp 
+  Timestamp,
+  collection,
+  onSnapshot
 } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 
@@ -23,6 +25,7 @@ type ProgressData = {
   subpaths: Record<string, boolean>;
   lastRead: Record<string, number>; // Timestamp when item was last read
   lastUpdated: number;
+  userEmail?: string; // Store email as identifier
 };
 
 export const useProgress = () => {
@@ -42,6 +45,7 @@ export const useProgress = () => {
           subpaths: {},
           lastRead: {},
           lastUpdated: Date.now(),
+          userEmail: user?.email || undefined
         };
   });
   
@@ -73,11 +77,18 @@ export const useProgress = () => {
       
       try {
         setIsSyncing(true);
+        // Use user email as part of document ID for clear identification
+        const userEmail = user.email || 'unknown';
         const progressRef = doc(firestore, "userProgress", user.uid);
         const progressSnapshot = await getDoc(progressRef);
         
         if (progressSnapshot.exists()) {
           const remoteProgress = progressSnapshot.data() as ProgressData;
+          
+          // Add user email to progress data if not present
+          if (!remoteProgress.userEmail && user.email) {
+            remoteProgress.userEmail = user.email;
+          }
           
           // Get local progress
           const localProgress = JSON.parse(localStorage.getItem(storageKey) || '{}') as ProgressData;
@@ -87,19 +98,32 @@ export const useProgress = () => {
             // Remote is newer, update local
             setProgress(remoteProgress);
             localStorage.setItem(storageKey, JSON.stringify(remoteProgress));
+            console.log('Loaded newer progress data from Firebase');
           } else if ((localProgress.lastUpdated || 0) > remoteProgress.lastUpdated) {
             // Local is newer, update remote
-            await setDoc(progressRef, localProgress);
+            await setDoc(progressRef, {
+              ...localProgress,
+              userEmail: user.email || 'unknown'
+            });
+            console.log('Updated Firebase with newer local progress data');
           }
         } else {
           // No remote progress, upload the local one if it exists
           const localProgress = JSON.parse(localStorage.getItem(storageKey) || '{}');
           if (localProgress.lastUpdated) {
-            await setDoc(progressRef, localProgress);
+            await setDoc(progressRef, {
+              ...localProgress,
+              userEmail: user.email || 'unknown'
+            });
+            console.log('Created new progress document in Firebase');
           }
         }
       } catch (error) {
         console.error('Error fetching progress from Firebase:', error);
+        toast.error('Failed to sync progress with cloud', {
+          position: 'top-center',
+          duration: 3000
+        });
       } finally {
         setIsSyncing(false);
       }
@@ -110,6 +134,35 @@ export const useProgress = () => {
     }
   }, [user, firestore, storageKey]);
 
+  // Set up real-time progress updates from Firebase
+  useEffect(() => {
+    if (!user || !firestore) return;
+    
+    // Set up real-time listener for progress changes
+    const progressRef = doc(firestore, "userProgress", user.uid);
+    
+    const unsubscribe = onSnapshot(progressRef, 
+      (doc) => {
+        if (doc.exists()) {
+          const remoteData = doc.data() as ProgressData;
+          
+          // Only update if remote is newer than our current state
+          if (remoteData.lastUpdated > progress.lastUpdated) {
+            setProgress(remoteData);
+            localStorage.setItem(storageKey, JSON.stringify(remoteData));
+            console.log('Progress updated from real-time Firebase update');
+          }
+        }
+      }, 
+      (error) => {
+        console.error('Error in Firebase real-time listener:', error);
+      }
+    );
+    
+    // Clean up listener when component unmounts or user changes
+    return () => unsubscribe();
+  }, [user, firestore, storageKey, progress.lastUpdated]);
+
   // Update localStorage when progress changes
   useEffect(() => {
     localStorage.setItem(storageKey, JSON.stringify(progress));
@@ -119,7 +172,11 @@ export const useProgress = () => {
       if (user && firestore) {
         try {
           const progressRef = doc(firestore, "userProgress", user.uid);
-          await setDoc(progressRef, progress);
+          // Include user email in the stored data
+          await setDoc(progressRef, {
+            ...progress,
+            userEmail: user.email || 'unknown'
+          });
         } catch (error) {
           console.error('Error syncing progress to Firebase:', error);
         }
@@ -144,11 +201,11 @@ export const useProgress = () => {
         subpaths: {},
         lastRead: {},
         lastUpdated: Date.now(),
+        userEmail: user?.email || undefined
       });
     }
-  }, [storageKey]);
+  }, [storageKey, user?.email]);
 
-  // Rest of the hook remains the same
   const markQuestionAsRead = (pathId: string, questionId: number) => {
     setProgress((prev) => ({
       ...prev,
@@ -274,6 +331,7 @@ export const useProgress = () => {
       subpaths: {},
       lastRead: {},
       lastUpdated: Date.now(),
+      userEmail: user?.email || undefined
     };
     
     setProgress(newProgress);
@@ -317,7 +375,10 @@ export const useProgress = () => {
           });
         } else {
           // Local is newer or same age
-          await setDoc(progressRef, progress);
+          await setDoc(progressRef, {
+            ...progress,
+            userEmail: user.email || 'unknown'
+          });
           toast.success("Updated cloud with your latest progress", {
             position: "top-center",
             duration: 3000,
@@ -325,7 +386,10 @@ export const useProgress = () => {
         }
       } else {
         // No document exists yet, create it
-        await setDoc(progressRef, progress);
+        await setDoc(progressRef, {
+          ...progress,
+          userEmail: user.email || 'unknown'
+        });
         toast.success("Progress synced to cloud for the first time", {
           position: "top-center",
           duration: 3000,

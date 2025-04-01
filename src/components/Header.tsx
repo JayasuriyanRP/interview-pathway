@@ -1,7 +1,7 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ChevronLeft, Home } from "lucide-react";
+import { ChevronLeft, Home, Settings } from "lucide-react";
 import { Button } from "./ui/button";
 import ThemeToggle from "./ThemeToggle";
 import UserMenu from "./UserMenu";
@@ -13,6 +13,8 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "./ui/breadcrumb";
+import FirebaseConfigModal from "./FirebaseConfigModal";
+import { useAuth } from "@/context/AuthContext";
 
 interface HeaderProps {
   title?: string;
@@ -22,6 +24,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ title, showBackButton = false, path = [] }) => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -90,6 +93,7 @@ const Header: React.FC<HeaderProps> = ({ title, showBackButton = false, path = [
         </div>
 
         <div className="flex items-center gap-2">
+          <FirebaseConfigModal />
           <UserMenu />
           <ThemeToggle />
         </div>
