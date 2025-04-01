@@ -8,7 +8,6 @@ import { useProgress } from "../hooks/useProgress";
 import { ChevronRight, BookOpen, CheckCircle, RotateCcw } from "lucide-react";
 import { Skeleton } from "../components/ui/skeleton";
 import { Button } from "../components/ui/button";
-import ThemeToggle from "../components/ThemeToggle";
 
 const LearningPath = () => {
   const [expandAll, setExpandAll] = useState(false);
@@ -164,7 +163,6 @@ const LearningPath = () => {
                 </>
               )}
             </div>
-            <ThemeToggle />
           </div>
 
           <div className="mb-8 mt-2 animate-fadeIn">

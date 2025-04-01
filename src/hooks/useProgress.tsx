@@ -193,29 +193,28 @@ export const useProgress = () => {
     }
   };
 
-  // **Restored Functions**
-
   const markQuestionAsRead = (pathId: string, questionId: string) => {
     const questionKey = `${pathId}-${questionId}`;
-    const updatedQuestions = { ...progress.questions, [questionKey]: true };
-    const updatedLastRead = { ...progress.lastRead, [questionKey]: Date.now() };
-
-    // Update local state first
-    setProgress((prev) => ({
-      ...prev,
-      questions: updatedQuestions,
-      lastRead: updatedLastRead,
-    }));
-
-    // Update Firebase
-    const progressRef = ref(database, "progressData");
-    set(progressRef, {
-      ...progress,
-      questions: updatedQuestions,
-      lastRead: updatedLastRead,
-      lastUpdated: Date.now(),
+    
+    // Use functional form of setProgress to ensure you're working with the latest state
+    setProgress((prev) => {
+      const updatedQuestions = { ...prev.questions, [questionKey]: true };
+      const updatedLastRead = { ...prev.lastRead, [questionKey]: Date.now() };
+  
+      const updatedProgress = {
+        ...prev,
+        questions: updatedQuestions,
+        lastRead: updatedLastRead,
+        lastUpdated: Date.now(),
+      };
+  
+      // Update Firebase with the new progress data
+      const progressRef = ref(database, "progressData");
+      set(progressRef, updatedProgress);
+  
+      return updatedProgress;
     });
-
+  
     toast.success(`Question ${questionId} marked as read!`);
   };
 
