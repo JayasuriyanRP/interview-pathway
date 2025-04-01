@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -13,86 +12,69 @@ import {
 } from "./ui/dialog";
 import { Loader2, Database } from "lucide-react";
 import { toast } from "sonner";
-import { 
+import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormDescription,
-  FormMessage 
+  FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-// Schema for Firebase configuration validation
-const firebaseConfigSchema = z.object({
+// Schema for Firebase Realtime Database configuration validation
+const firebaseDBSchema = z.object({
   apiKey: z.string().min(1, "API Key is required"),
-  authDomain: z.string().min(1, "Auth Domain is required"),
   projectId: z.string().min(1, "Project ID is required"),
-  storageBucket: z.string().optional(),
-  messagingSenderId: z.string().optional(),
-  appId: z.string().optional(),
-  databaseURL: z.string().optional(),
+  databaseURL: z.string().min(1, "Database URL is required"),
 });
 
-type FirebaseConfigType = z.infer<typeof firebaseConfigSchema>;
+type FirebaseDBConfigType = z.infer<typeof firebaseDBSchema>;
 
-const FirebaseConfigModal = () => {
+const FirebaseDBConfigModal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [saving, setSaving] = useState(false);
-  
+
   // Get saved config from localStorage
   const getSavedConfig = () => {
     try {
-      const savedConfig = localStorage.getItem('firebase_config');
-      return savedConfig 
+      const savedConfig = localStorage.getItem("firebase_db_config");
+      return savedConfig
         ? JSON.parse(savedConfig)
         : {
             apiKey: "",
-            authDomain: "",
             projectId: "",
-            storageBucket: "",
-            messagingSenderId: "",
-            appId: "",
             databaseURL: "",
           };
     } catch (error) {
-      console.error("Error loading Firebase config from localStorage:", error);
-      return {
-        apiKey: "",
-        authDomain: "",
-        projectId: "",
-        storageBucket: "",
-        messagingSenderId: "",
-        appId: "",
-        databaseURL: "",
-      };
+      console.error(
+        "Error loading Firebase DB config from localStorage:",
+        error
+      );
+      return { apiKey: "", projectId: "", databaseURL: "" };
     }
   };
 
   // Initialize the form with data from localStorage directly
-  const form = useForm<FirebaseConfigType>({
-    resolver: zodResolver(firebaseConfigSchema),
-    defaultValues: getSavedConfig()
+  const form = useForm<FirebaseDBConfigType>({
+    resolver: zodResolver(firebaseDBSchema),
+    defaultValues: getSavedConfig(),
   });
 
-  const handleSave = (data: FirebaseConfigType) => {
+  const handleSave = (data: FirebaseDBConfigType) => {
     setSaving(true);
     try {
-      // Store in local storage
-      localStorage.setItem("firebase_config", JSON.stringify(data));
-      toast.success("Firebase configuration saved successfully");
+      localStorage.setItem("firebase_db_config", JSON.stringify(data));
+      toast.success("Firebase Database configuration saved successfully");
       setIsOpen(false);
-      
-      // Add a reload hint for the user
       toast.info("Please refresh the page to apply the new configuration", {
         duration: 5000,
       });
     } catch (error) {
       toast.error("Failed to save configuration");
-      console.error("Error saving firebase config:", error);
+      console.error("Error saving firebase DB config:", error);
     } finally {
       setSaving(false);
     }
@@ -101,9 +83,9 @@ const FirebaseConfigModal = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button 
-          variant="outline" 
-          size="icon" 
+        <Button
+          variant="outline"
+          size="icon"
           className="ml-2"
           title="Firebase Database Configuration"
         >
@@ -114,12 +96,15 @@ const FirebaseConfigModal = () => {
         <DialogHeader>
           <DialogTitle>Firebase Database Configuration</DialogTitle>
           <DialogDescription>
-            Enter your Firebase project details to enable database storage and progress tracking.
+            Enter your Firebase project details to enable database storage.
           </DialogDescription>
         </DialogHeader>
-        
+
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSave)} className="space-y-4 py-4">
+          <form
+            onSubmit={form.handleSubmit(handleSave)}
+            className="space-y-4 py-4"
+          >
             <FormField
               control={form.control}
               name="apiKey"
@@ -133,21 +118,7 @@ const FirebaseConfigModal = () => {
                 </FormItem>
               )}
             />
-            
-            <FormField
-              control={form.control}
-              name="authDomain"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Auth Domain *</FormLabel>
-                  <FormControl>
-                    <Input placeholder="example-app.firebaseapp.com" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
+
             <FormField
               control={form.control}
               name="projectId"
@@ -161,68 +132,30 @@ const FirebaseConfigModal = () => {
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="databaseURL"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Database URL</FormLabel>
+                  <FormLabel>Database URL *</FormLabel>
                   <FormControl>
-                    <Input placeholder="https://example-app.firebaseio.com" {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    Required for Realtime Database
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="storageBucket"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Storage Bucket</FormLabel>
-                  <FormControl>
-                    <Input placeholder="example-app.appspot.com" {...field} />
+                    <Input
+                      placeholder="https://example-app.firebaseio.com"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            
-            <FormField
-              control={form.control}
-              name="messagingSenderId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Messaging Sender ID</FormLabel>
-                  <FormControl>
-                    <Input placeholder="123456789012" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="appId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>App ID</FormLabel>
-                  <FormControl>
-                    <Input placeholder="1:123456789012:web:abcdef123456" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
+
             <DialogFooter>
-              <Button type="button" variant="secondary" onClick={() => setIsOpen(false)}>
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={() => setIsOpen(false)}
+              >
                 Cancel
               </Button>
               <Button type="submit" disabled={saving}>
@@ -242,4 +175,4 @@ const FirebaseConfigModal = () => {
   );
 };
 
-export default FirebaseConfigModal;
+export default FirebaseDBConfigModal;

@@ -91,10 +91,12 @@
   {
     "id": "fe-3",
     "question": "Implement a debounce function in JavaScript.",
-    "answer": {
-      "type": "code",
-      "language": "javascript",
-      "content": "/**\n * Creates a debounced function that delays invoking the provided function\n * until after 'wait' milliseconds have elapsed since the last time it was invoked.\n * \n * @param {Function} func - The function to debounce\n * @param {number} wait - The number of milliseconds to delay\n * @return {Function} - The debounced function\n */\nfunction debounce(func, wait) {\n  let timeout;\n  \n  return function executedFunction(...args) {\n    const later = () => {\n      clearTimeout(timeout);\n      func(...args);\n    };\n    \n    clearTimeout(timeout);\n    timeout = setTimeout(later, wait);\n  };\n}\n\n// Example usage:\nconst handleSearch = debounce(function(event) {\n  console.log('Searching for:', event.target.value);\n  // API call or other expensive operation\n}, 500);\n\n// Attach to an input element\n// document.querySelector('input').addEventListener('input', handleSearch);"
-    }
+    "answer": [
+      {
+        "type": "code",
+        "language": "javascript",
+        "content": "/**\n * Creates a debounced function that delays invoking the provided function\n * until after 'wait' milliseconds have elapsed since the last time it was invoked.\n * \n * @param {Function} func - The function to debounce\n * @param {number} wait - The number of milliseconds to delay\n * @return {Function} - The debounced function\n */\nfunction debounce(func, wait) {\n  let timeout;\n  \n  return function executedFunction(...args) {\n    const later = () => {\n      clearTimeout(timeout);\n      func(...args);\n    };\n    \n    clearTimeout(timeout);\n    timeout = setTimeout(later, wait);\n  };\n}\n\n// Example usage:\nconst handleSearch = debounce(function(event) {\n  console.log('Searching for:', event.target.value);\n  // API call or other expensive operation\n}, 500);\n\n// Attach to an input element\n// document.querySelector('input').addEventListener('input', handleSearch);"
+      }
+    ]
   }
 ]

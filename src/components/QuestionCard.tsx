@@ -5,12 +5,13 @@ import MarkdownView from "./MarkdownView";
 import { Badge } from "./ui/badge";
 
 interface QuestionProps {
-  id: number;
+  index: number;
+  id: string;
   question: string;
   level: string;
   answer: any;
-  onMarkAsRead?: (id: number) => void;
-  onUndoRead?: (id: number) => void;
+  onMarkAsRead?: (id: string) => void;
+  onUndoRead?: (id: string) => void;
   isRead?: boolean;
   highlightQuery?: string;
   isExpanded: boolean;
@@ -23,6 +24,7 @@ const levelBadgeVariant = {
 };
 
 const Question: React.FC<QuestionProps> = ({
+  index,
   id,
   question,
   answer,
@@ -77,7 +79,7 @@ const Question: React.FC<QuestionProps> = ({
               />
             )}
             <h3 className="font-medium text-gray-500 dark:text-gray-400">
-              {id + 1}.
+              {index + 1}.
             </h3>
             <h3 className="font-medium leading-tight">{question}</h3>
           </div>

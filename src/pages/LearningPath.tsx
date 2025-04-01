@@ -64,30 +64,36 @@ const LearningPath = () => {
     }
   }, [highlightedQuestion, loading]);
 
-  const handleMarkAsRead = (questionId: number) => {
+  const handleMarkAsRead = (questionId: string) => {
     if (pathId) {
       markQuestionAsRead(pathId, questionId);
     }
   };
-  const handleUndoMarkAsRead = (questionId: number) => {
+  const handleUndoMarkAsRead = (questionId: string) => {
     if (pathId) {
       undoMarkQuestionAsRead(pathId, questionId);
     }
   };
 
   const handleMarkAllAsRead = () => {
-    if (pathId) {
-      questions.forEach((_, index) => {
-        markQuestionAsRead(pathId, index);
-      });
+    if (!pathId) return;
+
+    questions.forEach((q, index) => {
+      setTimeout(() => {
+        markQuestionAsRead(pathId, q.id);
+      }, index * 50); // 50ms delay per question
+    });
+
+    // If it's a subpath, mark it as completed after all questions are marked
+    setTimeout(() => {
       if (isSubpath) {
         markSubpathAsCompleted(pathId);
       }
-    }
+    }, questions.length * 50);
   };
 
   const handleResetProgress = () => {
-    resetProgress();
+    resetProgress(pathId);
   };
 
   // Calculate progress
@@ -234,7 +240,7 @@ const LearningPath = () => {
             {filteredQuestions.length > 0 ? (
               filteredQuestions.map((question, index) => {
                 // Find the original index in the questions array
-                const originalIndex = index; //questions.findIndex(q => q.id === question.id);
+                const originalIndex = question.id; //questions.findIndex(q => q.id === question.id);
 
                 return (
                   <div
@@ -249,7 +255,8 @@ const LearningPath = () => {
                     }`}
                   >
                     <QuestionCard
-                      id={originalIndex}
+                      index={index}
+                      id={question.id}
                       question={question.question}
                       answer={question.answer}
                       level={question.level}
