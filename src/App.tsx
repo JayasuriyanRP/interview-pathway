@@ -13,12 +13,14 @@ import NestedPathExample from "./components/NestedPathExample";
 import AskAI from "./pages/AskAi";
 import AIConverter from "./pages/AIConverter";
 import { AuthProvider } from "./context/AuthContext";
+import React from "react"; // Add explicit React import
 
+// Create a new QueryClient instance outside the component
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 1000 * 60 * 5, // 5 minutes
-      gcTime: 1000 * 60 * 30, // 30 minutes (was 'cacheTime')
+      gcTime: 1000 * 60 * 30, // 30 minutes
       refetchOnWindowFocus: false,
       retry: 1,
     },
@@ -26,28 +28,30 @@ const queryClient = new QueryClient({
 });
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <ThemeProvider>
-      <TooltipProvider>
-        <AuthProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/path/:pathId" element={<LearningPath />} />
-              <Route path="/subpaths/:pathId" element={<SubpathsList />} />
-              <Route path="/examples" element={<LearningPath />} />
-              <Route path="/nested-example" element={<NestedPathExample />} />
-              <Route path="/ask-ai" element={<AskAI />} />
-              <Route path="/convert-ai" element={<AIConverter />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </AuthProvider>
-      </TooltipProvider>
-    </ThemeProvider>
-  </QueryClientProvider>
+  <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <TooltipProvider>
+          <AuthProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/path/:pathId" element={<LearningPath />} />
+                <Route path="/subpaths/:pathId" element={<SubpathsList />} />
+                <Route path="/examples" element={<LearningPath />} />
+                <Route path="/nested-example" element={<NestedPathExample />} />
+                <Route path="/ask-ai" element={<AskAI />} />
+                <Route path="/convert-ai" element={<AIConverter />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </AuthProvider>
+        </TooltipProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
+  </React.StrictMode>
 );
 
 export default App;
