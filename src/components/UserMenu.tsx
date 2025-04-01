@@ -12,7 +12,7 @@ import { Cloud, RotateCcw } from "lucide-react";
 import { useProgress } from "@/hooks/useProgress";
 
 const UserMenu = () => {
-  const { resetProgress, syncWithCloud, isSyncing } = useProgress();
+  const { resetProgress, refreshFromCloud, isSyncing } = useProgress();
 
   return (
     <DropdownMenu>
@@ -26,12 +26,12 @@ const UserMenu = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuItem
-          onClick={() => syncWithCloud(true)}
+          onClick={() => refreshFromCloud()}
           className="cursor-pointer flex items-center"
           disabled={isSyncing}
         >
           <Cloud className="mr-2 h-4 w-4" />
-          <span>{isSyncing ? "Syncing..." : "Sync Progress"}</span>
+          <span>{isSyncing ? "Syncing..." : "Refresh"}</span>
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => resetProgress()}

@@ -280,7 +280,7 @@ export const useProgress = () => {
   };
 
   // Sync manually with Firebase
-  const syncWithCloud = async (forcePull = false) => {
+  const refreshFromCloud = async () => {
     if (!database) {
       toast.error("Cloud sync failed. Database is not initialized.");
       return;
@@ -294,25 +294,20 @@ export const useProgress = () => {
       if (snapshot.exists()) {
         const remoteProgress = snapshot.val() as ProgressData;
 
-        // Only update if the remote data is newer or we force a pull
-        if (
-          forcePull ||
-          remoteProgress.lastUpdated > (progress.lastUpdated || 0)
-        ) {
+        // Only update if the remote data is newer
+        if (remoteProgress.lastUpdated > (progress.lastUpdated || 0)) {
           setProgress(remoteProgress); // Update the state with latest progress
           localStorage.setItem(storageKey, JSON.stringify(remoteProgress)); // Store to localStorage
           toast.success("Pulled latest progress from cloud.");
-        } else if (remoteProgress.lastUpdated < progress.lastUpdated) {
-          await set(progressRef, progress);
-          toast.success("Updated cloud with your latest progress.");
+        } else {
+          toast.info("Your progress is up-to-date.");
         }
       } else {
-        await set(progressRef, progress);
-        toast.success("Progress synced to cloud for the first time.");
+        toast.error("No progress data found in the cloud.");
       }
     } catch (error) {
-      console.error("Error syncing with Firebase:", error);
-      toast.error("Failed to sync progress with cloud.");
+      console.error("Error fetching progress from Firebase:", error);
+      toast.error("Failed to fetch progress from cloud.");
     } finally {
       setIsSyncing(false);
     }
@@ -329,7 +324,7 @@ export const useProgress = () => {
     getPathProgress,
     getLastReadTimestamp,
     resetProgress,
-    syncWithCloud,
+    refreshFromCloud,
     isSyncing,
   };
 };
