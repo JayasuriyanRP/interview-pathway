@@ -1,9 +1,10 @@
+
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchFirebaseData } from "@/services/firebaseService";
 import { listJsonFiles, fetchFileById } from "@/services/googleDriveService";
 
-interface Path {
+export interface Path {
   id: string;
   title: string;
   description: string;
@@ -13,23 +14,25 @@ interface Path {
   count?: number;
 }
 
-interface Subpath {
+export interface Subpath {
   id: string;
   title: string;
   description: string;
   questions?: Question[];
 }
 
-interface Question {
+export interface Question {
   id: string;
   question: string;
   answer: string;
   level: string;
 }
 
-interface Data {
+export interface Data {
   paths: Path[];
   questions: { [key: string]: Question[] };
+  isLoading: boolean;
+  error: Error | null;
 }
 
 const useData = (): Data => {
@@ -45,11 +48,13 @@ const useData = (): Data => {
     gcTime: 1000 * 60 * 30, // 30 minutes
     refetchOnWindowFocus: false,
     retry: 1,
-    onError: (err) => {
-      setError(err);
-      setLoading(false);
-      console.error("Firebase data fetch error:", err);
-    },
+    meta: {
+      onError: (err: Error) => {
+        setError(err);
+        setLoading(false);
+        console.error("Firebase data fetch error:", err);
+      }
+    }
   });
 
   const googleDriveQuery = useQuery({
@@ -79,11 +84,13 @@ const useData = (): Data => {
     gcTime: 1000 * 60 * 30, // 30 minutes
     refetchOnWindowFocus: false,
     retry: 1,
-    onError: (err) => {
-      setError(err);
-      setLoading(false);
-      console.error("Google Drive data fetch error:", err);
-    },
+    meta: {
+      onError: (err: Error) => {
+        setError(err);
+        setLoading(false);
+        console.error("Google Drive data fetch error:", err);
+      }
+    }
   });
 
   useEffect(() => {
@@ -97,7 +104,7 @@ const useData = (): Data => {
 
         if (firebaseQuery.data) {
           // Process Firebase data
-          const firebasePaths = firebaseQuery.data.paths || [];
+          const firebasePaths = (firebaseQuery.data as any).paths || [];
           fetchedPaths = firebasePaths.map((item: any) => {
             const { id, title, description, icon, level, subpaths } = item;
             return {
@@ -110,7 +117,7 @@ const useData = (): Data => {
               count: 0,
             };
           });
-          fetchedQuestions = firebaseQuery.data.questions || {};
+          fetchedQuestions = (firebaseQuery.data as any).questions || {};
         }
 
         if (googleDriveQuery.data && googleDriveQuery.data.length > 0) {
@@ -120,7 +127,7 @@ const useData = (): Data => {
               data.paths.forEach((item: any) => {
                 if (item) {
                   const { id, title, description, icon, level, subpaths } = item;
-                  const path = {
+                  const path: Path = {
                     id: id,
                     title: title,
                     description: description,
@@ -167,7 +174,23 @@ const useData = (): Data => {
     fetchData();
   }, [firebaseQuery.data, googleDriveQuery.data]);
 
-  return { paths, questions };
+  return { 
+    paths, 
+    questions,
+    isLoading: loading,
+    error 
+  };
+};
+
+// Add the missing hook functions required by other components
+export const usePath = (pathId: string): Path | undefined => {
+  const { paths } = useData();
+  return paths.find(path => path.id === pathId);
+};
+
+export const usePathQuestions = (pathId: string): Question[] => {
+  const { questions } = useData();
+  return questions[pathId] || [];
 };
 
 export { useData };

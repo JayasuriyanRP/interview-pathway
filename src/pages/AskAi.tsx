@@ -81,7 +81,7 @@ const AskAI = () => {
           </Button>
         </form>
 
-        {loading && <LoadingState message="Getting your answer..." />}
+        {loading && <LoadingState />}
 
         {answer && !loading && (
           <div className="mt-8">

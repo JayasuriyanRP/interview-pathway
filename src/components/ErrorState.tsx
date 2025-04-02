@@ -1,7 +1,8 @@
+
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
 
 interface ErrorStateProps {
   errorMessage: string;

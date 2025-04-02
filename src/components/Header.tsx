@@ -8,7 +8,13 @@ import SearchDialog from "./SearchDialog";
 import FirebaseDBConfigModal from "./FirebaseDBConfigModal";
 import GoogleDriveConfigModal from "./GoogleDriveConfigModal";
 
-export default function Header({ title, showBackButton = false, path = [] }) {
+interface HeaderProps {
+  title: string;
+  showBackButton?: boolean;
+  path?: any[];
+}
+
+export default function Header({ title, showBackButton = false, path = [] }: HeaderProps) {
   const navigate = useNavigate();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 

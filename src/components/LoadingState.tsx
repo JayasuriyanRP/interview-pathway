@@ -4,7 +4,11 @@ import Header from "./Header";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 
-const LoadingState: React.FC = () => {
+interface LoadingStateProps {
+  message?: string;
+}
+
+const LoadingState: React.FC<LoadingStateProps> = ({ message = "Loading..." }) => {
   return (
     <div className="min-h-screen bg-background">
       <Header title="Loading..." showBackButton={true} />
@@ -15,7 +19,10 @@ const LoadingState: React.FC = () => {
             <Skeleton className="h-4 w-full" />
           </CardHeader>
           <CardContent>
-            <Skeleton className="h-48 w-full rounded-xl" />
+            <div className="text-center py-4">
+              <p className="text-muted-foreground mb-4">{message}</p>
+              <Skeleton className="h-48 w-full rounded-xl" />
+            </div>
           </CardContent>
         </Card>
       </div>
