@@ -1,4 +1,6 @@
+
 import { useEffect, useState } from "react";
+import { fetchFileByName, initGoogleDriveApi, listJsonFiles } from "../services/googleDriveService";
 
 interface Subpath {
   id: string;
@@ -24,85 +26,53 @@ export const useData = () => {
   const [questions, setQuestions] = useState<Record<string, Question[]>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const [useGoogleDrive, setUseGoogleDrive] = useState(false);
+  const [googleDriveInitialized, setGoogleDriveInitialized] = useState(false);
+
+  // Check if Google Drive config exists
+  useEffect(() => {
+    const googleDriveConfig = localStorage.getItem("google_drive_config");
+    if (googleDriveConfig) {
+      setUseGoogleDrive(true);
+      
+      // Initialize Google Drive API
+      initGoogleDriveApi()
+        .then(initialized => {
+          setGoogleDriveInitialized(initialized);
+        })
+        .catch(err => {
+          console.error("Failed to initialize Google Drive API:", err);
+        });
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         // Load paths data
-        const pathsResponse = await import("../data/paths/paths.json");
-        setPaths(pathsResponse.default as Path[]);
+        let pathsData: Path[];
+        
+        if (useGoogleDrive && googleDriveInitialized) {
+          const drivePathsData = await fetchFileByName("paths.json");
+          if (drivePathsData) {
+            pathsData = drivePathsData;
+          } else {
+            // Fall back to local paths if not found in Google Drive
+            const localPathsResponse = await import("../data/paths/paths.json");
+            pathsData = localPathsResponse.default;
+          }
+        } else {
+          // Use local paths
+          const pathsResponse = await import("../data/paths/paths.json");
+          pathsData = pathsResponse.default;
+        }
+        
+        setPaths(pathsData);
 
         // Initialize questions object
         const questionsData: Record<string, Question[]> = {};
-
-        // Function to load per-path question files
-        const loadPathQuestions = async (pathId: string) => {
-          try {
-            // First try direct path
-            const response = await import(`../data/questions/${pathId}.json`);
-            questionsData[pathId] = response.default;
-          } catch (err) {
-            // Next try nested folder structure
-            try {
-              // Try to find files in specific language folders (e.g., c-sharp, golang, js, ts, react)
-              const folders = [
-                "c-sharp",
-                "data-structures-and-algorithms",
-                "example",
-                "golang",
-                "html",
-                "js",
-                "react",
-                "ts",
-                "job-roles",
-                "message-broker",
-                "uml",
-              ];
-              let loaded = false;
-
-              for (const folder of folders) {
-                try {
-                  const response = await import(
-                    `../data/questions/${folder}/${pathId}.json`
-                  );
-                  questionsData[pathId] = response.default;
-                  loaded = true;
-                  break; // Exit the loop if we found the file
-                } catch (nestedErr) {
-                  // Continue to next folder
-                }
-              }
-
-              if (!loaded) {
-                console.log(
-                  `No specific question file for ${pathId} in nested folders`
-                );
-              }
-            } catch (nestedErr) {
-              console.log(`No specific question file for ${pathId}`);
-            }
-          }
-        };
-
-        // Recursively process subpaths and load their questions
-        const processSubpaths = async (subpaths: Subpath[]) => {
-          for (const subpath of subpaths) {
-            await loadPathQuestions(subpath.id);
-            if (subpath.subpaths) {
-              await processSubpaths(subpath.subpaths);
-            }
-          }
-        };
-
-        // Load questions for each path and its subpaths
-        for (const path of pathsResponse.default as Path[]) {
-          await loadPathQuestions(path.id);
-          if (path.subpaths) {
-            await processSubpaths(path.subpaths);
-          }
-        }
-
-        setQuestions(questionsData);
+        
+        // Set loading to false since we don't pre-load all questions
         setLoading(false);
       } catch (err) {
         console.error("Error loading data:", err);
@@ -112,9 +82,9 @@ export const useData = () => {
     };
 
     fetchData();
-  }, []);
+  }, [useGoogleDrive, googleDriveInitialized]);
 
-  return { paths, questions, loading, error };
+  return { paths, questions, loading, error, useGoogleDrive };
 };
 
 export const usePath = (pathId: string | undefined) => {
@@ -173,14 +143,113 @@ export const usePath = (pathId: string | undefined) => {
 };
 
 export const usePathQuestions = (pathId: string | undefined) => {
-  const { questions, loading, error } = useData();
-  const [pathQuestions, setPathQuestions] = useState<Question[]>([]);
+  const { questions: allQuestions, loading: dataLoading, error: dataError, useGoogleDrive } = useData();
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    if (!loading && !error && pathId) {
-      setPathQuestions(questions[pathId] || []);
+    if (!pathId) {
+      setLoading(false);
+      return;
     }
-  }, [questions, pathId, loading, error]);
 
-  return { questions: pathQuestions, loading, error };
+    const loadQuestions = async () => {
+      try {
+        setLoading(true);
+        
+        // Check if we already have the questions in memory
+        if (allQuestions[pathId]) {
+          setQuestions(allQuestions[pathId]);
+          setLoading(false);
+          return;
+        }
+
+        // Try to load from Google Drive first if configured
+        if (useGoogleDrive) {
+          try {
+            // Try different possible file naming patterns
+            const patterns = [
+              `${pathId}.json`,
+              `questions/${pathId}.json`
+            ];
+            
+            let driveQuestions = null;
+            
+            for (const pattern of patterns) {
+              driveQuestions = await fetchFileByName(pattern);
+              if (driveQuestions) break;
+            }
+            
+            if (driveQuestions) {
+              setQuestions(driveQuestions);
+              setLoading(false);
+              return;
+            }
+          } catch (driveError) {
+            console.warn('Failed to load questions from Google Drive, falling back to local:', driveError);
+          }
+        }
+
+        // Fall back to local data
+        try {
+          // First try direct path
+          const response = await import(`../data/questions/${pathId}.json`);
+          setQuestions(response.default);
+        } catch (err) {
+          try {
+            // Try to find files in specific language folders
+            const folders = [
+              "c-sharp",
+              "data-structures-and-algorithms",
+              "example",
+              "golang",
+              "html",
+              "js",
+              "react",
+              "ts",
+              "job-roles",
+              "message-broker",
+              "uml",
+            ];
+            
+            let loaded = false;
+
+            for (const folder of folders) {
+              try {
+                const response = await import(
+                  `../data/questions/${folder}/${pathId}.json`
+                );
+                setQuestions(response.default);
+                loaded = true;
+                break;
+              } catch (nestedErr) {
+                // Continue to next folder
+              }
+            }
+
+            if (!loaded) {
+              console.log(`No specific question file for ${pathId}`);
+              setQuestions([]);
+            }
+          } catch (nestedErr) {
+            console.log(`No specific question file for ${pathId}`);
+            setQuestions([]);
+          }
+        }
+      } catch (err) {
+        console.error(`Error loading questions for path ${pathId}:`, err);
+        setError(err as Error);
+        setQuestions([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (!dataLoading) {
+      loadQuestions();
+    }
+  }, [pathId, dataLoading, allQuestions, useGoogleDrive]);
+
+  return { questions, loading, error };
 };

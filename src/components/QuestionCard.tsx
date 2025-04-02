@@ -93,6 +93,7 @@ const Question: React.FC<QuestionProps> = ({
       </div>
     );
   }
+  
   return (
     <div
       className={`mb-6 bg-card rounded-xl overflow-hidden border ${isRead
@@ -127,7 +128,7 @@ const Question: React.FC<QuestionProps> = ({
               {index + 1}.
             </h3>
             <h3 className="font-medium leading-tight">
-              <code className="rounded" >
+              <code className="rounded">
                 {question}
               </code>
             </h3>

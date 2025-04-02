@@ -15,6 +15,7 @@ const LearningPath = () => {
   const toggleExpandAll = () => {
     setExpandAll((prev) => !prev);
   };
+  
   const { pathId } = useParams<{ pathId: string }>();
   const [searchParams] = useSearchParams();
   const highlightedQuestion = searchParams.get("q");
@@ -25,6 +26,7 @@ const LearningPath = () => {
     isSubpath,
     parentPath,
   } = usePath(pathId);
+  
   const {
     questions,
     loading: questionsLoading,
@@ -68,6 +70,7 @@ const LearningPath = () => {
       markQuestionAsRead(pathId, questionId);
     }
   };
+  
   const handleUndoMarkAsRead = (questionId: string) => {
     if (pathId) {
       undoMarkQuestionAsRead(pathId, questionId);
@@ -95,10 +98,38 @@ const LearningPath = () => {
     resetProgress(pathId);
   };
 
+  // Handle question edit (from Google Drive or local)
+  const handleQuestionEdit = (
+    id: string,
+    updatedQuestion: string,
+    updatedAnswer: string
+  ) => {
+    // Update in the local state first
+    const updatedQuestions = questions.map((q) =>
+      q.id === id
+        ? {
+            ...q,
+            question: updatedQuestion,
+            answer: updatedAnswer.replace(/^```markdown\n?|```$/g, ""),
+          }
+        : q
+    );
+    
+    setFilteredQuestions(updatedQuestions.filter((q) => {
+      return searchQuery === "" || 
+        q.question.toLowerCase().includes(searchQuery.toLowerCase()) || 
+        (typeof q.answer === "string" && q.answer.toLowerCase().includes(searchQuery.toLowerCase()));
+    }));
+    
+    // TODO: Implement saving to Google Drive if we want to support this
+    // For now, changes are ephemeral and only last for the current session
+  };
+
   // Calculate progress
   const progress = pathId
     ? getPathProgress(pathId, questions)
     : { completed: 0, total: 0 };
+  
   const progressPercentage =
     progress.total > 0 ? (progress.completed / progress.total) * 100 : 0;
 
@@ -235,7 +266,7 @@ const LearningPath = () => {
             {filteredQuestions.length > 0 ? (
               filteredQuestions.map((question, index) => {
                 // Find the original index in the questions array
-                const originalIndex = question.id; //questions.findIndex(q => q.id === question.id);
+                const originalIndex = question.id;
 
                 return (
                   <div
@@ -259,19 +290,8 @@ const LearningPath = () => {
                       isRead={isQuestionRead(pathId || "", question.id)}
                       highlightQuery={searchQuery}
                       isExpanded={expandAll}
-                      onEdit={(id, updatedQuestion, updatedAnswer) => {
-                        // Implement your logic to update the question in your state
-                        // For example:
-
-                        const updatedQuestions = questions.map(q =>
-                          q.id === id
-                            ? { ...q, question: updatedQuestion, answer: updatedAnswer.replace(/^```markdown\n?|```$/g, "") }
-                            : q
-                        );
-                        setFilteredQuestions(updatedQuestions);
-                        // You might also want to update your backend here
-                      }}
-                      editable={false}
+                      onEdit={handleQuestionEdit}
+                      editable={true} // Allow editing with the new Google Drive support
                     />
                   </div>
                 );
