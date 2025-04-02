@@ -1,6 +1,10 @@
-import React, { useState } from "react";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
+
+import React, { useState, useEffect } from "react";
+import { Database } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/components/ui/use-toast";
 import {
   Dialog,
   DialogContent,
@@ -9,167 +13,151 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog";
-import { Loader2, Database } from "lucide-react";
-import { toast } from "sonner";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-
-// Schema for Firebase Realtime Database configuration validation
-const firebaseDBSchema = z.object({
-  apiKey: z.string().min(1, "API Key is required"),
-  projectId: z.string().min(1, "Project ID is required"),
-  databaseURL: z.string().min(1, "Database URL is required"),
-});
-
-type FirebaseDBConfigType = z.infer<typeof firebaseDBSchema>;
+} from "@/components/ui/dialog";
 
 const FirebaseDBConfigModal = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [saving, setSaving] = useState(false);
-
-  // Get saved config from localStorage
-  const getSavedConfig = () => {
-    try {
-      const savedConfig = localStorage.getItem("firebase_db_config");
-      return savedConfig
-        ? JSON.parse(savedConfig)
-        : {
-            apiKey: "",
-            projectId: "",
-            databaseURL: "",
-          };
-    } catch (error) {
-      console.error(
-        "Error loading Firebase DB config from localStorage:",
-        error
-      );
-      return { apiKey: "", projectId: "", databaseURL: "" };
-    }
-  };
-
-  // Initialize the form with data from localStorage directly
-  const form = useForm<FirebaseDBConfigType>({
-    resolver: zodResolver(firebaseDBSchema),
-    defaultValues: getSavedConfig(),
+  const { toast } = useToast();
+  const [open, setOpen] = useState(false);
+  const [config, setConfig] = useState({
+    apiKey: "",
+    authDomain: "",
+    projectId: "",
+    storageBucket: "",
+    messagingSenderId: "",
+    appId: "",
+    databaseURL: "",
   });
 
-  const handleSave = (data: FirebaseDBConfigType) => {
-    setSaving(true);
-    try {
-      localStorage.setItem("firebase_db_config", JSON.stringify(data));
-      toast.success("Firebase Database configuration saved successfully");
-      setIsOpen(false);
-      toast.info("Please refresh the page to apply the new configuration", {
-        duration: 5000,
-      });
-    } catch (error) {
-      toast.error("Failed to save configuration");
-      console.error("Error saving firebase DB config:", error);
-    } finally {
-      setSaving(false);
+  // Load config from localStorage when component mounts
+  useEffect(() => {
+    const savedConfig = localStorage.getItem("firebase_config");
+    if (savedConfig) {
+      try {
+        setConfig(JSON.parse(savedConfig));
+      } catch (error) {
+        console.error("Error parsing saved Firebase config:", error);
+      }
     }
+  }, []);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setConfig((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSave = () => {
+    // Simple validation
+    if (!config.apiKey || !config.projectId) {
+      toast({
+        title: "Error",
+        description: "API key and Project ID are required.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    localStorage.setItem("firebase_config", JSON.stringify(config));
+    toast({
+      title: "Success",
+      description: "Firebase database configuration saved.",
+    });
+    setOpen(false);
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant="outline"
-          size="icon"
-          className="ml-2"
-          title="Firebase Database Configuration"
-        >
-          <Database className="h-4 w-4" />
+        <Button variant="outline" size="icon" title="Firebase DB Config">
+          <Database className="h-[1.2rem] w-[1.2rem]" />
+          <span className="sr-only">Firebase DB Config</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Firebase Database Configuration</DialogTitle>
           <DialogDescription>
-            Enter your Firebase project details to enable database storage.
+            Enter your Firebase database connection details. This information
+            will be stored locally on your device.
           </DialogDescription>
         </DialogHeader>
-
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(handleSave)}
-            className="space-y-4 py-4"
-          >
-            <FormField
-              control={form.control}
+        <div className="grid gap-4 py-4">
+          <div className="grid gap-2">
+            <Label htmlFor="apiKey">API Key</Label>
+            <Input
+              id="apiKey"
               name="apiKey"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>API Key *</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Firebase API Key" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              value={config.apiKey}
+              onChange={handleChange}
+              placeholder="Your Firebase API key"
             />
-
-            <FormField
-              control={form.control}
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="authDomain">Auth Domain</Label>
+            <Input
+              id="authDomain"
+              name="authDomain"
+              value={config.authDomain}
+              onChange={handleChange}
+              placeholder="example.firebaseapp.com"
+            />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="projectId">Project ID</Label>
+            <Input
+              id="projectId"
               name="projectId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Project ID *</FormLabel>
-                  <FormControl>
-                    <Input placeholder="example-app" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              value={config.projectId}
+              onChange={handleChange}
+              placeholder="your-project-id"
             />
-
-            <FormField
-              control={form.control}
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="databaseURL">Database URL</Label>
+            <Input
+              id="databaseURL"
               name="databaseURL"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Database URL *</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="https://example-app.firebaseio.com"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              value={config.databaseURL}
+              onChange={handleChange}
+              placeholder="https://your-project-id.firebaseio.com"
             />
-
-            <DialogFooter>
-              <Button
-                type="button"
-                variant="secondary"
-                onClick={() => setIsOpen(false)}
-              >
-                Cancel
-              </Button>
-              <Button type="submit" disabled={saving}>
-                {saving ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving...
-                  </>
-                ) : (
-                  "Save Configuration"
-                )}
-              </Button>
-            </DialogFooter>
-          </form>
-        </Form>
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="storageBucket">Storage Bucket</Label>
+            <Input
+              id="storageBucket"
+              name="storageBucket"
+              value={config.storageBucket}
+              onChange={handleChange}
+              placeholder="your-project-id.appspot.com"
+            />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="messagingSenderId">Messaging Sender ID</Label>
+            <Input
+              id="messagingSenderId"
+              name="messagingSenderId"
+              value={config.messagingSenderId}
+              onChange={handleChange}
+              placeholder="1234567890"
+            />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="appId">App ID</Label>
+            <Input
+              id="appId"
+              name="appId"
+              value={config.appId}
+              onChange={handleChange}
+              placeholder="1:1234567890:web:abcdef1234567890"
+            />
+          </div>
+        </div>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
+          <Button onClick={handleSave}>Save Configuration</Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
