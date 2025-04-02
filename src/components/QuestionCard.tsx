@@ -131,7 +131,8 @@ const Question: React.FC<QuestionProps> = ({
               <code className="rounded">{question}</code>
             </h3>
           </div>
-          <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 mt-2 sm:mt-0">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 mt-2 sm:mt-0">
+            {/* First Row (Level Badge) */}
             {level && (
               <Badge
                 variant={levelBadgeVariant[level] || "default"}
@@ -140,21 +141,25 @@ const Question: React.FC<QuestionProps> = ({
                 {level}
               </Badge>
             )}
-            {isRead && (
-              <button
-                type="button"
-                title="Undo mark as read"
-                className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
-                onClick={handleUndoRead}
-              >
-                <Undo size={16} />
-              </button>
-            )}
-            <ChevronDown
-              className={`h-5 w-5 text-gray-500 transition-transform duration-300 ${
-                isOpen ? "rotate-180" : ""
-              }`}
-            />
+
+            {/* Second Row (Icons - Undo & Chevron) */}
+            <div className="flex justify-between sm:justify-start items-center w-full sm:w-auto gap-2">
+              {isRead && (
+                <button
+                  type="button"
+                  title="Undo mark as read"
+                  className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                  onClick={handleUndoRead}
+                >
+                  <Undo size={16} />
+                </button>
+              )}
+              <ChevronDown
+                className={`h-5 w-5 text-gray-500 transition-transform duration-300 ${
+                  isOpen ? "rotate-180" : ""
+                }`}
+              />
+            </div>
           </div>
         </div>
       </div>
