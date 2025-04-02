@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { ChevronDown, CheckCircle2, Undo } from "lucide-react";
+import { ChevronDown, CheckCircle2, Undo, Edit } from "lucide-react";
 import Answer from "./Answer";
 import MarkdownView from "./MarkdownView";
 import { Badge } from "./ui/badge";
+import EnhancedQAEditor from "./QuestionAnswerEditor";
+import { Button } from "./ui/button";
 
 interface QuestionProps {
   index: number;
@@ -15,6 +17,8 @@ interface QuestionProps {
   isRead?: boolean;
   highlightQuery?: string;
   isExpanded: boolean;
+  onEdit?: (id: string, updatedQuestion: string, updatedAnswer: string) => void;
+  editable?: boolean;
 }
 
 const levelBadgeVariant = {
@@ -34,8 +38,11 @@ const Question: React.FC<QuestionProps> = ({
   isRead = false,
   highlightQuery = "",
   isExpanded = false,
+  onEdit,
+  editable = false,
 }) => {
   const [isOpen, setIsOpen] = useState(isExpanded);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     setIsOpen(isExpanded);
@@ -55,16 +62,43 @@ const Question: React.FC<QuestionProps> = ({
     }
   };
 
+  const handleEditClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsEditing(true);
+  };
+
+  const handleSaveEdit = (updatedQuestion: string, updatedAnswer: string) => {
+    if (onEdit) {
+      onEdit(id, updatedQuestion, updatedAnswer);
+    }
+    setIsEditing(false);
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+  };
+
   const isMarkdown =
     typeof answer === "string" && answer.trim().startsWith("```markdown");
 
+  if (isEditing) {
+    return (
+      <div className="mb-6 bg-card rounded-xl overflow-hidden border border-blue-200 dark:border-blue-800 shadow-sm p-4">
+        <EnhancedQAEditor
+          initialQuestion={question}
+          initialAnswer={answer.replace(/^```markdown\n?|```$/g, "")}
+          onSave={handleSaveEdit}
+          onCancel={handleCancelEdit}
+        />
+      </div>
+    );
+  }
   return (
     <div
-      className={`mb-6 bg-card rounded-xl overflow-hidden border ${
-        isRead
-          ? "border-gray-100 dark:border-gray-800"
-          : "border-blue-100 dark:border-blue-800"
-      } shadow-sm transition-all duration-300`}
+      className={`mb-6 bg-card rounded-xl overflow-hidden border ${isRead
+        ? "border-gray-100 dark:border-gray-800"
+        : "border-blue-100 dark:border-blue-800"
+        } shadow-sm transition-all duration-300`}
     >
       <div
         className="p-4 sm:p-6 cursor-pointer flex flex-col sm:flex-row items-start sm:items-center gap-3"
@@ -78,10 +112,25 @@ const Question: React.FC<QuestionProps> = ({
                 className="text-green-500 flex-shrink-0"
               />
             )}
+            {editable && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="p-1 h-6 w-6"
+                onClick={handleEditClick}
+                title="Edit question"
+              >
+                <Edit size={16} />
+              </Button>
+            )}
             <h3 className="font-medium text-gray-500 dark:text-gray-400">
               {index + 1}.
             </h3>
-            <h3 className="font-medium leading-tight">{question}</h3>
+            <h3 className="font-medium leading-tight">
+              <code className="rounded" >
+                {question}
+              </code>
+            </h3>
           </div>
         </div>
 
@@ -105,9 +154,8 @@ const Question: React.FC<QuestionProps> = ({
             </button>
           )}
           <ChevronDown
-            className={`h-5 w-5 text-gray-500 transition-transform duration-300 ${
-              isOpen ? "rotate-180" : ""
-            }`}
+            className={`h-5 w-5 text-gray-500 transition-transform duration-300 ${isOpen ? "rotate-180" : ""
+              }`}
           />
         </div>
       </div>

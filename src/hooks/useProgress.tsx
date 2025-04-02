@@ -24,12 +24,12 @@ export const useProgress = () => {
     return savedProgress
       ? JSON.parse(savedProgress)
       : {
-          questions: {},
-          paths: {},
-          subpaths: {},
-          lastRead: {},
-          lastUpdated: Date.now(),
-        };
+        questions: {},
+        paths: {},
+        subpaths: {},
+        lastRead: {},
+        lastUpdated: Date.now(),
+      };
   });
 
   const [isSyncing, setIsSyncing] = useState(false);
@@ -121,12 +121,15 @@ export const useProgress = () => {
 
   // Reset progress
   const resetProgress = async (pathId?: string) => {
-    if (!database) {
-      toast.error("Database is not initialized. Progress reset failed.");
-      return;
-    }
 
-    const progressRef = ref(database, "progressData");
+    let newProgress: ProgressData = {
+      questions: {},
+      paths: {},
+      subpaths: {},
+      lastRead: {},
+      lastUpdated: Date.now(),
+    };
+
 
     if (pathId) {
       // Reset progress only for a specific path
@@ -149,7 +152,7 @@ export const useProgress = () => {
       const updatedSubpaths = { ...progress.subpaths };
       updatedSubpaths[pathId] = false; // Explicitly reset to false for the specific pathId
 
-      const newProgress: ProgressData = {
+      newProgress = {
         ...progress,
         questions: updatedQuestions,
         paths: updatedPaths,
@@ -157,65 +160,52 @@ export const useProgress = () => {
         lastRead: updatedLastRead,
         lastUpdated: Date.now(),
       };
+    }
+    setProgress(newProgress);
+    localStorage.setItem(storageKey, JSON.stringify(newProgress));
 
-      setProgress(newProgress);
-      localStorage.setItem(storageKey, JSON.stringify(newProgress));
+    if (!database) {
+      toast.error("Database is not initialized. Progress reset failed.");
+      return;
+    }
 
-      // 🔹 Update Firebase
-      try {
-        await set(progressRef, newProgress);
-        toast.success(`Progress for path "${pathId}" reset successfully.`);
-      } catch (error) {
-        console.error("Error updating Firebase:", error);
-        toast.error("Failed to update progress in cloud.");
-      }
-    } else {
-      // Full reset
-      const newProgress: ProgressData = {
-        questions: {},
-        paths: {},
-        subpaths: {},
-        lastRead: {},
-        lastUpdated: Date.now(),
-      };
+    const progressRef = ref(database, "progressData");
 
-      setProgress(newProgress);
-      localStorage.setItem(storageKey, JSON.stringify(newProgress));
-
-      // 🔹 Update Firebase
-      try {
-        await set(progressRef, newProgress);
-        toast.success("All progress reset successfully.");
-      } catch (error) {
-        console.error("Error updating Firebase:", error);
-        toast.error("Failed to update progress in cloud.");
-      }
+    // 🔹 Update Firebase
+    try {
+      await set(progressRef, newProgress);
+      toast.success("All progress reset successfully.");
+    } catch (error) {
+      console.error("Error updating Firebase:", error);
+      toast.error("Failed to update progress in cloud.");
     }
   };
 
   const markQuestionAsRead = (pathId: string, questionId: string) => {
     const questionKey = `${pathId}-${questionId}`;
-    
+
     // Use functional form of setProgress to ensure you're working with the latest state
     setProgress((prev) => {
       const updatedQuestions = { ...prev.questions, [questionKey]: true };
       const updatedLastRead = { ...prev.lastRead, [questionKey]: Date.now() };
-  
+
       const updatedProgress = {
         ...prev,
         questions: updatedQuestions,
         lastRead: updatedLastRead,
         lastUpdated: Date.now(),
       };
-  
+
       // Update Firebase with the new progress data
-      const progressRef = ref(database, "progressData");
-      set(progressRef, updatedProgress);
-  
+      if (database) {
+        const progressRef = ref(database, "progressData");
+        set(progressRef, updatedProgress);
+      }
+
       return updatedProgress;
     });
-  
-    toast.success(`Question ${questionId} marked as read!`);
+
+    toast.success(`Question marked as read!`);
   };
 
   const undoMarkQuestionAsRead = (pathId: string, questionId: string) => {

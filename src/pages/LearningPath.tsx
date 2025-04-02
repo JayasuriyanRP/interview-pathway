@@ -170,9 +170,6 @@ const LearningPath = () => {
               <div className="inline-block px-3 py-1 text-sm font-medium rounded-full bg-secondary text-secondary-foreground">
                 {path.level}
               </div>
-              <div className="inline-block px-3 py-1 text-sm font-medium rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
-                {questions.length} Questions
-              </div>
               <div className="inline-block px-3 py-1 text-sm font-medium rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
                 {progress.completed} of {progress.total} Completed
               </div>
@@ -244,15 +241,14 @@ const LearningPath = () => {
                   <div
                     key={question.id}
                     id={`question-${originalIndex}`}
-                    className={`animate-fadeIn animate-delay-${
-                      Math.min(index, 3) * 100
-                    } ${
-                      highlightedQuestion === originalIndex.toString()
+                    className={`animate-fadeIn animate-delay-${Math.min(index, 3) * 100
+                      } ${highlightedQuestion === originalIndex.toString()
                         ? "ring-2 ring-blue-400 rounded-xl"
                         : ""
-                    }`}
+                      }`}
                   >
                     <QuestionCard
+                      key={question.id}
                       index={index}
                       id={question.id}
                       question={question.question}
@@ -260,9 +256,22 @@ const LearningPath = () => {
                       level={question.level}
                       onMarkAsRead={handleMarkAsRead}
                       onUndoRead={handleUndoMarkAsRead}
-                      isRead={isQuestionRead(pathId || "", originalIndex)}
+                      isRead={isQuestionRead(pathId || "", question.id)}
                       highlightQuery={searchQuery}
                       isExpanded={expandAll}
+                      onEdit={(id, updatedQuestion, updatedAnswer) => {
+                        // Implement your logic to update the question in your state
+                        // For example:
+
+                        const updatedQuestions = questions.map(q =>
+                          q.id === id
+                            ? { ...q, question: updatedQuestion, answer: updatedAnswer.replace(/^```markdown\n?|```$/g, "") }
+                            : q
+                        );
+                        setFilteredQuestions(updatedQuestions);
+                        // You might also want to update your backend here
+                      }}
+                      editable={false}
                     />
                   </div>
                 );
