@@ -1,4 +1,5 @@
-import React from "react";
+
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import { Button } from "./ui/button";
@@ -9,6 +10,7 @@ import GoogleDriveConfigModal from "./GoogleDriveConfigModal";
 
 export default function Header({ title, showBackButton = false, path = [] }) {
   const navigate = useNavigate();
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const goBack = () => {
     navigate(-1);
@@ -32,7 +34,7 @@ export default function Header({ title, showBackButton = false, path = [] }) {
           </div>
 
           <div className="flex items-center gap-2">
-            <SearchDialog />
+            <SearchDialog open={isSearchOpen} onOpenChange={setIsSearchOpen} />
             <FirebaseDBConfigModal />
             <GoogleDriveConfigModal />
             <ThemeToggle />

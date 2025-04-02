@@ -1,255 +1,173 @@
+import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { fetchFirebaseData } from "@/services/firebaseService";
+import { listJsonFiles, fetchFileById } from "@/services/googleDriveService";
 
-import { useEffect, useState } from "react";
-import { fetchFileByName, initGoogleDriveApi, listJsonFiles } from "../services/googleDriveService";
+interface Path {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  level: string;
+  subpaths?: Subpath[];
+  count?: number;
+}
 
 interface Subpath {
   id: string;
   title: string;
   description: string;
-  count: number;
-  level: string;
-  subpaths?: Subpath[];
-  icon: string;
+  questions?: Question[];
 }
-
-interface Path extends Subpath {}
 
 interface Question {
   id: string;
   question: string;
-  answer: any;
-  level: any;
+  answer: string;
+  level: string;
 }
 
-export const useData = () => {
+interface Data {
+  paths: Path[];
+  questions: { [key: string]: Question[] };
+}
+
+const useData = (): Data => {
   const [paths, setPaths] = useState<Path[]>([]);
-  const [questions, setQuestions] = useState<Record<string, Question[]>>({});
+  const [questions, setQuestions] = useState<{ [key: string]: Question[] }>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
-  const [useGoogleDrive, setUseGoogleDrive] = useState(false);
-  const [googleDriveInitialized, setGoogleDriveInitialized] = useState(false);
 
-  // Check if Google Drive config exists
-  useEffect(() => {
-    const googleDriveConfig = localStorage.getItem("google_drive_config");
-    if (googleDriveConfig) {
-      setUseGoogleDrive(true);
-      
-      // Initialize Google Drive API
-      initGoogleDriveApi()
-        .then(initialized => {
-          setGoogleDriveInitialized(initialized);
+  const firebaseQuery = useQuery({
+    queryKey: ["firebaseData"],
+    queryFn: fetchFirebaseData,
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    gcTime: 1000 * 60 * 30, // 30 minutes
+    refetchOnWindowFocus: false,
+    retry: 1,
+    onError: (err) => {
+      setError(err);
+      setLoading(false);
+      console.error("Firebase data fetch error:", err);
+    },
+  });
+
+  const googleDriveQuery = useQuery({
+    queryKey: ["googleDriveData"],
+    queryFn: async () => {
+      const files = await listJsonFiles();
+      if (!files || files.length === 0) {
+        console.warn("No JSON files found in Google Drive folder.");
+        return [];
+      }
+
+      const fetchedData = await Promise.all(
+        files.map(async (file) => {
+          try {
+            const data = await fetchFileById(file.id);
+            return data;
+          } catch (fetchError) {
+            console.error(`Failed to fetch data for file ${file.name}:`, fetchError);
+            return null;
+          }
         })
-        .catch(err => {
-          console.error("Failed to initialize Google Drive API:", err);
-        });
-    }
-  }, []);
+      );
+
+      return fetchedData.filter(data => data !== null);
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    gcTime: 1000 * 60 * 30, // 30 minutes
+    refetchOnWindowFocus: false,
+    retry: 1,
+    onError: (err) => {
+      setError(err);
+      setLoading(false);
+      console.error("Google Drive data fetch error:", err);
+    },
+  });
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+
       try {
-        // Load paths data
-        let pathsData: Path[];
-        
-        if (useGoogleDrive && googleDriveInitialized) {
-          const drivePathsData = await fetchFileByName("paths.json");
-          if (drivePathsData) {
-            pathsData = drivePathsData;
-          } else {
-            // Fall back to local paths if not found in Google Drive
-            const localPathsResponse = await import("../data/paths/paths.json");
-            pathsData = localPathsResponse.default;
-          }
-        } else {
-          // Use local paths
-          const pathsResponse = await import("../data/paths/paths.json");
-          pathsData = pathsResponse.default;
-        }
-        
-        setPaths(pathsData);
+        let fetchedPaths: Path[] = [];
+        let fetchedQuestions: { [key: string]: Question[] } = {};
 
-        // Initialize questions object
-        const questionsData: Record<string, Question[]> = {};
-        
-        // Set loading to false since we don't pre-load all questions
-        setLoading(false);
-      } catch (err) {
-        console.error("Error loading data:", err);
-        setError(err as Error);
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [useGoogleDrive, googleDriveInitialized]);
-
-  return { paths, questions, loading, error, useGoogleDrive };
-};
-
-export const usePath = (pathId: string | undefined) => {
-  const { paths, loading, error } = useData();
-  const [path, setPath] = useState<Path | Subpath | null>(null);
-  const [isSubpath, setIsSubpath] = useState(false);
-  const [parentPath, setParentPath] = useState<Path | null>(null);
-
-  // Recursive function to find a subpath at any depth
-  const findSubpath = (
-    paths: Path[],
-    pathId: string
-  ): { subpath: Subpath | null; parent: Path | null } => {
-    for (const parent of paths) {
-      if (parent.subpaths) {
-        for (const subpath of parent.subpaths) {
-          if (subpath.id === pathId) return { subpath, parent };
-          if (subpath.subpaths) {
-            const found = findSubpath(parent.subpaths, pathId);
-            if (found.subpath) return found;
-          }
-        }
-      }
-    }
-    return { subpath: null, parent: null };
-  };
-
-  useEffect(() => {
-    if (!loading && !error && pathId) {
-      // First check if it's a main path
-      let foundPath = paths.find((p) => p.id === pathId) || null;
-
-      if (foundPath) {
-        setPath(foundPath);
-        setIsSubpath(false);
-        setParentPath(null);
-        return;
-      }
-
-      // If not found, check in subpaths
-      const { subpath, parent } = findSubpath(paths, pathId);
-      if (subpath) {
-        setPath(subpath);
-        setIsSubpath(true);
-        setParentPath(parent);
-        return;
-      }
-
-      setPath(null);
-      setIsSubpath(false);
-      setParentPath(null);
-    }
-  }, [paths, pathId, loading, error]);
-
-  return { path, loading, error, isSubpath, parentPath };
-};
-
-export const usePathQuestions = (pathId: string | undefined) => {
-  const { questions: allQuestions, loading: dataLoading, error: dataError, useGoogleDrive } = useData();
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
-
-  useEffect(() => {
-    if (!pathId) {
-      setLoading(false);
-      return;
-    }
-
-    const loadQuestions = async () => {
-      try {
-        setLoading(true);
-        
-        // Check if we already have the questions in memory
-        if (allQuestions[pathId]) {
-          setQuestions(allQuestions[pathId]);
-          setLoading(false);
-          return;
+        if (firebaseQuery.data) {
+          // Process Firebase data
+          const firebasePaths = firebaseQuery.data.paths || [];
+          fetchedPaths = firebasePaths.map((item: any) => {
+            const { id, title, description, icon, level, subpaths } = item;
+            return {
+              id: id,
+              title: title,
+              description: description,
+              icon: icon,
+              level: level,
+              subpaths: subpaths,
+              count: 0,
+            };
+          });
+          fetchedQuestions = firebaseQuery.data.questions || {};
         }
 
-        // Try to load from Google Drive first if configured
-        if (useGoogleDrive) {
-          try {
-            // Try different possible file naming patterns
-            const patterns = [
-              `${pathId}.json`,
-              `questions/${pathId}.json`
-            ];
-            
-            let driveQuestions = null;
-            
-            for (const pattern of patterns) {
-              driveQuestions = await fetchFileByName(pattern);
-              if (driveQuestions) break;
-            }
-            
-            if (driveQuestions) {
-              setQuestions(driveQuestions);
-              setLoading(false);
-              return;
-            }
-          } catch (driveError) {
-            console.warn('Failed to load questions from Google Drive, falling back to local:', driveError);
-          }
-        }
+        if (googleDriveQuery.data && googleDriveQuery.data.length > 0) {
+          // Process Google Drive data
+          googleDriveQuery.data.forEach((data: any) => {
+            if (data && data.paths && Array.isArray(data.paths)) {
+              data.paths.forEach((item: any) => {
+                if (item) {
+                  const { id, title, description, icon, level, subpaths } = item;
+                  const path = {
+                    id: id,
+                    title: title,
+                    description: description,
+                    icon: icon,
+                    level: level,
+                    count: 0,
+                  };
 
-        // Fall back to local data
-        try {
-          // First try direct path
-          const response = await import(`../data/questions/${pathId}.json`);
-          setQuestions(response.default);
-        } catch (err) {
-          try {
-            // Try to find files in specific language folders
-            const folders = [
-              "c-sharp",
-              "data-structures-and-algorithms",
-              "example",
-              "golang",
-              "html",
-              "js",
-              "react",
-              "ts",
-              "job-roles",
-              "message-broker",
-              "uml",
-            ];
-            
-            let loaded = false;
-
-            for (const folder of folders) {
-              try {
-                const response = await import(
-                  `../data/questions/${folder}/${pathId}.json`
-                );
-                setQuestions(response.default);
-                loaded = true;
-                break;
-              } catch (nestedErr) {
-                // Continue to next folder
-              }
+                  if (subpaths && Array.isArray(subpaths)) {
+                    path.subpaths = subpaths.map((subpathItem: any) => {
+                      const { id: subId, title: subTitle, description: subDescription } = subpathItem;
+                      return {
+                        id: subId,
+                        title: subTitle,
+                        description: subDescription,
+                      };
+                    });
+                  }
+                  fetchedPaths.push(path);
+                }
+              });
             }
 
-            if (!loaded) {
-              console.log(`No specific question file for ${pathId}`);
-              setQuestions([]);
+            if (data && data.questions) {
+              Object.keys(data.questions).forEach((key) => {
+                if (data.questions && data.questions[key]) {
+                  fetchedQuestions[key] = data.questions[key];
+                }
+              });
             }
-          } catch (nestedErr) {
-            console.log(`No specific question file for ${pathId}`);
-            setQuestions([]);
-          }
+          });
         }
-      } catch (err) {
-        console.error(`Error loading questions for path ${pathId}:`, err);
-        setError(err as Error);
-        setQuestions([]);
+
+        setPaths(fetchedPaths);
+        setQuestions(fetchedQuestions);
+      } catch (err: any) {
+        setError(err);
+        console.error("Data fetch error:", err);
       } finally {
         setLoading(false);
       }
     };
 
-    if (!dataLoading) {
-      loadQuestions();
-    }
-  }, [pathId, dataLoading, allQuestions, useGoogleDrive]);
+    fetchData();
+  }, [firebaseQuery.data, googleDriveQuery.data]);
 
-  return { questions, loading, error };
+  return { paths, questions };
 };
+
+export { useData };

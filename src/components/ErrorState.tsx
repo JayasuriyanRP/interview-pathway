@@ -1,34 +1,26 @@
-
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import Header from "./Header";
+import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { useNavigate } from "react-router-dom";
 
 interface ErrorStateProps {
-  title?: string;
-  description?: string;
+  errorMessage: string;
 }
 
-const ErrorState: React.FC<ErrorStateProps> = ({ 
-  title = "No Subpaths Found", 
-  description = "This learning path doesn't have any subpaths yet." 
-}) => {
+const ErrorState: React.FC<ErrorStateProps> = ({ errorMessage }) => {
   const navigate = useNavigate();
-  
+
+  const goBack = () => {
+    navigate(-1);
+  };
+
   return (
-    <div className="min-h-screen bg-background">
-      <Header showBackButton={true} />
-      <div className="container mx-auto max-w-5xl px-4 py-8 flex items-center justify-center">
-        <Card>
-          <CardHeader>
-            <CardTitle>{title}</CardTitle>
-            <CardDescription>{description}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button onClick={() => navigate(-1)}>Go Back</Button>
-          </CardContent>
-        </Card>
+    <div className="flex flex-col items-center justify-center h-screen bg-background">
+      <Header title="Error" showBackButton={true} />
+      <div className="container text-center">
+        <h1 className="text-4xl font-bold text-destructive mb-4">Oops! Something went wrong.</h1>
+        <p className="text-muted-foreground text-lg mb-8">{errorMessage || "An unexpected error occurred."}</p>
+        <Button onClick={goBack}>Go Back</Button>
       </div>
     </div>
   );

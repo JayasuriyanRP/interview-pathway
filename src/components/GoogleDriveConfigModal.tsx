@@ -11,7 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
-import { Loader2, FileCloud } from "lucide-react";
+import { Loader2, CloudUpload } from "lucide-react";
 import { toast } from "sonner";
 import {
   Form,
@@ -90,7 +90,7 @@ const GoogleDriveConfigModal = () => {
           className="ml-2"
           title="Google Drive Configuration"
         >
-          <FileCloud className="h-4 w-4" />
+          <CloudUpload className="h-4 w-4" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
