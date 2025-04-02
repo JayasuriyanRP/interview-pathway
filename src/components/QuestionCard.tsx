@@ -95,16 +95,17 @@ const Question: React.FC<QuestionProps> = ({
   }
   return (
     <div
-      className={`mb-6 bg-card rounded-xl overflow-hidden border ${isRead
-        ? "border-gray-100 dark:border-gray-800"
-        : "border-blue-100 dark:border-blue-800"
-        } shadow-sm transition-all duration-300`}
+      className={`mb-6 bg-card rounded-xl overflow-hidden border ${
+        isRead
+          ? "border-gray-100 dark:border-gray-800"
+          : "border-blue-100 dark:border-blue-800"
+      } shadow-sm transition-all duration-300`}
     >
       <div
         className="p-4 sm:p-6 cursor-pointer flex flex-col sm:flex-row items-start sm:items-center gap-3"
         onClick={toggleAnswer}
       >
-        <div className="flex flex-1 flex-col sm:flex-row sm:items-center gap-2">
+        <div className="flex flex-1 flex-row justify-between sm:flex-row sm:items-center gap-2">
           <div className="flex items-center gap-2">
             {isRead && (
               <CheckCircle2
@@ -127,36 +128,34 @@ const Question: React.FC<QuestionProps> = ({
               {index + 1}.
             </h3>
             <h3 className="font-medium leading-tight">
-              <code className="rounded" >
-                {question}
-              </code>
+              <code className="rounded">{question}</code>
             </h3>
           </div>
-        </div>
-
-        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 mt-2 sm:mt-0">
-          {level && (
-            <Badge
-              variant={levelBadgeVariant[level] || "default"}
-              className="py-0.5 px-2"
-            >
-              {level}
-            </Badge>
-          )}
-          {isRead && (
-            <button
-              type="button"
-              title="Undo mark as read"
-              className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
-              onClick={handleUndoRead}
-            >
-              <Undo size={16} />
-            </button>
-          )}
-          <ChevronDown
-            className={`h-5 w-5 text-gray-500 transition-transform duration-300 ${isOpen ? "rotate-180" : ""
+          <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 mt-2 sm:mt-0">
+            {level && (
+              <Badge
+                variant={levelBadgeVariant[level] || "default"}
+                className="py-0.5 px-2"
+              >
+                {level}
+              </Badge>
+            )}
+            {isRead && (
+              <button
+                type="button"
+                title="Undo mark as read"
+                className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                onClick={handleUndoRead}
+              >
+                <Undo size={16} />
+              </button>
+            )}
+            <ChevronDown
+              className={`h-5 w-5 text-gray-500 transition-transform duration-300 ${
+                isOpen ? "rotate-180" : ""
               }`}
-          />
+            />
+          </div>
         </div>
       </div>
 
