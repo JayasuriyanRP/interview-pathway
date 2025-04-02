@@ -189,6 +189,8 @@ const LearningPath = () => {
               </div>
               <div className="flex justify-between items-center mt-2 text-sm text-muted-foreground">
                 <span>{progressPercentage.toFixed(0)}% Complete</span>
+              </div>
+              <div className="flex justify-end items-center mt-2 text-sm text-muted-foreground">
                 <div className="flex space-x-2">
                   <Button
                     variant="outline"
@@ -241,11 +243,13 @@ const LearningPath = () => {
                   <div
                     key={question.id}
                     id={`question-${originalIndex}`}
-                    className={`animate-fadeIn animate-delay-${Math.min(index, 3) * 100
-                      } ${highlightedQuestion === originalIndex.toString()
+                    className={`animate-fadeIn animate-delay-${
+                      Math.min(index, 3) * 100
+                    } ${
+                      highlightedQuestion === originalIndex.toString()
                         ? "ring-2 ring-blue-400 rounded-xl"
                         : ""
-                      }`}
+                    }`}
                   >
                     <QuestionCard
                       key={question.id}
@@ -263,9 +267,16 @@ const LearningPath = () => {
                         // Implement your logic to update the question in your state
                         // For example:
 
-                        const updatedQuestions = questions.map(q =>
+                        const updatedQuestions = questions.map((q) =>
                           q.id === id
-                            ? { ...q, question: updatedQuestion, answer: updatedAnswer.replace(/^```markdown\n?|```$/g, "") }
+                            ? {
+                                ...q,
+                                question: updatedQuestion,
+                                answer: updatedAnswer.replace(
+                                  /^```markdown\n?|```$/g,
+                                  ""
+                                ),
+                              }
                             : q
                         );
                         setFilteredQuestions(updatedQuestions);
