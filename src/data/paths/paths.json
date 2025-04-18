@@ -121,18 +121,6 @@
             "level": "Intermediate"
           },
           {
-            "id": "backend-golang",
-            "title": "Golang Backend",
-            "description": "Golang and ecosystem tools for backend services.",
-            "level": "Intermediate"
-          },
-          {
-            "id": "backend-golang-problem-solving",
-            "title": "Golang Problem Solving",
-            "description": "Coding challenges and algorithmic solutions using Golang.",
-            "level": "Intermediate"
-          },
-          {
             "id": "backend-solid",
             "title": "SOLID Principles",
             "description": "Object-oriented design principles for maintainable C# code.",
@@ -177,11 +165,29 @@
         ]
       },
       {
-        "id": "backend-golang",
+        "id": "golang",
         "title": "Golang",
         "description": "Go language and ecosystem for backend development",
         "level": "Intermediate",
         "subpaths": [
+          {
+            "id": "backend-golang",
+            "title": "Golang Backend",
+            "description": "Golang and ecosystem tools for backend services.",
+            "level": "Intermediate"
+          },
+          {
+            "id": "backend-solid-go",
+            "title": "Golang Solid Principles",
+            "description": "Applying Solid Principles in Golang",
+            "level": "Advanced"
+          },
+          {
+            "id": "backend-golang-problem-solving",
+            "title": "Golang Problem Solving",
+            "description": "Coding challenges and algorithmic solutions using Golang.",
+            "level": "Intermediate"
+          },
           {
             "id": "go-basics",
             "title": "Golang Basics",

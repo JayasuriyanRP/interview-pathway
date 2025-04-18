@@ -10,7 +10,7 @@ interface Subpath {
   icon: string;
 }
 
-interface Path extends Subpath { }
+interface Path extends Subpath {}
 
 interface Question {
   id: string;
@@ -58,7 +58,7 @@ export const useData = () => {
                 "message-broker",
                 "uml",
                 "azure",
-                "db"
+                "db",
               ];
               let loaded = false;
 
@@ -181,23 +181,25 @@ export const usePathQuestions = (pathId: string | undefined) => {
   const levelOrder = {
     Beginner: 0,
     Intermediate: 1,
-    Advanced: 2
+    Advanced: 2,
   };
 
   useEffect(() => {
     if (!loading && !error && pathId) {
-      console.log(pathId)
-      let sortedQuestion = questions?.[pathId]?.sort((a, b) => levelOrder[a.level] - levelOrder[b.level]);
+      console.log(pathId);
+      let sortedQuestion = questions?.[pathId]?.sort(
+        (a, b) => levelOrder[a.level] - levelOrder[b.level]
+      );
 
-      const formattedAndSorted = sortedQuestion?.map(q => {
-        const ans = typeof q.answer === 'string' ? q.answer.trim() : '';
+      const formattedAndSorted = sortedQuestion?.map((q) => {
+        const ans = typeof q.answer === "string" ? q.answer.trim() : "";
 
         // Check if answer is already wrapped in ```markdown ... ```
-        const isMarkdownWrapped = ans.startsWith('```markdown');
+        const isMarkdownWrapped = ans.startsWith("```markdown");
 
         return {
           ...q,
-          answer: isMarkdownWrapped ? ans : `\`\`\`markdown\n${ans}\n\`\`\``
+          answer: isMarkdownWrapped ? ans : `\`\`\`markdown\n${ans}\n\`\`\``,
         };
       });
 
