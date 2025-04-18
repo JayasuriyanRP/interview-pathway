@@ -10,7 +10,7 @@ interface Subpath {
   icon: string;
 }
 
-interface Path extends Subpath {}
+interface Path extends Subpath { }
 
 interface Question {
   id: string;
@@ -57,6 +57,8 @@ export const useData = () => {
                 "job-roles",
                 "message-broker",
                 "uml",
+                "azure",
+                "db"
               ];
               let loaded = false;
 
@@ -176,9 +178,30 @@ export const usePathQuestions = (pathId: string | undefined) => {
   const { questions, loading, error } = useData();
   const [pathQuestions, setPathQuestions] = useState<Question[]>([]);
 
+  const levelOrder = {
+    Beginner: 0,
+    Intermediate: 1,
+    Advanced: 2
+  };
+
   useEffect(() => {
     if (!loading && !error && pathId) {
-      setPathQuestions(questions[pathId] || []);
+      console.log(pathId)
+      let sortedQuestion = questions?.[pathId]?.sort((a, b) => levelOrder[a.level] - levelOrder[b.level]);
+
+      const formattedAndSorted = sortedQuestion?.map(q => {
+        const ans = typeof q.answer === 'string' ? q.answer.trim() : '';
+
+        // Check if answer is already wrapped in ```markdown ... ```
+        const isMarkdownWrapped = ans.startsWith('```markdown');
+
+        return {
+          ...q,
+          answer: isMarkdownWrapped ? ans : `\`\`\`markdown\n${ans}\n\`\`\``
+        };
+      });
+
+      setPathQuestions(formattedAndSorted || []);
     }
   }, [questions, pathId, loading, error]);
 

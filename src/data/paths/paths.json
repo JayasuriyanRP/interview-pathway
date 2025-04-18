@@ -73,39 +73,105 @@
         "level": "Beginner",
         "subpaths": [
           {
-            "id": "backend-csharp-basic",
-            "title": "C# Basic",
-            "description": "Basic C# language features and .NET framework",
-            "level": "Beginner"
-          },
-          {
-            "id": "c-sharp-async",
-            "title": "C# Async",
-            "description": "C# Async Programming",
-            "level": "Beginner"
-          },
-          {
             "id": "backend-csharp-advanced",
             "title": "C# Advanced",
-            "description": "Advanced C# language features and .NET framework",
+            "description": "Advanced C# language features and best practices.",
             "level": "Advanced"
+          },
+          {
+            "id": "backend-csharp-basic",
+            "title": "C# Basics",
+            "description": "Fundamentals of C# programming for backend development.",
+            "level": "Beginner"
+          },
+          {
+            "id": "backend-csharp-behavioral-design-patterns",
+            "title": "Behavioral Design Patterns",
+            "description": "Design patterns that focus on object interactions and responsibilities.",
+            "level": "Advanced"
+          },
+          {
+            "id": "backend-csharp-creational-design-patterns",
+            "title": "Creational Design Patterns",
+            "description": "Patterns for object creation mechanisms in C#.",
+            "level": "Intermediate"
+          },
+          {
+            "id": "backend-csharp-design-patterns",
+            "title": "Design Patterns",
+            "description": "Common design patterns and their implementation in C#.",
+            "level": "Intermediate"
+          },
+          {
+            "id": "backend-csharp-entityframework",
+            "title": "Entity Framework",
+            "description": "ORM for .NET to work with relational data using domain-specific objects.",
+            "level": "Intermediate"
           },
           {
             "id": "backend-csharp-errorhandling",
-            "title": "C# Error Handling",
-            "description": "C# error handling concepts and techniques",
-            "level": "Advanced"
+            "title": "Error Handling",
+            "description": "Exception handling and logging practices in C# applications.",
+            "level": "Intermediate"
+          },
+          {
+            "id": "backend-dotnet",
+            "title": ".NET Ecosystem",
+            "description": "Overview of .NET Core and related backend tools and frameworks.",
+            "level": "Intermediate"
+          },
+          {
+            "id": "backend-golang",
+            "title": "Golang Backend",
+            "description": "Golang and ecosystem tools for backend services.",
+            "level": "Intermediate"
+          },
+          {
+            "id": "backend-golang-problem-solving",
+            "title": "Golang Problem Solving",
+            "description": "Coding challenges and algorithmic solutions using Golang.",
+            "level": "Intermediate"
           },
           {
             "id": "backend-solid",
             "title": "SOLID Principles",
-            "description": "SOLID principles in C# and Golang",
+            "description": "Object-oriented design principles for maintainable C# code.",
+            "level": "Intermediate"
+          },
+          {
+            "id": "c-sharp-advanced",
+            "title": "Advanced C#",
+            "description": "Advanced features and performance optimizations in C#.",
             "level": "Advanced"
           },
           {
-            "id": "backend-csharp-design-patterns",
-            "title": "C# Design Patterns",
-            "description": "Common design patterns in C# development",
+            "id": "c-sharp-advanced-transformed",
+            "title": "Advanced C# (Transformed)",
+            "description": "Deep dive into transformed concepts of advanced C#.",
+            "level": "Advanced"
+          },
+          {
+            "id": "c-sharp-async",
+            "title": "Async Programming",
+            "description": "Asynchronous programming with async/await in C#.",
+            "level": "Intermediate"
+          },
+          {
+            "id": "c-sharp-questions",
+            "title": "C# Interview Questions",
+            "description": "Commonly asked questions in C# interviews with answers.",
+            "level": "Intermediate"
+          },
+          {
+            "id": "dotnet-core-packages",
+            "title": ".NET Core Packages",
+            "description": "Useful NuGet packages for rate limiting, retries, and other backend concerns.",
+            "level": "Intermediate"
+          },
+          {
+            "id": "securing-api",
+            "title": "Securing APIs",
+            "description": "Techniques for securing APIs using tokens, rate limits, and identity.",
             "level": "Advanced"
           }
         ]
@@ -225,6 +291,26 @@
         "title": "ASP.NET Core",
         "description": ".NET web application framework",
         "level": "Advanced"
+      },
+      {
+        "id": "database",
+        "title": "Database",
+        "description": "Concepts and technologies related to modern database systems.",
+        "level": "Intermediate",
+        "subpaths": [
+          {
+            "id": "azure-cosmos-db",
+            "title": "Azure Cosmos DB",
+            "description": "A NoSQL database service designed for high availability, global distribution, and low-latency access to data.",
+            "level": "Advanced"
+          },
+          {
+            "id": "relational-vs-nosql",
+            "title": "Relational vs NoSQL",
+            "description": "Comparative analysis between traditional relational databases and modern NoSQL data stores.",
+            "level": "Intermediate"
+          }
+        ]
       }
     ]
   },
@@ -501,6 +587,26 @@
         "description": "Prepare for the role of Software Architect by mastering system design, scalability, and technical leadership.",
         "icon": "Architecture",
         "level": "Expert"
+      }
+    ]
+  },
+  {
+    "id": "azure",
+    "title": "Azure",
+    "description": "Microsoft Azure cloud platform services and architecture",
+    "level": "Intermediate",
+    "subpaths": [
+      {
+        "id": "api-management",
+        "title": "API Management",
+        "description": "Manage, secure, and publish APIs with Azure API Management.",
+        "level": "Intermediate"
+      },
+      {
+        "id": "azure-cosmos-db",
+        "title": "Azure Cosmos DB",
+        "description": "Globally distributed NoSQL database service with multi-model support and high scalability.",
+        "level": "Advanced"
       }
     ]
   }

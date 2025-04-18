@@ -48,6 +48,7 @@ const LearningPath = () => {
 
   useEffect(() => {
     if (!loading && questions) {
+
       setFilteredQuestions(questions);
     }
   }, [questions, loading]);
@@ -243,13 +244,11 @@ const LearningPath = () => {
                   <div
                     key={question.id}
                     id={`question-${originalIndex}`}
-                    className={`animate-fadeIn animate-delay-${
-                      Math.min(index, 3) * 100
-                    } ${
-                      highlightedQuestion === originalIndex.toString()
+                    className={`animate-fadeIn animate-delay-${Math.min(index, 3) * 100
+                      } ${highlightedQuestion === originalIndex.toString()
                         ? "ring-2 ring-blue-400 rounded-xl"
                         : ""
-                    }`}
+                      }`}
                   >
                     <QuestionCard
                       key={question.id}
@@ -270,13 +269,13 @@ const LearningPath = () => {
                         const updatedQuestions = questions.map((q) =>
                           q.id === id
                             ? {
-                                ...q,
-                                question: updatedQuestion,
-                                answer: updatedAnswer.replace(
-                                  /^```markdown\n?|```$/g,
-                                  ""
-                                ),
-                              }
+                              ...q,
+                              question: updatedQuestion,
+                              answer: updatedAnswer.replace(
+                                /^```markdown\n?|```$/g,
+                                ""
+                              ),
+                            }
                             : q
                         );
                         setFilteredQuestions(updatedQuestions);
