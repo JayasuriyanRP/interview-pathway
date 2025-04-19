@@ -108,7 +108,7 @@ const Question: React.FC<QuestionProps> = ({
       className={`mb-6 bg-card rounded-xl overflow-hidden border ${isRead
         ? "border-gray-400 dark:border-gray-800"
         : "border-blue-400 dark:border-blue-800"
-        } shadow-sm transition-all duration-300`}
+        } shadow-lg transition-all duration-300`}
     >
       <div
         className="p-4 sm:p-6 cursor-pointer flex flex-col sm:flex-row items-start sm:items-center gap-3"
