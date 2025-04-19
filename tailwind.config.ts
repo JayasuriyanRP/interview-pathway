@@ -20,9 +20,11 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
+        // sans: ["Inter", "system-ui", "sans-serif"],
+        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         mono: ["SF Mono", "SFMono-Regular", "ui-monospace", "monospace"],
         markdown: ['"Comic Neue"', 'Courier New', 'monospace', 'sans-serif'],
+        heading: ['Poppins', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",

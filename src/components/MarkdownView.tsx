@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -45,7 +44,7 @@ const MarkdownView = ({ content }: { content: string }) => {
   };
 
   return (
-    <div className="prose prose-lg max-w-none font-markdown dark:prose-invert">
+    <div className="prose prose-lg max-w-none font-sans tracking-wide dark:prose-invert">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw]}
@@ -68,7 +67,7 @@ const MarkdownView = ({ content }: { content: string }) => {
 
             return !inline && match ? (
               <div className="relative">
-                <div className="absolute top-2 right-2 flex space-x-1">
+                <div className="absolute top-2 right-2 flex space-x-1 z-10">
                   <button
                     onClick={() => toggleWrap(uniqueKey)}
                     className="bg-gray-700 text-white p-1 rounded-md hover:bg-gray-600"
@@ -99,19 +98,19 @@ const MarkdownView = ({ content }: { content: string }) => {
                 </pre>
               </div>
             ) : (
-              <code className="px-1 rounded" {...props}>
+              <code className="font-mono text-sm tracking-normal bg-gray-100 dark:bg-gray-800 px-1 rounded">
                 {children}
               </code>
             );
           },
           h1: ({ children }) => (
-            <h1 className="font-bold mt-4 mb-2">{children}</h1>
+            <h1 className="font-heading font-bold text-2xl tracking-tight">{children}</h1>
           ),
           h2: ({ children }) => (
-            <h2 className="font-semibold mt-4 mb-2">{children}</h2>
+            <h2 className="font-bold text-xl mt-5 mb-2">{children}</h2>
           ),
           h3: ({ children }) => (
-            <h3 className="font-medium mt-4 mb-2">{children}</h3>
+            <h3 className="font-semibold text-lg mt-4 mb-2">{children}</h3>
           ),
           p: ({ children }) => (
             <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
