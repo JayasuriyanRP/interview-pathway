@@ -1,4 +1,6 @@
+
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 interface Subpath {
   id: string;
@@ -7,125 +9,100 @@ interface Subpath {
   count: number;
   level: string;
   subpaths?: Subpath[];
-  icon: string;
+  icon?: string;
 }
 
-interface Path extends Subpath { }
+interface Path extends Subpath {}
 
 interface Question {
   id: string;
   question: string;
   answer: any;
-  level: any;
+  level: string;
 }
 
-export const useData = () => {
-  const [paths, setPaths] = useState<Path[]>([]);
-  const [questions, setQuestions] = useState<Record<string, Question[]>>({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+interface PathResponse {
+  path: Path | null;
+  loading: boolean;
+  error: Error | null;
+  isSubpath: boolean;
+  parentPath: Path | null;
+}
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Load paths data
-        const pathsResponse = await import("../data/paths/paths.json");
-        setPaths(pathsResponse.default as Path[]);
+interface QuestionsResponse {
+  questions: Question[];
+  loading: boolean;
+  error: Error | null;
+}
 
-        // Initialize questions object
-        const questionsData: Record<string, Question[]> = {};
-
-        // Function to load per-path question files
-        const loadPathQuestions = async (pathId: string) => {
-          try {
-            // First try direct path
-            const response = await import(`../data/questions/${pathId}.json`);
-            questionsData[pathId] = response.default;
-          } catch (err) {
-            // Next try nested folder structure
-            try {
-              // Try to find files in specific language folders (e.g., c-sharp, golang, js, ts, react)
-              const folders = [
-                "c-sharp",
-                "data-structures-and-algorithms",
-                "example",
-                "golang",
-                "html",
-                "js",
-                "react",
-                "ts",
-                "job-roles",
-                "message-broker",
-                "uml",
-                "azure",
-                "db",
-              ];
-              let loaded = false;
-
-              for (const folder of folders) {
-                try {
-                  const response = await import(
-                    `../data/questions/${folder}/${pathId}.json`
-                  );
-                  questionsData[pathId] = response.default;
-                  loaded = true;
-                  break; // Exit the loop if we found the file
-                } catch (nestedErr) {
-                  // Continue to next folder
-                }
-              }
-
-              if (!loaded) {
-                console.log(
-                  `No specific question file for ${pathId} in nested folders`
-                );
-              }
-            } catch (nestedErr) {
-              console.log(`No specific question file for ${pathId}`);
-            }
-          }
-        };
-
-        // Recursively process subpaths and load their questions
-        const processSubpaths = async (subpaths: Subpath[]) => {
-          for (const subpath of subpaths) {
-            await loadPathQuestions(subpath.id);
-            if (subpath.subpaths) {
-              await processSubpaths(subpath.subpaths);
-            }
-          }
-        };
-
-        // Load questions for each path and its subpaths
-        for (const path of pathsResponse.default as Path[]) {
-          await loadPathQuestions(path.id);
-          if (path.subpaths) {
-            await processSubpaths(path.subpaths);
-          }
-        }
-
-        setQuestions(questionsData);
-        setLoading(false);
-      } catch (err) {
-        console.error("Error loading data:", err);
-        setError(err as Error);
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  return { paths, questions, loading, error };
+// Function to load paths data
+const loadPathsData = async () => {
+  const pathsResponse = await import("../data/paths/paths.json");
+  return pathsResponse.default;
 };
 
-export const usePath = (pathId: string | undefined) => {
-  const { paths, loading, error } = useData();
-  const [path, setPath] = useState<Path | Subpath | null>(null);
-  const [isSubpath, setIsSubpath] = useState(false);
-  const [parentPath, setParentPath] = useState<Path | null>(null);
+// Function to load questions for a specific path
+const loadPathQuestions = async (pathId: string) => {
+  try {
+    // Try loading from specific language folders
+    const folders = [
+      "c-sharp",
+      "data-structures-and-algorithms",
+      "example",
+      "golang",
+      "html",
+      "js",
+      "react",
+      "ts",
+      "job-roles",
+      "message-broker",
+      "uml",
+      "azure",
+      "db",
+    ];
 
-  // Recursive function to find a subpath at any depth
+    for (const folder of folders) {
+      try {
+        const response = await import(
+          `../data/questions/${folder}/${pathId}.json`
+        );
+        return response.default;
+      } catch (err) {
+        continue;
+      }
+    }
+
+    // If not found in folders, try direct path
+    const response = await import(`../data/questions/${pathId}.json`);
+    return response.default;
+  } catch (err) {
+    console.log(`No specific question file for ${pathId}`);
+    return [];
+  }
+};
+
+export const useData = () => {
+  const { data: paths = [], isLoading, error } = useQuery({
+    queryKey: ["paths"],
+    queryFn: loadPathsData,
+    staleTime: 1000 * 60 * 5, // Cache for 5 minutes
+    cacheTime: 1000 * 60 * 30, // Keep in cache for 30 minutes
+  });
+
+  return { paths, loading: isLoading, error };
+};
+
+export const usePath = (pathId: string | undefined): PathResponse => {
+  const { paths, loading, error } = useData();
+  const [pathData, setPathData] = useState<PathResponse>({
+    path: null,
+    loading: true,
+    error: null,
+    isSubpath: false,
+    parentPath: null,
+  });
+
+  // Recursive function to find a subpath
   const findSubpath = (
     paths: Path[],
     pathId: string
@@ -150,66 +127,58 @@ export const usePath = (pathId: string | undefined) => {
       let foundPath = paths.find((p) => p.id === pathId) || null;
 
       if (foundPath) {
-        setPath(foundPath);
-        setIsSubpath(false);
-        setParentPath(null);
+        setPathData({
+          path: foundPath,
+          loading: false,
+          error: null,
+          isSubpath: false,
+          parentPath: null,
+        });
         return;
       }
 
       // If not found, check in subpaths
       const { subpath, parent } = findSubpath(paths, pathId);
       if (subpath) {
-        setPath(subpath);
-        setIsSubpath(true);
-        setParentPath(parent);
+        setPathData({
+          path: subpath,
+          loading: false,
+          error: null,
+          isSubpath: true,
+          parentPath: parent,
+        });
         return;
       }
 
-      setPath(null);
-      setIsSubpath(false);
-      setParentPath(null);
+      setPathData({
+        path: null,
+        loading: false,
+        error: new Error("Path not found"),
+        isSubpath: false,
+        parentPath: null,
+      });
     }
   }, [paths, pathId, loading, error]);
 
-  return { path, loading, error, isSubpath, parentPath };
+  return pathData;
 };
 
-export const usePathQuestions = (pathId: string | undefined) => {
-  const { questions, loading, error } = useData();
-  const [pathQuestions, setPathQuestions] = useState<Question[]>([]);
+export const usePathQuestions = (pathId: string | undefined): QuestionsResponse => {
+  const {
+    data: questions = [],
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["questions", pathId],
+    queryFn: () => (pathId ? loadPathQuestions(pathId) : []),
+    enabled: !!pathId, // Only fetch when pathId is available
+    staleTime: 1000 * 60 * 5, // Cache for 5 minutes
+    cacheTime: 1000 * 60 * 30, // Keep in cache for 30 minutes
+  });
 
-  const levelOrder = {
-    Beginner: 0,
-    Intermediate: 1,
-    Advanced: 2,
+  return {
+    questions: questions || [],
+    loading: isLoading,
+    error: error as Error | null,
   };
-
-  useEffect(() => {
-    if (!loading && !error && pathId) {
-      console.log(pathId);
-      let sortedQuestion = questions?.[pathId]?.sort(
-        (a, b) => levelOrder[a.level] - levelOrder[b.level]
-      );
-
-      const formattedAndSorted = sortedQuestion?.map((q) => {
-
-        if (typeof q.answer === "string") {
-          const ans = q.answer.trim();
-          const isMarkdownWrapped = ans.startsWith("```markdown");
-
-          return {
-            ...q,
-            answer: isMarkdownWrapped ? ans : `\`\`\`markdown\n${ans}\n\`\`\``,
-          };
-        } else {
-
-          return q
-        }
-      });
-
-      setPathQuestions(formattedAndSorted || []);
-    }
-  }, [questions, pathId, loading, error]);
-
-  return { questions: pathQuestions, loading, error };
 };
