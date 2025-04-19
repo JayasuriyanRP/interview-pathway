@@ -197,6 +197,7 @@ const SearchDialog: React.FC<SearchDialogProps> = ({
     debouncedSearch(query);
   };
 
+  // Fix: use onValueChange instead of onChange for CommandInput
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] p-0">
@@ -206,7 +207,7 @@ const SearchDialog: React.FC<SearchDialogProps> = ({
             <CommandInput
               placeholder="Search for paths, topics, or questions..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onValueChange={setSearchQuery}
               className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
             />
             {searchQuery && (

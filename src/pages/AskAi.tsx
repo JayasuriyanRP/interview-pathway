@@ -129,6 +129,7 @@ const AskAI = () => {
                 {responses.map((response, index) => (
                   <QuestionCard
                     key={index}
+                    index={index} // Add the required index prop
                     id={String(index)}
                     question={response.question}
                     answer={response.answer}

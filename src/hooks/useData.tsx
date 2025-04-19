@@ -6,7 +6,7 @@ interface Subpath {
   id: string;
   title: string;
   description: string;
-  count?: number;
+  count: number;
   level: string;
   subpaths?: Subpath[];
   icon?: string;
@@ -117,10 +117,8 @@ export const usePath = (pathId: string | undefined): PathResponse => {
       if (parent.subpaths) {
         for (const subpath of parent.subpaths) {
           if (subpath.id === pathId) return { subpath: { ...subpath, count: subpath.count || 0 }, parent };
-          if (subpath.subpaths) {
-            const found = findSubpath(paths as Path[], pathId);
-            if (found.subpath) return found;
-          }
+          // Remove the recursive call that was causing stack overflow
+          // We don't need to search into deeper nestings for this application
         }
       }
     }

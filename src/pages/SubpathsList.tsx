@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../components/Header";
@@ -67,7 +68,13 @@ const SubpathsList = () => {
     return <ErrorState />;
   }
 
-  const sortedSubpaths = path.subpaths.sort((a, b) => {
+  // Ensure all subpaths have the required count property
+  const subpathsWithCount = path.subpaths.map(subpath => ({
+    ...subpath,
+    count: subpath.count || 0
+  }));
+
+  const sortedSubpaths = subpathsWithCount.sort((a, b) => {
     return levelOrder[a.level] - levelOrder[b.level];
   });
 
