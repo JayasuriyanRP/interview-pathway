@@ -78,8 +78,7 @@ const Question: React.FC<QuestionProps> = ({
     setIsEditing(false);
   };
 
-  const isMarkdown =
-    typeof answer === "string" && answer.trim().startsWith("```markdown");
+  const isMarkdown = typeof answer === "string";
 
   if (isEditing) {
     return (
@@ -95,11 +94,10 @@ const Question: React.FC<QuestionProps> = ({
   }
   return (
     <div
-      className={`mb-6 bg-card rounded-xl overflow-hidden border ${
-        isRead
-          ? "border-gray-100 dark:border-gray-800"
-          : "border-blue-100 dark:border-blue-800"
-      } shadow-sm transition-all duration-300`}
+      className={`mb-6 bg-card rounded-xl overflow-hidden border ${isRead
+        ? "border-gray-100 dark:border-gray-800"
+        : "border-blue-100 dark:border-blue-800"
+        } shadow-sm transition-all duration-300`}
     >
       <div
         className="p-4 sm:p-6 cursor-pointer flex flex-col sm:flex-row items-start sm:items-center gap-3"
@@ -155,9 +153,8 @@ const Question: React.FC<QuestionProps> = ({
                 </button>
               )}
               <ChevronDown
-                className={`h-5 w-5 text-gray-500 transition-transform duration-300 ${
-                  isOpen ? "rotate-180" : ""
-                }`}
+                className={`h-5 w-5 text-gray-500 transition-transform duration-300 ${isOpen ? "rotate-180" : ""
+                  }`}
               />
             </div>
           </div>

@@ -10,7 +10,7 @@ interface Subpath {
   icon: string;
 }
 
-interface Path extends Subpath {}
+interface Path extends Subpath { }
 
 interface Question {
   id: string;
@@ -192,15 +192,19 @@ export const usePathQuestions = (pathId: string | undefined) => {
       );
 
       const formattedAndSorted = sortedQuestion?.map((q) => {
-        const ans = typeof q.answer === "string" ? q.answer.trim() : "";
 
-        // Check if answer is already wrapped in ```markdown ... ```
-        const isMarkdownWrapped = ans.startsWith("```markdown");
+        if (typeof q.answer === "string") {
+          const ans = q.answer.trim();
+          const isMarkdownWrapped = ans.startsWith("```markdown");
 
-        return {
-          ...q,
-          answer: isMarkdownWrapped ? ans : `\`\`\`markdown\n${ans}\n\`\`\``,
-        };
+          return {
+            ...q,
+            answer: isMarkdownWrapped ? ans : `\`\`\`markdown\n${ans}\n\`\`\``,
+          };
+        } else {
+
+          return q
+        }
       });
 
       setPathQuestions(formattedAndSorted || []);

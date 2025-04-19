@@ -1,6 +1,7 @@
 import React from "react";
 import { ExternalLink } from "lucide-react";
 import CodeBlock from "./CodeBlock";
+import MarkdownView from "./MarkdownView";
 
 interface ExternalLink {
   title: string;
@@ -30,11 +31,15 @@ const Answer: React.FC<AnswerProps> = ({ answer, highlightQuery = "" }) => {
     switch (block.type) {
       case "code":
         return (
-          <CodeBlock
-            key={index}
-            language={block.language || "text"}
-            content={block.content || ""}
-          />
+          (block.language != "markdown") ?
+            <CodeBlock
+              key={index}
+              language={block.language || "text"}
+              content={block.content || ""}
+            /> :
+            <MarkdownView
+              content={block.content.replace(/^```markdown\n?|```$/g, "")}
+            />
         );
       case "list":
         return (
@@ -108,11 +113,10 @@ const Answer: React.FC<AnswerProps> = ({ answer, highlightQuery = "" }) => {
         return (
           <div
             key={index}
-            className={`p-4 my-4 rounded-lg ${
-              block.highlight
-                ? "bg-amber-50 border border-amber-200 dark:bg-amber-900/30 dark:border-amber-800"
-                : "bg-blue-50 border border-blue-200 dark:bg-blue-900/30 dark:border-blue-800"
-            }`}
+            className={`p-4 my-4 rounded-lg ${block.highlight
+              ? "bg-amber-50 border border-amber-200 dark:bg-amber-900/30 dark:border-amber-800"
+              : "bg-blue-50 border border-blue-200 dark:bg-blue-900/30 dark:border-blue-800"
+              }`}
           >
             <p className="text-sm font-medium mb-1">
               {block.highlight ? "Important Note:" : "Note:"}
