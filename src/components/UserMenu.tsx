@@ -19,7 +19,7 @@ const UserMenu = () => {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
-            <AvatarImage src="/default-avatar.png" alt="User" />
+            {/* <AvatarImage src="/default-avatar.png" alt="User" /> */}
             <AvatarFallback>U</AvatarFallback>
           </Avatar>
         </Button>
