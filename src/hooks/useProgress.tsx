@@ -8,6 +8,7 @@ import { initializeApp } from "firebase/app";
 // Define the type for progress data
 type ProgressData = {
   questions: Record<string, boolean>;
+  questionsByPath: Record<string, string[]>; // New structure to store questions by path
   paths: Record<string, {
     completed: boolean;
     lastRead: number;
@@ -36,6 +37,7 @@ export const useProgress = () => {
       ? JSON.parse(savedProgress)
       : {
           questions: {},
+          questionsByPath: {}, // Initialize the new structure
           paths: {},
           lastRead: {},
           lastUpdated: Date.now(),
@@ -71,12 +73,45 @@ export const useProgress = () => {
             localStorage.getItem(storageKey) || "{}"
           );
 
+          // If the remote data is newer, use it
           if (remoteProgress.lastUpdated > (localProgress.lastUpdated || 0)) {
+            // Ensure the questionsByPath structure exists
+            if (!remoteProgress.questionsByPath) {
+              remoteProgress.questionsByPath = {};
+              
+              // Convert from old format if needed
+              Object.keys(remoteProgress.questions || {}).forEach(questionKey => {
+                const [pathId, questionId] = questionKey.split('-');
+                if (!remoteProgress.questionsByPath[pathId]) {
+                  remoteProgress.questionsByPath[pathId] = [];
+                }
+                if (!remoteProgress.questionsByPath[pathId].includes(questionId)) {
+                  remoteProgress.questionsByPath[pathId].push(questionId);
+                }
+              });
+            }
+            
             setProgress(remoteProgress);
             localStorage.setItem(storageKey, JSON.stringify(remoteProgress));
           } else if (
             (localProgress.lastUpdated || 0) > remoteProgress.lastUpdated
           ) {
+            // Ensure the questionsByPath structure exists in local data
+            if (!localProgress.questionsByPath) {
+              localProgress.questionsByPath = {};
+              
+              // Convert from old format if needed
+              Object.keys(localProgress.questions || {}).forEach(questionKey => {
+                const [pathId, questionId] = questionKey.split('-');
+                if (!localProgress.questionsByPath[pathId]) {
+                  localProgress.questionsByPath[pathId] = [];
+                }
+                if (!localProgress.questionsByPath[pathId].includes(questionId)) {
+                  localProgress.questionsByPath[pathId].push(questionId);
+                }
+              });
+            }
+            
             set(progressRef, localProgress);
           }
         }
@@ -98,6 +133,22 @@ export const useProgress = () => {
 
         // Only update if the remote data is newer or we need to sync
         if (remoteData.lastUpdated > progress.lastUpdated) {
+          // Ensure the questionsByPath structure exists
+          if (!remoteData.questionsByPath) {
+            remoteData.questionsByPath = {};
+            
+            // Convert from old format if needed
+            Object.keys(remoteData.questions || {}).forEach(questionKey => {
+              const [pathId, questionId] = questionKey.split('-');
+              if (!remoteData.questionsByPath[pathId]) {
+                remoteData.questionsByPath[pathId] = [];
+              }
+              if (!remoteData.questionsByPath[pathId].includes(questionId)) {
+                remoteData.questionsByPath[pathId].push(questionId);
+              }
+            });
+          }
+          
           setProgress(remoteData);
           localStorage.setItem(storageKey, JSON.stringify(remoteData)); // Update localStorage
         }
@@ -136,14 +187,22 @@ export const useProgress = () => {
       const updatedPaths = { ...progress.paths };
       delete updatedPaths[pathId];
       
+      // Update the questionsByPath structure
+      const updatedQuestionsByPath = { ...progress.questionsByPath };
+      delete updatedQuestionsByPath[pathId];
+      
+      // Remove any questions that start with the pathId
+      const updatedQuestions = Object.fromEntries(
+        Object.entries(progress.questions).filter(
+          ([key]) => !key.startsWith(`${pathId}`)
+        )
+      );
+      
       newProgress = {
         ...progress,
         paths: updatedPaths,
-        questions: Object.fromEntries(
-          Object.entries(progress.questions).filter(
-            ([key]) => !key.startsWith(`${pathId}`)
-          )
-        ),
+        questions: updatedQuestions,
+        questionsByPath: updatedQuestionsByPath,
         lastRead: Object.fromEntries(
           Object.entries(progress.lastRead).filter(
             ([key]) => !key.startsWith(`${pathId}`)
@@ -155,6 +214,7 @@ export const useProgress = () => {
       // Reset all progress
       newProgress = {
         questions: {},
+        questionsByPath: {},
         paths: {},
         lastRead: {},
         lastUpdated: Date.now(),
@@ -182,8 +242,18 @@ export const useProgress = () => {
     const questionKey = `${pathId}-${questionId}`;
 
     setProgress((prev) => {
+      // Update the traditional questions object
       const updatedQuestions = { ...prev.questions, [questionKey]: true };
       const updatedLastRead = { ...prev.lastRead, [questionKey]: Date.now() };
+      
+      // Update the questionsByPath structure
+      const updatedQuestionsByPath = { ...prev.questionsByPath };
+      if (!updatedQuestionsByPath[pathId]) {
+        updatedQuestionsByPath[pathId] = [];
+      }
+      if (!updatedQuestionsByPath[pathId].includes(questionId)) {
+        updatedQuestionsByPath[pathId] = [...updatedQuestionsByPath[pathId], questionId];
+      }
       
       // Update the path structure
       const pathParts = pathId.split('-');
@@ -201,6 +271,7 @@ export const useProgress = () => {
       const updatedProgress = {
         ...prev,
         questions: updatedQuestions,
+        questionsByPath: updatedQuestionsByPath,
         paths: updatedPaths,
         lastRead: updatedLastRead,
         lastUpdated: Date.now(),
@@ -217,20 +288,34 @@ export const useProgress = () => {
     toast.success("Question marked as read!");
   };
   
-  // Add the missing undoMarkQuestionAsRead function
   const undoMarkQuestionAsRead = (pathId: string, questionId: string) => {
     const questionKey = `${pathId}-${questionId}`;
 
     setProgress((prev) => {
+      // Update the traditional questions object
       const updatedQuestions = { ...prev.questions };
       delete updatedQuestions[questionKey];
       
       const updatedLastRead = { ...prev.lastRead };
       delete updatedLastRead[questionKey];
 
+      // Update the questionsByPath structure
+      const updatedQuestionsByPath = { ...prev.questionsByPath };
+      if (updatedQuestionsByPath[pathId]) {
+        updatedQuestionsByPath[pathId] = updatedQuestionsByPath[pathId].filter(
+          qId => qId !== questionId
+        );
+        
+        // Remove empty arrays
+        if (updatedQuestionsByPath[pathId].length === 0) {
+          delete updatedQuestionsByPath[pathId];
+        }
+      }
+
       const updatedProgress = {
         ...prev,
         questions: updatedQuestions,
+        questionsByPath: updatedQuestionsByPath,
         lastRead: updatedLastRead,
         lastUpdated: Date.now(),
       };
@@ -315,7 +400,17 @@ export const useProgress = () => {
   };
 
   const isQuestionRead = (pathId: string, questionId: number): boolean => {
-    return !!progress?.questions?.[`${pathId}-${questionId}`];
+    // First check the traditional way
+    if (progress?.questions?.[`${pathId}-${questionId}`]) {
+      return true;
+    }
+    
+    // Then check the new structure
+    if (progress?.questionsByPath?.[pathId]) {
+      return progress.questionsByPath[pathId].includes(String(questionId));
+    }
+    
+    return false;
   };
 
   const isSubpathCompleted = (subpathId: string): boolean => {
@@ -371,6 +466,22 @@ export const useProgress = () => {
 
       if (snapshot.exists()) {
         const remoteProgress = snapshot.val() as ProgressData;
+
+        // Ensure the questionsByPath structure exists
+        if (!remoteProgress.questionsByPath) {
+          remoteProgress.questionsByPath = {};
+          
+          // Convert from old format if needed
+          Object.keys(remoteProgress.questions || {}).forEach(questionKey => {
+            const [pathId, questionId] = questionKey.split('-');
+            if (!remoteProgress.questionsByPath[pathId]) {
+              remoteProgress.questionsByPath[pathId] = [];
+            }
+            if (!remoteProgress.questionsByPath[pathId].includes(questionId)) {
+              remoteProgress.questionsByPath[pathId].push(questionId);
+            }
+          });
+        }
 
         // Only update if the remote data is newer
         if (remoteProgress.lastUpdated > (progress.lastUpdated || 0)) {
