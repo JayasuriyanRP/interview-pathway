@@ -105,23 +105,23 @@ const Question: React.FC<QuestionProps> = ({
   }
   return (
     <div
-      className={`mb-6 bg-card rounded-xl overflow-hidden border ${isRead
-        ? "border-gray-400 dark:border-gray-800"
+      className={`mb-6 bg-card rounded-xl border-2 overflow-hidden border ${isRead
+        ? "bg-green-100 dark:bg-green-900 border-green-400 dark:border-green-800"
         : "border-blue-400 dark:border-blue-800"
-        } shadow-lg transition-all duration-300`}
+        } shadow-xl transition-all duration-300`}
     >
       <div
-        className="p-4 sm:p-6 cursor-pointer flex flex-col sm:flex-row items-start sm:items-center gap-3"
+        className="p-4 sm:p-2 lg:p-4 cursor-pointer flex flex-col sm:flex-row items-start sm:items-center gap-3"
         onClick={toggleAnswer}
       >
         <div className="flex flex-1 flex-row justify-between sm:flex-row sm:items-center gap-2">
           <div className="flex items-center gap-2">
-            {isRead && (
+            {/* {isRead && (
               <CheckCircle2
                 size={16}
                 className="text-green-500 flex-shrink-0"
               />
-            )}
+            )} */}
             {editable && (
               <Button
                 variant="ghost"
@@ -133,14 +133,14 @@ const Question: React.FC<QuestionProps> = ({
                 <Edit size={16} />
               </Button>
             )}
-            <h3 className="font-medium text-gray-500 dark:text-gray-400">
+            <h3 className="font-mono text-sm sm:text-base md:text-lg text-gray-500 dark:text-gray-400">
               {index + 1}.
             </h3>
             <div className="flex items-center gap-2">
               <h3 className="font-semibold leading-snug tracking-tight text-gray-800 dark:text-gray-100">
-                <code className="font-mono text-sm tracking-wide px-1 py-0.5 bg-muted rounded">
+                <h1 className="font-mono text-sm sm:text-base md:text-lg tracking-wide px-1 py-0.5 rounded">
                   {question}
-                </code>
+                </h1>
               </h3>
               <button
                 onClick={handleCopy}

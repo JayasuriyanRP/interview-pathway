@@ -182,7 +182,8 @@ code {
 pre {
   border-radius: 8px;
   overflow: auto;
-  padding: 1rem;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
   font-size: 0.9em;
   background-color: rgba(20, 20, 20, 0.8);
   color: #f8f8f8;
@@ -233,7 +234,7 @@ pre {
 }
 
 .prose p {
-  margin-bottom: 1.5em;
+  margin-bottom: 0.75em;
 }
 
 .prose ul, .prose ol {
