@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
@@ -108,17 +107,30 @@ export const usePath = (pathId: string | undefined): PathResponse => {
     parentPath: null,
   });
 
-  // Recursive function to find a subpath
+  // Recursive function to find a subpath at any nesting level
   const findSubpath = (
     paths: Path[],
-    pathId: string
+    pathId: string,
+    ancestorPath: Path | null = null
   ): { subpath: Subpath | null; parent: Path | null } => {
-    for (const parent of paths) {
-      if (parent.subpaths) {
-        for (const subpath of parent.subpaths) {
-          if (subpath.id === pathId) return { subpath: { ...subpath, count: subpath.count || 0 }, parent };
-          // Remove the recursive call that was causing stack overflow
-          // We don't need to search into deeper nestings for this application
+    for (const path of paths) {
+      if (path.subpaths) {
+        // First check immediate subpaths
+        for (const subpath of path.subpaths) {
+          if (subpath.id === pathId) {
+            return { 
+              subpath: { 
+                ...subpath, 
+                count: subpath.count || 0 
+              }, 
+              parent: ancestorPath || path 
+            };
+          }
+          // If this subpath has its own subpaths, search them recursively
+          if (subpath.subpaths) {
+            const found = findSubpath([subpath], pathId, path);
+            if (found.subpath) return found;
+          }
         }
       }
     }
@@ -131,7 +143,6 @@ export const usePath = (pathId: string | undefined): PathResponse => {
       let foundPath = paths.find((p) => p.id === pathId) || null;
 
       if (foundPath) {
-        // Ensure count is set
         setPathData({
           path: foundPath as Path,
           loading: false,
@@ -142,7 +153,7 @@ export const usePath = (pathId: string | undefined): PathResponse => {
         return;
       }
 
-      // If not found, check in subpaths
+      // If not found, check in subpaths recursively
       const { subpath, parent } = findSubpath(paths as Path[], pathId);
       if (subpath) {
         setPathData({
