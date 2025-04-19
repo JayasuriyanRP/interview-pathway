@@ -7,9 +7,19 @@ import { initializeApp } from "firebase/app";
 // Define the type for progress data
 type ProgressData = {
   questions: Record<string, boolean>;
-  paths: Record<string, boolean>;
-  subpaths: Record<string, boolean>;
-  lastRead: Record<string, number>; // Timestamp when item was last read
+  paths: Record<string, {
+    completed: boolean;
+    lastRead: number;
+    subpaths: Record<string, {
+      completed: boolean;
+      lastRead: number;
+      subpaths?: Record<string, {
+        completed: boolean;
+        lastRead: number;
+      }>;
+    }>;
+  }>;
+  lastRead: Record<string, number>;
   lastUpdated: number;
 };
 
@@ -24,12 +34,11 @@ export const useProgress = () => {
     return savedProgress
       ? JSON.parse(savedProgress)
       : {
-        questions: {},
-        paths: {},
-        subpaths: {},
-        lastRead: {},
-        lastUpdated: Date.now(),
-      };
+          questions: {},
+          paths: {},
+          lastRead: {},
+          lastUpdated: Date.now(),
+        };
   });
 
   const [isSyncing, setIsSyncing] = useState(false);
@@ -110,7 +119,6 @@ export const useProgress = () => {
     saveToFirebase(progress);
   }, [progress, database]);
 
-  // Helper function to update progress
   const updateProgress = (updates: Partial<ProgressData>) => {
     setProgress((prev) => ({
       ...prev,
@@ -119,48 +127,39 @@ export const useProgress = () => {
     }));
   };
 
-  // Reset progress
   const resetProgress = async (pathId?: string) => {
-
-    let newProgress: ProgressData = {
-      questions: {},
-      paths: {},
-      subpaths: {},
-      lastRead: {},
-      lastUpdated: Date.now(),
-    };
-
-
+    let newProgress: ProgressData;
+    
     if (pathId) {
-      // Reset progress only for a specific path
-      const updatedQuestions = Object.fromEntries(
-        Object.entries(progress.questions).filter(
-          ([key]) => !key.startsWith(`${pathId}-`)
-        )
-      );
-
-      const updatedLastRead = Object.fromEntries(
-        Object.entries(progress.lastRead).filter(
-          ([key]) => !key.startsWith(`${pathId}-`)
-        )
-      );
-
+      // Reset specific path and its nested structure
       const updatedPaths = { ...progress.paths };
       delete updatedPaths[pathId];
-
-      // Instead of filtering out, set the subpath to false for the reset pathId
-      const updatedSubpaths = { ...progress.subpaths };
-      updatedSubpaths[pathId] = false; // Explicitly reset to false for the specific pathId
-
+      
       newProgress = {
         ...progress,
-        questions: updatedQuestions,
         paths: updatedPaths,
-        subpaths: updatedSubpaths,
-        lastRead: updatedLastRead,
+        questions: Object.fromEntries(
+          Object.entries(progress.questions).filter(
+            ([key]) => !key.startsWith(`${pathId}`)
+          )
+        ),
+        lastRead: Object.fromEntries(
+          Object.entries(progress.lastRead).filter(
+            ([key]) => !key.startsWith(`${pathId}`)
+          )
+        ),
+        lastUpdated: Date.now(),
+      };
+    } else {
+      // Reset all progress
+      newProgress = {
+        questions: {},
+        paths: {},
+        lastRead: {},
         lastUpdated: Date.now(),
       };
     }
+
     setProgress(newProgress);
     localStorage.setItem(storageKey, JSON.stringify(newProgress));
 
@@ -169,12 +168,9 @@ export const useProgress = () => {
       return;
     }
 
-    const progressRef = ref(database, "progressData");
-
-    // 🔹 Update Firebase
     try {
-      await set(progressRef, newProgress);
-      toast.success("All progress reset successfully.");
+      await set(ref(database, "progressData"), newProgress);
+      toast.success(pathId ? "Path progress reset successfully." : "All progress reset successfully.");
     } catch (error) {
       console.error("Error updating Firebase:", error);
       toast.error("Failed to update progress in cloud.");
@@ -184,19 +180,31 @@ export const useProgress = () => {
   const markQuestionAsRead = (pathId: string, questionId: string) => {
     const questionKey = `${pathId}-${questionId}`;
 
-    // Use functional form of setProgress to ensure you're working with the latest state
     setProgress((prev) => {
       const updatedQuestions = { ...prev.questions, [questionKey]: true };
       const updatedLastRead = { ...prev.lastRead, [questionKey]: Date.now() };
+      
+      // Update the path structure
+      const pathParts = pathId.split('-');
+      const mainPathId = pathParts[0];
+      
+      const updatedPaths = { ...prev.paths };
+      if (!updatedPaths[mainPathId]) {
+        updatedPaths[mainPathId] = {
+          completed: false,
+          lastRead: Date.now(),
+          subpaths: {}
+        };
+      }
 
       const updatedProgress = {
         ...prev,
         questions: updatedQuestions,
+        paths: updatedPaths,
         lastRead: updatedLastRead,
         lastUpdated: Date.now(),
       };
 
-      // Update Firebase with the new progress data
       if (database) {
         const progressRef = ref(database, "progressData");
         set(progressRef, updatedProgress);
@@ -205,48 +213,96 @@ export const useProgress = () => {
       return updatedProgress;
     });
 
-    toast.success(`Question marked as read!`);
-  };
-
-  const undoMarkQuestionAsRead = (pathId: string, questionId: string) => {
-    const key = `${pathId}-${questionId}`;
-    const updatedQuestions = { ...progress.questions };
-    const updatedLastRead = { ...progress.lastRead };
-
-    delete updatedQuestions[key];
-    delete updatedLastRead[key];
-
-    updateProgress({ questions: updatedQuestions, lastRead: updatedLastRead });
+    toast.success("Question marked as read!");
   };
 
   const markSubpathAsCompleted = (subpathId: string) => {
-    updateProgress({
-      subpaths: { ...progress.subpaths, [subpathId]: true },
-      lastRead: { ...progress.lastRead, [subpathId]: Date.now() },
+    const pathParts = subpathId.split('-');
+    const mainPathId = pathParts[0];
+    
+    setProgress((prev) => {
+      const updatedPaths = { ...prev.paths };
+      
+      if (!updatedPaths[mainPathId]) {
+        updatedPaths[mainPathId] = {
+          completed: false,
+          lastRead: Date.now(),
+          subpaths: {}
+        };
+      }
+      
+      let currentLevel = updatedPaths[mainPathId];
+      for (let i = 1; i < pathParts.length; i++) {
+        const part = pathParts.slice(0, i + 1).join('-');
+        if (!currentLevel.subpaths[part]) {
+          currentLevel.subpaths[part] = {
+            completed: false,
+            lastRead: Date.now(),
+            subpaths: {}
+          };
+        }
+        currentLevel = currentLevel.subpaths[part];
+      }
+      
+      currentLevel.completed = true;
+      currentLevel.lastRead = Date.now();
+
+      return {
+        ...prev,
+        paths: updatedPaths,
+        lastUpdated: Date.now(),
+      };
     });
 
     toast.success("Subpath marked as completed!");
   };
 
   const markPathAsCompleted = (pathId: string) => {
-    updateProgress({
-      paths: { ...progress.paths, [pathId]: true },
-      lastRead: { ...progress.lastRead, [pathId]: Date.now() },
+    setProgress((prev) => {
+      const updatedPaths = { ...prev.paths };
+      if (!updatedPaths[pathId]) {
+        updatedPaths[pathId] = {
+          completed: true,
+          lastRead: Date.now(),
+          subpaths: {}
+        };
+      } else {
+        updatedPaths[pathId].completed = true;
+        updatedPaths[pathId].lastRead = Date.now();
+      }
+
+      return {
+        ...prev,
+        paths: updatedPaths,
+        lastUpdated: Date.now(),
+      };
     });
 
     toast.success("Learning path marked as completed!");
   };
 
   const isQuestionRead = (pathId: string, questionId: number): boolean => {
-    return !!progress?.questions?.[`${pathId}-${questionId}`]; // Ensures no crash if `questions` is empty
+    return !!progress?.questions?.[`${pathId}-${questionId}`];
   };
 
   const isSubpathCompleted = (subpathId: string): boolean => {
-    return !!progress?.subpaths?.[subpathId];
+    const pathParts = subpathId.split('-');
+    const mainPathId = pathParts[0];
+    
+    if (!progress?.paths?.[mainPathId]) return false;
+    
+    let currentLevel = progress.paths[mainPathId];
+    for (let i = 1; i < pathParts.length; i++) {
+      const part = pathParts.slice(0, i + 1).join('-');
+      if (!currentLevel.subpaths?.[part]) return false;
+      currentLevel = currentLevel.subpaths[part];
+    }
+    
+    return currentLevel.completed;
   };
 
   const isPathCompleted = (pathId: string): boolean => {
-    return !!progress?.paths?.[pathId]; // Ensures we don't access `undefined`
+    return !!progress?.paths?.[pathId]?.completed;
   };
 
   const getPathProgress = (pathId: string, questions: any[]) => {
