@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { debounce } from "lodash";
@@ -215,6 +216,35 @@ export const useProgress = () => {
 
     toast.success("Question marked as read!");
   };
+  
+  // Add the missing undoMarkQuestionAsRead function
+  const undoMarkQuestionAsRead = (pathId: string, questionId: string) => {
+    const questionKey = `${pathId}-${questionId}`;
+
+    setProgress((prev) => {
+      const updatedQuestions = { ...prev.questions };
+      delete updatedQuestions[questionKey];
+      
+      const updatedLastRead = { ...prev.lastRead };
+      delete updatedLastRead[questionKey];
+
+      const updatedProgress = {
+        ...prev,
+        questions: updatedQuestions,
+        lastRead: updatedLastRead,
+        lastUpdated: Date.now(),
+      };
+
+      if (database) {
+        const progressRef = ref(database, "progressData");
+        set(progressRef, updatedProgress);
+      }
+
+      return updatedProgress;
+    });
+
+    toast.success("Question marked as unread!");
+  };
 
   const markSubpathAsCompleted = (subpathId: string) => {
     const pathParts = subpathId.split('-');
@@ -234,6 +264,9 @@ export const useProgress = () => {
       let currentLevel = updatedPaths[mainPathId];
       for (let i = 1; i < pathParts.length; i++) {
         const part = pathParts.slice(0, i + 1).join('-');
+        if (!currentLevel.subpaths) {
+          currentLevel.subpaths = {};
+        }
         if (!currentLevel.subpaths[part]) {
           currentLevel.subpaths[part] = {
             completed: false,
