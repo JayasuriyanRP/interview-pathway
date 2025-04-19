@@ -10,6 +10,7 @@ import {
   List,
   CheckCircle,
   Users,
+  Folder,
 } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { cn, getBadgeClass } from "@/lib/utils";
@@ -21,7 +22,7 @@ interface PathCardProps {
   id: string;
   title: string;
   description: string;
-  icon: string;
+  icon?: string;
   count: number;
   level: string;
   hasSubpaths?: boolean;
@@ -63,7 +64,7 @@ const PathCard: React.FC<PathCardProps> = ({
   const actionText = hasSubpaths ? "View subpaths" : "Start learning";
   
   // Get the appropriate icon based on title and provided icon
-  const IconComponent = getIconComponent(getSkillIcon(title) || icon);
+  const IconComponent = getIconComponent(getSkillIcon(title) || icon || "Folder");
 
   return (
     <Link

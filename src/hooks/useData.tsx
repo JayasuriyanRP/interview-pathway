@@ -6,13 +6,15 @@ interface Subpath {
   id: string;
   title: string;
   description: string;
-  count: number;
+  count?: number;
   level: string;
   subpaths?: Subpath[];
   icon?: string;
 }
 
-interface Path extends Subpath {}
+interface Path extends Subpath {
+  count: number;
+}
 
 interface Question {
   id: string;
@@ -38,7 +40,11 @@ interface QuestionsResponse {
 // Function to load paths data
 const loadPathsData = async () => {
   const pathsResponse = await import("../data/paths/paths.json");
-  return pathsResponse.default;
+  // Ensure each path has a count property
+  return pathsResponse.default.map((path: any) => ({
+    ...path,
+    count: path.subpaths?.length || 0
+  }));
 };
 
 // Function to load questions for a specific path
@@ -86,7 +92,7 @@ export const useData = () => {
     queryKey: ["paths"],
     queryFn: loadPathsData,
     staleTime: 1000 * 60 * 5, // Cache for 5 minutes
-    cacheTime: 1000 * 60 * 30, // Keep in cache for 30 minutes
+    gcTime: 1000 * 60 * 30, // Keep in cache for 30 minutes (formerly cacheTime)
   });
 
   return { paths, loading: isLoading, error };
@@ -110,9 +116,9 @@ export const usePath = (pathId: string | undefined): PathResponse => {
     for (const parent of paths) {
       if (parent.subpaths) {
         for (const subpath of parent.subpaths) {
-          if (subpath.id === pathId) return { subpath, parent };
+          if (subpath.id === pathId) return { subpath: { ...subpath, count: subpath.count || 0 }, parent };
           if (subpath.subpaths) {
-            const found = findSubpath(parent.subpaths, pathId);
+            const found = findSubpath(paths as Path[], pathId);
             if (found.subpath) return found;
           }
         }
@@ -127,8 +133,9 @@ export const usePath = (pathId: string | undefined): PathResponse => {
       let foundPath = paths.find((p) => p.id === pathId) || null;
 
       if (foundPath) {
+        // Ensure count is set
         setPathData({
-          path: foundPath,
+          path: foundPath as Path,
           loading: false,
           error: null,
           isSubpath: false,
@@ -138,10 +145,10 @@ export const usePath = (pathId: string | undefined): PathResponse => {
       }
 
       // If not found, check in subpaths
-      const { subpath, parent } = findSubpath(paths, pathId);
+      const { subpath, parent } = findSubpath(paths as Path[], pathId);
       if (subpath) {
         setPathData({
-          path: subpath,
+          path: { ...subpath, count: subpath.count || 0 } as Path,
           loading: false,
           error: null,
           isSubpath: true,
@@ -173,7 +180,7 @@ export const usePathQuestions = (pathId: string | undefined): QuestionsResponse 
     queryFn: () => (pathId ? loadPathQuestions(pathId) : []),
     enabled: !!pathId, // Only fetch when pathId is available
     staleTime: 1000 * 60 * 5, // Cache for 5 minutes
-    cacheTime: 1000 * 60 * 30, // Keep in cache for 30 minutes
+    gcTime: 1000 * 60 * 30, // Keep in cache for 30 minutes (formerly cacheTime)
   });
 
   return {
@@ -181,4 +188,60 @@ export const usePathQuestions = (pathId: string | undefined): QuestionsResponse 
     loading: isLoading,
     error: error as Error | null,
   };
+};
+
+// Function to get questions for a specific path (used by SearchDialog)
+export const getQuestionsForPath = async (pathId: string): Promise<Question[]> => {
+  try {
+    return await loadPathQuestions(pathId);
+  } catch {
+    return [];
+  }
+};
+
+// Custom hook to store all questions data (for search functionality)
+export const useAllQuestions = () => {
+  const [allQuestions, setAllQuestions] = useState<Record<string, Question[]>>({});
+  const [loading, setLoading] = useState(true);
+  const { paths } = useData();
+
+  useEffect(() => {
+    const loadAllQuestions = async () => {
+      if (!paths || paths.length === 0) return;
+      
+      const questions: Record<string, Question[]> = {};
+      
+      // A function to recursively collect all path IDs
+      const collectPathIds = (items: any[]): string[] => {
+        let ids: string[] = [];
+        for (const item of items) {
+          ids.push(item.id);
+          if (item.subpaths && item.subpaths.length > 0) {
+            ids = [...ids, ...collectPathIds(item.subpaths)];
+          }
+        }
+        return ids;
+      };
+      
+      const allPathIds = collectPathIds(paths);
+      
+      for (const pathId of allPathIds) {
+        try {
+          const pathQuestions = await loadPathQuestions(pathId);
+          if (pathQuestions && pathQuestions.length > 0) {
+            questions[pathId] = pathQuestions;
+          }
+        } catch (err) {
+          // Skip if questions can't be loaded for this path
+        }
+      }
+      
+      setAllQuestions(questions);
+      setLoading(false);
+    };
+    
+    loadAllQuestions();
+  }, [paths]);
+  
+  return { questions: allQuestions, loading };
 };

@@ -129,12 +129,12 @@ const AskAI = () => {
                 {responses.map((response, index) => (
                   <QuestionCard
                     key={index}
-                    id={index}
+                    id={String(index)}
                     question={response.question}
                     answer={response.answer}
                     isRead={true}
-                    level="Beginner" // Adding missing required prop
-                    isExpanded={true} // Adding missing required prop
+                    level="Beginner" 
+                    isExpanded={true}
                   />
                 ))}
               </div>

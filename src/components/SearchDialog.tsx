@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { useData } from "@/hooks/useData";
+import { useData, useAllQuestions } from "@/hooks/useData";
 import { Search, X, FileText, Book, Folders, MessagesSquare } from "lucide-react";
 import {
   Dialog,
@@ -40,7 +40,8 @@ const SearchDialog: React.FC<SearchDialogProps> = ({
   onOpenChange,
   currentPathId,
 }) => {
-  const { paths, questions } = useData();
+  const { paths } = useData();
+  const { questions, loading: questionsLoading } = useAllQuestions();
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [recentSearches, setRecentSearches] = useState<string[]>(() => {
@@ -205,7 +206,7 @@ const SearchDialog: React.FC<SearchDialogProps> = ({
             <CommandInput
               placeholder="Search for paths, topics, or questions..."
               value={searchQuery}
-              onValueChange={setSearchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
             />
             {searchQuery && (
