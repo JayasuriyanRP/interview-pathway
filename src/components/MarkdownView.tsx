@@ -113,27 +113,27 @@ const MarkdownView = ({ content }: { content: string }) => {
             <h3 className="font-semibold text-lg mt-4 mb-2">{children}</h3>
           ),
           p: ({ children }) => (
-            <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+            <p className="text-sm md:text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
               {children}
             </p>
           ),
           ul: ({ children }) => (
-            <ul className="list-disc pl-6 marker:text-gray-700 dark:marker:text-gray-300">
+            <ul className="text-sm md:text-lg list-disc pl-6 marker:text-gray-700 dark:marker:text-gray-300">
               {children}
             </ul>
           ),
           ol: ({ children }) => (
-            <ol className="list-decimal pl-6 marker:text-gray-700 dark:marker:text-gray-300">
+            <ol className="text-sm md:text-lg list-decimal pl-6 marker:text-gray-700 dark:marker:text-gray-300">
               {children}
             </ol>
           ),
           blockquote: ({ children }) => (
-            <blockquote className="border-l-4 border-gray-500 pl-4 italic text-gray-600 dark:text-gray-400">
+            <blockquote className="text-sm md:text-lg border-l-4 border-gray-500 pl-4 italic text-gray-600 dark:text-gray-400">
               {children}
             </blockquote>
           ),
           a: ({ children, href }) => (
-            <a href={href} className="text-blue-500 hover:underline">
+            <a href={href} className="text-sm md:text-lg text-blue-500 hover:underline">
               {children}
             </a>
           ),
@@ -143,7 +143,7 @@ const MarkdownView = ({ content }: { content: string }) => {
             </strong>
           ),
           em: ({ children }) => (
-            <em className="italic text-gray-800 dark:text-gray-200">
+            <em className="italic text-sm md:text-lg text-gray-800 dark:text-gray-200">
               {children}
             </em>
           ),
@@ -158,15 +158,15 @@ const MarkdownView = ({ content }: { content: string }) => {
             </div>
           ),
           th: ({ children }) => (
-            <th className="border border-gray-300 dark:border-gray-700 px-4 py-2 bg-gray-100 dark:bg-gray-800 text-left">
+            <th className="border text-sm md:text-lg border-gray-300 dark:border-gray-700 px-4 py-2 bg-gray-100 dark:bg-gray-800 text-left">
               {children}
             </th>
           ),
           td: ({ children }) => (
-            <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">
+            <td className="border text-sm md:text-lg border-gray-300 dark:border-gray-700 px-4 py-2">
               {children}
             </td>
-          ),
+          )
         }}
       >
         {content}

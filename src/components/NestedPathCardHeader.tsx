@@ -34,7 +34,7 @@ const NestedPathCardHeader: React.FC<NestedPathCardHeaderProps> = ({
   const isMobile = useIsMobile();
 
   return (
-    <CardHeader className="pb-2">
+    <CardHeader className="p-2">
       <div className="flex justify-end items-start">
         <Badge className={cn("mb-1", getBadgeClass(level))}>{level}</Badge>
       </div>

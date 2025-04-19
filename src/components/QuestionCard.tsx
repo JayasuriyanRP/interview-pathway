@@ -106,7 +106,7 @@ const Question: React.FC<QuestionProps> = ({
   return (
     <div
       className={`mb-6 bg-card rounded-xl border-2 overflow-hidden border ${isRead
-        ? "bg-green-100 dark:bg-green-900 border-green-400 dark:border-green-800"
+        ? "bg-green-200 dark:bg-green-950 border-green-400 dark:border-green-800"
         : "border-blue-400 dark:border-blue-800"
         } shadow-xl transition-all duration-300`}
     >
@@ -184,7 +184,7 @@ const Question: React.FC<QuestionProps> = ({
       </div>
 
       {isOpen && (
-        <div className="px-2 sm:px-6 pb-4 sm:pb-6 pt-1 sm:pt-2 border-t border-border animate-slideUp">
+        <div className="px-2 sm:px-6 pb-4 sm:pb-6 pt-1 sm:pt-2 border-t border-border animate-slideUp bg-white dark:bg-black">
           {isMarkdown ? (
             <MarkdownView
               content={answer.replace(/^```markdown\n?|```$/g, "")}

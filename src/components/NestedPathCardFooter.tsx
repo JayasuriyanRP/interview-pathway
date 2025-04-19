@@ -31,7 +31,7 @@ const NestedPathCardFooter: React.FC<NestedPathCardFooterProps> = ({
     : 0;
 
   return (
-    <CardFooter className="pt-0 pb-3 px-4 flex flex-col">
+    <CardFooter className="pt-0 p-2 px-3 flex flex-col">
       {/* Progress bar for non-expanded cards without subpaths */}
       {!hasNestedPaths && progress && progress.total > 0 && (
         <div className="w-full mt-2 mb-2">

@@ -67,14 +67,13 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
         <SheetTrigger asChild>
           <Card
             className={cn(
-              `w-full transition-all duration-200 cursor-pointer hover:shadow-md ${
-                isNested ? `ml-${Math.min(level * 3, 8)}` : ""
+              `w-full transition-all duration-200 cursor-pointer hover:shadow-md border-2 ${isNested ? `ml-${Math.min(level * 3, 8)}` : ""
               }`,
               isPathActuallyCompleted
-                ? "border-indigo-200 dark:border-indigo-900"
-                : "",
+                ? "bg-green-200 dark:bg-green-950 border-green-400 dark:border-green-800"
+                : "border-blue-400 dark:border-blue-800",
               cardBg,
-              level > 0 && "border-l-4 border-l-indigo-500",
+              level > 0 ? "border-l-4 border-l-indigo-500" : "border-2",
               hasNestedPaths ? "bg-blue-100 dark:bg-blue-500" : ""
             )}
             onClick={handlePathClick}
@@ -139,29 +138,28 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
   // Make the entire card clickable if it has subpaths
   const CardWrapper = hasNestedPaths
     ? ({ children }: { children: React.ReactNode }) => (
-        <Link to={`/subpaths/${path.id}`} onClick={handlePathClick}>
-          {children}
-        </Link>
-      )
+      <Link to={`/subpaths/${path.id}`} onClick={handlePathClick}>
+        {children}
+      </Link>
+    )
     : ({ children }: { children: React.ReactNode }) => (
-        <Link to={`/path/${path.id}`} onClick={handlePathClick}>
-          {children}
-        </Link>
-      );
+      <Link to={`/path/${path.id}`} onClick={handlePathClick}>
+        {children}
+      </Link>
+    );
 
   // For top-level paths and paths with subpaths, use the regular card view
   return (
     <CardWrapper>
       <Card
         className={cn(
-          `w-full transition-all duration-200 hover:shadow-md ${
-            isNested ? `ml-${Math.min(level * 3, 8)}` : ""
+          `w-full transition-all duration-200 hover:shadow-md ${isNested ? `ml-${Math.min(level * 3, 8)}` : ""
           }`,
           isPathActuallyCompleted
-            ? "border-indigo-200 dark:border-indigo-900"
-            : "",
+            ? "bg-green-200 dark:bg-green-950 border-green-400 dark:border-green-800"
+            : "border-blue-400 dark:border-blue-800",
           cardBg,
-          level > 0 && "border-l-4 border-l-indigo-500",
+          level > 0 ? "border-l-4 border-l-indigo-500" : "border-2",
           hasNestedPaths
             ? "bg-blue-100 hover:bg-blue-200 dark:bg-blue-950 dark:hover:bg-blue-900 border-l-4 border-blue-600 dark:border-blue-500"
             : ""

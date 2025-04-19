@@ -234,11 +234,11 @@ pre {
 }
 
 .prose p {
-  margin-bottom: 0.75em;
+  margin-bottom: 0.5em;
 }
 
 .prose ul, .prose ol {
-  margin-bottom: 1.5em;
+  margin-bottom: 0.5em;
 }
 
 /* Accessibility improvements */
