@@ -106,8 +106,8 @@ const Question: React.FC<QuestionProps> = ({
   return (
     <div
       className={`mb-6 bg-card rounded-xl overflow-hidden border ${isRead
-        ? "border-gray-100 dark:border-gray-800"
-        : "border-blue-100 dark:border-blue-800"
+        ? "border-gray-400 dark:border-gray-800"
+        : "border-blue-400 dark:border-blue-800"
         } shadow-sm transition-all duration-300`}
     >
       <div
@@ -137,8 +137,10 @@ const Question: React.FC<QuestionProps> = ({
               {index + 1}.
             </h3>
             <div className="flex items-center gap-2">
-              <h3 className="font-medium leading-tight">
-                <code className="rounded">{question}</code>
+              <h3 className="font-semibold leading-snug tracking-tight text-gray-800 dark:text-gray-100">
+                <code className="font-mono text-sm tracking-wide px-1 py-0.5 bg-muted rounded">
+                  {question}
+                </code>
               </h3>
               <button
                 onClick={handleCopy}
