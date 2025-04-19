@@ -22,6 +22,7 @@ export default {
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],
         mono: ["SF Mono", "SFMono-Regular", "ui-monospace", "monospace"],
+        markdown: ['"Comic Neue"', 'Courier New', 'monospace', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",

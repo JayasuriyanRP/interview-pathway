@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ChevronDown, CheckCircle2, Undo, Edit } from "lucide-react";
+import { ChevronDown, CheckCircle2, Undo, Edit, Clipboard, ClipboardCheck } from "lucide-react";
 import Answer from "./Answer";
 import MarkdownView from "./MarkdownView";
 import { Badge } from "./ui/badge";
@@ -44,9 +44,20 @@ const Question: React.FC<QuestionProps> = ({
   const [isOpen, setIsOpen] = useState(isExpanded);
   const [isEditing, setIsEditing] = useState(false);
 
+  const [copied, setCopied] = useState(false);
+
+
   useEffect(() => {
     setIsOpen(isExpanded);
   }, [isExpanded]);
+
+  const handleCopy = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(question);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
 
   const toggleAnswer = () => {
     setIsOpen(!isOpen);
@@ -125,9 +136,18 @@ const Question: React.FC<QuestionProps> = ({
             <h3 className="font-medium text-gray-500 dark:text-gray-400">
               {index + 1}.
             </h3>
-            <h3 className="font-medium leading-tight">
-              <code className="rounded">{question}</code>
-            </h3>
+            <div className="flex items-center gap-2">
+              <h3 className="font-medium leading-tight">
+                <code className="rounded">{question}</code>
+              </h3>
+              <button
+                onClick={handleCopy}
+                title="Copy question"
+                className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 p-1 rounded"
+              >
+                {copied ? <ClipboardCheck size={16} /> : <Clipboard size={16} />}
+              </button>
+            </div>
           </div>
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 mt-2 sm:mt-0">
             {/* First Row (Level Badge) */}

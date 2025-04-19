@@ -45,7 +45,7 @@ const MarkdownView = ({ content }: { content: string }) => {
   };
 
   return (
-    <div className="prose prose-lg max-w-none">
+    <div className="prose prose-lg max-w-none font-markdown dark:prose-invert">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw]}
@@ -118,9 +118,15 @@ const MarkdownView = ({ content }: { content: string }) => {
               {children}
             </p>
           ),
-          ul: ({ children }) => <ul className="list-disc pl-6">{children}</ul>,
+          ul: ({ children }) => (
+            <ul className="list-disc pl-6 marker:text-gray-700 dark:marker:text-gray-300">
+              {children}
+            </ul>
+          ),
           ol: ({ children }) => (
-            <ol className="list-decimal pl-6">{children}</ol>
+            <ol className="list-decimal pl-6 marker:text-gray-700 dark:marker:text-gray-300">
+              {children}
+            </ol>
           ),
           blockquote: ({ children }) => (
             <blockquote className="border-l-4 border-gray-500 pl-4 italic text-gray-600 dark:text-gray-400">

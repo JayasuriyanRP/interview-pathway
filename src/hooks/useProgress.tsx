@@ -8,11 +8,11 @@ import { initializeApp } from "firebase/app";
 // Define the type for progress data
 type ProgressData = {
   questions: Record<string, boolean>;
-  questionsByPath: Record<string, string[]>; // New structure to store questions by path
+  questionsByPath: Record<string, string[]>;
   paths: Record<string, {
     completed: boolean;
     lastRead: number;
-    subpaths: Record<string, {
+    subpaths?: Record<string, {
       completed: boolean;
       lastRead: number;
       subpaths?: Record<string, {
@@ -36,12 +36,12 @@ export const useProgress = () => {
     return savedProgress
       ? JSON.parse(savedProgress)
       : {
-          questions: {},
-          questionsByPath: {}, // Initialize the new structure
-          paths: {},
-          lastRead: {},
-          lastUpdated: Date.now(),
-        };
+        questions: {},
+        questionsByPath: {}, // Initialize the new structure
+        paths: {},
+        lastRead: {},
+        lastUpdated: Date.now(),
+      };
   });
 
   const [isSyncing, setIsSyncing] = useState(false);
@@ -65,6 +65,7 @@ export const useProgress = () => {
     if (!database) return;
     const progressRef = ref(database, "progressData");
 
+    console.log(database)
     get(progressRef)
       .then((snapshot) => {
         if (snapshot.exists()) {
@@ -78,7 +79,7 @@ export const useProgress = () => {
             // Ensure the questionsByPath structure exists
             if (!remoteProgress.questionsByPath) {
               remoteProgress.questionsByPath = {};
-              
+
               // Convert from old format if needed
               Object.keys(remoteProgress.questions || {}).forEach(questionKey => {
                 const [pathId, questionId] = questionKey.split('-');
@@ -90,7 +91,7 @@ export const useProgress = () => {
                 }
               });
             }
-            
+
             setProgress(remoteProgress);
             localStorage.setItem(storageKey, JSON.stringify(remoteProgress));
           } else if (
@@ -99,7 +100,7 @@ export const useProgress = () => {
             // Ensure the questionsByPath structure exists in local data
             if (!localProgress.questionsByPath) {
               localProgress.questionsByPath = {};
-              
+
               // Convert from old format if needed
               Object.keys(localProgress.questions || {}).forEach(questionKey => {
                 const [pathId, questionId] = questionKey.split('-');
@@ -111,7 +112,7 @@ export const useProgress = () => {
                 }
               });
             }
-            
+
             set(progressRef, localProgress);
           }
         }
@@ -136,7 +137,7 @@ export const useProgress = () => {
           // Ensure the questionsByPath structure exists
           if (!remoteData.questionsByPath) {
             remoteData.questionsByPath = {};
-            
+
             // Convert from old format if needed
             Object.keys(remoteData.questions || {}).forEach(questionKey => {
               const [pathId, questionId] = questionKey.split('-');
@@ -148,7 +149,7 @@ export const useProgress = () => {
               }
             });
           }
-          
+
           setProgress(remoteData);
           localStorage.setItem(storageKey, JSON.stringify(remoteData)); // Update localStorage
         }
@@ -181,23 +182,23 @@ export const useProgress = () => {
 
   const resetProgress = async (pathId?: string) => {
     let newProgress: ProgressData;
-    
+
     if (pathId) {
       // Reset specific path and its nested structure
       const updatedPaths = { ...progress.paths };
       delete updatedPaths[pathId];
-      
+
       // Update the questionsByPath structure
       const updatedQuestionsByPath = { ...progress.questionsByPath };
       delete updatedQuestionsByPath[pathId];
-      
+
       // Remove any questions that start with the pathId
       const updatedQuestions = Object.fromEntries(
         Object.entries(progress.questions).filter(
           ([key]) => !key.startsWith(`${pathId}`)
         )
       );
-      
+
       newProgress = {
         ...progress,
         paths: updatedPaths,
@@ -245,7 +246,7 @@ export const useProgress = () => {
       // Update the traditional questions object
       const updatedQuestions = { ...prev.questions, [questionKey]: true };
       const updatedLastRead = { ...prev.lastRead, [questionKey]: Date.now() };
-      
+
       // Update the questionsByPath structure
       const updatedQuestionsByPath = { ...prev.questionsByPath };
       if (!updatedQuestionsByPath[pathId]) {
@@ -254,11 +255,11 @@ export const useProgress = () => {
       if (!updatedQuestionsByPath[pathId].includes(questionId)) {
         updatedQuestionsByPath[pathId] = [...updatedQuestionsByPath[pathId], questionId];
       }
-      
+
       // Update the path structure
       const pathParts = pathId.split('-');
       const mainPathId = pathParts[0];
-      
+
       const updatedPaths = { ...prev.paths };
       if (!updatedPaths[mainPathId]) {
         updatedPaths[mainPathId] = {
@@ -287,7 +288,7 @@ export const useProgress = () => {
 
     toast.success("Question marked as read!");
   };
-  
+
   const undoMarkQuestionAsRead = (pathId: string, questionId: string) => {
     const questionKey = `${pathId}-${questionId}`;
 
@@ -295,7 +296,7 @@ export const useProgress = () => {
       // Update the traditional questions object
       const updatedQuestions = { ...prev.questions };
       delete updatedQuestions[questionKey];
-      
+
       const updatedLastRead = { ...prev.lastRead };
       delete updatedLastRead[questionKey];
 
@@ -305,7 +306,7 @@ export const useProgress = () => {
         updatedQuestionsByPath[pathId] = updatedQuestionsByPath[pathId].filter(
           qId => qId !== questionId
         );
-        
+
         // Remove empty arrays
         if (updatedQuestionsByPath[pathId].length === 0) {
           delete updatedQuestionsByPath[pathId];
@@ -334,10 +335,10 @@ export const useProgress = () => {
   const markSubpathAsCompleted = (subpathId: string) => {
     const pathParts = subpathId.split('-');
     const mainPathId = pathParts[0];
-    
+
     setProgress((prev) => {
       const updatedPaths = { ...prev.paths };
-      
+
       if (!updatedPaths[mainPathId]) {
         updatedPaths[mainPathId] = {
           completed: false,
@@ -345,7 +346,7 @@ export const useProgress = () => {
           subpaths: {}
         };
       }
-      
+
       let currentLevel = updatedPaths[mainPathId];
       for (let i = 1; i < pathParts.length; i++) {
         const part = pathParts.slice(0, i + 1).join('-');
@@ -361,7 +362,7 @@ export const useProgress = () => {
         }
         currentLevel = currentLevel.subpaths[part];
       }
-      
+
       currentLevel.completed = true;
       currentLevel.lastRead = Date.now();
 
@@ -404,28 +405,28 @@ export const useProgress = () => {
     if (progress?.questions?.[`${pathId}-${questionId}`]) {
       return true;
     }
-    
+
     // Then check the new structure
     if (progress?.questionsByPath?.[pathId]) {
       return progress.questionsByPath[pathId].includes(String(questionId));
     }
-    
+
     return false;
   };
 
   const isSubpathCompleted = (subpathId: string): boolean => {
     const pathParts = subpathId.split('-');
     const mainPathId = pathParts[0];
-    
+
     if (!progress?.paths?.[mainPathId]) return false;
-    
+
     let currentLevel = progress.paths[mainPathId];
     for (let i = 1; i < pathParts.length; i++) {
       const part = pathParts.slice(0, i + 1).join('-');
       if (!currentLevel.subpaths?.[part]) return false;
       currentLevel = currentLevel.subpaths[part];
     }
-    
+
     return currentLevel.completed;
   };
 
@@ -470,7 +471,7 @@ export const useProgress = () => {
         // Ensure the questionsByPath structure exists
         if (!remoteProgress.questionsByPath) {
           remoteProgress.questionsByPath = {};
-          
+
           // Convert from old format if needed
           Object.keys(remoteProgress.questions || {}).forEach(questionKey => {
             const [pathId, questionId] = questionKey.split('-');
