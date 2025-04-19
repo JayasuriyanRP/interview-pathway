@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -10,7 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
-import { Loader2, Database } from "lucide-react";
+import { Loader2, Database, Download, Upload } from "lucide-react";
 import { toast } from "sonner";
 import {
   Form,
@@ -80,6 +81,53 @@ const FirebaseDBConfigModal = () => {
     }
   };
 
+  const exportConfig = () => {
+    try {
+      const config = getSavedConfig();
+      // Convert config to base64 to make it easily shareable
+      const encodedConfig = btoa(JSON.stringify(config));
+      // Create a shareable link or text
+      const shareText = `Firebase Config (copy this text): ${encodedConfig}`;
+      
+      // Copy to clipboard
+      navigator.clipboard.writeText(shareText)
+        .then(() => {
+          toast.success("Configuration copied to clipboard! Share this text.");
+        })
+        .catch(() => {
+          toast.error("Failed to copy to clipboard");
+        });
+    } catch (error) {
+      toast.error("Failed to export configuration");
+    }
+  };
+
+  const importConfig = async () => {
+    try {
+      const clipboardText = await navigator.clipboard.readText();
+      // Try to extract the base64 encoded config
+      const encoded = clipboardText.replace("Firebase Config (copy this text): ", "").trim();
+      const configStr = atob(encoded);
+      const config = JSON.parse(configStr);
+
+      // Validate the imported config
+      const result = firebaseDBSchema.safeParse(config);
+      if (!result.success) {
+        throw new Error("Invalid configuration format");
+      }
+
+      // Update form with imported values
+      form.reset(config);
+      
+      // Save to localStorage
+      localStorage.setItem("firebase_db_config", JSON.stringify(config));
+      toast.success("Configuration imported successfully");
+      toast.info("Please refresh the page to apply the new configuration");
+    } catch (error) {
+      toast.error("Failed to import configuration. Make sure to paste the entire exported text.");
+    }
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
@@ -99,6 +147,25 @@ const FirebaseDBConfigModal = () => {
             Enter your Firebase project details to enable database storage.
           </DialogDescription>
         </DialogHeader>
+
+        <div className="flex gap-2 mb-4">
+          <Button
+            variant="outline"
+            onClick={exportConfig}
+            className="flex items-center gap-2"
+          >
+            <Download className="h-4 w-4" />
+            Export Config
+          </Button>
+          <Button
+            variant="outline"
+            onClick={importConfig}
+            className="flex items-center gap-2"
+          >
+            <Upload className="h-4 w-4" />
+            Import Config
+          </Button>
+        </div>
 
         <Form {...form}>
           <form
