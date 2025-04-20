@@ -146,7 +146,7 @@ const LearningPath = () => {
       <Header title={path.title} showBackButton={true} />
 
       <main className="flex-1 px-0 sm:px-6 md:px-8 lg:px-12 pb-12">
-        <div className="container mx-auto max-w-3xl lg:max-w-5xl xl:max-w-6xl px-4 sm:px-6 md:px-8 lg:px-16 py-6 sm:py-8">
+        <div className="container mx-auto max-w-full lg:max-w-[calc(100%-600px)] xl:max-w-[calc(100%-600px)] px-4 sm:px-6 md:px-8 lg:px-16 py-6 sm:py-8">
           <div className="flex justify-between items-center mt-4 mb-6">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               {isSubpath && parentPath && (
