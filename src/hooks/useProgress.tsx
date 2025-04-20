@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { debounce } from "lodash";
@@ -6,21 +5,23 @@ import { getDatabase, ref, set, get, onValue } from "firebase/database";
 import { initializeApp } from "firebase/app";
 
 // Define the type for progress data
-type ProgressData = {
-  questions: Record<string, boolean>;
-  questionsByPath: Record<string, string[]>;
-  paths: Record<string, {
+type PathProgress = {
+  completed: boolean;
+  lastRead: number;
+  subpaths: Record<string, {
     completed: boolean;
     lastRead: number;
     subpaths?: Record<string, {
       completed: boolean;
       lastRead: number;
-      subpaths?: Record<string, {
-        completed: boolean;
-        lastRead: number;
-      }>;
     }>;
   }>;
+};
+
+type ProgressData = {
+  questions: Record<string, boolean>;
+  questionsByPath: Record<string, string[]>;
+  paths: Record<string, PathProgress>;
   lastRead: Record<string, number>;
   lastUpdated: number;
 };
@@ -377,28 +378,32 @@ export const useProgress = () => {
   };
 
   const markPathAsCompleted = (pathId: string) => {
-    setProgress((prev) => {
-      const updatedPaths = { ...prev.paths };
-      if (!updatedPaths[pathId]) {
-        updatedPaths[pathId] = {
-          completed: true,
-          lastRead: Date.now(),
-          subpaths: {}
-        };
-      } else {
-        updatedPaths[pathId].completed = true;
-        updatedPaths[pathId].lastRead = Date.now();
-      }
-
-      return {
-        ...prev,
-        paths: updatedPaths,
-        lastUpdated: Date.now(),
+  setProgress((prev) => {
+    const updatedPaths = { ...prev.paths };
+    if (!updatedPaths[pathId]) {
+      updatedPaths[pathId] = {
+        completed: true,
+        lastRead: Date.now(),
+        subpaths: {} // Initialize with empty record
       };
-    });
+    } else {
+      updatedPaths[pathId] = {
+        ...updatedPaths[pathId],
+        completed: true,
+        lastRead: Date.now(),
+        subpaths: updatedPaths[pathId].subpaths || {} // Ensure subpaths exists
+      };
+    }
 
-    toast.success("Learning path marked as completed!");
-  };
+    return {
+      ...prev,
+      paths: updatedPaths,
+      lastUpdated: Date.now(),
+    };
+  });
+
+  toast.success("Learning path marked as completed!");
+};
 
   const isQuestionRead = (pathId: string, questionId: number): boolean => {
     // First check the traditional way
