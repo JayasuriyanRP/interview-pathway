@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { ChevronRight, CheckCircle2, Undo, Edit, Clipboard, ClipboardCheck } from "lucide-react";
 import Answer from "./Answer";
@@ -20,6 +21,7 @@ interface QuestionProps {
   isExpanded: boolean;
   onEdit?: (id: string, updatedQuestion: string, updatedAnswer: string) => void;
   editable?: boolean;
+  onSidePanelToggle?: (id: string, isOpen: boolean) => void;
 }
 
 const levelBadgeVariant = {
@@ -41,16 +43,22 @@ const Question: React.FC<QuestionProps> = ({
   isExpanded = false,
   onEdit,
   editable = false,
+  onSidePanelToggle,
 }) => {
   const [isOpen, setIsOpen] = useState(isExpanded);
   const [isEditing, setIsEditing] = useState(false);
-
   const [copied, setCopied] = useState(false);
-
 
   useEffect(() => {
     setIsOpen(isExpanded);
   }, [isExpanded]);
+
+  useEffect(() => {
+    // Notify parent component about side panel state changes
+    if (onSidePanelToggle) {
+      onSidePanelToggle(id, isOpen);
+    }
+  }, [isOpen, id, onSidePanelToggle]);
 
   const handleCopy = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -58,7 +66,6 @@ const Question: React.FC<QuestionProps> = ({
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
-
 
   const toggleAnswer = () => {
     setIsOpen(!isOpen);

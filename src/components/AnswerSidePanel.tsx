@@ -4,6 +4,7 @@ import { Sheet, SheetContent } from "./ui/sheet";
 import Answer from "./Answer";
 import MarkdownView from "./MarkdownView";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { X } from "lucide-react";
 
 interface AnswerSidePanelProps {
   question: string;
@@ -44,13 +45,20 @@ const AnswerSidePanel = ({
 
   return (
     <div
-      className={`fixed right-0 top-0 h-full w-[600px] bg-background border-l border-border transform transition-transform duration-300 overflow-y-auto ${
+      className={`fixed right-0 top-0 h-full w-[600px] bg-background border-l border-border shadow-lg z-40 transform transition-transform duration-300 overflow-y-auto ${
         isOpen ? "translate-x-0" : "translate-x-full"
       }`}
     >
-      <div className="p-6">
-        <h2 className="text-xl font-bold mb-4">{question}</h2>
-        <div className="mt-4">
+      <div className="p-6 relative">
+        <button 
+          onClick={onClose}
+          className="absolute right-6 top-6 p-2 rounded-full hover:bg-muted"
+          aria-label="Close panel"
+        >
+          <X size={20} />
+        </button>
+        <h2 className="text-xl font-bold pr-10">{question}</h2>
+        <div className="mt-6">
           {isMarkdown ? (
             <MarkdownView content={answer.replace(/^```markdown\n?|```$/g, "")} />
           ) : (

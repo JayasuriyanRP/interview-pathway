@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useSearchParams } from "react-router-dom";
 import Header from "../components/Header";
@@ -11,10 +12,12 @@ import { Button } from "../components/ui/button";
 
 const LearningPath = () => {
   const [expandAll, setExpandAll] = useState(false);
+  const [activeSidePanel, setActiveSidePanel] = useState<string | null>(null);
 
   const toggleExpandAll = () => {
     setExpandAll((prev) => !prev);
   };
+  
   const { pathId } = useParams<{ pathId: string }>();
   const [searchParams] = useSearchParams();
   const highlightedQuestion = searchParams.get("q");
@@ -46,9 +49,12 @@ const LearningPath = () => {
   const loading = pathLoading || questionsLoading;
   const error = pathError || questionsError;
 
+  const handleSidePanelToggle = (questionId: string, isOpen: boolean) => {
+    setActiveSidePanel(isOpen ? questionId : null);
+  };
+
   useEffect(() => {
     if (!loading && questions) {
-
       setFilteredQuestions(questions);
     }
   }, [questions, loading]);
@@ -141,12 +147,15 @@ const LearningPath = () => {
     );
   }
 
+  // Determine if side panel is open
+  const isSidePanelActive = activeSidePanel !== null;
+
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       <Header title={path.title} showBackButton={true} />
 
-      <main className="flex-1 px-0 sm:px-6 md:px-8 lg:px-12 pb-12">
-        <div className="container mx-auto max-w-full lg:max-w-[calc(100%-600px)] xl:max-w-[calc(100%-600px)] px-4 sm:px-6 md:px-8 lg:px-16 py-6 sm:py-8">
+      <main className={`flex-1 pb-12 transition-all duration-300 ${isSidePanelActive ? 'pr-[600px]' : 'pr-0'}`}>
+        <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12 py-6 sm:py-8">
           <div className="flex justify-between items-center mt-4 mb-6">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               {isSubpath && parentPath && (
@@ -264,6 +273,7 @@ const LearningPath = () => {
                       isRead={isQuestionRead(pathId || "", question.id)}
                       highlightQuery={searchQuery}
                       isExpanded={expandAll}
+                      onSidePanelToggle={handleSidePanelToggle}
                       onEdit={(id, updatedQuestion, updatedAnswer) => {
                         // Implement your logic to update the question in your state
                         // For example:
