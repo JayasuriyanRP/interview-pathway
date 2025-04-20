@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Card } from "./ui/card";
 import { cn } from "@/lib/utils";
@@ -47,7 +48,7 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
     return (levelOrder[a.level] || 0) - (levelOrder[b.level] || 0);
   });
 
-  const hasReadQuestions = questions?.some((q) => isQuestionRead(path.id, q.id));
+  const hasReadQuestions = questions?.some((q) => isQuestionRead(path.id, String(q.id)));
 
   // Calculate the actual progress
   const progress = getPathProgress(path.id, questions);

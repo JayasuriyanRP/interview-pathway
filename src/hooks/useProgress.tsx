@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { debounce } from "lodash";
@@ -266,7 +267,7 @@ export const useProgress = () => {
         updatedPaths[mainPathId] = {
           completed: false,
           lastRead: Date.now(),
-          subpaths: {}
+          subpaths: {} // Always initialize with empty record
         };
       }
 
@@ -378,42 +379,44 @@ export const useProgress = () => {
   };
 
   const markPathAsCompleted = (pathId: string) => {
-  setProgress((prev) => {
-    const updatedPaths = { ...prev.paths };
-    if (!updatedPaths[pathId]) {
-      updatedPaths[pathId] = {
-        completed: true,
-        lastRead: Date.now(),
-        subpaths: {} // Initialize with empty record
+    setProgress((prev) => {
+      const updatedPaths = { ...prev.paths };
+      if (!updatedPaths[pathId]) {
+        updatedPaths[pathId] = {
+          completed: true,
+          lastRead: Date.now(),
+          subpaths: {} // Always initialize with empty record
+        };
+      } else {
+        updatedPaths[pathId] = {
+          ...updatedPaths[pathId],
+          completed: true,
+          lastRead: Date.now(),
+          subpaths: updatedPaths[pathId].subpaths || {} // Ensure subpaths exists
+        };
+      }
+
+      return {
+        ...prev,
+        paths: updatedPaths,
+        lastUpdated: Date.now(),
       };
-    } else {
-      updatedPaths[pathId] = {
-        ...updatedPaths[pathId],
-        completed: true,
-        lastRead: Date.now(),
-        subpaths: updatedPaths[pathId].subpaths || {} // Ensure subpaths exists
-      };
-    }
+    });
 
-    return {
-      ...prev,
-      paths: updatedPaths,
-      lastUpdated: Date.now(),
-    };
-  });
+    toast.success("Learning path marked as completed!");
+  };
 
-  toast.success("Learning path marked as completed!");
-};
-
-  const isQuestionRead = (pathId: string, questionId: number): boolean => {
+  const isQuestionRead = (pathId: string, questionId: number | string): boolean => {
+    const questionIdStr = String(questionId);
+    
     // First check the traditional way
-    if (progress?.questions?.[`${pathId}-${questionId}`]) {
+    if (progress?.questions?.[`${pathId}-${questionIdStr}`]) {
       return true;
     }
 
     // Then check the new structure
     if (progress?.questionsByPath?.[pathId]) {
-      return progress.questionsByPath[pathId].includes(String(questionId));
+      return progress.questionsByPath[pathId].includes(questionIdStr);
     }
 
     return false;
