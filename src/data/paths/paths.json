@@ -56,19 +56,19 @@
             "level": "Beginner"
           },
           {
-            "id": "frontend-react-hooks",
+            "id": "react-hooks",
             "title": "React Hooks",
             "description": "Understanding React hooks and their applications",
             "level": "Intermediate"
           },
           {
-            "id": "frontend-react-state",
-            "title": "State Management",
+            "id": "react-state-management",
+            "title": "React State Management",
             "description": "Various state management approaches in React",
             "level": "Advanced"
           },
           {
-            "id": "frontend-react-patterns",
+            "id": "react-patterns",
             "title": "Design Patterns",
             "description": "Common React design patterns and best practices",
             "level": "Advanced"
