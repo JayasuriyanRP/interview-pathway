@@ -244,11 +244,13 @@ const LearningPath = () => {
                   <div
                     key={question.id}
                     id={`question-${originalIndex}`}
-                    className={`animate-fadeIn animate-delay-${Math.min(index, 3) * 100
-                      } ${highlightedQuestion === originalIndex.toString()
+                    className={`animate-fadeIn animate-delay-${
+                      Math.min(index, 3) * 100
+                    } ${
+                      highlightedQuestion === originalIndex.toString()
                         ? "ring-2 ring-blue-400 rounded-xl"
                         : ""
-                      }`}
+                    }`}
                   >
                     <QuestionCard
                       key={question.id}

@@ -108,14 +108,14 @@ const Question: React.FC<QuestionProps> = ({
   return (
     <>
       <div
-        className={`mb-6 bg-card rounded-xl border-2 overflow-hidden border ${
+        className={`mb-4 bg-card rounded-xl border-2 overflow-hidden border ${
           isRead
-            ? "bg-green-200 dark:bg-green-950 border-green-400 dark:border-green-800"
+            ? "bg-green-200/50 dark:bg-green-950/50 border-green-400 dark:border-green-800"
             : "border-blue-400 dark:border-blue-800"
-        } shadow-xl transition-all duration-300`}
+        } shadow-sm transition-all duration-300 hover:shadow-md`}
       >
         <div
-          className="p-4 sm:p-2 lg:p-4 cursor-pointer flex flex-col sm:flex-row items-start sm:items-center gap-3"
+          className="p-3 cursor-pointer flex flex-col sm:flex-row items-start sm:items-center gap-2"
           onClick={toggleAnswer}
         >
           <div className="flex flex-1 flex-row justify-between sm:flex-row sm:items-center gap-2">
@@ -131,51 +131,45 @@ const Question: React.FC<QuestionProps> = ({
                   <Edit size={16} />
                 </Button>
               )}
-              <h3 className="font-mono text-sm sm:text-base md:text-lg text-gray-500 dark:text-gray-400">
+              <h3 className="font-mono text-sm text-muted-foreground">
                 {index + 1}.
               </h3>
               <div className="flex items-center gap-2">
-                <h3 className="font-semibold leading-snug tracking-tight text-gray-800 dark:text-gray-100">
-                  <h1 className="font-mono text-sm sm:text-base md:text-lg tracking-wide px-1 py-0.5 rounded">
-                    {question}
-                  </h1>
+                <h3 className="font-medium text-sm sm:text-base tracking-tight">
+                  {question}
                 </h3>
                 <button
                   onClick={handleCopy}
                   title="Copy question"
-                  className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 p-1 rounded"
+                  className="text-muted-foreground hover:text-foreground p-1 rounded"
                 >
-                  {copied ? <ClipboardCheck size={16} /> : <Clipboard size={16} />}
+                  {copied ? <ClipboardCheck size={14} /> : <Clipboard size={14} />}
                 </button>
               </div>
             </div>
-            <div className="flex flex-col sm:flex-row sm:items-center gap-2 mt-2 sm:mt-0">
-              {level && (
-                <Badge
-                  variant={levelBadgeVariant[level] || "default"}
-                  className="py-0.5 px-2"
-                >
-                  {level}
-                </Badge>
-              )}
-              <div className="flex justify-between sm:justify-start items-center w-full sm:w-auto gap-2">
-                {isRead && (
-                  <button
-                    type="button"
-                    title="Undo mark as read"
-                    className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
-                    onClick={handleUndoRead}
-                  >
-                    <Undo size={16} />
-                  </button>
-                )}
-                <ChevronRight
-                  className={`h-5 w-5 text-gray-500 transition-transform duration-300 ${
-                    isOpen ? "rotate-90" : ""
-                  }`}
-                />
-              </div>
-            </div>
+          </div>
+          
+          <div className="flex items-center gap-2 ml-auto">
+            {level && (
+              <Badge variant={levelBadgeVariant[level] || "default"} className="py-0.5 px-2">
+                {level}
+              </Badge>
+            )}
+            {isRead && (
+              <button
+                type="button"
+                title="Undo mark as read"
+                className="text-muted-foreground hover:text-foreground"
+                onClick={handleUndoRead}
+              >
+                <Undo size={14} />
+              </button>
+            )}
+            <ChevronRight
+              className={`h-4 w-4 text-muted-foreground transition-transform duration-300 ${
+                isOpen ? "rotate-90" : ""
+              }`}
+            />
           </div>
         </div>
       </div>

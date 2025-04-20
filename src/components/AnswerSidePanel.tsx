@@ -49,7 +49,7 @@ const AnswerSidePanel = ({
       }`}
     >
       <div className="p-6">
-        <h2 className="text-xl font-bold">{question}</h2>
+        <h2 className="text-xl font-bold mb-4">{question}</h2>
         <div className="mt-4">
           {isMarkdown ? (
             <MarkdownView content={answer.replace(/^```markdown\n?|```$/g, "")} />
