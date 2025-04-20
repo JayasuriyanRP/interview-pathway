@@ -26,7 +26,7 @@
   {
     "id": "a3cdf1bc-9d19-4bea-b6c5-a97bbde3b8e6",
     "question": "What is the purpose of the `fmt.Errorf` function in Go?",
-    "answer": "```markdown\nThe purpose of the `fmt.Errorf` function in Go is to create formatted error messages. It allows you to construct an `error` type with a formatted string, making it easier to include dynamic or contextual information in the error message. This is particularly useful for providing more descriptive and meaningful error messages in your programs.\n\nFor example:\n\n```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\terr := fmt.Errorf(\"an error occurred: %s\", \"file not found\")\n\tfmt.Println(err)\n}\n```\n\nOutput:\n```\nan error occurred: file not found\n```\n\nBy using `fmt.Errorf`, you can leverage Go's formatting capabilities to create detailed and informative error messages.\n```\n",
+    "answer": "```markdown\nThe purpose of the `fmt.Errorf` function in Go is to create formatted error messages. It allows you to construct an `error` type with a formatted string, making it easier to include dynamic or contextual information in the error message. This is particularly useful for providing more descriptive and meaningful error messages in your programs.\n\nFor example:\n\n```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\terr := fmt.Errorf(\"an error occurred: %s\", \"file not found\")\n\tfmt.Println(err)\n}\n```\n\nOutput:\n```\nan error occurred: file not found\n```\n\nBy using `fmt.Errorf`, you can leverage Go's formatting capabilities to create detailed and informative error messages.\n```",
     "level": "Beginner",
     "created_at": "2025-03-30T10:06:39.372506Z",
     "topic": "e3c103a6-9f08-40ff-ad5c-6d3f814d59c5"
@@ -74,7 +74,7 @@
   {
     "id": "52360a65-c8ed-41ad-aafd-8f421cb42daa",
     "question": "What is the purpose of the `errors.New` function in Go?",
-    "answer": "```markdown\nThe purpose of the `errors.New` function in Go is to create a new error value with a specified error message. It is part of the `errors` package and is commonly used to generate simple error messages when handling errors in Go programs. The function returns an `error` type, which can be used to indicate and describe an error condition.\n\nFor example:\n\n```go\npackage main\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n)\n\nfunc main() {\n\terr := errors.New(\"this is an error message\")\n\tif err != nil {\n\t\tfmt.Println(err)\n\t}\n}\n```\n\nIn this example, `errors.New` creates an error with the message \"this is an error message\", which is then printed to the console.\n```\n",
+    "answer": "```markdown\nThe purpose of the `errors.New` function in Go is to create a new error value with a specified error message. It is part of the `errors` package and is commonly used to generate simple error messages when handling errors in Go programs. The function returns an `error` type, which can be used to indicate and describe an error condition.\n\nFor example:\n\n```go\npackage main\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n)\n\nfunc main() {\n\terr := errors.New(\"this is an error message\")\n\tif err != nil {\n\t\tfmt.Println(err)\n\t}\n}\n```\n\nIn this example, `errors.New` creates an error with the message \"this is an error message\", which is then printed to the console.\n```",
     "level": "Beginner",
     "created_at": "2025-03-30T10:06:39.372473Z",
     "topic": "e3c103a6-9f08-40ff-ad5c-6d3f814d59c5"

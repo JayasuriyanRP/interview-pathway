@@ -10,7 +10,7 @@
   {
     "id": "f5aa4e06-b26e-44f7-966f-135ff5e12916",
     "question": "What is the difference between '&&' and '||' in Go?",
-    "answer": "```markdown\nIn Go, `&&` and `||` are logical operators used to combine boolean expressions:\n\n- `&&` (AND operator): Returns `true` if **both** operands are `true`. If either operand is `false`, the result is `false`.\n  - Example: `true && false` evaluates to `false`.\n\n- `||` (OR operator): Returns `true` if **at least one** of the operands is `true`. If both operands are `false`, the result is `false`.\n  - Example: `true || false` evaluates to `true`.\n\nThese operators are commonly used in conditional statements to control the flow of a program.\n```\n",
+    "answer": "```markdown\nIn Go, `&&` and `||` are logical operators used to combine boolean expressions:\n\n- `&&` (AND operator): Returns `true` if **both** operands are `true`. If either operand is `false`, the result is `false`.\n  - Example: `true && false` evaluates to `false`.\n\n- `||` (OR operator): Returns `true` if **at least one** of the operands is `true`. If both operands are `false`, the result is `false`.\n  - Example: `true || false` evaluates to `true`.\n\nThese operators are commonly used in conditional statements to control the flow of a program.\n```",
     "level": "Beginner",
     "created_at": "2025-03-30T10:05:21.388490Z",
     "topic": "36fcd807-40f8-4f52-b546-edcd0fd9bc4c"
@@ -18,7 +18,7 @@
   {
     "id": "7378b549-9233-4aa0-9b6d-57d5db92f8f3",
     "question": "How does the '!' operator work in Go?",
-    "answer": "```markdown\nIn Go, the `!` operator is the logical NOT operator. It is used to invert the boolean value of an expression. If the expression evaluates to `true`, applying the `!` operator will make it `false`, and vice versa.\n\n### Example:\n```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n    a := true\n    b := false\n\n    fmt.Println(!a) // Output: false\n    fmt.Println(!b) // Output: true\n}\n```\n\nIn this example:\n- `!a` inverts `true` to `false`.\n- `!b` inverts `false` to `true`.\n\nThe `!` operator is commonly used in conditional statements to check for the opposite of a condition.\n```\n",
+    "answer": "```markdown\nIn Go, the `!` operator is the logical NOT operator. It is used to invert the boolean value of an expression. If the expression evaluates to `true`, applying the `!` operator will make it `false`, and vice versa.\n\n### Example:\n```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n    a := true\n    b := false\n\n    fmt.Println(!a) // Output: false\n    fmt.Println(!b) // Output: true\n}\n```\n\nIn this example:\n- `!a` inverts `true` to `false`.\n- `!b` inverts `false` to `true`.\n\nThe `!` operator is commonly used in conditional statements to check for the opposite of a condition.\n```",
     "level": "Beginner",
     "created_at": "2025-03-30T10:05:21.388497Z",
     "topic": "36fcd807-40f8-4f52-b546-edcd0fd9bc4c"
@@ -90,7 +90,7 @@
   {
     "id": "463ff6bc-6706-4ee3-bc93-683dc3844412",
     "question": "What are the arithmetic operators available in Go?",
-    "answer": "```markdown\nIn Go, the following arithmetic operators are available:\n\n1. `+` : Addition\n2. `-` : Subtraction\n3. `*` : Multiplication\n4. `/` : Division\n5. `%` : Modulus (remainder)\n\nThese operators are used to perform basic arithmetic operations on numeric values.\n```\n",
+    "answer": "```markdown\nIn Go, the following arithmetic operators are available:\n\n1. `+` : Addition\n2. `-` : Subtraction\n3. `*` : Multiplication\n4. `/` : Division\n5. `%` : Modulus (remainder)\n\nThese operators are used to perform basic arithmetic operations on numeric values.\n```",
     "level": "Beginner",
     "created_at": "2025-03-30T10:05:21.388455Z",
     "topic": "36fcd807-40f8-4f52-b546-edcd0fd9bc4c"

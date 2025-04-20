@@ -98,7 +98,7 @@ const MarkdownView = ({ content }: { content: string }) => {
                 </pre>
               </div>
             ) : (
-              <code className="font-mono text-sm tracking-normal bg-gray-100 dark:bg-gray-800 px-1 rounded">
+              <code className="font-mono text-sm tracking-normal dark:bg-gray-800 px-1 rounded">
                 {children}
               </code>
             );

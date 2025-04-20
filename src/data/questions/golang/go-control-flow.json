@@ -154,7 +154,7 @@
   {
     "id": "08b098a7-ad5b-4a14-b061-67c21cf9f161",
     "question": "How do you break out of a loop in Go?",
-    "answer": "```markdown\nIn Go, you can break out of a loop using the `break` statement. When the `break` statement is executed, it immediately terminates the loop and the program continues with the next statement following the loop.\n\nHere is an example:\n\n```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n    for i := 0; i < 10; i++ {\n        if i == 5 {\n            break // Exit the loop when i equals 5\n        }\n        fmt.Println(i)\n    }\n    fmt.Println(\"Loop exited\")\n}\n```\n\nOutput:\n```\n0\n1\n2\n3\n4\nLoop exited\n```\n\nIn this example, the loop stops executing when `i` equals 5, and the program continues with the statement after the loop.\n```\n",
+    "answer": "```markdown\nIn Go, you can break out of a loop using the `break` statement. When the `break` statement is executed, it immediately terminates the loop and the program continues with the next statement following the loop.\n\nHere is an example:\n\n```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n    for i := 0; i < 10; i++ {\n        if i == 5 {\n            break // Exit the loop when i equals 5\n        }\n        fmt.Println(i)\n    }\n    fmt.Println(\"Loop exited\")\n}\n```\n\nOutput:\n```\n0\n1\n2\n3\n4\nLoop exited\n```\n\nIn this example, the loop stops executing when `i` equals 5, and the program continues with the statement after the loop.\n```",
     "level": "Beginner",
     "created_at": "2025-03-30T10:05:29.392119Z",
     "topic": "72fe2a51-806c-4565-afaf-732c9e5e98be"
@@ -226,7 +226,7 @@
   {
     "id": "bac189c3-ffd7-4928-bb00-1ef23fa941a9",
     "question": "What is the execution order of deferred functions in Go?",
-    "answer": "```markdown\nIn Go, deferred functions are executed in **last in, first out (LIFO)** order. This means that the most recently deferred function is executed first, followed by the next most recently deferred function, and so on. \n\nFor example:\n\n```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n    defer fmt.Println(\"First\")\n    defer fmt.Println(\"Second\")\n    defer fmt.Println(\"Third\")\n    fmt.Println(\"Main function\")\n}\n```\n\nOutput:\n```\nMain function\nThird\nSecond\nFirst\n```\n\nIn this example, the deferred functions are executed in reverse order of their declaration.\n```\n",
+    "answer": "```markdown\nIn Go, deferred functions are executed in **last in, first out (LIFO)** order. This means that the most recently deferred function is executed first, followed by the next most recently deferred function, and so on. \n\nFor example:\n\n```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n    defer fmt.Println(\"First\")\n    defer fmt.Println(\"Second\")\n    defer fmt.Println(\"Third\")\n    fmt.Println(\"Main function\")\n}\n```\n\nOutput:\n```\nMain function\nThird\nSecond\nFirst\n```\n\nIn this example, the deferred functions are executed in reverse order of their declaration.\n```",
     "level": "Intermediate",
     "created_at": "2025-03-30T10:05:29.392202Z",
     "topic": "72fe2a51-806c-4565-afaf-732c9e5e98be"

@@ -26,7 +26,7 @@
   {
     "id": "3fcc4b58-7117-437b-8dde-d909f1d05e07",
     "question": "What is the zero value of an interface in Go?",
-    "answer": "```markdown\nIn Go, the zero value of an interface is `nil`. This means that an interface variable that has not been assigned a concrete value or type will have a `nil` value and will not hold any underlying type or data.\n```\n",
+    "answer": "```markdown\nIn Go, the zero value of an interface is `nil`. This means that an interface variable that has not been assigned a concrete value or type will have a `nil` value and will not hold any underlying type or data.\n```",
     "level": "Beginner",
     "created_at": "2025-03-30T10:06:13.674382Z",
     "topic": "14b55307-04c8-421d-8717-aa855744928a"
