@@ -1,0 +1,394 @@
+[
+    {
+        "id": "d9c1cb5d-5e8a-4ed7-8c76-e5c7a7447ebe",
+        "question": "How do you create a functional component in React?",
+        "answer": "```markdown You can create a functional component in React by defining a JavaScript function that returns JSX. Here’s a simple example:\n\n```jsx\nimport React from 'react';\n\nfunction MyComponent() {\n  return <h1>Hello, React!</h1>;\n}\n\nexport default MyComponent;\n```\n\nAlternatively, you can use an arrow function:\n\n```jsx\nimport React from 'react';\n\nconst MyComponent = () => {\n  return <h1>Hello, React!</h1>;\n};\n\nexport default MyComponent;\n```\n\nA functional component must start with a capital letter and return JSX (the UI you want to display).",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:25.085045Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "1eff575e-bfae-481d-9194-64ecb9d9b9ac",
+        "question": "How do you render a list of elements in React using the map() function?",
+        "answer": "```markdown To render a list of elements in React using the map() function, you typically have an array of data and use map() to transform each item into a React element. Each element should have a unique key prop.\n\nHere's an example:\n\n```jsx\nconst fruits = ['Apple', 'Banana', 'Cherry'];\n\nfunction FruitList() {\n  return (\n    <ul>\n      {fruits.map((fruit, index) => (\n        <li key={index}>{fruit}</li>\n      ))}\n    </ul>\n  );\n}\n```\n\n**Explanation:**\n- `fruits.map(...)` iterates over the fruits array.\n- For each fruit, it returns an `<li>` element.\n- The `key` prop (here, using the index) helps React identify which items have changed.\n\n**Note:**  \nIt's better to use a unique id as the key if available, rather than the index.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:25.085061Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "7828c5c6-31f1-46e9-8003-1e125c34c3a5",
+        "question": "What is the correct syntax to import a component in React?",
+        "answer": "```jsx\nimport ComponentName from './ComponentName';\n```\n\n- Replace `ComponentName` with the name of your component.\n- Replace `'./ComponentName'` with the correct path to your component file.\n\n**Example:**\n```jsx\nimport Header from './Header';\n```\nThis imports the `Header` component from the `Header.js` file in the same directory.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:25.085073Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "7c89c754-20cb-462c-9c2c-5bbb3ece1ceb",
+        "question": "How do you pass props to a child component?",
+        "answer": "```markdown You can pass props to a child component in React by adding attributes to the child component in the parent’s JSX. The attribute names become the prop names, and the values can be any valid JavaScript expression.\n\n**Example:**\n\n```jsx\n// ChildComponent.js\nfunction ChildComponent(props) {\n  return <h1>Hello, {props.name}!</h1>;\n}\n\n// ParentComponent.js\nfunction ParentComponent() {\n  return <ChildComponent name=\"Alice\" />;\n}\n```\n\nIn this example, the ParentComponent passes a prop called name with the value \"Alice\" to ChildComponent. The child can access it using props.name.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:25.085086Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "97ca90c7-f034-4bce-8d47-ac99e48aae61",
+        "question": "How do you access props inside a functional component?",
+        "answer": "```markdown You can access props inside a functional component by including props as a parameter in your component function. Then, you can use props.propertyName to access individual properties.\n\n```jsx\nfunction Welcome(props) {\n  return <h1>Hello, {props.name}!</h1>;\n}\n```\n\nAlternatively, you can use destructuring to directly extract specific props:\n\n```jsx\nfunction Welcome({ name }) {\n  return <h1>Hello, {name}!</h1>;\n}\n```\n\nIn both cases, props are passed to the component when it is used:\n\n```jsx\n<Welcome name=\"Alice\" />\n```",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:25.085097Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "92479ca8-bbf0-4e9c-8c1e-67730ac2cae3",
+        "question": "What is the syntax for using useState in a functional component?",
+        "answer": "```jsx\nimport React, { useState } from 'react';\n\nfunction MyComponent() {\n  const [stateVariable, setStateVariable] = useState(initialValue);\n\n  // Example usage:\n  // const [count, setCount] = useState(0);\n\n  return (\n    <div>\n      {/* Your component JSX */}\n    </div>\n  );\n}\n```\n\n**Explanation:**\n- `useState` is a React Hook that lets you add state to functional components.\n- It returns an array with two elements: the current state value and a function to update it.\n- You can use array destructuring to assign names to these values.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:25.085111Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "2b5a3e5f-d635-4208-b8a2-6f414712ab74",
+        "question": "How do you handle an onClick event in React?",
+        "answer": "```markdown To handle an onClick event in React, you attach the onClick attribute to a JSX element and pass it a function to execute when the element is clicked. Here’s a simple example:\n\n```jsx\nimport React from 'react';\n\nfunction MyButton() {\n  function handleClick() {\n    alert('Button was clicked!');\n  }\n\n  return (\n    <button onClick={handleClick}>\n      Click Me\n    </button>\n  );\n}\n\nexport default MyButton;\n```\n\n**Key Points:**\n- Use `onClick` (camelCase) in JSX.\n- Pass a function reference (not a function call) to `onClick`.\n- The function can be defined inside or outside the component.\n\n**Example with Inline Function:**\n\n```jsx\n<button onClick={() => alert('Clicked!')}>\n  Click Me\n</button>\n```\n\nThis will show an alert when the button is clicked.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:25.085124Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "e4f7fbbc-6619-40e4-83f1-d53b740aa0b8",
+        "question": "How do you write inline styles in JSX?",
+        "answer": "```markdown In JSX, inline styles are written using a JavaScript object, where the CSS property names are written in camelCase instead of kebab-case. The style object is then passed to the style attribute using curly braces.\n\n**Example:**\n\n```jsx\nfunction MyComponent() {\n  return (\n    <div style={{ backgroundColor: 'lightblue', fontSize: '20px' }}>\n      This is a styled div!\n    </div>\n  );\n}\n```\n\n**Key Points:**\n- Use double curly braces: the first pair is for embedding JavaScript, the second is for the style object.\n- CSS properties use camelCase (e.g., backgroundColor instead of background-color).\n- Values are usually strings (e.g., '20px', 'red').",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:25.085138Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "74df58a7-e5a8-4acf-951e-a006861ea27c",
+        "question": "What is the syntax for conditional rendering using the ternary operator in JSX?",
+        "answer": "```jsx\n{condition ? <ComponentIfTrue /> : <ComponentIfFalse />}\n```\n\n**Example:**\n\n```jsx\nfunction Greeting({ isLoggedIn }) {\n  return (\n    <div>\n      {isLoggedIn ? <h1>Welcome back!</h1> : <h1>Please sign in.</h1>}\n    </div>\n  );\n}\n```\n\n**Explanation:**  \nIn JSX, you can use the ternary operator (`condition ? expr1 : expr2`) to render one component or element if the condition is true, and another if it is false.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:25.085163Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "6b9ad00f-5cf4-48c3-afbb-34db8e16dbaa",
+        "question": "How do you create a class component in React?",
+        "answer": "```markdown To create a class component in React, you define a JavaScript class that extends React.Component and implement a render() method that returns JSX. Here’s an example:\n\n```jsx\nimport React, { Component } from 'react';\n\nclass MyComponent extends Component {\n  render() {\n    return (\n      <div>\n        <h1>Hello from a Class Component!</h1>\n      </div>\n    );\n  }\n}\n\nexport default MyComponent;\n```\n\n**Key Points:**\n- The class must extend `React.Component` (or just `Component` if imported directly).\n- The `render()` method is required and must return JSX.\n- Props can be accessed via `this.props`, and state via `this.state` (if state is used).",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:25.085179Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "60ef8e0f-3fba-4c9e-8310-8860900fe8aa",
+        "question": "How do you define and use state in a class component?",
+        "answer": "```markdown\nIn a React class component, state is defined as an object property called `state`. You initialize it in the constructor, and you update it using the `setState` method.\n\n**Defining State:**\n\n```jsx\nimport React, { Component } from 'react';\n\nclass Counter extends Component {\n  constructor(props) {\n    super(props);\n    // Initialize state\n    this.state = {\n      count: 0\n    };\n  }\n\n  // Method to update state\n  increment = () => {\n    this.setState({ count: this.state.count + 1 });\n  }\n\n  render() {\n    return (\n      <div>\n        <p>Count: {this.state.count}</p>\n        <button onClick={this.increment}>Increment</button>\n      </div>\n    );\n  }\n}\n\nexport default Counter;\n```\n\n**Key Points:**\n- State is initialized in the constructor with `this.state = { ... }`.\n- To update state, use `this.setState({ ... })`.\n- Access state in the render method with `this.state.propertyName`.\n```\n",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:25.085192Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "d08f3ff1-7f73-40f1-aa03-e0abb90c1d59",
+        "question": "How do you prevent the default behavior of an event in React?",
+        "answer": "```markdown To prevent the default behavior of an event in React, you use the event object's preventDefault() method inside your event handler function. Here’s an example with a button click and a form submission:\n\n```jsx\nfunction MyComponent() {\n  function handleClick(event) {\n    event.preventDefault(); // Prevents the default action\n    alert('Default behavior prevented!');\n  }\n\n  return (\n    <form onSubmit={handleClick}>\n      <button type=\"submit\">Submit</button>\n    </form>\n  );\n}\n```\n\n**Explanation:**\n- The event object is automatically passed to event handler functions.\n- Calling event.preventDefault() stops the browser’s default action (like submitting a form or following a link).\n\n**Summary:**  \nUse `event.preventDefault()` inside your event handler to prevent the default behavior in React.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:25.085481Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "c9ee084f-75c0-4dc7-8188-ce06a477c95d",
+        "question": "How do you handle form submissions in React?",
+        "answer": "```markdown\nTo handle form submissions in React, you typically use an event handler function that is triggered when the form is submitted. You prevent the default browser behavior using `event.preventDefault()`, and then process the form data as needed.\n\nHere's a simple example:\n\n```jsx\nimport React, { useState } from 'react';\n\nfunction MyForm() {\n  const [inputValue, setInputValue] = useState('');\n\n  const handleSubmit = (event) => {\n    event.preventDefault(); // Prevents page reload\n    alert('Form submitted with: ' + inputValue);\n    // You can also send the data to a server here\n  };\n\n  return (\n    <form onSubmit={handleSubmit}>\n      <input\n        type=\"text\"\n        value={inputValue}\n        onChange={(e) => setInputValue(e.target.value)}\n      />\n      <button type=\"submit\">Submit</button>\n    </form>\n  );\n}\n\nexport default MyForm;\n```\n\n**Key points:**\n- Use the `onSubmit` prop on the `<form>` element.\n- Call `event.preventDefault()` in your handler to stop the default form submission.\n- Use state (with `useState`) to manage form input values.\n```\n",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:25.085493Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "6354e57f-e2c0-4d0b-91a7-e9c7df6f28c4",
+        "question": "What is JSX and how is it different from regular JavaScript?",
+        "answer": "```markdown **JSX** (JavaScript XML) is a syntax extension for JavaScript used in React to describe what the UI should look like. It allows you to write HTML-like code directly within JavaScript files.\n\n**Example of JSX:**\n```jsx\nconst element = <h1>Hello, world!</h1>;\n```\n\n**How JSX is different from regular JavaScript:**\n\n- **JSX looks like HTML,** but it is not HTML. It is syntactic sugar for `React.createElement()` calls.\n- **Browsers can’t read JSX directly.** JSX code is compiled (usually by Babel) into regular JavaScript before running in the browser.\n- **JSX allows embedding expressions** inside curly braces `{}`:\n  ```jsx\n  const name = \"Alice\";\n  const greeting = <h1>Hello, {name}!</h1>;\n  ```\n- **Regular JavaScript** does not allow HTML-like syntax within code files.\n\n**Summary Table:**\n\n| JSX                          | Regular JavaScript            |\n|------------------------------|-------------------------------|\n| `<h1>Hello</h1>`             | `React.createElement('h1', null, 'Hello')` |\n| Can embed expressions: `{}`  | No HTML-like syntax           |\n| Needs compilation (e.g. Babel)| Runs as-is in browsers        |\n\nJSX makes writing React components more intuitive and readable, but it must be transpiled to regular JavaScript before execution.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:25.085004Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "f8823441-b33e-4e34-9184-80959b8fbd8f",
+        "question": "What is the correct way to bind event handlers in class components?",
+        "answer": "```markdown\nIn React class components, event handlers do not automatically bind this to the component instance. There are several correct ways to bind event handlers:\n\n### 1. Binding in the Constructor (Recommended)\n```jsx\nclass MyComponent extends React.Component {\n  constructor(props) {\n    super(props);\n    this.handleClick = this.handleClick.bind(this);\n  }\n\n  handleClick() {\n    // 'this' refers to the component instance\n  }\n\n  render() {\n    return <button onClick={this.handleClick}>Click me</button>;\n  }\n}\n```\n\n### 2. Using Class Fields (Public Class Fields Syntax)\n```jsx\nclass MyComponent extends React.Component {\n  handleClick = () => {\n    // 'this' refers to the component instance\n  };\n\n  render() {\n    return <button onClick={this.handleClick}>Click me</button>;\n  }\n}\n```\n\n### 3. Binding Inline in Render (Not Recommended)\n```jsx\nclass MyComponent extends React.Component {\n  handleClick() {\n    // 'this' refers to the component instance\n  }\n\n  render() {\n    return <button onClick={this.handleClick.bind(this)}>Click me</button>;\n  }\n}\n```\n> **Note:** Binding in the render method creates a new function on every render, which can negatively impact performance.\n\n---\n\n**Summary:**  \nThe recommended way is to bind event handlers in the constructor or use the class fields syntax to ensure that this refers to the correct component instance.\n```\n",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:25.085205Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "401ed7f0-05ae-439c-94e2-6a11b3caedc7",
+        "question": "How do you use the useEffect hook in a functional component?",
+        "answer": "```markdown\nThe `useEffect` hook in React is used to perform side effects in functional components, such as fetching data, updating the DOM, or setting up subscriptions. It runs after the component renders.\n\n**Basic Syntax:**\n```jsx\nimport React, { useEffect } from 'react';\n\nfunction MyComponent() {\n  useEffect(() => {\n    // Code to run after render (side effect)\n    console.log('Component mounted or updated');\n\n    // Optional cleanup function\n    return () => {\n      console.log('Cleanup before next effect or unmount');\n    };\n  }, [/* dependencies */]);\n\n  return <div>Hello, useEffect!</div>;\n}\n```\n\n**How It Works:**\n\n- The first argument to `useEffect` is a function containing your side effect code.\n- The second argument is an optional dependency array:\n  - If empty (`[]`), the effect runs only once after the initial render.\n  - If you list variables, the effect runs whenever any of those variables change.\n  - If omitted, the effect runs after every render.\n\n**Example: Fetching Data Once on Mount**\n```jsx\nimport React, { useEffect, useState } from 'react';\n\nfunction UserList() {\n  const [users, setUsers] = useState([]);\n\n  useEffect(() => {\n    fetch('https://api.example.com/users')\n      .then(response => response.json())\n      .then(data => setUsers(data));\n  }, []); // Runs only once\n\n  return (\n    <ul>\n      {users.map(user => <li key={user.id}>{user.name}</li>)}\n    </ul>\n  );\n}\n```\n\n**Summary Table:**\n\n| Dependency Array | When Effect Runs                        |\n|------------------|----------------------------------------|\n| Omitted          | After every render                     |\n| []               | Once after initial render (on mount)   |\n| [a, b]           | When `a` or `b` changes                |\n```\n",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:25.085217Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "5a577116-0f86-4bc4-9946-7c425f18e850",
+        "question": "How do you pass a function as a prop to a child component?",
+        "answer": "```markdown To pass a function as a prop to a child component in React, you define the function in the parent component and then include it as a prop when rendering the child. The child component can then access and invoke this function via its props.\n\n**Example:**\n\n```jsx\n// ParentComponent.jsx\nimport React from 'react';\nimport ChildComponent from './ChildComponent';\n\nfunction ParentComponent() {\n  const handleClick = () => {\n    alert('Button clicked in child!');\n  };\n\n  return (\n    <div>\n      <ChildComponent onButtonClick={handleClick} />\n    </div>\n  );\n}\n\nexport default ParentComponent;\n```\n\n```jsx\n// ChildComponent.jsx\nimport React from 'react';\n\nfunction ChildComponent({ onButtonClick }) {\n  return (\n    <button onClick={onButtonClick}>\n      Click Me\n    </button>\n  );\n}\n\nexport default ChildComponent;\n```\n\n**Summary:**\n- Define the function in the parent.\n- Pass it as a prop (e.g., `onButtonClick={handleClick}`).\n- Access and use it in the child via `props` (or destructuring).",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:25.085229Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "c605666a-20e7-475d-a374-0d76cb7948af",
+        "question": "What is the syntax for using default props in a functional component?",
+        "answer": "```jsx\n// Using default parameters (recommended way)\nfunction MyComponent({ name = \"Guest\", age = 18 }) {\n  return (\n    <div>\n      <p>Name: {name}</p>\n      <p>Age: {age}</p>\n    </div>\n  );\n}\n\n// OR, using the defaultProps property (less common with function components)\nfunction MyComponent({ name, age }) {\n  return (\n    <div>\n      <p>Name: {name}</p>\n      <p>Age: {age}</p>\n    </div>\n  );\n}\n\nMyComponent.defaultProps = {\n  name: \"Guest\",\n  age: 18,\n};\n```\n\n**Note:**  \n- The default parameter syntax (first example) is the modern and preferred approach for functional components.\n- The `defaultProps` property (second example) is still supported but is less commonly used with function components since React 16.6+.  \n- For TypeScript, you can also use default values in the function signature.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:25.085241Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "e7d6c472-d243-41da-b5de-21c4e245c9e9",
+        "question": "How do you use fragments in JSX to return multiple elements?",
+        "answer": "```markdown In React, fragments let you group multiple elements without adding extra nodes to the DOM. This is useful when a component needs to return multiple elements, but you don’t want to wrap them in an unnecessary `<div>`.\n\n**Syntax 1: Using `<React.Fragment>`**\n\n```jsx\nimport React from 'react';\n\nfunction MyComponent() {\n  return (\n    <React.Fragment>\n      <h1>Title</h1>\n      <p>Description goes here.</p>\n    </React.Fragment>\n  );\n}\n```\n\n**Syntax 2: Using Short Syntax `<>...</>`**\n\n```jsx\nfunction MyComponent() {\n  return (\n    <>\n      <h1>Title</h1>\n      <p>Description goes here.</p>\n    </>\n  );\n}\n```\n\n**Key Points:**\n- Fragments do not produce extra nodes in the DOM.\n- The short syntax (`<>...</>`) is more concise, but you can’t pass keys or attributes to it.\n- Use fragments when you need to return multiple sibling elements from a component.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:25.085254Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "5cdbaad4-a272-45ab-b2d6-d5a18baaba15",
+        "question": "How do you use the spread operator to pass props to a component?",
+        "answer": "```markdown\nYou can use the spread operator (...) to pass all properties of an object as props to a React component. This is especially useful when you have a props object and want to forward all its key-value pairs to a child component.\n\n**Example:**\n\n```jsx\nconst user = {\n  name: 'Alice',\n  age: 25,\n  isAdmin: true\n};\n\nfunction UserProfile(props) {\n  return (\n    <div>\n      <h2>{props.name}</h2>\n      <p>Age: {props.age}</p>\n      <p>Admin: {props.isAdmin ? 'Yes' : 'No'}</p>\n    </div>\n  );\n}\n\n// Using the spread operator to pass all props from the user object\n<UserProfile {...user} />\n```\n\n**Explanation:**\n- `{...user}` spreads all properties of the `user` object as individual props to the `UserProfile` component.\n- This is equivalent to writing `<UserProfile name=\"Alice\" age={25} isAdmin={true} />`.\n\n**Note:**  \nIf you specify a prop explicitly along with the spread operator, the explicitly specified prop will override the one from the spread object if they have the same key.\n\n```jsx\n<UserProfile {...user} isAdmin={false} />\n// Here, isAdmin will be false, overriding user.isAdmin\n```\n```\n",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:25.085267Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "12b412a4-27e0-4638-821a-9a51f1674758",
+        "question": "How do you use destructuring to access props or state in a component?",
+        "answer": "```markdown\nIn React, destructuring is a convenient way to extract values from props or state objects directly within your component. This makes your code cleaner and more readable.\n\n### Destructuring Props\n\n**Functional Component Example:**\n\n```jsx\nfunction Greeting({ name, age }) {\n  return (\n    <p>\n      Hello, {name}! You are {age} years old.\n    </p>\n  );\n}\n\n// Usage:\n<Greeting name=\"Alice\" age={30} />\n```\n\nAlternatively, you can destructure inside the function body:\n\n```jsx\nfunction Greeting(props) {\n  const { name, age } = props;\n  return (\n    <p>\n      Hello, {name}! You are {age} years old.\n    </p>\n  );\n}\n```\n\n### Destructuring State\n\n**Using useState Hook:**\n\n```jsx\nimport React, { useState } from 'react';\n\nfunction Counter() {\n  const [count, setCount] = useState(0); // destructuring array returned by useState\n\n  return (\n    <button onClick={() => setCount(count + 1)}>\n      Count: {count}\n    </button>\n  );\n}\n```\n\n**Destructuring State Object:**\n\n```jsx\nconst [state, setState] = useState({ name: 'Alice', age: 30 });\nconst { name, age } = state;\n```\n\n### Summary\n\n- **Props:** Destructure in the function parameter or inside the function body.\n- **State:** Destructure from the state object or from the array returned by hooks like `useState`.\n\nDestructuring helps keep your React components concise and easy to read.\n```\n",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:25.085283Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "72b24bdc-eea6-424f-86f2-5821729f91a1",
+        "question": "How do you use the key prop when rendering lists in React?",
+        "answer": "```markdown When rendering lists in React, the key prop is used to help React identify which items have changed, are added, or are removed. Each child in a list should have a unique key prop. This helps React optimize rendering and update only the necessary components.\n\n**Example:**\n\n```jsx\nconst items = ['Apple', 'Banana', 'Cherry'];\n\nfunction FruitList() {\n  return (\n    <ul>\n      {items.map((item, index) => (\n        <li key={item}>{item}</li>\n      ))}\n    </ul>\n  );\n}\n```\n\n**Best Practices:**\n- Use a unique and stable value for the key (like an id from your data).\n- Avoid using the array index as a key if the list can change, as this can lead to issues with component state and rendering.\n\n**Example with unique IDs:**\n\n```jsx\nconst fruits = [\n  { id: 1, name: 'Apple' },\n  { id: 2, name: 'Banana' },\n  { id: 3, name: 'Cherry' }\n];\n\nfunction FruitList() {\n  return (\n    <ul>\n      {fruits.map(fruit => (\n        <li key={fruit.id}>{fruit.name}</li>\n      ))}\n    </ul>\n  );\n}\n```\n\n**Summary:**  \nAlways provide a unique key prop to each list element to help React efficiently update and render components.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:25.085295Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "d9aeeb90-5f52-4051-942c-5dc41dd438c0",
+        "question": "What is the syntax for using context with the useContext hook?",
+        "answer": "```jsx\nimport React, { useContext } from 'react';\nimport { MyContext } from './MyContextProvider';\n\nfunction MyComponent() {\n  const value = useContext(MyContext);\n\n  return (\n    <div>\n      The context value is: {value}\n    </div>\n  );\n}\n```\n\n**Explanation:**\n- Import the context object (e.g., `MyContext`) from its provider file.\n- Call `useContext(MyContext)` inside your functional component to access the current context value.\n- Use the value as needed in your component's JSX.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:25.085307Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "f8f96da2-0be7-4528-8e5a-d6b2682ada7f",
+        "question": "How do you create a ref using useRef in a functional component?",
+        "answer": "```markdown To create a ref using useRef in a functional component, you first import useRef from React, then call it inside your component. The returned ref object can be attached to a DOM element via the ref attribute.\n\n```jsx\nimport React, { useRef } from 'react';\n\nfunction MyComponent() {\n  const inputRef = useRef(null);\n\n  const focusInput = () => {\n    inputRef.current.focus();\n  };\n\n  return (\n    <div>\n      <input ref={inputRef} type=\"text\" />\n      <button onClick={focusInput}>Focus Input</button>\n    </div>\n  );\n}\n```\n\n**Explanation:**\n- `useRef(null)` creates a ref object with an initial value of `null`.\n- Attach the ref to an element using `ref={inputRef}`.\n- Access the DOM node via `inputRef.current` (e.g., to call `.focus()` on the input).",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:25.085319Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "3da2fabc-4cf1-4cc9-aedb-28bc46021d71",
+        "question": "How do you forward refs to child components using React.forwardRef?",
+        "answer": "```markdown To forward refs to child components in React, you use the React.forwardRef API. This allows a parent component to pass a ref through a component to one of its DOM children. Here’s how you can do it:\n\n```jsx\nimport React, { forwardRef } from 'react';\n\n// Define a functional component using React.forwardRef\nconst MyInput = forwardRef((props, ref) => (\n  <input ref={ref} {...props} />\n));\n\n// Usage in a parent component\nfunction ParentComponent() {\n  const inputRef = React.useRef();\n\n  const focusInput = () => {\n    inputRef.current.focus();\n  };\n\n  return (\n    <>\n      <MyInput ref={inputRef} placeholder=\"Type here...\" />\n      <button onClick={focusInput}>Focus the input</button>\n    </>\n  );\n}\n```\n\n**Explanation:**\n\n- `React.forwardRef` takes a render function as its argument. This function receives `props` and `ref` as parameters.\n- The `ref` is attached to the desired DOM element (e.g., `<input ref={ref} />`).\n- When the parent component uses `<MyInput ref={inputRef} />`, the `inputRef` will point to the underlying `<input>` DOM node, allowing direct manipulation (e.g., focusing).\n\n**Use Cases:**\n\n- Forwarding refs is useful for reusable component libraries, higher-order components, or when you need to expose a DOM node to a parent component.\n\n**Note:**  \nYou cannot use ref with function components unless they are wrapped with `React.forwardRef`.",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:54:25.085330Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "3aec78aa-daec-4d0c-a772-6e189e45bb29",
+        "question": "What is the syntax for using memoization with React.memo?",
+        "answer": "```markdown\n### Using Memoization with `React.memo`\n\n`React.memo` is a higher-order component that memoizes a functional component, preventing unnecessary re-renders when the component's props have not changed.\n\n#### Basic Syntax\n\n```jsx\nimport React from 'react';\n\nconst MyComponent = React.memo(function MyComponent(props) {\n  // component implementation\n  return <div>{props.value}</div>;\n});\n```\n\n#### With Custom Comparison Function\n\nYou can provide a custom comparison function as the second argument to control when the component should re-render:\n\n```jsx\nconst MyComponent = React.memo(\n  function MyComponent(props) {\n    // component implementation\n    return <div>{props.value}</div>;\n  },\n  (prevProps, nextProps) => {\n    // return true if props are equal (skip re-render), false otherwise\n    return prevProps.value === nextProps.value;\n  }\n);\n```\n\n#### Usage Example\n\n```jsx\n<MyComponent value={someValue} />\n```\n\n**Summary:**  \n- `React.memo(Component)` memoizes the component based on shallow comparison of props.\n- `React.memo(Component, areEqual)` allows custom comparison logic for props.\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:54:25.085337Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "abcea364-5c82-425d-b0c7-2bb11b316334",
+        "question": "How do you use the useCallback hook and what is its syntax?",
+        "answer": "```markdown ### Using the `useCallback` Hook in React\n\nThe `useCallback` hook is used to memoize a callback function in React, preventing its recreation on every render unless its dependencies change. This is particularly useful when passing callbacks to optimized child components that rely on reference equality to prevent unnecessary renders.\n\n#### Syntax\n\n```jsx\nconst memoizedCallback = useCallback(\n  () => {\n    // function body\n  },\n  [dependency1, dependency2, ...]\n);\n```\n\n- The first argument is the function you want to memoize.\n- The second argument is an array of dependencies. The callback is only recreated if one of these dependencies changes.\n\n#### Example\n\n```jsx\nimport React, { useState, useCallback } from 'react';\n\nfunction Counter() {\n  const [count, setCount] = useState(0);\n\n  const increment = useCallback(() => {\n    setCount((c) => c + 1);\n  }, []); // No dependencies, so 'increment' is memoized once\n\n  return (\n    <div>\n      <p>Count: {count}</p>\n      <button onClick={increment}>Increment</button>\n    </div>\n  );\n}\n```\n\n#### When to Use\n\n- When you pass a callback to a child component that relies on reference equality (e.g., `React.memo`).\n- When you want to avoid unnecessary re-creations of functions on each render.\n\n#### Note\n\n- Overusing `useCallback` can make code harder to read and may not always provide performance benefits. Use it when you notice actual performance issues due to unnecessary renders.\n\n---\n\n**Summary:**  \n`useCallback` memoizes a function, only recreating it when its dependencies change, helping optimize performance in certain scenarios. Its syntax is:\n\n```jsx\nconst memoizedCallback = useCallback(() => { /* ... */ }, [deps]);\n```",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:54:25.085346Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "12e33995-6ee6-4f0b-a109-d1b898f36b9e",
+        "question": "How do you use the useMemo hook and what is its syntax?",
+        "answer": "```markdown\nThe `useMemo` hook in React is used to memoize the result of a computation, preventing unnecessary recalculations on every render. It is particularly useful for optimizing performance when you have expensive calculations or when you want to avoid re-creating objects or arrays unless their dependencies change.\n\n**Syntax:**\n\n```jsx\nconst memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);\n```\n\n- The first argument is a function that returns the value you want to memoize.\n- The second argument is an array of dependencies. The memoized value will only be recalculated when one of these dependencies changes.\n\n**Example:**\n\n```jsx\nimport React, { useMemo, useState } from 'react';\n\nfunction ExpensiveComponent({ a, b }) {\n  const [count, setCount] = useState(0);\n\n  const expensiveResult = useMemo(() => {\n    // Simulate expensive calculation\n    let result = 0;\n    for (let i = 0; i < 100000000; i++) {\n      result += a * b;\n    }\n    return result;\n  }, [a, b]);\n\n  return (\n    <div>\n      <p>Expensive result: {expensiveResult}</p>\n      <button onClick={() => setCount(count + 1)}>Re-render</button>\n      <p>Count: {count}</p>\n    </div>\n  );\n}\n```\n\n**Key Points:**\n- `useMemo` only recomputes the memoized value when a dependency has changed.\n- It helps avoid expensive calculations on every render.\n- Use it for performance optimization, not as a general caching mechanism.\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:54:25.085358Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "7a2ca3b8-e118-4865-81da-ece0e08d30d8",
+        "question": "How do you create a custom hook in React?",
+        "answer": "```markdown To create a custom hook in React, you define a JavaScript function whose name starts with use and which can call other hooks (like useState, useEffect, etc.) inside it. Custom hooks allow you to extract and reuse stateful logic across multiple components.\n\nHere's an example of a custom hook that tracks the window width:\n\n```jsx\nimport { useState, useEffect } from 'react';\n\nfunction useWindowWidth() {\n  const [width, setWidth] = useState(window.innerWidth);\n\n  useEffect(() => {\n    function handleResize() {\n      setWidth(window.innerWidth);\n    }\n\n    window.addEventListener('resize', handleResize);\n    // Cleanup listener on unmount\n    return () => window.removeEventListener('resize', handleResize);\n  }, []);\n\n  return width;\n}\n\nexport default useWindowWidth;\n```\n\n**Usage in a component:**\n\n```jsx\nimport React from 'react';\nimport useWindowWidth from './useWindowWidth';\n\nfunction MyComponent() {\n  const width = useWindowWidth();\n\n  return <div>Window width: {width}px</div>;\n}\n```\n\n**Key Points:**\n- Custom hooks must start with the word use.\n- They can use other hooks inside them.\n- They help encapsulate and share logic between components.\n- Custom hooks do not return JSX; they return values or functions.",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:54:25.085369Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "11a6853f-8f6a-4f63-9504-a87e7dc58553",
+        "question": "What is the syntax for lazy loading components using React.lazy and Suspense?",
+        "answer": "```markdown\nTo lazy load components in React, you use `React.lazy()` to dynamically import the component, and wrap its usage in a `React.Suspense` component to handle the loading state.\n\n**Syntax Example:**\n\n```jsx\nimport React, { Suspense } from 'react';\n\n// Lazy load the component\nconst MyComponent = React.lazy(() => import('./MyComponent'));\n\nfunction App() {\n  return (\n    <div>\n      <Suspense fallback={<div>Loading...</div>}>\n        <MyComponent />\n      </Suspense>\n    </div>\n  );\n}\n\nexport default App;\n```\n\n**Key Points:**\n- `React.lazy(() => import('./MyComponent'))` dynamically imports the component.\n- `<Suspense fallback={...}>` specifies what to render while the component is loading.\n- You must use `Suspense` whenever you use a lazy-loaded component.\n\n**Note:** `React.lazy` and `Suspense` are available in React 16.6 and above.\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:54:25.085381Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "4371398c-ef0d-4048-8acd-c01b1b1cdcf0",
+        "question": "How do you implement error boundaries in React?",
+        "answer": "```markdown\n### Implementing Error Boundaries in React\n\nError boundaries are React components that catch JavaScript errors anywhere in their child component tree, log those errors, and display a fallback UI instead of crashing the whole component tree.\n\n#### Steps to Implement Error Boundaries\n\n1. **Create a Class Component**\n   Error boundaries must be class components because only class components can implement lifecycle methods used for error handling.\n\n2. **Implement `static getDerivedStateFromError(error)`**\n   This lifecycle method is used to render a fallback UI after an error is thrown.\n\n3. **Implement `componentDidCatch(error, info)`**\n   This lifecycle method is used to log error information.\n\n4. **Render a Fallback UI**\n   Display an alternative UI when an error is caught.\n\n#### Example\n\n```jsx\nimport React from 'react';\n\nclass ErrorBoundary extends React.Component {\n  constructor(props) {\n    super(props);\n    this.state = { hasError: false };\n  }\n\n  static getDerivedStateFromError(error) {\n    // Update state so the next render shows the fallback UI\n    return { hasError: true };\n  }\n\n  componentDidCatch(error, errorInfo) {\n    // You can log the error to an error reporting service\n    console.error(\"ErrorBoundary caught an error\", error, errorInfo);\n  }\n\n  render() {\n    if (this.state.hasError) {\n      // Fallback UI\n      return <h1>Something went wrong.</h1>;\n    }\n\n    return this.props.children;\n  }\n}\n\nexport default ErrorBoundary;\n```\n\n#### Usage\n\nWrap your components with the `ErrorBoundary`:\n\n```jsx\n<ErrorBoundary>\n  <MyComponent />\n</ErrorBoundary>\n```\n\n#### Notes\n\n- Error boundaries catch errors during rendering, in lifecycle methods, and in constructors of the whole tree below them.\n- They **do not** catch errors inside event handlers, asynchronous code, or errors thrown in the error boundary itself.\n\n**References:**\n- [React Docs: Error Boundaries](https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary)\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:54:25.085393Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "e42b8d93-f4df-4113-97f5-c51ea17f8b25",
+        "question": "How do you use PropTypes for type checking in React components?",
+        "answer": "```markdown\nIn React, **PropTypes** is used to perform type checking on the props that a component receives. This helps catch bugs by ensuring that components are used with the correct types of props.\n\n### How to Use PropTypes\n\n1. **Import PropTypes**\n   ```js\n   import PropTypes from 'prop-types';\n   ```\n\n2. **Define PropTypes on Your Component**\n   ```js\n   function MyComponent({ name, age }) {\n     return (\n       <div>\n         <p>Name: {name}</p>\n         <p>Age: {age}</p>\n       </div>\n     );\n   }\n\n   MyComponent.propTypes = {\n     name: PropTypes.string.isRequired,\n     age: PropTypes.number,\n   };\n   ```\n\n   - `PropTypes.string` specifies that `name` should be a string.\n   - `.isRequired` makes `name` a required prop.\n   - `PropTypes.number` specifies that `age` should be a number.\n\n3. **Common PropTypes Validators**\n   - `PropTypes.string`\n   - `PropTypes.number`\n   - `PropTypes.bool`\n   - `PropTypes.array`\n   - `PropTypes.object`\n   - `PropTypes.func`\n   - `PropTypes.node` (anything that can be rendered)\n   - `PropTypes.element` (a React element)\n   - `PropTypes.oneOf(['A', 'B'])` (enum)\n   - `PropTypes.arrayOf(PropTypes.string)`\n   - `PropTypes.shape({ ... })`\n\n### Example with More Types\n\n```js\nMyComponent.propTypes = {\n  name: PropTypes.string.isRequired,\n  age: PropTypes.number,\n  hobbies: PropTypes.arrayOf(PropTypes.string),\n  address: PropTypes.shape({\n    street: PropTypes.string,\n    city: PropTypes.string,\n  }),\n  onClick: PropTypes.func,\n};\n```\n\n### Notes\n\n- PropTypes are only checked in development mode.\n- For large projects, consider using TypeScript for more robust type checking.\n\n**References:**\n- [React Docs: Typechecking With PropTypes](https://react.dev/reference/react/Component#typechecking-with-proptypes)\n```\n",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:25.085408Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "c19cd451-0374-4904-991a-46b6ff3fcd3d",
+        "question": "What is the correct way to update state based on previous state in useState?",
+        "answer": "```markdown To update state based on the previous state with useState, you should use the functional form of the state setter. This ensures you always get the latest state value, especially when updates are asynchronous or batched.\n\n**Example:**\n\n```jsx\nconst [count, setCount] = useState(0);\n\n// Correct way to update based on previous state\nsetCount(prevCount => prevCount + 1);\n```\n\n**Explanation:**\n\n- The setter function (setCount) can take a function as its argument.\n- This function receives the previous state value (prevCount).\n- You return the new state based on the previous one.\n\n**Why?**\n\nDirectly using setCount(count + 1) may result in stale state if multiple updates happen quickly. The functional form always uses the latest state.\n\n**Summary Table:**\n\n| Incorrect                              | Correct                                 |\n|-----------------------------------------|-----------------------------------------|\n| `setCount(count + 1)`                   | `setCount(prevCount => prevCount + 1)`  |",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:25.085420Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "b43a97e8-14d2-41b7-b6a8-6e170601c942",
+        "question": "How do you use the children prop in React components?",
+        "answer": "```markdown\nIn React, the `children` prop is a special property that allows you to pass components or elements between the opening and closing tags of a component. This is useful for creating reusable wrapper or layout components.\n\n**Example:**\n\n```jsx\nfunction Card({ children }) {\n  return (\n    <div className=\"card\">\n      {children}\n    </div>\n  );\n}\n\n// Usage:\n<Card>\n  <h2>Title</h2>\n  <p>This is some content inside the card.</p>\n</Card>\n```\n\nIn the example above, everything between `<Card>` and `</Card>` is passed as the `children` prop to the `Card` component and rendered inside the `<div>`.\n\n**Key Points:**\n- `children` can be any valid React node: elements, strings, numbers, fragments, etc.\n- You access `children` via `props.children` (or destructure it as shown).\n- Useful for creating flexible and reusable components.\n```",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:25.085432Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "0d83b9c0-4eb2-42c4-bf28-7991380fa52d",
+        "question": "How do you conditionally add class names in JSX?",
+        "answer": "```markdown You can conditionally add class names in JSX by using JavaScript expressions inside the className attribute. Common approaches include using ternary operators, logical AND (&&), or utility libraries like classnames.\n\n### Example 1: Ternary Operator\n\n```jsx\n<div className={isActive ? \"active\" : \"inactive\"}>\n  Content\n</div>\n```\n\n### Example 2: Logical AND (&&)\n\n```jsx\n<div className={\"base-class\" + (isActive ? \" active\" : \"\")}>\n  Content\n</div>\n```\n\n### Example 3: Using the `classnames` Library\n\nFirst, install the library:\n\n```bash\nnpm install classnames\n```\n\nThen use it in your component:\n\n```jsx\nimport classNames from 'classnames';\n\n<div className={classNames(\"base-class\", { active: isActive, disabled: isDisabled })}>\n  Content\n</div>\n```\n\n**Summary:**  \nYou can use JavaScript expressions directly in JSX to conditionally apply class names, making your components dynamic and responsive to state or props.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:25.085444Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "703a7c5f-62df-4c74-98ed-6040dc41f1e6",
+        "question": "How do you use the spread operator to clone and extend objects in state?",
+        "answer": "```markdown To clone and extend objects in React state, you can use the JavaScript spread operator (...). This is commonly done when updating state to ensure immutability.\n\n**Example: Cloning and Extending an Object in State**\n\nSuppose you have a state object like this:\n\n```jsx\nconst [user, setUser] = useState({\n  name: 'Alice',\n  age: 25\n});\n```\n\nTo update the age and add a new property (e.g., email), use the spread operator:\n\n```jsx\nsetUser(prevUser => ({\n  ...prevUser,         // clone all existing properties\n  age: 26,             // update age\n  email: 'alice@example.com' // add new property\n}));\n```\n\n**Explanation:**\n\n- ...prevUser clones all properties from the previous user object.\n- Any properties after the spread (like age and email) will overwrite or add to the cloned object.\n- This ensures you don’t mutate the original state directly.\n\n**Summary Table**\n\n| Syntax                              | Purpose                        |\n|--------------------------------------|--------------------------------|\n| `{ ...prevState }`                   | Clone the object               |\n| `{ ...prevState, newProp: value }`   | Clone and extend/overwrite     |\n\n**Best Practice:**  \nAlways use the spread operator (or similar immutable methods) when updating objects in React state to avoid direct mutation and ensure proper re-rendering.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:25.085456Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "80d13d9f-6ffa-436d-a398-a127a62f3acb",
+        "question": "What is the syntax for using multiple useEffect hooks in a single component?",
+        "answer": "```markdown\nYou can use multiple `useEffect` hooks in a single React component by simply calling `useEffect` as many times as needed, each with its own callback and dependency array. This allows you to separate concerns and handle different side effects independently.\n\n**Example:**\n\n```jsx\nimport React, { useState, useEffect } from 'react';\n\nfunction MyComponent() {\n  const [count, setCount] = useState(0);\n  const [name, setName] = useState('');\n\n  // First useEffect: runs when 'count' changes\n  useEffect(() => {\n    console.log(`Count changed: ${count}`);\n  }, [count]);\n\n  // Second useEffect: runs when 'name' changes\n  useEffect(() => {\n    console.log(`Name changed: ${name}`);\n  }, [name]);\n\n  // Third useEffect: runs once on mount\n  useEffect(() => {\n    console.log('Component mounted');\n  }, []);\n\n  return (\n    <div>\n      <button onClick={() => setCount(count + 1)}>Increment</button>\n      <input value={name} onChange={e => setName(e.target.value)} />\n    </div>\n  );\n}\n```\n\n**Key Points:**\n- Each `useEffect` can have its own dependencies.\n- Effects run independently based on their dependency arrays.\n- This pattern helps keep side effects organized and easier to manage.\n```\n",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:25.085468Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "d2d250f1-41a3-401d-983f-58164c8e841a",
+        "question": "How do you use controlled components for form inputs in React?",
+        "answer": "```markdown To use controlled components for form inputs in React, you need to:\n\n1. **Store the input value in the component's state.**\n2. **Update the state when the input changes using an onChange handler.**\n3. **Set the input's value prop to the state variable.**\n\nThis way, the input's value is always controlled by React state.\n\n**Example:**\n\n```jsx\nimport React, { useState } from 'react';\n\nfunction ControlledForm() {\n  const [name, setName] = useState('');\n\n  const handleChange = (event) => {\n    setName(event.target.value);\n  };\n\n  const handleSubmit = (event) => {\n    event.preventDefault();\n    alert(`Submitted name: ${name}`);\n  };\n\n  return (\n    <form onSubmit={handleSubmit}>\n      <label>\n        Name:\n        <input\n          type=\"text\"\n          value={name}\n          onChange={handleChange}\n        />\n      </label>\n      <button type=\"submit\">Submit</button>\n    </form>\n  );\n}\n\nexport default ControlledForm;\n```\n\n**Key Points:**\n- The input's value is set by the state variable (`value={name}`).\n- The `onChange` handler updates the state (`setName`).\n- The component \"controls\" the input, making it a controlled component.\n\nThis pattern works for all form elements (inputs, textareas, selects, etc.) in React.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:25.085505Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "f1d033a4-1b5a-421a-b047-a9bd2197cd93",
+        "question": "How do you use the useReducer hook and what is its syntax?",
+        "answer": "```markdown\nThe `useReducer` hook in React is used for managing complex state logic in functional components, especially when state depends on previous values or when multiple sub-values are involved. It is an alternative to `useState` and is inspired by Redux-like reducer patterns.\n\n## Syntax\n\n```jsx\nconst [state, dispatch] = useReducer(reducer, initialState, initFunction?);\n```\n\n- **reducer**: A function that takes the current state and an action, and returns the new state.\n- **initialState**: The initial value of the state.\n- **initFunction (optional)**: A function to lazily initialize the state.\n\n## Example\n\n```jsx\nimport React, { useReducer } from 'react';\n\n// 1. Define the reducer function\nfunction reducer(state, action) {\n  switch (action.type) {\n    case 'increment':\n      return { count: state.count + 1 };\n    case 'decrement':\n      return { count: state.count - 1 };\n    default:\n      throw new Error();\n  }\n}\n\n// 2. Use useReducer in your component\nfunction Counter() {\n  const [state, dispatch] = useReducer(reducer, { count: 0 });\n\n  return (\n    <>\n      <p>Count: {state.count}</p>\n      <button onClick={() => dispatch({ type: 'decrement' })}>-</button>\n      <button onClick={() => dispatch({ type: 'increment' })}>+</button>\n    </>\n  );\n}\n```\n\n## Key Points\n\n- `useReducer` returns the current state and a `dispatch` function.\n- The `dispatch` function is used to send actions to the reducer.\n- Useful for managing state transitions that are more complex than simple updates.\n\n## When to Use\n\n- When you have complex state logic involving multiple sub-values.\n- When the next state depends on the previous state.\n- When you want to centralize state updates in a single function (the reducer).\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:54:25.085517Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "6a59ca49-b797-4e94-a55f-8387c00f2378",
+        "question": "How do you use higher-order components (HOCs) in React?",
+        "answer": "```markdown\n### Using Higher-Order Components (HOCs) in React\n\nA **Higher-Order Component (HOC)** is a function that takes a component and returns a new component, enhancing it with additional functionality or data. HOCs are a pattern for reusing component logic.\n\n#### 1. Defining a HOC\n\nA HOC is simply a function:\n\n```jsx\nfunction withExtraProps(WrappedComponent) {\n  return function EnhancedComponent(props) {\n    // Add extra props or logic here\n    return <WrappedComponent {...props} extraProp=\"I'm extra!\" />;\n  };\n}\n```\n\n#### 2. Using a HOC\n\nYou use a HOC by passing a component to it:\n\n```jsx\nfunction MyComponent(props) {\n  return <div>{props.extraProp}</div>;\n}\n\nconst EnhancedMyComponent = withExtraProps(MyComponent);\n```\n\nNow, `EnhancedMyComponent` will render `MyComponent` with the additional `extraProp`.\n\n#### 3. Example: withLoading HOC\n\nA common use case is to show a loading indicator:\n\n```jsx\nfunction withLoading(WrappedComponent) {\n  return function ({ isLoading, ...otherProps }) {\n    if (isLoading) {\n      return <div>Loading...</div>;\n    }\n    return <WrappedComponent {...otherProps} />;\n  };\n}\n\nfunction DataDisplay({ data }) {\n  return <div>Data: {data}</div>;\n}\n\nconst DataDisplayWithLoading = withLoading(DataDisplay);\n\n// Usage\n<DataDisplayWithLoading isLoading={true} data=\"Hello\" />\n```\n\n#### 4. Notes\n\n- HOCs do **not** modify the original component; they create a new one.\n- Always pass through props (`...props`) to avoid breaking the contract.\n- HOCs can be composed for multiple enhancements.\n\n#### 5. Best Practices\n\n- Name your HOC functions with a `with` prefix (e.g., `withAuth`, `withTheme`).\n- Avoid copying static methods from the wrapped component unless necessary (see [hoist-non-react-statics](https://www.npmjs.com/package/hoist-non-react-statics)).\n- Use HOCs for cross-cutting concerns like authentication, theming, or data fetching.\n\n---\n\n**Summary:**  \nTo use a HOC in React, define a function that takes a component and returns a new component with enhanced behavior, then wrap your base component with this function.\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:54:25.085528Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "206f17f7-9cf0-4484-9a2d-1e18ed8d09ba",
+        "question": "How do you use default and named exports/imports in React?",
+        "answer": "```markdown\nIn React (and JavaScript ES6 modules), you can export and import components or functions using **default** and **named** exports/imports.\n\n### Default Export/Import\n\n- **Export:** Use `export default` to export a single value from a file.\n- **Import:** You can import it with any name.\n\n**Example:**\n\n```js\n// MyComponent.js\nexport default function MyComponent() {\n  return <div>Hello!</div>;\n}\n```\n\n```js\n// App.js\nimport MyComponent from './MyComponent';\n```\n\n---\n\n### Named Export/Import\n\n- **Export:** Use `export` before each item you want to export.\n- **Import:** You must use the exact exported name, wrapped in curly braces `{}`.\n\n**Example:**\n\n```js\n// utils.js\nexport function add(a, b) {\n  return a + b;\n}\n\nexport const PI = 3.14;\n```\n\n```js\n// App.js\nimport { add, PI } from './utils';\n```\n\n---\n\n### Combining Both\n\nYou can have both default and named exports in the same file:\n\n```js\n// MyComponent.js\nexport default function MyComponent() { ... }\nexport const helper = () => { ... }\n```\n\n```js\n// App.js\nimport MyComponent, { helper } from './MyComponent';\n```\n\n---\n\n**Summary Table**\n\n| Export Type      | Syntax (Export)                | Syntax (Import)                  |\n|------------------|-------------------------------|----------------------------------|\n| Default Export   | `export default ...`           | `import AnyName from '...'`      |\n| Named Export     | `export const foo = ...`       | `import { foo } from '...'`      |\n```\n",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:25.085539Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "af7ead26-33e4-4e99-87b4-e145d3719cd6",
+        "question": "How do you use optional chaining in JSX expressions?",
+        "answer": "```markdown You can use **optional chaining** (`?.`) in JSX expressions to safely access deeply nested object properties without causing errors if a reference is `null` or `undefined`. This is especially useful when rendering data that may not be immediately available.\n\n**Example:**\n\n```jsx\nfunction UserProfile({ user }) {\n  return (\n    <div>\n      <h2>{user?.name}</h2>\n      <p>Email: {user?.contact?.email}</p>\n      <p>City: {user?.address?.city}</p>\n    </div>\n  );\n}\n```\n\n**Explanation:**\n\n- `user?.name` will return `undefined` (and render nothing) if `user` is `null` or `undefined`.\n- `user?.contact?.email` safely accesses `email` even if `contact` is missing.\n- This prevents runtime errors like \"Cannot read property 'email' of undefined\".\n\n**Usage Tips:**\n\n- Optional chaining can be used in any JavaScript expression inside JSX curly braces `{}`.\n- It works with properties (`obj?.prop`), array elements (`arr?.[index]`), and function calls (`func?.()`).\n\n**Note:**  \nOptional chaining is supported in React projects created with recent versions of Create React App or Next.js. For older setups, ensure your Babel configuration supports it.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:25.085550Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "e47c02b7-be36-44c5-ae3d-346a8c548cc6",
+        "question": "How do you use async/await inside useEffect?",
+        "answer": "```markdown\nUsing `async/await` directly in the `useEffect` callback is **not allowed** because the callback function itself cannot be `async` (it must return either `undefined` or a cleanup function, not a Promise). However, you can define an async function **inside** the effect and then call it. Here’s how you do it:\n\n```jsx\nimport React, { useEffect, useState } from 'react';\n\nfunction MyComponent() {\n  const [data, setData] = useState(null);\n\n  useEffect(() => {\n    // Define the async function inside the effect\n    const fetchData = async () => {\n      try {\n        const response = await fetch('https://api.example.com/data');\n        const result = await response.json();\n        setData(result);\n      } catch (error) {\n        console.error('Error fetching data:', error);\n      }\n    };\n\n    // Call the async function\n    fetchData();\n  }, []); // Dependency array\n\n  return (\n    <div>\n      {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : 'Loading...'}\n    </div>\n  );\n}\n```\n\n**Key Points:**\n- Do **not** make the `useEffect` callback itself `async`.\n- Define an `async` function **inside** the effect, then call it.\n- Handle cleanup and dependencies as usual.\n\n**Why?**  \nMaking the effect callback `async` would cause it to return a Promise, which React does not expect and can lead to unexpected behavior.\n\n**References:**\n- [React Docs: Using the Effect Hook](https://react.dev/reference/react/useEffect)\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:54:25.085561Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "66233f91-7e6a-4bbf-9607-6012bd7c8924",
+        "question": "How do you use dynamic imports in React?",
+        "answer": "```markdown\n### Using Dynamic Imports in React\n\nDynamic imports in React allow you to load JavaScript modules asynchronously, which is useful for code-splitting and improving application performance. This is typically achieved using the `import()` syntax and React's `React.lazy` for components.\n\n#### 1. Basic Dynamic Import Syntax\n\n```js\nimport('module-path').then((module) => {\n  // Use the dynamically imported module\n});\n```\n\n#### 2. Dynamic Import with React.lazy\n\nTo dynamically import a React component:\n\n```js\nimport React, { Suspense } from 'react';\n\nconst MyComponent = React.lazy(() => import('./MyComponent'));\n\nfunction App() {\n  return (\n    <Suspense fallback={<div>Loading...</div>}>\n      <MyComponent />\n    </Suspense>\n  );\n}\n```\n\n- `React.lazy()` takes a function that returns a promise from `import()`.\n- The component must be rendered inside a `Suspense` component, which handles the loading state.\n\n#### 3. Dynamic Import with Variables\n\nYou can use variables to dynamically determine which module to import:\n\n```js\nfunction loadComponent(componentName) {\n  return React.lazy(() => import(`./components/${componentName}`));\n}\n\nconst DynamicComponent = loadComponent('Header');\n\nfunction App() {\n  return (\n    <Suspense fallback={<div>Loading...</div>}>\n      <DynamicComponent />\n    </Suspense>\n  );\n}\n```\n\n#### 4. Dynamic Import for Non-Component Modules\n\nYou can also use dynamic imports for utility functions or other modules:\n\n```js\nasync function handleClick() {\n  const { someUtilityFunction } = await import('./utils');\n  someUtilityFunction();\n}\n```\n\n#### 5. Notes\n\n- Dynamic imports return a promise.\n- When using with components, always wrap with `Suspense`.\n- Useful for code-splitting and reducing initial bundle size.\n\n**References:**\n- [React Docs: Code-Splitting](https://react.dev/reference/react/lazy)\n- [MDN: import()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#dynamic_imports)\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:54:25.085573Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "dc4d89d3-d7b3-453d-8647-257328af7a95",
+        "question": "How do you use the classnames library to manage dynamic class names?",
+        "answer": "```markdown To use the classnames library for managing dynamic class names in React, follow these steps:\n\n1. **Install the library:**\n\n```bash\nnpm install classnames\n```\n\n2. **Import classnames in your component:**\n\n```jsx\nimport classNames from 'classnames';\n```\n\n3. **Use it to conditionally apply classes:**\n\nYou can pass strings, objects, or arrays. If you pass an object, the key is the class name and the value is a boolean indicating whether the class should be applied.\n\n```jsx\nfunction Button({ isPrimary, isDisabled }) {\n  const btnClass = classNames('btn', {\n    'btn-primary': isPrimary,\n    'btn-disabled': isDisabled,\n  });\n\n  return <button className={btnClass}>Click me</button>;\n}\n```\n\n**Explanation:**\n\n- If `isPrimary` is `true`, `btn-primary` will be added.\n- If `isDisabled` is `true`, `btn-disabled` will be added.\n- The base class `btn` is always included.\n\n**You can also combine static and dynamic classes:**\n\n```jsx\nconst btnClass = classNames('btn', 'extra-class', {\n  'btn-primary': isPrimary,\n});\n```\n\n**Summary Table:**\n\n| Syntax Example                                  | Resulting Class Name(s)              |\n|-------------------------------------------------|--------------------------------------|\n| `classNames('foo', 'bar')`                      | `'foo bar'`                          |\n| `classNames({ foo: true, bar: false })`         | `'foo'`                              |\n| `classNames('foo', { bar: true })`              | `'foo bar'`                          |\n| `classNames(['foo', 'bar'])`                    | `'foo bar'`                          |\n\n**Tip:**  \nUsing classnames helps keep your JSX clean and makes conditional styling much easier to manage.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:25.085585Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "4e3ca06d-a45b-4f6c-a8ea-58673a25f661",
+        "question": "How do you use short-circuit evaluation for conditional rendering in JSX?",
+        "answer": "```markdown You can use short-circuit evaluation in JSX with the logical AND operator (`&&`) to conditionally render elements. If the condition before `&&` is true, the expression after `&&` will be rendered; otherwise, nothing will be rendered.\n\n**Example:**\n\n```jsx\nfunction Greeting({ isLoggedIn }) {\n  return (\n    <div>\n      {isLoggedIn && <h1>Welcome back!</h1>}\n    </div>\n  );\n}\n```\n\nIn this example, `<h1>Welcome back!</h1>` will only be rendered if `isLoggedIn` is `true`. If `isLoggedIn` is `false`, nothing will be rendered in its place.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:25.085597Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "5d1457fe-89b9-4b9e-a35f-398345af4508",
+        "question": "How do you use template literals for dynamic values in JSX?",
+        "answer": "```markdown You can use template literals (enclosed by backticks `` ` ``) inside JSX curly braces to dynamically construct strings using JavaScript expressions. This is especially useful for combining variables and static text.\n\n**Example:**\n\n```jsx\nconst firstName = \"Jane\";\nconst lastName = \"Doe\";\nconst age = 28;\n\nfunction Greeting() {\n  return (\n    <div>\n      <h1>{`Hello, ${firstName} ${lastName}!`}</h1>\n      <p>{`You are ${age} years old.`}</p>\n    </div>\n  );\n}\n```\n\n**Explanation:**\n\n- The expressions inside `${}` are evaluated and inserted into the string.\n- The entire template literal is wrapped in `{}` so that JSX treats it as a JavaScript expression.\n\n**When to use:**\n- When you need to build a string from variables or expressions inside JSX.\n\n**Tip:**  \nYou can use any valid JavaScript expression inside `${}` within the template literal.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:25.085607Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "5471780b-cbab-4847-8597-fcbd6e26ebed",
+        "question": "How do you use the React.Children API to manipulate children elements?",
+        "answer": "```markdown\nThe `React.Children` API provides utilities for dealing with the `children` prop in React components, especially when you want to inspect, transform, or count child elements. Here’s how you can use it to manipulate children elements:\n\n### Common Methods\n\n- **`React.Children.map(children, function)`**  \n  Similar to `Array.prototype.map`, but works with the opaque `children` prop. It allows you to transform each child.\n\n- **`React.Children.forEach(children, function)`**  \n  Like `map`, but does not return a new array.\n\n- **`React.Children.count(children)`**  \n  Returns the total number of children.\n\n- **`React.Children.only(children)`**  \n  Verifies that there is only one child and returns it.\n\n- **`React.Children.toArray(children)`**  \n  Flattens children into a regular array, useful for manipulation.\n\n### Example: Cloning and Modifying Children\n\nSuppose you want to add a prop to each child:\n\n```jsx\nfunction AddClassToChildren({ children }) {\n  return React.Children.map(children, child => {\n    // Only modify if it's a valid React element\n    if (React.isValidElement(child)) {\n      return React.cloneElement(child, { className: 'my-class' });\n    }\n    return child;\n  });\n}\n\n// Usage\n<AddClassToChildren>\n  <div>One</div>\n  <span>Two</span>\n</AddClassToChildren>\n```\n\n### Example: Filtering Children by Type\n\n```jsx\nfunction OnlyDivs({ children }) {\n  return React.Children.toArray(children).filter(\n    child => React.isValidElement(child) && child.type === 'div'\n  );\n}\n\n// Usage\n<OnlyDivs>\n  <div>Show me</div>\n  <span>Hide me</span>\n</OnlyDivs>\n```\n\n### Notes\n\n- Always use `React.Children` methods instead of directly mapping over `props.children`, as children can be a single element, an array, or even `null`.\n- Use `React.cloneElement` to add or modify props on children.\n\n**References:**  \n- [React.Children Documentation](https://react.dev/reference/react/Children)\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:54:25.085616Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    },
+    {
+        "id": "81922d9e-726b-4ea2-bebe-17b15384faeb",
+        "question": "How do you use portals to render components outside the main DOM hierarchy?",
+        "answer": "```markdown To render components outside the main DOM hierarchy in React, you use **portals**. Portals allow you to render a child component into a DOM node that exists outside the DOM hierarchy of the parent component.\n\n### Syntax\n\n```jsx\nimport ReactDOM from 'react-dom';\n\nReactDOM.createPortal(child, container)\n```\n\n- **child**: The React element you want to render.\n- **container**: The DOM node to render the child into.\n\n### Example\n\nSuppose you want to render a modal outside the main `#root` element:\n\n#### 1. Add a container in your HTML\n\n```html\n<body>\n  <div id=\"root\"></div>\n  <div id=\"modal-root\"></div>\n</body>\n```\n\n#### 2. Create a Modal component using a portal\n\n```jsx\nimport React from 'react';\nimport ReactDOM from 'react-dom';\n\nfunction Modal({ children }) {\n  const modalRoot = document.getElementById('modal-root');\n  return ReactDOM.createPortal(\n    <div className=\"modal\">\n      {children}\n    </div>,\n    modalRoot\n  );\n}\n```\n\n#### 3. Use the Modal component\n\n```jsx\nfunction App() {\n  const [showModal, setShowModal] = React.useState(false);\n\n  return (\n    <div>\n      <button onClick={() => setShowModal(true)}>Open Modal</button>\n      {showModal && (\n        <Modal>\n          <h2>Hello from the portal!</h2>\n          <button onClick={() => setShowModal(false)}>Close</button>\n        </Modal>\n      )}\n    </div>\n  );\n}\n```\n\n### Key Points\n\n- Portals help with scenarios like modals, tooltips, and overlays, where you need to visually break out of the parent DOM hierarchy.\n- Event bubbling works as if the portal content is still inside the React tree.\n\n**References:**  \n- [React Docs: Portals](https://react.dev/reference/react-dom/createPortal)",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:54:25.085626Z",
+        "topic": "8e309cbf-9157-4482-b102-b8e9cfc69e72"
+    }
+]

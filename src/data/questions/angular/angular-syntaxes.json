@@ -1,0 +1,394 @@
+[
+    {
+        "id": "2dc36a59-598d-47e6-aabc-fb6ee140d118",
+        "question": "What is the syntax for string interpolation in Angular templates?",
+        "answer": "```markdown **Answer:**\n\nIn Angular templates, string interpolation is done using double curly braces `{{ }}`. You place the expression you want to evaluate inside the braces.\n\n**Syntax:**\n```html\n{{ expression }}\n```\n\n**Example:**\n```html\n<p>Hello, {{ userName }}!</p>\n```\n\nThis will display the value of the `userName` property from the component in the template.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:51.509166Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "e8ed1e6b-c8b6-48fb-b0d4-3b9e1ddc23e3",
+        "question": "How do you bind a property of a DOM element to a component property in Angular?",
+        "answer": "```markdown You can bind a property of a DOM element to a component property in Angular using **property binding** syntax. This is done by enclosing the DOM property in square brackets and assigning it the component property.\n\n**Syntax:**\n\n```html\n<element [property]=\"componentProperty\"></element>\n```\n\n**Example:**\n\nSuppose you have a component property called `imageUrl`:\n\n```typescript\nexport class MyComponent {\n  imageUrl = 'https://example.com/image.jpg';\n}\n```\n\nYou can bind the `src` property of an `<img>` element to `imageUrl` like this:\n\n```html\n<img [src]=\"imageUrl\">\n```\n\nThis way, the `src` attribute of the `<img>` element will always reflect the value of the `imageUrl` property in your component.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:51.509200Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "7a31a05b-d466-4baf-b01e-a5b2551f40fd",
+        "question": "What is the syntax for event binding in Angular?",
+        "answer": "```markdown **Answer:**\n\nIn Angular, the syntax for event binding is to enclose the event name in parentheses and assign it to a template statement. The general syntax is:\n\n```html\n<button (click)=\"onClickHandler()\">Click me</button>\n```\n\n- **(click)** is the event you want to listen for (in this case, the click event).\n- **onClickHandler()** is the method in your component that will be called when the event occurs.\n\n**General Syntax:**\n\n```html\n<element (event)=\"statement\"></element>\n```\n\n**Example:**\n\n```html\n<input (input)=\"onInputChange($event)\">\n```",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:51.509212Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "a87adb92-e296-4f1d-b1fb-3d1474a79874",
+        "question": "How do you use two-way data binding in Angular templates?",
+        "answer": "```markdown To use two-way data binding in Angular templates, you use the **ngModel** directive with the special \"banana-in-a-box\" syntax: `[(ngModel)]`.\n\n**Example:**\n\n```html\n<input [(ngModel)]=\"username\">\n<p>Your username is: {{ username }}</p>\n```\n\n- `[(ngModel)]=\"username\"` binds the input's value to the `username` property in your component.\n- Any changes in the input field update the `username` property, and vice versa.\n\n**Note:**  \nTo use `ngModel`, you need to import the `FormsModule` in your Angular module:\n\n```typescript\nimport { FormsModule } from '@angular/forms';\n\n@NgModule({\n  imports: [FormsModule]\n})\nexport class AppModule { }\n```\n\n**Summary:**  \nUse `[(ngModel)]` for two-way data binding in Angular templates.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:51.509219Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "e8e25c54-c8b6-4478-ac01-e6faa8cc0eda",
+        "question": "What is the syntax for using ngIf directive in Angular?",
+        "answer": "```html\n<div *ngIf=\"condition\">\n  <!-- Content to display if condition is true -->\n</div>\n```\n\n- Replace `condition` with your boolean expression.\n- The content inside the `<div>` will only be rendered if the condition evaluates to `true`.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:51.509244Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "ce871c25-51dc-4d6c-9813-785c3cc1f3a8",
+        "question": "How do you use ngFor to loop over a list in Angular templates?",
+        "answer": "```markdown To loop over a list in Angular templates, use the `*ngFor` directive. Here’s the basic syntax:\n\n```html\n<li *ngFor=\"let item of items\">\n  {{ item }}\n</li>\n```\n\n**Explanation:**\n- `items` is an array defined in your component.\n- `let item of items` creates a local variable `item` for each element in the array.\n- The `<li>` element will be repeated for each item in the `items` array.\n\n**Example:**\n\nSuppose your component has:\n\n```typescript\nitems = ['Apple', 'Banana', 'Cherry'];\n```\n\nYour template:\n\n```html\n<ul>\n  <li *ngFor=\"let item of items\">\n    {{ item }}\n  </li>\n</ul>\n```\n\n**Output:**\n\n- Apple\n- Banana\n- Cherry\n\nThis is how you use `ngFor` to loop over a list in Angular templates.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:51.509257Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "6493494a-47e5-4010-90ab-de5ad592a797",
+        "question": "What is the syntax for applying a CSS class conditionally in Angular?",
+        "answer": "```markdown\nIn Angular, you can apply a CSS class conditionally using the `[class.class-name]` binding or the `[ngClass]` directive.\n\n**Example using `[class.class-name]`:**\n```html\n<div [class.active]=\"isActive\">Content</div>\n```\nThis will add the active class to the div only if isActive is true.\n\n**Example using `[ngClass]`:**\n```html\n<div [ngClass]=\"{ 'active': isActive, 'disabled': isDisabled }\">Content</div>\n```\nThis will add the active class if isActive is true and the disabled class if isDisabled is true.\n```\n",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:51.509270Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "2ca35aef-8087-4e4e-9e98-60c0fe1f5a60",
+        "question": "How do you bind inline styles dynamically in Angular?",
+        "answer": "```markdown You can bind inline styles dynamically in Angular using the `[style]` or `[ngStyle]` directive.\n\n### Using `[style.property]` Syntax\n\nBind a single style property dynamically:\n\n```html\n<div [style.background-color]=\"isActive ? 'green' : 'red'\">\n  This div's background color changes dynamically.\n</div>\n```\n\n### Using `[ngStyle]` Directive\n\nBind multiple style properties using an object:\n\n```html\n<div [ngStyle]=\"{'font-size': fontSize + 'px', 'color': fontColor}\">\n  This div's styles are set dynamically.\n</div>\n```\n\n**In your component:**\n\n```typescript\nfontSize = 20;\nfontColor = 'blue';\n```\n\n---\n\n**Summary:**  \n- Use `[style.property]=\"expression\"` for single style properties.\n- Use `[ngStyle]=\"styleObject\"` for multiple or complex style bindings.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:51.509283Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "f2930903-638a-4135-92fd-25018ba9333b",
+        "question": "What is the syntax for using trackBy function with ngFor?",
+        "answer": "```markdown\nIn Angular, the `trackBy` function is used with `*ngFor` to optimize rendering by uniquely identifying items in a list. The syntax for using `trackBy` with `ngFor` is as follows:\n\n```html\n<div *ngFor=\"let item of items; trackBy: trackByFn\">\n  {{ item.name }}\n</div>\n```\n\nWhere `trackByFn` is a method defined in your component:\n\n```typescript\ntrackByFn(index: number, item: any): any {\n  return item.id; // or any unique identifier\n}\n```\n\n**Summary of the syntax:**\n```html\n*ngFor=\"let item of items; trackBy: trackByFn\"\n```\n```",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:51.509471Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "d886180c-cdf5-41ca-bde5-14e244da83ae",
+        "question": "How do you use template reference variables to access DOM elements?",
+        "answer": "```markdown\nIn Angular, you can use **template reference variables** to access DOM elements directly within your template. To create a template reference variable, add a `#` symbol followed by a variable name to an element.\n\n**Example:**\n\n```html\n<input #myInput type=\"text\">\n<button (click)=\"logValue(myInput.value)\">Log Input Value</button>\n```\n\nIn this example:\n\n- `#myInput` is the template reference variable.\n- You can access the input element's value using `myInput.value` in your template or pass it to a method in your component.\n\n**Component method:**\n\n```typescript\nlogValue(value: string) {\n  console.log(value);\n}\n```\n\n**Summary:**  \nTemplate reference variables allow you to reference and interact with DOM elements directly in your Angular templates.\n```",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:51.509489Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "b8dc9b86-f1bc-4f04-a26b-0120972c56b8",
+        "question": "What is the syntax for using the async pipe with Observables?",
+        "answer": "```markdown\nIn Angular, the **async pipe** is used in templates to subscribe to an Observable (or Promise) and automatically manage subscriptions. The syntax for using the async pipe with Observables is:\n\n```html\n{{ observableVariable | async }}\n```\n\nOr, when used with structural directives like *ngIf or *ngFor:\n\n```html\n<div *ngIf=\"observableVariable | async as value\">\n  {{ value }}\n</div>\n```\n\n**Example:**\n\n```typescript\n// In your component.ts\nmyObservable$: Observable<string> = of('Hello, Angular!');\n```\n\n```html\n<!-- In your component.html -->\n<p>{{ myObservable$ | async }}</p>\n```\n\n**Key Points:**\n- The async pipe subscribes to the Observable and returns the latest emitted value.\n- It automatically unsubscribes when the component is destroyed, helping to prevent memory leaks.\n```\n",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:51.509567Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "e91bffd6-679d-4bcd-b52b-d376b7c97fae",
+        "question": "How do you pass data from a parent component to a child component using @Input?",
+        "answer": "```markdown To pass data from a parent component to a child component in Angular, you use the @Input decorator in the child component. Here’s how you can do it:\n\n### 1. In the Child Component\n\nImport `Input` from `@angular/core` and decorate the property you want to receive data with `@Input()`:\n\n```typescript\n// child.component.ts\nimport { Component, Input } from '@angular/core';\n\n@Component({\n  selector: 'app-child',\n  template: `<p>Received: {{ data }}</p>`\n})\nexport class ChildComponent {\n  @Input() data: string;\n}\n```\n\n### 2. In the Parent Component Template\n\nBind the property you want to pass to the child component’s input property using property binding syntax `[property]=\"value\"`:\n\n```html\n<!-- parent.component.html -->\n<app-child [data]=\"parentData\"></app-child>\n```\n\nHere, `parentData` is a property defined in the parent component’s class.\n\n### 3. In the Parent Component Class\n\nDefine the property you want to pass:\n\n```typescript\n// parent.component.ts\nimport { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-parent',\n  templateUrl: './parent.component.html'\n})\nexport class ParentComponent {\n  parentData = 'Hello from Parent!';\n}\n```\n\n---\n\n**Summary:**  \n- Use `@Input()` in the child component to declare a property for receiving data.\n- Use property binding `[childProperty]=\"parentValue\"` in the parent’s template to pass data.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:51.509295Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "ce6cf013-e3e9-4303-8660-e4ac9255f060",
+        "question": "What is the syntax for emitting an event from a child component to a parent using @Output?",
+        "answer": "```markdown\nTo emit an event from a child component to a parent using `@Output` in Angular:\n\n1. **In the child component:**\n   - Import `EventEmitter` and `Output` from `@angular/core`.\n   - Create an `@Output` property with an `EventEmitter`.\n   - Call `.emit()` to send the event.\n\n   ```typescript\n   // child.component.ts\n   import { Component, Output, EventEmitter } from '@angular/core';\n\n   @Component({\n     selector: 'app-child',\n     template: `<button (click)=\"sendMessage()\">Send Message</button>`\n   })\n   export class ChildComponent {\n     @Output() messageEvent = new EventEmitter<string>();\n\n     sendMessage() {\n       this.messageEvent.emit('Hello from Child!');\n     }\n   }\n   ```\n\n2. **In the parent component template:**\n   - Listen to the event using the child selector and event binding syntax.\n\n   ```html\n   <!-- parent.component.html -->\n   <app-child (messageEvent)=\"receiveMessage($event)\"></app-child>\n   ```\n\n3. **In the parent component class:**\n   - Define the handler method.\n\n   ```typescript\n   // parent.component.ts\n   receiveMessage(message: string) {\n     console.log(message); // Output: Hello from Child!\n   }\n   ```\n\n**Summary of the syntax:**\n- In child: `@Output() eventName = new EventEmitter<Type>();`\n- In child: `this.eventName.emit(data);`\n- In parent template: `<child-selector (eventName)=\"handler($event)\"></child-selector>`\n```\n",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:51.509307Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "982c347c-6a0f-41a0-9f3d-cd7045068763",
+        "question": "How do you define a template reference variable in Angular?",
+        "answer": "```markdown You can define a template reference variable in Angular by prefixing a variable name with a hash symbol (#) within your template. This variable can then be used to reference a DOM element or an Angular component/directive instance.\n\n**Example:**\n\n```html\n<input #myInput type=\"text\">\n<button (click)=\"logValue(myInput.value)\">Log Value</button>\n```\n\nIn this example, #myInput is a template reference variable that refers to the input element. You can access its properties (like value) within the template.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:51.509319Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "8a477144-f4d7-4f46-abdd-084971935c69",
+        "question": "What is the syntax for using pipes in Angular templates?",
+        "answer": "```markdown In Angular templates, pipes are used to transform data before displaying it. The syntax for using a pipe is:\n\n```html\n{{ expression | pipeName }}\n```\n\nYou can also chain multiple pipes or pass parameters to a pipe:\n\n```html\n{{ expression | pipeName:parameter1:parameter2 | anotherPipe }}\n```\n\n**Example:**\n\n```html\n<!-- Using the 'uppercase' pipe -->\n<p>{{ 'hello world' | uppercase }}</p>\n<!-- Output: HELLO WORLD -->\n\n<!-- Using the 'date' pipe with a format parameter -->\n<p>{{ myDate | date:'longDate' }}</p>\n```\n\n**Summary:**  \nUse the pipe (|) character in interpolation to apply a pipe to an expression.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:51.509327Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "180cf281-06e2-416d-b840-a99f8cd0da68",
+        "question": "How do you use the safe navigation operator in Angular templates?",
+        "answer": "```markdown\nIn Angular templates, the **safe navigation operator** (`?.`) is used to prevent errors when trying to access properties of objects that might be `null` or `undefined`. It allows you to safely read the value without causing a runtime error if the object does not exist.\n\n**Syntax Example:**\n\n```html\n<p>{{ user?.name }}</p>\n```\n\nIn this example, if `user` is `null` or `undefined`, Angular will not throw an error and will simply render nothing for `user.name`.\n\n**Use Case:**\n\nUse the safe navigation operator when you are not sure if an object or its property exists at the time the template is rendered.\n\n**More Examples:**\n\n```html\n<!-- Accessing nested properties safely -->\n<p>{{ order?.customer?.address?.city }}</p>\n\n<!-- Safe navigation in property binding -->\n<img [src]=\"profile?.avatarUrl\">\n```\n```",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:51.509334Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "048cc759-6ed3-4718-8393-23236ea29238",
+        "question": "What is the syntax for using ngSwitch in Angular templates?",
+        "answer": "```markdown\nIn Angular templates, the `ngSwitch` directive is used to conditionally display elements based on a matching expression. The syntax involves three main directives:\n\n- `*ngSwitch`: Placed on a container element, it evaluates an expression.\n- `*ngSwitchCase`: Placed on child elements, it matches against the value of `ngSwitch`.\n- `*ngSwitchDefault`: Placed on a child element to display when no cases match.\n\n**Example Syntax:**\n\n```html\n<div [ngSwitch]=\"expression\">\n  <div *ngSwitchCase=\"'case1'\">Case 1 content</div>\n  <div *ngSwitchCase=\"'case2'\">Case 2 content</div>\n  <div *ngSwitchDefault>Default content</div>\n</div>\n```\n\n- Replace `expression` with the variable or value you want to check.\n- Each `*ngSwitchCase` checks for a specific value.\n- The `*ngSwitchDefault` block is shown if none of the cases match.\n```\n",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:51.509342Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "d84ccb09-84a3-4ce6-9435-36accdf92853",
+        "question": "How do you create a custom pipe and use it in a template?",
+        "answer": "```markdown To create a custom pipe in Angular and use it in a template, follow these steps:\n\n### 1. Generate a Pipe\n\nYou can use the Angular CLI:\n\n```bash\nng generate pipe myCustom\n```\n\nOr manually create a file, e.g., `my-custom.pipe.ts`.\n\n### 2. Implement the Pipe\n\nEdit the generated file:\n\n```typescript\nimport { Pipe, PipeTransform } from '@angular/core';\n\n@Pipe({\n  name: 'myCustom'\n})\nexport class MyCustomPipe implements PipeTransform {\n  transform(value: string, ...args: any[]): string {\n    // Example: Make text uppercase\n    return value.toUpperCase();\n  }\n}\n```\n\n### 3. Register the Pipe\n\nEnsure your pipe is declared in the `declarations` array of your module (usually `app.module.ts`):\n\n```typescript\nimport { MyCustomPipe } from './my-custom.pipe';\n\n@NgModule({\n  declarations: [\n    // other components and pipes\n    MyCustomPipe\n  ],\n  // ...\n})\nexport class AppModule { }\n```\n\n### 4. Use the Pipe in a Template\n\nApply your pipe using the pipe operator (`|`) in your component's template:\n\n```html\n<p>{{ 'hello world' | myCustom }}</p>\n```\n\n**Output:**\n```\nHELLO WORLD\n```\n\n---\n\n**Summary:**  \n- Create a pipe class implementing `PipeTransform`.\n- Register it in your module.\n- Use it in templates with the `|` operator.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:51.509349Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "da1c9e94-03dd-4634-8764-b952286a73b5",
+        "question": "What is the syntax for dependency injection in Angular components?",
+        "answer": "```markdown\nIn Angular, dependency injection (DI) is typically implemented in components by specifying dependencies as parameters in the component’s constructor. Angular’s DI framework automatically provides instances of these dependencies when the component is created.\n\n**Syntax Example:**\n\n```typescript\nimport { Component } from '@angular/core';\nimport { MyService } from './my-service.service';\n\n@Component({\n  selector: 'app-example',\n  templateUrl: './example.component.html'\n})\nexport class ExampleComponent {\n  constructor(private myService: MyService) {\n    // Now you can use myService within this component\n  }\n}\n```\n\n**Key Points:**\n- Dependencies are listed as constructor parameters, usually with an access modifier (`private` or `public`).\n- Angular injects the required service instance automatically.\n- The service must be provided in the module or component (using `providers` array or `providedIn: 'root'` in the service).\n\n**General Syntax:**\n\n```typescript\nconstructor(private dependencyName: DependencyType) { }\n```\n```",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:51.509357Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "a0edfe7d-08b2-480b-9326-188917977ace",
+        "question": "How do you use the async pipe in Angular?",
+        "answer": "```markdown\nThe `async` pipe in Angular is used to subscribe to an `Observable` or `Promise` directly from the template, automatically handling subscription and unsubscription. This is especially useful for displaying data from asynchronous sources without manually subscribing in your component code.\n\n**Usage Example:**\n\nSuppose you have an observable in your component:\n\n```typescript\n// my.component.ts\nimport { Component } from '@angular/core';\nimport { Observable, of } from 'rxjs';\n\n@Component({\n  selector: 'app-my',\n  templateUrl: './my.component.html'\n})\nexport class MyComponent {\n  data$: Observable<string> = of('Hello from Observable!');\n}\n```\n\nYou can use the `async` pipe in your template like this:\n\n```html\n<!-- my.component.html -->\n<p>{{ data$ | async }}</p>\n```\n\n**How it works:**\n\n- The `async` pipe subscribes to `data$` and renders its emitted value.\n- When the observable emits a new value, the view updates automatically.\n- When the component is destroyed, the `async` pipe unsubscribes to prevent memory leaks.\n\n**With *ngIf and async:**\n\nYou can also use it with structural directives:\n\n```html\n<div *ngIf=\"data$ | async as data\">\n  {{ data }}\n</div>\n```\n\n**Summary Table:**\n\n| Source Type   | Usage Example                |\n| ------------- | --------------------------- |\n| Observable    | `{{ myObservable$ | async }}` |\n| Promise       | `{{ myPromise | async }}`     |\n\n**Key Points:**\n\n- No need to manually subscribe/unsubscribe in the component.\n- Works with both Observables and Promises.\n- Simplifies template code for asynchronous data.\n```\n",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:51.509364Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "31435fc9-c271-450c-984c-eb70b57738e4",
+        "question": "What is the syntax for defining a route in Angular Router?",
+        "answer": "```typescript\n// Import the necessary Angular Router modules\nimport { Routes, RouterModule } from '@angular/router';\nimport { MyComponent } from './my.component';\n\n// Define the routes array\nconst routes: Routes = [\n  { path: 'my-path', component: MyComponent },\n  // Additional routes can be added here\n];\n\n// Import the routes into your module\n@NgModule({\n  imports: [RouterModule.forRoot(routes)],\n  exports: [RouterModule]\n})\nexport class AppRoutingModule { }\n```\n\n**Explanation:**\n- Each route is an object with at least a `path` and a `component`.\n- The `path` is the URL fragment, and `component` is the Angular component to display.\n- Routes are registered using `RouterModule.forRoot(routes)` in your module.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:51.509373Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "52c5c981-f3b3-4792-91d5-73e2a9faa33f",
+        "question": "How do you use routerLink directive for navigation in Angular templates?",
+        "answer": "```markdown To use the `routerLink` directive for navigation in Angular templates, you bind it to the target route path within an element, typically an anchor tag (`<a>`). This directive tells Angular’s Router to navigate to the specified route when the element is clicked, without reloading the page.\n\n**Basic Syntax:**\n\n```html\n<a routerLink=\"/path\">Link Text</a>\n```\n\n**Examples:**\n\n1. **Navigate to a simple route:**\n   ```html\n   <a routerLink=\"/dashboard\">Dashboard</a>\n   ```\n\n2. **Navigate with route parameters:**\n   ```html\n   <a [routerLink]=\"['/user', userId]\">User Details</a>\n   ```\n\n3. **Using query parameters:**\n   ```html\n   <a [routerLink]=\"['/search']\" [queryParams]=\"{query: 'angular'}\">Search</a>\n   ```\n\n**Notes:**\n- Use square brackets (`[routerLink]`) for dynamic values or route parameters.\n- The `routerLinkActive` directive can be used to add a CSS class when the link is active:\n  ```html\n  <a routerLink=\"/dashboard\" routerLinkActive=\"active\">Dashboard</a>\n  ```\n\n**Summary Table:**\n\n| Syntax                        | Usage Example                                      |\n|-------------------------------|---------------------------------------------------|\n| `routerLink=\"/path\"`          | `<a routerLink=\"/home\">Home</a>`                  |\n| `[routerLink]=\"['/path']\"`    | `<a [routerLink]=\"['/user', userId]\">User</a>`    |\n| `[queryParams]=\"{...}\"`       | `<a [routerLink]=\"['/search']\" [queryParams]=\"{q: 'test'}\">Search</a>` |\n\nThis approach enables client-side navigation in Angular applications.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:51.509380Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "b3e16874-ad82-4148-a334-44bac10138cf",
+        "question": "How do you bind to form controls using ngModel in Angular?",
+        "answer": "```markdown To bind to form controls using `ngModel` in Angular, you use the `[(ngModel)]` directive in your template. This enables two-way data binding between your component's property and the form control.\n\n**Example:**\n\nSuppose you have a component with a property called `username`:\n\n```typescript\n// app.component.ts\nexport class AppComponent {\n  username: string = '';\n}\n```\n\nYou can bind an input field to this property using `ngModel`:\n\n```html\n<!-- app.component.html -->\n<input type=\"text\" [(ngModel)]=\"username\" placeholder=\"Enter your username\">\n<p>Your username is: {{ username }}</p>\n```\n\n**Key Points:**\n\n- `[(ngModel)]` creates a two-way binding: changes in the input update the component property, and vice versa.\n- Make sure to import `FormsModule` in your module to use `ngModel`:\n\n  ```typescript\n  import { FormsModule } from '@angular/forms';\n\n  @NgModule({\n    imports: [BrowserModule, FormsModule],\n    // ...\n  })\n  export class AppModule { }\n  ```\n\n**Summary Table:**\n\n| Syntax                | Description                        |\n|-----------------------|------------------------------------|\n| `[ngModel]`           | One-way binding (component → view) |\n| `(ngModelChange)`     | Event binding (view → component)   |\n| `[(ngModel)]`         | Two-way binding                    |\n\n**Note:**  \nAlways use `FormsModule` for template-driven forms with `ngModel`. For reactive forms, use `FormControl` and `formControlName` instead.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:51.509387Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "12343039-6137-4171-b9b1-fa7be6d1df75",
+        "question": "What is the syntax for creating a reactive form in Angular?",
+        "answer": "```markdown\nTo create a reactive form in Angular, you use the `FormGroup`, `FormControl`, and optionally `FormBuilder` classes from `@angular/forms`. Here’s the typical syntax:\n\n1. **Import Reactive Forms Module**  \n   In your module (usually `app.module.ts`):\n\n   ```typescript\n   import { ReactiveFormsModule } from '@angular/forms';\n\n   @NgModule({\n     imports: [\n       ReactiveFormsModule,\n       // other imports\n     ],\n   })\n   export class AppModule { }\n   ```\n\n2. **Create the Form in the Component**  \n   In your component TypeScript file:\n\n   ```typescript\n   import { Component } from '@angular/core';\n   import { FormGroup, FormControl, FormBuilder } from '@angular/forms';\n\n   @Component({\n     selector: 'app-example-form',\n     templateUrl: './example-form.component.html'\n   })\n   export class ExampleFormComponent {\n     // Option 1: Using FormGroup and FormControl directly\n     myForm = new FormGroup({\n       name: new FormControl(''),\n       email: new FormControl(''),\n     });\n\n     // Option 2: Using FormBuilder (recommended for larger forms)\n     constructor(private fb: FormBuilder) {\n       this.myForm = this.fb.group({\n         name: [''],\n         email: ['']\n       });\n     }\n   }\n   ```\n\n3. **Bind the Form in the Template**  \n   In your component HTML file:\n\n   ```html\n   <form [formGroup]=\"myForm\" (ngSubmit)=\"onSubmit()\">\n     <input formControlName=\"name\" placeholder=\"Name\">\n     <input formControlName=\"email\" placeholder=\"Email\">\n     <button type=\"submit\">Submit</button>\n   </form>\n   ```\n\n**Summary of Syntax:**\n\n- Use `[formGroup]=\"myForm\"` on the `<form>` element.\n- Use `formControlName=\"controlName\"` on input elements.\n- Create the form model in the component using `FormGroup` and `FormControl` or `FormBuilder`.\n\n**Example:**\n\n```typescript\n// In component\nmyForm = new FormGroup({\n  username: new FormControl(''),\n  password: new FormControl('')\n});\n```\n\n```html\n<!-- In template -->\n<form [formGroup]=\"myForm\">\n  <input formControlName=\"username\">\n  <input formControlName=\"password\" type=\"password\">\n</form>\n```\n```",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:51.509395Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "752a2001-563b-44d4-883e-84b61247d72c",
+        "question": "How do you use ngClass with multiple conditions in Angular?",
+        "answer": "```markdown To use `ngClass` with multiple conditions in Angular, you can bind it to an object where the keys are the CSS class names and the values are boolean expressions. Angular will add a class if its corresponding expression evaluates to `true`.\n\n**Example:**\n\n```html\n<div [ngClass]=\"{\n  'active': isActive,\n  'error': hasError,\n  'highlight': isHighlighted && !hasError\n}\">\n  This div's classes depend on component state.\n</div>\n```\n\n**Component:**\n\n```typescript\nisActive = true;\nhasError = false;\nisHighlighted = true;\n```\n\n**Resulting classes:**  \nThe `<div>` will have the classes `active` and `highlight` applied, but not `error`.\n\n**Summary Table:**\n\n| Class Name   | Condition                | Applied if...           |\n|--------------|-------------------------|-------------------------|\n| `active`     | `isActive`              | `isActive` is `true`    |\n| `error`      | `hasError`              | `hasError` is `true`    |\n| `highlight`  | `isHighlighted && !hasError` | `isHighlighted` is `true` and `hasError` is `false` |\n\nYou can use any valid JavaScript expression for the conditions. This makes `ngClass` very flexible for applying multiple classes based on different component states.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:51.509403Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "7d8b0718-cb4f-441c-971c-15d3ee7d863a",
+        "question": "What is the syntax for using ng-template and ng-container in Angular?",
+        "answer": "```markdown\nIn Angular, `ng-template` and `ng-container` are structural directives used for rendering elements conditionally or grouping elements without adding extra nodes to the DOM.\n\n### `ng-template` Syntax\n\n`ng-template` defines a template that is not rendered by default. It is often used with structural directives like `*ngIf`, `*ngFor`, or with `ngTemplateOutlet`.\n\n**Example:**\n```html\n<ng-template #myTemplate>\n  <p>This is a template!</p>\n</ng-template>\n\n<!-- Usage with ngIf -->\n<ng-container *ngIf=\"showTemplate; else myTemplate\">\n  <p>Template is shown!</p>\n</ng-container>\n```\n\n### `ng-container` Syntax\n\n`ng-container` acts as a grouping element that does not render any extra DOM. It is useful for applying structural directives without introducing new elements.\n\n**Example:**\n```html\n<ng-container *ngIf=\"isLoggedIn\">\n  <p>Welcome, user!</p>\n  <button (click)=\"logout()\">Logout</button>\n</ng-container>\n```\n\n### Summary Table\n\n| Directive      | Purpose                                 | Syntax Example                                     |\n|----------------|-----------------------------------------|----------------------------------------------------|\n| `ng-template`  | Define a template block (not rendered)  | `<ng-template #tpl>...</ng-template>`              |\n| `ng-container` | Group elements, no extra DOM node       | `<ng-container *ngIf=\"cond\">...</ng-container>`    |\n\n**Note:**  \n- `ng-template` is not rendered unless specifically referenced.\n- `ng-container` is rendered only if its condition is true, but does not add an extra element to the DOM.\n```\n",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:51.509410Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "c7e0ff5d-210e-41e7-9d61-36c9efa8a071",
+        "question": "How do you use structural directives with the asterisk (*) syntax in Angular?",
+        "answer": "```markdown\nIn Angular, structural directives are used to change the structure of the DOM by adding or removing elements. The most common structural directives are `*ngIf`, `*ngFor`, and `*ngSwitch`. The asterisk (`*`) syntax is a shorthand that tells Angular to transform the element and its directive into an `<ng-template>` under the hood.\n\n### Usage Examples\n\n#### 1. `*ngIf`\nDisplays an element only if the condition is true.\n```html\n<div *ngIf=\"isLoggedIn\">\n  Welcome, user!\n</div>\n```\n\n#### 2. `*ngFor`\nRepeats an element for each item in a collection.\n```html\n<li *ngFor=\"let item of items\">\n  {{ item }}\n</li>\n```\n\n#### 3. `*ngSwitchCase`\nUsed with `ngSwitch` to display elements based on a switch expression.\n```html\n<div [ngSwitch]=\"color\">\n  <p *ngSwitchCase=\"'red'\">Red color</p>\n  <p *ngSwitchCase=\"'blue'\">Blue color</p>\n  <p *ngSwitchDefault>Other color</p>\n</div>\n```\n\n### How the Asterisk Works\n\nThe asterisk (`*`) is syntactic sugar for using the `<ng-template>` element. For example:\n```html\n<div *ngIf=\"isVisible\">Hello</div>\n```\nis equivalent to:\n```html\n<ng-template [ngIf]=\"isVisible\">\n  <div>Hello</div>\n</ng-template>\n```\n\n### Summary\n\n- Use the `*` syntax before a structural directive to conditionally add or repeat elements.\n- Angular transforms the element into an `<ng-template>` at runtime.\n- This syntax makes templates more concise and readable.\n\n**References:**\n- [Angular Structural Directives Guide](https://angular.io/guide/structural-directives)\n```\n",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:51.509418Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "9b6d27a0-0b22-43fb-a6cf-9e87ee1b8f57",
+        "question": "What is the syntax for creating a custom structural directive?",
+        "answer": "```typescript\nimport { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';\n\n@Directive({\n  selector: '[appMyStructural]'\n})\nexport class MyStructuralDirective {\n  constructor(\n    private templateRef: TemplateRef<any>,\n    private viewContainer: ViewContainerRef\n  ) {}\n\n  @Input() set appMyStructural(condition: boolean) {\n    if (condition) {\n      this.viewContainer.createEmbeddedView(this.templateRef);\n    } else {\n      this.viewContainer.clear();\n    }\n  }\n}\n```\n\n**Usage in template:**\n```html\n<div *appMyStructural=\"someCondition\">\n  This content is conditionally rendered.\n</div>\n```\n\n**Explanation:**\n- The directive uses `@Directive` with a selector in attribute form (e.g., `[appMyStructural]`).\n- Inject `TemplateRef` (the template to render) and `ViewContainerRef` (the location in the DOM).\n- Use an `@Input()` property with the same name as the selector to receive the expression value.\n- Use `createEmbeddedView` to render the template or `clear` to remove it, based on the condition.",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:54:51.509425Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "6c7c879b-a074-43a3-8fa0-b09bce5eceb8",
+        "question": "How do you use ViewChild and ViewChildren decorators in Angular?",
+        "answer": "```markdown\nIn Angular, the `@ViewChild` and `@ViewChildren` decorators are used to access DOM elements, directives, or child components from a parent component class. They allow you to interact with elements after Angular has rendered the view.\n\n## `@ViewChild` Decorator\n\n- **Purpose:** Gets a reference to a single DOM element, directive, or child component.\n- **Usage:** Place the decorator above a class property and pass a selector (template reference variable, component, or directive type).\n\n**Example: Accessing a template reference variable**\n```typescript\n// In your component template\n<input #myInput type=\"text\">\n\n// In your component class\nimport { ViewChild, ElementRef, AfterViewInit } from '@angular/core';\n\nexport class MyComponent implements AfterViewInit {\n  @ViewChild('myInput') inputElement!: ElementRef;\n\n  ngAfterViewInit() {\n    this.inputElement.nativeElement.focus();\n  }\n}\n```\n\n**Example: Accessing a child component**\n```typescript\n// Child component\n@Component({ selector: 'child-comp', template: '...' })\nexport class ChildComponent {\n  sayHello() { console.log('Hello!'); }\n}\n\n// Parent component\n@ViewChild(ChildComponent) childComp!: ChildComponent;\n\nngAfterViewInit() {\n  this.childComp.sayHello();\n}\n```\n\n## `@ViewChildren` Decorator\n\n- **Purpose:** Gets a reference to multiple DOM elements, directives, or child components as a `QueryList`.\n- **Usage:** Place the decorator above a class property and pass a selector.\n\n**Example: Accessing multiple elements**\n```typescript\n// In your component template\n<div #item *ngFor=\"let i of [1,2,3]\">{{i}}</div>\n\n// In your component class\nimport { ViewChildren, QueryList, ElementRef, AfterViewInit } from '@angular/core';\n\nexport class MyComponent implements AfterViewInit {\n  @ViewChildren('item') items!: QueryList<ElementRef>;\n\n  ngAfterViewInit() {\n    this.items.forEach((item) => {\n      console.log(item.nativeElement.textContent);\n    });\n  }\n}\n```\n\n## Key Points\n\n- Both decorators should be used with `AfterViewInit` lifecycle hook to ensure the view is initialized.\n- `@ViewChild` returns the first matching element/component.\n- `@ViewChildren` returns a `QueryList` of all matching elements/components.\n- Useful for direct DOM manipulation, accessing child component APIs, or working with directives.\n\n**References:**\n- [Angular Docs: @ViewChild](https://angular.io/api/core/ViewChild)\n- [Angular Docs: @ViewChildren](https://angular.io/api/core/ViewChildren)\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:54:51.509432Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "6833974e-906c-4745-a009-715989f3a316",
+        "question": "What is the syntax for using ContentChild and ContentChildren in Angular?",
+        "answer": "```markdown\nIn Angular, `@ContentChild` and `@ContentChildren` are decorators used to access projected content within a component (i.e., content passed between `<ng-content>` tags).\n\n### Syntax\n\n#### 1. `@ContentChild`\n\nUsed to get a reference to a single projected element or directive.\n\n```typescript\nimport { Component, ContentChild, AfterContentInit, ElementRef } from '@angular/core';\n\n@Component({\n  selector: 'child-comp',\n  template: `<ng-content></ng-content>`\n})\nexport class ChildComponent implements AfterContentInit {\n  @ContentChild('projectedContent') content!: ElementRef;\n\n  ngAfterContentInit() {\n    console.log(this.content); // Access the projected element\n  }\n}\n```\n\n**Usage in parent template:**\n```html\n<child-comp>\n  <div #projectedContent>Some projected content</div>\n</child-comp>\n```\n\n#### 2. `@ContentChildren`\n\nUsed to get a `QueryList` of references to multiple projected elements or directives.\n\n```typescript\nimport { Component, ContentChildren, QueryList, AfterContentInit, ElementRef } from '@angular/core';\n\n@Component({\n  selector: 'child-comp',\n  template: `<ng-content></ng-content>`\n})\nexport class ChildComponent implements AfterContentInit {\n  @ContentChildren('projectedContent') contents!: QueryList<ElementRef>;\n\n  ngAfterContentInit() {\n    this.contents.forEach(content => console.log(content));\n  }\n}\n```\n\n**Usage in parent template:**\n```html\n<child-comp>\n  <div #projectedContent>First</div>\n  <div #projectedContent>Second</div>\n</child-comp>\n```\n\n---\n\n### Notes\n\n- The first argument to `@ContentChild`/`@ContentChildren` can be a template reference variable (as a string), a component/directive class, or a token.\n- These decorators query for content **projected** into the component, not its own view.\n- Access to the queried elements is available after the `ngAfterContentInit` lifecycle hook.\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:54:51.509439Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "360b26c1-4eea-4c2f-914c-b568b5e8a34f",
+        "question": "How do you use HostListener and HostBinding decorators in Angular?",
+        "answer": "```markdown\nIn Angular, `@HostListener` and `@HostBinding` are decorators used within directives and components to interact with the host element—the element to which the directive or component is applied.\n\n---\n\n## `@HostListener` Decorator\n\n- **Purpose:** Listens to events on the host element and triggers a method in your directive/component.\n- **Syntax:**\n  ```typescript\n  @HostListener('eventName', ['eventArg'])\n  methodName(eventArg) {\n    // logic here\n  }\n  ```\n- **Example:**\n  ```typescript\n  import { Directive, HostListener } from '@angular/core';\n\n  @Directive({\n    selector: '[appClickTracker]'\n  })\n  export class ClickTrackerDirective {\n    @HostListener('click', ['$event'])\n    onClick(event: Event) {\n      console.log('Host element clicked!', event);\n    }\n  }\n  ```\n\n---\n\n## `@HostBinding` Decorator\n\n- **Purpose:** Binds a property of the host element to a property in the directive/component.\n- **Syntax:**\n  ```typescript\n  @HostBinding('propertyName') property: type;\n  ```\n- **Example:**\n  ```typescript\n  import { Directive, HostBinding } from '@angular/core';\n\n  @Directive({\n    selector: '[appHighlight]'\n  })\n  export class HighlightDirective {\n    @HostBinding('style.backgroundColor') backgroundColor: string;\n\n    constructor() {\n      this.backgroundColor = 'yellow';\n    }\n  }\n  ```\n\n---\n\n## Combined Example\n\n```typescript\nimport { Directive, HostListener, HostBinding } from '@angular/core';\n\n@Directive({\n  selector: '[appHoverHighlight]'\n})\nexport class HoverHighlightDirective {\n  @HostBinding('style.backgroundColor') bgColor: string;\n\n  @HostListener('mouseenter')\n  onMouseEnter() {\n    this.bgColor = 'lightblue';\n  }\n\n  @HostListener('mouseleave')\n  onMouseLeave() {\n    this.bgColor = '';\n  }\n}\n```\n**Usage in template:**\n```html\n<div appHoverHighlight>\n  Hover over me to see the effect!\n</div>\n```\n\n---\n\n## Summary Table\n\n| Decorator      | Purpose                                      | Example Usage                       |\n|----------------|----------------------------------------------|-------------------------------------|\n| `@HostListener`| Listen to host element events                | `@HostListener('click')`            |\n| `@HostBinding` | Bind host element properties/attributes      | `@HostBinding('class.active')`      |\n\n---\n\n**In summary:**  \n- Use `@HostListener` to react to host element events.\n- Use `@HostBinding` to bind properties or attributes of the host element to values in your directive/component.\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:54:51.509447Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "6f023764-37e7-4942-b55f-7a842207f276",
+        "question": "What is the syntax for creating a dynamic component using ComponentFactoryResolver?",
+        "answer": "```markdown\nTo create a dynamic component in Angular using `ComponentFactoryResolver`, follow these steps:\n\n1. **Import Required Modules:**\n\n```typescript\nimport { Component, ViewChild, ViewContainerRef, ComponentFactoryResolver, OnInit } from '@angular/core';\nimport { MyDynamicComponent } from './my-dynamic.component';\n```\n\n2. **Add a ViewChild Reference in Your Host Component:**\n\n```typescript\n@ViewChild('dynamicContainer', { read: ViewContainerRef, static: true })\ncontainer!: ViewContainerRef;\n```\n\n3. **Add a Template Reference in the HTML:**\n\n```html\n<ng-template #dynamicContainer></ng-template>\n```\n\n4. **Use ComponentFactoryResolver to Create the Component:**\n\n```typescript\nconstructor(private resolver: ComponentFactoryResolver) {}\n\nngOnInit() {\n  const factory = this.resolver.resolveComponentFactory(MyDynamicComponent);\n  const componentRef = this.container.createComponent(factory);\n  // Optionally pass data to the component instance:\n  // componentRef.instance.someInput = someValue;\n}\n```\n\n---\n\n### **Summary Syntax**\n\n```typescript\nconst factory = this.resolver.resolveComponentFactory(MyDynamicComponent);\nconst componentRef = this.container.createComponent(factory);\n```\n\n- `MyDynamicComponent` is the component you want to create dynamically.\n- `container` is a `ViewContainerRef` pointing to an `<ng-template>` in your template.\n- `componentRef` is a reference to the created component instance.\n\n> **Note:**  \n> As of Angular 13+, you can use `ViewContainerRef.createComponent` directly without `ComponentFactoryResolver` for most use cases.\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:54:51.509454Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "9800d36f-3065-4f0b-8106-4feee767195d",
+        "question": "How do you use attribute binding in Angular templates?",
+        "answer": "```markdown Attribute binding in Angular allows you to set the value of an HTML attribute dynamically using template expressions. The syntax uses square brackets around the attribute name.\n\n**Syntax:**\n```html\n[element-attribute]=\"expression\"\n```\n\n**Example:**\n```html\n<!-- Binds the src attribute of the image to the component's imageUrl property -->\n<img [src]=\"imageUrl\">\n\n<!-- Binds the colspan attribute of the table cell to the component's colSpan property -->\n<td [attr.colspan]=\"colSpan\"></td>\n```\n\n**Notes:**\n- Use `[attr.attributeName]` when binding to non-standard or custom attributes.\n- Attribute binding is useful for setting attributes that cannot be set with property binding (e.g., `colspan`, `aria-*`, etc.).\n\n**Component Example:**\n```typescript\nexport class ExampleComponent {\n  imageUrl = 'assets/logo.png';\n  colSpan = 2;\n}\n```\n\n**Summary Table:**\n\n| Syntax                | Purpose                            |\n|-----------------------|------------------------------------|\n| `[src]=\"imageUrl\"`    | Binds property (standard attribute)|\n| `[attr.colspan]=\"2\"`  | Binds non-standard attribute       |\n\nAttribute binding ensures that the attribute value updates automatically when the component property changes.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:51.509461Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "3ea62828-122a-4e8f-a81c-d05818e1f03b",
+        "question": "What is the syntax for using ngModel with form validation?",
+        "answer": "```markdown\nTo use `ngModel` with form validation in Angular, you typically:\n\n1. Import the `FormsModule` in your module.\n2. Use the `[(ngModel)]` directive for two-way data binding.\n3. Apply validation attributes (like `required`, `minlength`, etc.) to your input.\n4. Access validation state via template reference variables.\n\n**Example Syntax:**\n\n```html\n<form #myForm=\"ngForm\">\n  <input\n    name=\"username\"\n    [(ngModel)]=\"user.username\"\n    required\n    minlength=\"3\"\n    #username=\"ngModel\"\n  />\n\n  <div *ngIf=\"username.invalid && username.touched\">\n    <span *ngIf=\"username.errors?.required\">Username is required.</span>\n    <span *ngIf=\"username.errors?.minlength\">\n      Username must be at least 3 characters long.\n    </span>\n  </div>\n\n  <button [disabled]=\"myForm.invalid\">Submit</button>\n</form>\n```\n\n**Key Points:**\n- `[(ngModel)]=\"user.username\"` binds the input to the model.\n- Validation attributes like `required` and `minlength` are added to the input.\n- `#username=\"ngModel\"` creates a local variable to access validation state.\n- Use `username.invalid`, `username.touched`, and `username.errors` to show validation messages.\n```\n",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:51.509497Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "e9ef8ea2-0f8f-4a53-9c46-51bfa3c4dbc9",
+        "question": "How do you use the $event object in event binding?",
+        "answer": "```markdown\nIn Angular, the `$event` object is used in event binding to access information about the event that was triggered (such as a click, keypress, etc.). You can pass `$event` to your component method directly from the template.\n\n**Example:**\n\n```html\n<!-- In your template -->\n<button (click)=\"onClick($event)\">Click Me</button>\n```\n\n```typescript\n// In your component\nonClick(event: Event) {\n  console.log(event); // Logs the event object\n}\n```\n\n**Explanation:**\n- `(click)` is the event binding syntax.\n- `onClick($event)` calls the `onClick` method and passes the event object as an argument.\n- Inside your method, you can use the event object to get details like the target element, mouse position, etc.\n```\n",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:51.509504Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "b728a36f-ba38-44e6-a254-5a22da23670c",
+        "question": "What is the syntax for using multiple pipes in a single interpolation?",
+        "answer": "```markdown You can use multiple pipes in a single interpolation by chaining them with the pipe (|) symbol. The output of the first pipe becomes the input for the next pipe.\n\n**Syntax:**\n```html\n{{ value | pipe1 | pipe2 | pipe3 }}\n```\n\n**Example:**\n```html\n{{ message | lowercase | slice:0:5 }}\n```\nIn this example, message is first converted to lowercase, then sliced from index 0 to 5.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:51.509510Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "89cc96d4-6d26-4f46-96e6-60e789a5b7e9",
+        "question": "How do you use the keyvalue pipe in Angular?",
+        "answer": "```markdown\nThe `keyvalue` pipe in Angular is used to transform an object or a Map into an array of key-value pair objects, making it easier to iterate over the properties in templates (e.g., with `*ngFor`). \n\n**Usage Example:**\n\nSuppose you have the following object in your component:\n\n```typescript\nuser = {\n  name: 'Alice',\n  age: 30,\n  country: 'USA'\n};\n```\n\nYou can use the `keyvalue` pipe in your template like this:\n\n```html\n<ul>\n  <li *ngFor=\"let item of user | keyvalue\">\n    {{ item.key }}: {{ item.value }}\n  </li>\n</ul>\n```\n\n**Output:**\n```\nname: Alice\nage: 30\ncountry: USA\n```\n\n**Notes:**\n- The `keyvalue` pipe returns an array of objects with `key` and `value` properties.\n- By default, the keys are sorted alphabetically. You can provide a custom compare function to change the order.\n\n**Custom Sorting Example:**\n\n```html\n<li *ngFor=\"let item of user | keyvalue: customSort\">\n  {{ item.key }}: {{ item.value }}\n</li>\n```\n\n```typescript\ncustomSort = (a: KeyValue<string, any>, b: KeyValue<string, any>): number => {\n  // Example: keep original order or implement custom logic\n  return 0;\n};\n```\n```",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:51.509517Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "325c3f6a-1ce2-4dd0-b97c-d25c3968e423",
+        "question": "What is the syntax for using ngFor with index and other local variables?",
+        "answer": "```markdown\nIn Angular, the `*ngFor` directive can be used to iterate over a collection. You can also access local variables such as the current index, the first/last element, and whether the current element is even or odd.\n\n**Syntax:**\n\n```html\n<div *ngFor=\"let item of items; let i = index; let first = first; let last = last; let even = even; let odd = odd\">\n  {{i}}: {{item}} \n  <span *ngIf=\"first\">(First)</span>\n  <span *ngIf=\"last\">(Last)</span>\n  <span *ngIf=\"even\">(Even)</span>\n  <span *ngIf=\"odd\">(Odd)</span>\n</div>\n```\n\n**Explanation:**\n\n- `let i = index` — Gets the current index of the item in the array.\n- `let first = first` — `true` if the item is the first in the collection.\n- `let last = last` — `true` if the item is the last in the collection.\n- `let even = even` — `true` if the index is even.\n- `let odd = odd` — `true` if the index is odd.\n\nYou can use any combination of these local variables as needed within your template.\n```\n",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:51.509524Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "9a6e1d7a-fc37-4ac6-8cc7-98e11a4e2032",
+        "question": "How do you use the ng-content directive for content projection?",
+        "answer": "```markdown ### Using `ng-content` for Content Projection in Angular\n\nContent projection in Angular allows you to pass content from a parent component into a child component. The `ng-content` directive is used in the child component’s template to mark where this projected content should appear.\n\n#### Basic Usage\n\n1. **Child Component Template (`child.component.html`):**\n   ```html\n   <div class=\"child-container\">\n     <ng-content></ng-content>\n   </div>\n   ```\n\n2. **Parent Component Template (`parent.component.html`):**\n   ```html\n   <app-child>\n     <p>This content will be projected into the child component!</p>\n   </app-child>\n   ```\n\n**Result:**  \nThe `<p>` element will be rendered inside the `<div class=\"child-container\">` of the child component.\n\n---\n\n#### Multiple Slots with Selectors\n\nYou can use multiple `<ng-content>` tags with the `select` attribute to project content into different slots.\n\n**Child Component Template:**\n```html\n<div class=\"header\">\n  <ng-content select=\"[header]\"></ng-content>\n</div>\n<div class=\"body\">\n  <ng-content></ng-content>\n</div>\n```\n\n**Parent Component Template:**\n```html\n<app-child>\n  <h1 header>Header Content</h1>\n  <p>Body Content</p>\n</app-child>\n```\n\n- The element with the `header` attribute (`<h1 header>`) will be projected into the header slot.\n- The `<p>` element will be projected into the default slot.\n\n---\n\n### Summary Table\n\n| Syntax                     | Description                                 |\n|----------------------------|---------------------------------------------|\n| `<ng-content></ng-content>`| Projects all content                        |\n| `<ng-content select=\"...\">`| Projects content matching the selector      |\n\n---\n\n**References:**\n- [Angular Docs: Content Projection](https://angular.io/guide/content-projection)",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:51.509531Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "6e41081d-0b8d-4f83-bf4e-adf7e8bdabad",
+        "question": "What is the syntax for using @HostBinding to bind to host element properties?",
+        "answer": "```markdown\nIn Angular, the `@HostBinding` decorator is used within a directive or component class to bind a property of the host element to a property in the class. This allows you to dynamically set properties, attributes, classes, or styles on the host element.\n\n**Syntax:**\n\n```typescript\n@HostBinding('hostPropertyName') propertyName: type;\n```\n\n- `'hostPropertyName'`: The name of the property, attribute, class, or style on the host element you want to bind to.\n- `propertyName`: The name of the property in your class.\n- `type`: The type of the property (e.g., `string`, `boolean`).\n\n**Examples:**\n\n1. **Binding to a property (e.g., `id`):**\n   ```typescript\n   @HostBinding('id') elementId = 'my-element-id';\n   ```\n\n2. **Binding to a class:**\n   ```typescript\n   @HostBinding('class.active') isActive = true;\n   ```\n\n3. **Binding to a style:**\n   ```typescript\n   @HostBinding('style.backgroundColor') bgColor = 'yellow';\n   ```\n\n4. **Binding to an attribute:**\n   ```typescript\n   @HostBinding('attr.aria-label') ariaLabel = 'My Label';\n   ```\n\n**Summary Table:**\n\n| HostBinding Syntax                | Effect on Host Element           |\n|-----------------------------------|----------------------------------|\n| `'property'`                      | Sets a property                  |\n| `'attr.attributeName'`            | Sets an attribute                |\n| `'class.className'`               | Adds/removes a class             |\n| `'style.styleName'`               | Sets a style property            |\n\n**Usage Example in a Directive:**\n\n```typescript\nimport { Directive, HostBinding } from '@angular/core';\n\n@Directive({\n  selector: '[appHighlight]'\n})\nexport class HighlightDirective {\n  @HostBinding('class.highlighted') isHighlighted = true;\n  @HostBinding('style.color') textColor = 'red';\n}\n```\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:54:51.509538Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "91b83152-19e8-4535-971c-4be89244bdd5",
+        "question": "How do you use the @Inject decorator for injecting dependencies?",
+        "answer": "```markdown\nIn Angular, the `@Inject` decorator is used to explicitly specify a dependency to be injected into a class constructor. This is particularly useful when the type information is not sufficient for Angular's dependency injection system to resolve the dependency, such as when injecting interfaces, tokens, or values.\n\n### Syntax\n\n```typescript\nimport { Inject, Injectable } from '@angular/core';\nimport { SOME_TOKEN } from './tokens';\n\n@Injectable()\nexport class MyService {\n  constructor(@Inject(SOME_TOKEN) private value: any) {\n    // Now `value` is injected using the token SOME_TOKEN\n  }\n}\n```\n\n### When to Use `@Inject`\n\n- **Injecting using an InjectionToken**: When you provide a value or service using an `InjectionToken`.\n- **Injecting interfaces or types that do not exist at runtime**: Since TypeScript interfaces are erased at runtime, you must use `@Inject` with a token.\n- **When the type cannot be inferred**: For example, when injecting a string, number, or any non-class dependency.\n\n### Example: Injecting a Configuration Value\n\n```typescript\n// config.token.ts\nimport { InjectionToken } from '@angular/core';\n\nexport const API_URL = new InjectionToken<string>('apiUrl');\n\n// app.module.ts\nimport { API_URL } from './config.token';\n\n@NgModule({\n  providers: [\n    { provide: API_URL, useValue: 'https://api.example.com' }\n  ]\n})\nexport class AppModule { }\n\n// my.service.ts\nimport { Inject, Injectable } from '@angular/core';\nimport { API_URL } from './config.token';\n\n@Injectable()\nexport class MyService {\n  constructor(@Inject(API_URL) private apiUrl: string) {\n    console.log(this.apiUrl); // 'https://api.example.com'\n  }\n}\n```\n\n### Summary\n\n- Use `@Inject(token)` in the constructor to tell Angular which provider to use.\n- It is most commonly used with `InjectionToken`s or when type information is not enough.\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:54:51.509545Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "805cc440-356a-4ff1-90ba-4e7210dfb259",
+        "question": "What is the syntax for using lifecycle hooks in Angular components?",
+        "answer": "```markdown\nIn Angular, lifecycle hooks are special methods that allow you to tap into key moments in a component's lifecycle (creation, update, and destruction). To use a lifecycle hook, you implement the corresponding interface and define the method in your component class.\n\n**Example: Using `OnInit` and `OnDestroy` lifecycle hooks**\n\n```typescript\nimport { Component, OnInit, OnDestroy } from '@angular/core';\n\n@Component({\n  selector: 'app-example',\n  template: `<p>Example Component</p>`\n})\nexport class ExampleComponent implements OnInit, OnDestroy {\n\n  // Called once after the first ngOnChanges\n  ngOnInit(): void {\n    console.log('Component initialized');\n  }\n\n  // Called just before the component is destroyed\n  ngOnDestroy(): void {\n    console.log('Component destroyed');\n  }\n}\n```\n\n**General Syntax:**\n\n1. Import the lifecycle hook interface(s) from `@angular/core`.\n2. Implement the interface(s) in your component class.\n3. Define the corresponding lifecycle method(s) (e.g., `ngOnInit()`, `ngOnDestroy()`, `ngAfterViewInit()`, etc.).\n\n**Common Lifecycle Hooks:**\n\n- `ngOnInit()`: Initialization logic.\n- `ngOnDestroy()`: Cleanup logic.\n- `ngOnChanges(changes: SimpleChanges)`: Respond to input property changes.\n- `ngDoCheck()`: Custom change detection.\n- `ngAfterContentInit()`: After content projection.\n- `ngAfterContentChecked()`: After every check of projected content.\n- `ngAfterViewInit()`: After component's view initialized.\n- `ngAfterViewChecked()`: After every check of component's view.\n\n**Note:**  \nImplementing the interface (e.g., `OnInit`) is optional but recommended for better type checking and code clarity.\n```\n",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:51.509552Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "6595cf3c-338e-431b-aace-92e0bb970ae5",
+        "question": "How do you use the ngPlural directive in Angular?",
+        "answer": "```markdown\n### Using the `ngPlural` Directive in Angular\n\nThe `ngPlural` directive in Angular is used to display pluralized messages based on a numeric value. It works together with the `ngPluralCase` directive to define different templates for various plural categories (e.g., zero, one, few, many, other).\n\n#### Syntax\n\n```html\n<div [ngPlural]=\"value\">\n  <ng-template ngPluralCase=\"=0\">No items</ng-template>\n  <ng-template ngPluralCase=\"=1\">One item</ng-template>\n  <ng-template ngPluralCase=\"few\">A few items</ng-template>\n  <ng-template ngPluralCase=\"other\"># items</ng-template>\n</div>\n```\n\n- `[ngPlural]=\"value\"`: Binds the numeric value to be evaluated.\n- `<ng-template ngPluralCase=\"...\">`: Defines the template for each plural case.\n- The `#` symbol inside the template will be replaced by the value.\n\n#### Example\n\nSuppose you have a component property `itemCount`:\n\n```typescript\nexport class AppComponent {\n  itemCount = 3;\n}\n```\n\nYou can use `ngPlural` in your template as follows:\n\n```html\n<div [ngPlural]=\"itemCount\">\n  <ng-template ngPluralCase=\"=0\">No items found.</ng-template>\n  <ng-template ngPluralCase=\"=1\">One item found.</ng-template>\n  <ng-template ngPluralCase=\"other\"># items found.</ng-template>\n</div>\n```\n\nIf `itemCount` is `3`, the output will be:\n\n```\n3 items found.\n```\n\n#### Notes\n\n- You can use explicit numbers (e.g., `=0`, `=1`) or plural categories (`zero`, `one`, `few`, `many`, `other`).\n- The `other` case is required as a fallback.\n- The plural categories depend on the current locale.\n\n#### References\n\n- [Angular Documentation: NgPlural](https://angular.io/api/common/NgPlural)\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:54:51.509560Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "3f40005b-f7e0-4b6c-aa51-2fe281a7c758",
+        "question": "How do you use template-driven forms and their directives in Angular?",
+        "answer": "```markdown To use **template-driven forms** in Angular, you leverage Angular’s built-in directives within your component templates to create and manage forms. Here’s how you can do it:\n\n---\n\n## 1. Import `FormsModule`\n\nFirst, import the `FormsModule` in your application module:\n\n```typescript\nimport { NgModule } from '@angular/core';\nimport { BrowserModule } from '@angular/platform-browser';\nimport { FormsModule } from '@angular/forms';\n\n@NgModule({\n  imports: [\n    BrowserModule,\n    FormsModule // <-- Import here\n  ],\n  declarations: [ /* your components */ ],\n  bootstrap: [ /* your root component */ ]\n})\nexport class AppModule { }\n```\n\n---\n\n## 2. Create the Form in the Template\n\nUse Angular directives like `ngModel`, `#templateReference`, and `ngForm` in your HTML:\n\n```html\n<form #userForm=\"ngForm\" (ngSubmit)=\"onSubmit(userForm)\">\n  <label>\n    Name:\n    <input name=\"name\" ngModel required>\n  </label>\n  <label>\n    Email:\n    <input name=\"email\" ngModel email>\n  </label>\n  <button type=\"submit\" [disabled]=\"userForm.invalid\">Submit</button>\n</form>\n```\n\n### Key Directives\n\n- **ngModel**: Binds input fields to properties on your component.\n- **ngForm**: Angular automatically creates a `NgForm` directive instance for the form, which tracks the form’s state and validity.\n- **#userForm=\"ngForm\"**: Template reference variable to access the form instance in the template and component.\n\n---\n\n## 3. Access Form Data in the Component\n\nIn your component, define the `onSubmit()` method to handle form submission:\n\n```typescript\nimport { NgForm } from '@angular/forms';\n\nexport class MyComponent {\n  onSubmit(form: NgForm) {\n    console.log(form.value); // Access form values\n    console.log(form.valid); // Check form validity\n  }\n}\n```\n\n---\n\n## 4. Validation and Status\n\nYou can use form and field properties for validation:\n\n```html\n<input name=\"name\" ngModel required #name=\"ngModel\">\n<div *ngIf=\"name.invalid && name.touched\">\n  Name is required.\n</div>\n```\n\n---\n\n## Summary Table\n\n| Directive        | Usage Example                 | Purpose                                 |\n|------------------|------------------------------|-----------------------------------------|\n| `ngModel`        | `<input ngModel>`            | Two-way data binding                    |\n| `ngForm`         | `<form #f=\"ngForm\">`         | Tracks form state and validity          |\n| `ngModelGroup`   | `<div ngModelGroup=\"address\">` | Groups controls within a form           |\n| Template Ref     | `#name=\"ngModel\"`            | Access control state in the template    |\n\n---\n\n**In summary:**  \nTemplate-driven forms in Angular are easy to set up using directives like `ngModel` and `ngForm` directly in your templates, with minimal code in your component class. This approach is ideal for simple forms and rapid development.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:54:51.509574Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "57372028-4410-4651-a2b2-38eb7b53ca83",
+        "question": "What is the syntax for using the ngStyle directive for dynamic styles?",
+        "answer": "```markdown\nThe `ngStyle` directive in Angular is used to set inline styles dynamically on an HTML element. The syntax for using `ngStyle` is:\n\n```html\n<div [ngStyle]=\"{'property': value, 'another-property': anotherValue}\">\n  Content here\n</div>\n```\n\n**Example:**\n\n```html\n<div [ngStyle]=\"{'color': textColor, 'font-size': fontSize + 'px'}\">\n  This text will have dynamic color and font size.\n</div>\n```\n\nHere, `textColor` and `fontSize` are component properties that determine the styles dynamically.\n```\n",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:54:51.509581Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "9f420fac-9e02-4705-b3a4-b4a9eef1de4e",
+        "question": "How do you use the @ViewChild decorator to access a child component?",
+        "answer": "```markdown To access a child component using the `@ViewChild` decorator in Angular, follow these steps:\n\n1. **Assign a Template Reference Variable**  \n   In your parent component's template, assign a template reference variable (e.g., `#childComp`) to the child component:\n\n   ```html\n   <app-child #childComp></app-child>\n   ```\n\n2. **Import and Use @ViewChild in the Parent Component**  \n   In the parent component's TypeScript file, import `ViewChild` and the child component class. Then, use the `@ViewChild` decorator to get a reference to the child component instance:\n\n   ```typescript\n   import { Component, ViewChild, AfterViewInit } from '@angular/core';\n   import { ChildComponent } from './child.component';\n\n   @Component({\n     selector: 'app-parent',\n     templateUrl: './parent.component.html'\n   })\n   export class ParentComponent implements AfterViewInit {\n     @ViewChild('childComp') child!: ChildComponent;\n\n     ngAfterViewInit() {\n       // Now you can access properties and methods of ChildComponent\n       this.child.someChildMethod();\n     }\n   }\n   ```\n\n   - The string `'childComp'` matches the template reference variable.\n   - The `!` (non-null assertion) is used because the property will be set after view initialization.\n   - Access the child component in the `ngAfterViewInit` lifecycle hook to ensure the view is initialized.\n\n3. **Access Child Component Methods/Properties**  \n   You can now call methods or access properties of the child component via `this.child`.\n\n---\n\n**Summary Table**\n\n| Step | Code Example |\n|------|--------------|\n| Template | `<app-child #childComp></app-child>` |\n| Parent TS | `@ViewChild('childComp') child!: ChildComponent;` |\n\n---\n\n**Note:**  \nIf you have multiple instances or want to access a native element, you can adjust the usage of `@ViewChild` accordingly. For static queries (access before `ngAfterViewInit`), use `{ static: true }` as a second argument.",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:54:51.509587Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "70a8d0eb-8bbe-435a-b33a-c377821e20fd",
+        "question": "What is the syntax for using the spread operator in Angular templates?",
+        "answer": "```markdown\nIn Angular templates, the spread operator (`...`) is not directly supported in the same way as in TypeScript or JavaScript. However, you can use the spread operator in your component class to prepare data, and then bind the resulting array or object in your template.\n\n**Example: Using the spread operator in the component class**\n\n```typescript\n// my.component.ts\nexport class MyComponent {\n  baseArray = [1, 2, 3];\n  extendedArray = [...this.baseArray, 4, 5];\n}\n```\n\n**Template usage:**\n\n```html\n<ul>\n  <li *ngFor=\"let item of extendedArray\">{{ item }}</li>\n</ul>\n```\n\nIf you want to use the spread operator for objects (e.g., for `[ngStyle]`, `[ngClass]`, or `[attr]` bindings), you must also prepare the object in the component:\n\n```typescript\n// my.component.ts\nexport class MyComponent {\n  baseStyles = { color: 'red', fontWeight: 'bold' };\n  additionalStyles = { fontSize: '20px' };\n  combinedStyles = { ...this.baseStyles, ...this.additionalStyles };\n}\n```\n\n```html\n<div [ngStyle]=\"combinedStyles\">Styled Text</div>\n```\n\n**Summary Table**\n\n| Context         | Spread Operator Usage         | Angular Template Syntax      |\n|-----------------|-----------------------------|-----------------------------|\n| Arrays/Objects  | Use in component class       | Bind result in template     |\n| Template        | Not directly supported       | Use *ngFor, [ngStyle], etc. |\n\n**Note:**  \nIf you need to perform dynamic spreading within the template, consider using a custom pipe or a method in your component to return the spread result.\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:54:51.509594Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "7de40c83-b43d-43e2-bce5-8ceba25189df",
+        "question": "How do you use the ngZone service for change detection?",
+        "answer": "```markdown\n### Using `NgZone` Service for Change Detection in Angular\n\nAngular's change detection mechanism runs automatically for most asynchronous operations. However, when you perform operations outside of Angular's zone (for example, using certain third-party libraries or native event listeners), Angular may not detect changes automatically. The `NgZone` service allows you to explicitly control when Angular should run change detection.\n\n#### Importing and Injecting `NgZone`\n\n```typescript\nimport { Component, NgZone } from '@angular/core';\n\n@Component({\n  selector: 'app-zone-demo',\n  template: `<p>{{ counter }}</p>\n             <button (click)=\"increaseCounter()\">Increase Counter</button>`\n})\nexport class ZoneDemoComponent {\n  counter = 0;\n\n  constructor(private ngZone: NgZone) {}\n\n  increaseCounter() {\n    // Simulate an async operation outside Angular's zone\n    this.ngZone.runOutsideAngular(() => {\n      setTimeout(() => {\n        // This code runs outside Angular's zone, so change detection won't happen automatically\n        this.counter++;\n\n        // To trigger change detection, re-enter Angular's zone\n        this.ngZone.run(() => {\n          // Now Angular will detect the change\n          this.counter++;\n        });\n      }, 1000);\n    });\n  }\n}\n```\n\n#### Key Methods\n\n- **`ngZone.runOutsideAngular(fn: Function)`**  \n  Executes the function outside Angular's zone. Changes made here will not trigger change detection.\n\n- **`ngZone.run(fn: Function)`**  \n  Executes the function inside Angular's zone. Changes made here will trigger change detection.\n\n#### When to Use\n\n- When integrating with third-party libraries that perform DOM manipulations or async operations outside Angular.\n- When you want to optimize performance by running code outside Angular's change detection, and then re-enter Angular's zone only when necessary.\n\n#### Example Workflow\n\n1. **Run expensive or frequent operations outside Angular's zone** to avoid unnecessary change detection cycles.\n2. **Re-enter Angular's zone using `ngZone.run()`** when you need Angular to update the view based on changes.\n\n---\n\n**References:**\n- [Angular NgZone Documentation](https://angular.io/api/core/NgZone)\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:54:51.509601Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    },
+    {
+        "id": "dc57d367-0de2-4158-871b-de637db4c74e",
+        "question": "What is the syntax for using the async/await pattern in Angular services?",
+        "answer": "```markdown\nIn Angular services, you can use the `async/await` pattern to work with asynchronous operations, such as HTTP requests or other Promises. The syntax involves marking your service method as `async` and using `await` to pause execution until a Promise resolves.\n\n**Example: Using async/await in an Angular service**\n\n```typescript\nimport { Injectable } from '@angular/core';\nimport { HttpClient } from '@angular/common/http';\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class DataService {\n  constructor(private http: HttpClient) {}\n\n  // Async method returning a Promise\n  async getData(): Promise<any> {\n    try {\n      const data = await this.http.get('https://api.example.com/data').toPromise();\n      return data;\n    } catch (error) {\n      // Handle error\n      throw error;\n    }\n  }\n}\n```\n\n**Key Points:**\n- Mark the method as `async`.\n- Use `await` before a Promise-returning call (e.g., `toPromise()` on an Observable).\n- The method returns a `Promise`.\n- Handle errors with `try/catch` blocks.\n\n> **Note:** In Angular 16+, `toPromise()` is deprecated. Use `firstValueFrom()` or `lastValueFrom()` from `rxjs`:\n>\n> ```typescript\n> import { firstValueFrom } from 'rxjs';\n>\n> async getData(): Promise<any> {\n>   return await firstValueFrom(this.http.get('https://api.example.com/data'));\n> }\n> ```\n\nThis is the recommended syntax for using `async/await` in Angular services.\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:54:51.509608Z",
+        "topic": "e0ee05b6-c081-488f-b075-1cc54469939f"
+    }
+]

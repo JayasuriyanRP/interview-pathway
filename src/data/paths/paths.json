@@ -29,7 +29,7 @@
             "id": "react-basic",
             "title": "React Basics",
             "description": "React Basics",
-            "level": "Basic"
+            "level": "Beginner"
           },
           {
             "id": "frontend-react-hooks",
@@ -48,6 +48,86 @@
             "title": "Design Patterns",
             "description": "Common React design patterns and best practices",
             "level": "Advanced"
+          },
+          {
+            "id": "react-syntaxes",
+            "title": "React Syntaxes",
+            "description": "Common React syntax patterns and related interview questions",
+            "level": "Beginner"
+          }
+        ]
+      },
+      {
+        "id": "frontend-angular",
+        "title": "Angular",
+        "description": "Angular framework interview questions and answers",
+        "level": "Intermediate",
+        "subpaths": [
+          {
+            "id": "angular-basics",
+            "title": "Angular Basics",
+            "description": "Fundamental Angular concepts and common interview questions",
+            "level": "Beginner"
+          },
+          {
+            "id": "angular-intermediate",
+            "title": "Angular Intermediate",
+            "description": "Intermediate Angular interview questions to deepen your understanding",
+            "level": "Intermediate"
+          },
+          {
+            "id": "angular-advanced",
+            "title": "Angular Advanced",
+            "description": "Advanced Angular interview topics for experienced developers",
+            "level": "Advanced"
+          },
+          {
+            "id": "angular-17",
+            "title": "Angular 17",
+            "description": "Interview questions focused on Angular 17's latest features and improvements",
+            "level": "Intermediate"
+          },
+          {
+            "id": "angular-lifecycle-hooks",
+            "title": "Angular Lifecycle Hooks",
+            "description": "Understand and answer questions about Angular component lifecycle hooks",
+            "level": "Intermediate"
+          },
+          {
+            "id": "angular-api-integration",
+            "title": "Angular API Integration",
+            "description": "Interview questions on integrating RESTful APIs with Angular",
+            "level": "Intermediate"
+          },
+          {
+            "id": "angular-middlwares-interceptors",
+            "title": "Angular Middlewares & Interceptors",
+            "description": "Middleware and HTTP interceptor patterns in Angular",
+            "level": "Intermediate"
+          },
+          {
+            "id": "angular-performance",
+            "title": "Angular Performance",
+            "description": "Performance optimization techniques and interview scenarios",
+            "level": "Advanced"
+          },
+          {
+            "id": "angular-rxjs",
+            "title": "Angular & RxJS",
+            "description": "Working with RxJS in Angular for reactive programming questions",
+            "level": "Intermediate"
+          },
+          {
+            "id": "angular-syntaxes",
+            "title": "Angular Syntaxes",
+            "description": "Common Angular syntax patterns and related interview questions",
+            "level": "Beginner"
+          },
+          {
+            "id": "angular-cheatsheet",
+            "title": "Angular Cheatsheet",
+            "description": "Quick reference to essential Angular concepts and syntax",
+            "level": "Beginner"
           }
         ]
       },
@@ -56,6 +136,12 @@
         "title": "JavaScript",
         "description": "Core JavaScript concepts and patterns",
         "level": "All Levels"
+      },
+      {
+        "id": "ts-syntaxes",
+        "title": "TypeScript Syntaxes",
+        "description": "Common TypeScript syntax patterns and related interview questions",
+        "level": "Beginner"
       }
     ]
   },
@@ -161,6 +247,12 @@
             "title": "Securing APIs",
             "description": "Techniques for securing APIs using tokens, rate limits, and identity.",
             "level": "Advanced"
+          },
+          {
+            "id": "csharp-syntaxes",
+            "title": "C# Syntaxes",
+            "description": "Common C# syntax patterns and related interview questions",
+            "level": "Beginner"
           }
         ]
       },
@@ -289,6 +381,12 @@
             "title": "Go Open-Ended Questions",
             "description": "A collection of thought-provoking questions in Golang that have multiple correct answers, covering concurrency, error handling, and design patterns.",
             "level": "Intermediate"
+          },
+          {
+            "id": "go-syntaxes",
+            "title": "Go Syntaxes",
+            "description": "Common Go syntax patterns and related interview questions",
+            "level": "Beginner"
           }
         ]
       },

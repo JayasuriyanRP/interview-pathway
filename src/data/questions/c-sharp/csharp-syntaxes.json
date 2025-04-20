@@ -1,0 +1,682 @@
+[
+    {
+        "id": "cf4fcf2f-aa1d-46c8-bad7-3ecc3f758495",
+        "question": "How do you define a string variable and assign it a value?",
+        "answer": "```csharp\n// Define a string variable and assign it a value\nstring message = \"Hello, world!\";\n```\n\nIn this example:\n\n- string is the data type.\n- message is the variable name.\n- \"Hello, world!\" is the value assigned to the variable.",
+        "level": "Beginner"
+    },
+    {
+        "id": "d2811663-2ed2-4ecc-add6-461c6e2d1e30",
+        "question": "What is the syntax for a switch statement in C#?",
+        "answer": "```csharp\nswitch (expression)\n{\n    case value1:\n        // Code to execute if expression == value1\n        break;\n    case value2:\n        // Code to execute if expression == value2\n        break;\n    // Add more cases as needed\n    default:\n        // Code to execute if none of the cases match\n        break;\n}\n```\n\n**Example:**\n```csharp\nint number = 2;\n\nswitch (number)\n{\n    case 1:\n        Console.WriteLine(\"One\");\n        break;\n    case 2:\n        Console.WriteLine(\"Two\");\n        break;\n    default:\n        Console.WriteLine(\"Other number\");\n        break;\n}\n```\n**Output:**  \nTwo",
+        "level": "Beginner"
+    },
+    {
+        "id": "7597062d-d6af-4f48-ae81-c9ad7154ec8e",
+        "question": "How do you declare a constant value in C#?",
+        "answer": "```markdown You can declare a constant value in C# using the const keyword. The syntax is:\n\n```csharp\nconst <data_type> <constant_name> = <value>;\n```\n\n**Example:**\n\n```csharp\nconst int MaxValue = 100;\nconst string Greeting = \"Hello, World!\";\n```\n\n- Constants must be assigned a value at the time of declaration.\n- Their values cannot be changed later in the code.",
+        "level": "Beginner"
+    },
+    {
+        "id": "f68b9b1c-52d9-452e-a435-355343a60754",
+        "question": "What is the syntax for a while loop in C#?",
+        "answer": "```csharp\nwhile (condition)\n{\n    // Code to execute as long as the condition is true\n}\n```\n\n**Example:**\n```csharp\nint i = 0;\nwhile (i < 5)\n{\n    Console.WriteLine(i);\n    i++;\n}\n```\n\nThis loop will print numbers 0 to 4. The loop continues as long as the condition (i < 5) is true.",
+        "level": "Beginner"
+    },
+    {
+        "id": "44cd5e5b-ba5a-4f45-9862-1a331a2817a5",
+        "question": "How do you define a class in C#?",
+        "answer": "```csharp\n// Defining a simple class in C#\npublic class Person\n{\n    // Fields or properties\n    public string Name;\n    public int Age;\n\n    // Constructor\n    public Person(string name, int age)\n    {\n        Name = name;\n        Age = age;\n    }\n\n    // Method\n    public void Greet()\n    {\n        Console.WriteLine($\"Hello, my name is {Name} and I am {Age} years old.\");\n    }\n}\n```\n\n**Explanation:**\n- Use the class keyword followed by the class name.\n- The class body is enclosed in curly braces `{ }`.\n- You can define fields, properties, constructors, and methods inside the class.",
+        "level": "Beginner"
+    },
+    {
+        "id": "9331c971-4b67-478a-9c30-08de61d4303f",
+        "question": "How do you access a public property of an object in C#?",
+        "answer": "```markdown\nTo access a public property of an object in C#, use the dot (.) operator with the object reference followed by the property name. For example:\n\n```csharp\npublic class Person\n{\n    public string Name { get; set; }\n}\n\nPerson person = new Person();\nperson.Name = \"Alice\"; // Setting the property\nConsole.WriteLine(person.Name); // Accessing (getting) the property\n```\n\nIn this example, `Name` is a public property of the `Person` class, and you access it using `person.Name`.\n```",
+        "level": "Beginner"
+    },
+    {
+        "id": "9e5f4e53-56d3-40fe-9841-7a953852e5b0",
+        "question": "What is the correct syntax for a namespace declaration?",
+        "answer": "```csharp\nnamespace MyNamespace\n{\n    // Classes, interfaces, enums, etc. go here\n}\n```\n\n**Example:**\n```csharp\nnamespace MyApplication\n{\n    class Program\n    {\n        static void Main(string[] args)\n        {\n            // Code here\n        }\n    }\n}\n```\n\n**Syntax:**  \nnamespace NamespaceName  \n{  \n    // Members  \n}",
+        "level": "Beginner"
+    },
+    {
+        "id": "ec8972f5-543a-4c5e-9b66-b2651223ead3",
+        "question": "How do you write a method that takes an integer parameter and returns an integer?",
+        "answer": "```csharp\n// This method takes an integer parameter and returns an integer.\nint Square(int number)\n{\n    return number * number;\n}\n```\n\n**Explanation:**\n- int before the method name specifies the return type.\n- Square is the method name.\n- (int number) means the method takes one integer parameter named number.\n- The method returns an integer value (in this case, the square of the input).",
+        "level": "Intermediate"
+    },
+    {
+        "id": "42beb477-1a22-464e-9e17-efc9a404f9e4",
+        "question": "What is the syntax for exception handling using try-catch in C#?",
+        "answer": "```csharp\ntry\n{\n    // Code that may throw an exception\n}\ncatch (ExceptionType1 ex1)\n{\n    // Handle ExceptionType1\n}\ncatch (ExceptionType2 ex2)\n{\n    // Handle ExceptionType2\n}\nfinally\n{\n    // Code that will always execute (optional)\n}\n```\n\n**Key Points:**\n- The try block contains code that might throw exceptions.\n- One or more catch blocks handle specific exception types.\n- The finally block is optional and runs regardless of whether an exception was thrown.\n- Example:\n\n```csharp\ntry\n{\n    int result = 10 / int.Parse(userInput);\n}\ncatch (FormatException ex)\n{\n    Console.WriteLine(\"Input was not a valid number.\");\n}\ncatch (DivideByZeroException ex)\n{\n    Console.WriteLine(\"Cannot divide by zero.\");\n}\nfinally\n{\n    Console.WriteLine(\"Operation complete.\");\n}\n```",
+        "level": "Intermediate"
+    },
+    {
+        "id": "375b5118-2512-4695-9067-6e38ee18f05b",
+        "question": "How do you define a constructor in a C# class?",
+        "answer": "```markdown In C#, a constructor is a special method that is called automatically when an instance of a class is created. It has the same name as the class and does not have a return type (not even void).\n\nHere’s how you define a constructor in a C# class:\n\n```csharp\npublic class Person\n{\n    public string Name;\n    public int Age;\n\n    // Constructor\n    public Person(string name, int age)\n    {\n        Name = name;\n        Age = age;\n    }\n}\n```\n\n**Key points:**\n- The constructor’s name must match the class name.\n- Constructors can have parameters or be parameterless (default constructor).\n- Constructors do not have a return type.\n- You can have multiple constructors in a class (constructor overloading).",
+        "level": "Intermediate"
+    },
+    {
+        "id": "90b15a2a-27f5-4b7a-b9e7-71b50241fed7",
+        "question": "What is the syntax for inheritance in C#?",
+        "answer": "```markdown\nIn C#, inheritance is implemented using the : (colon) symbol. The derived class specifies the base class after the colon.\n\n**Syntax:**\n```csharp\nclass BaseClass\n{\n    // Base class members\n}\n\nclass DerivedClass : BaseClass\n{\n    // Derived class members\n}\n```\n\n**Example:**\n```csharp\nclass Animal\n{\n    public void Eat()\n    {\n        Console.WriteLine(\"Animal is eating.\");\n    }\n}\n\nclass Dog : Animal\n{\n    public void Bark()\n    {\n        Console.WriteLine(\"Dog is barking.\");\n    }\n}\n```\n\nIn this example, `Dog` inherits from `Animal`, so it has access to the `Eat()` method.\n```\n",
+        "level": "Intermediate"
+    },
+    {
+        "id": "7d957f3c-6e59-462e-9625-669719eeb34d",
+        "question": "How do you declare an interface in C#?",
+        "answer": "```markdown In C#, you declare an interface using the interface keyword. An interface defines a contract that classes or structs can implement. It can contain method signatures, properties, events, or indexers, but no implementation.\n\n**Syntax Example:**\n\n```csharp\npublic interface IShape\n{\n    void Draw();\n    double GetArea();\n}\n```\n\n**Key Points:**\n- Use the interface keyword.\n- Interface names often start with a capital \"I\" by convention (e.g., IShape).\n- Members in an interface do not have access modifiers (they are public by default) and do not contain implementation.\n- A class or struct implements an interface using the : symbol.\n\n**Example of Implementation:**\n\n```csharp\npublic class Circle : IShape\n{\n    public void Draw()\n    {\n        Console.WriteLine(\"Drawing a circle.\");\n    }\n\n    public double GetArea()\n    {\n        return Math.PI * radius * radius;\n    }\n\n    private double radius = 5;\n}\n```",
+        "level": "Intermediate"
+    },
+    {
+        "id": "670ba183-50a8-488b-9927-bfb642f206a7",
+        "question": "What is the syntax for implementing an interface in a class?",
+        "answer": "```markdown To implement an interface in a C# class, use a colon (:) after the class name, followed by the interface name. Then, provide implementations for all the interface's members within the class.\n\n**Syntax Example:**\n\n```csharp\n// Define the interface\npublic interface IMyInterface\n{\n    void MyMethod();\n}\n\n// Implement the interface in a class\npublic class MyClass : IMyInterface\n{\n    public void MyMethod()\n    {\n        // Implementation of the method\n        Console.WriteLine(\"MyMethod implementation.\");\n    }\n}\n```\n\n**Key Points:**\n- Use a colon (:) to specify the interface after the class name.\n- The class must provide concrete implementations for all members of the interface.\n- A class can implement multiple interfaces by separating them with commas:\n\n```csharp\npublic class MyClass : IFirstInterface, ISecondInterface\n{\n    // Implement members of both interfaces\n}\n```",
+        "level": "Intermediate"
+    },
+    {
+        "id": "60a8fd2b-d6da-4586-96c0-1f409e02360e",
+        "question": "How do you define a property with get and set accessors?",
+        "answer": "```markdown In C#, you define a property with get and set accessors using the following syntax:\n\n```csharp\npublic class Person\n{\n    private string name; // Backing field\n\n    public string Name\n    {\n        get { return name; }\n        set { name = value; }\n    }\n}\n```\n\nAlternatively, you can use auto-implemented properties for simpler cases:\n\n```csharp\npublic class Person\n{\n    public string Name { get; set; }\n}\n```\n\n- The get accessor returns the property value.\n- The set accessor assigns a value to the property.\n- value is an implicit parameter in the set accessor representing the value being assigned.",
+        "level": "Intermediate"
+    },
+    {
+        "id": "9e85a1ae-b7c7-42a3-aa42-790167bcca98",
+        "question": "What is the syntax for a static method in C#?",
+        "answer": "```csharp\n// Syntax for a static method in C#\nclass ClassName\n{\n    public static ReturnType MethodName(ParameterList)\n    {\n        // Method body\n    }\n}\n\n// Example:\nclass MathUtils\n{\n    public static int Add(int a, int b)\n    {\n        return a + b;\n    }\n}\n```\n\n**Key Points:**\n- Use the static keyword before the return type.\n- Static methods belong to the class, not to any instance.\n- Call static methods using the class name: `MathUtils.Add(3, 5);`",
+        "level": "Intermediate"
+    },
+    {
+        "id": "27445100-12c4-4ea3-8a15-a98f89c8c0ba",
+        "question": "What is the syntax for an indexer in C#?",
+        "answer": "```csharp\n// Syntax for an indexer in C#\npublic class SampleCollection<T>\n{\n    private T[] arr = new T[100];\n\n    // Indexer declaration\n    public T this[int index]\n    {\n        get { return arr[index]; }\n        set { arr[index] = value; }\n    }\n}\n```\n\n**Explanation:**\n- The indexer is declared using the `this` keyword followed by a parameter list in square brackets.\n- The return type (`T` in this example) specifies the type of value the indexer returns.\n- The `get` accessor retrieves the value at the specified index.\n- The `set` accessor assigns a value at the specified index.\n- Indexers can be overloaded and can have multiple parameters (e.g., for multidimensional access).",
+        "level": "Advanced"
+    },
+    {
+        "id": "a2945c5f-a78b-4ead-a1e1-95af8003431b",
+        "question": "How do you define a tuple and deconstruct it in C#?",
+        "answer": "```markdown\nIn C#, you can define a tuple using the syntax `(type1, type2, ...)` and instantiate it with values. You can also deconstruct a tuple into separate variables for easier access.\n\n**Defining a Tuple:**\n```csharp\nvar person = (Name: \"Alice\", Age: 30, Country: \"USA\");\n```\n\n**Deconstructing a Tuple:**\n```csharp\nvar (name, age, country) = person;\nConsole.WriteLine($\"Name: {name}, Age: {age}, Country: {country}\");\n```\n\n**Explanation:**\n- The tuple is defined with named elements (`Name`, `Age`, `Country`).\n- Deconstruction assigns each tuple element to a separate variable (`name`, `age`, `country`).\n- You can also deconstruct tuples returned from methods:\n\n```csharp\n(string, int) GetPerson() => (\"Bob\", 25);\n\nvar (personName, personAge) = GetPerson();\n```\n\n**Note:** Tuples require C# 7.0 or later.\n```\n",
+        "level": "Advanced"
+    },
+    {
+        "id": "83c86132-5f28-460e-81c3-31be80718585",
+        "question": "What is the syntax for a local function inside a method?",
+        "answer": "```csharp\nvoid OuterMethod()\n{\n    // Local function declaration\n    int LocalFunction(int x, int y)\n    {\n        return x + y;\n    }\n\n    // Local function invocation\n    int result = LocalFunction(3, 4);\n    Console.WriteLine(result); // Output: 7\n}\n```\n\n**Key points:**\n- Local functions are declared inside the body of a method.\n- They can have parameters, return types, and access variables from the containing method.\n- Syntax is similar to a regular method, but nested within another method.",
+        "level": "Advanced"
+    },
+    {
+        "id": "92c82a5e-5ec3-4fdb-b692-9ddf15a25483",
+        "question": "What is the syntax for a switch expression introduced in C# 8.0?",
+        "answer": "```csharp\n// Syntax for a switch expression in C# 8.0:\n\nvar result = input switch\n{\n    Pattern1 => Result1,\n    Pattern2 => Result2,\n    Pattern3 => Result3,\n    _        => DefaultResult\n};\n```\n\n**Example:**\n\n```csharp\nstring GetDayType(DayOfWeek day) =>\n    day switch\n    {\n        DayOfWeek.Saturday => \"Weekend\",\n        DayOfWeek.Sunday   => \"Weekend\",\n        DayOfWeek.Monday   => \"Weekday\",\n        DayOfWeek.Tuesday  => \"Weekday\",\n        DayOfWeek.Wednesday=> \"Weekday\",\n        DayOfWeek.Thursday => \"Weekday\",\n        DayOfWeek.Friday   => \"Weekday\",\n        _                  => \"Unknown\"\n    };\n```\n\n**Key Points:**\n- The switch expression uses the `input switch { ... }` syntax.\n- Each case uses the `=>` lambda operator.\n- The `_` pattern is used as a default case.\n- Switch expressions can return values directly and are expressions, not statements.",
+        "level": "Advanced"
+    },
+    {
+        "id": "5ccd2ee7-e7f4-4462-a429-9751014d6aa1",
+        "question": "What is the correct syntax to declare an integer variable in C#?",
+        "answer": "```csharp\nint myNumber;\n```\n\nYou can also assign a value at the time of declaration:\n\n```csharp\nint myNumber = 10;\n```",
+        "level": "Beginner"
+    },
+    {
+        "id": "683968e2-8209-4247-81ae-f170e6d4c2e9",
+        "question": "How do you write a single-line comment in C#?",
+        "answer": "```markdown You write a single-line comment in C# by using two forward slashes (//). Everything after the // on that line is treated as a comment and ignored by the compiler.\n\n```csharp\n// This is a single-line comment in C#\nConsole.WriteLine(\"Hello, World!\"); // This prints a message to the console\n```",
+        "level": "Beginner"
+    },
+    {
+        "id": "37f2c415-a26e-4074-b4f5-ba8eb7b4f581",
+        "question": "How do you write a multi-line comment in C#?",
+        "answer": "```csharp\n/*\nThis is a multi-line comment in C#.\nYou can write comments spanning multiple lines.\nEverything between the /* and */ is ignored by the compiler.\n*/\n```",
+        "level": "Beginner"
+    },
+    {
+        "id": "8d207159-2ebe-4bd9-b377-67e665552f17",
+        "question": "What is the syntax for defining a method that returns void and takes no parameters?",
+        "answer": "```csharp\nvoid MethodName()\n{\n    // Method body\n}\n```\n\n**Example:**\n```csharp\nvoid PrintHello()\n{\n    Console.WriteLine(\"Hello!\");\n}\n```",
+        "level": "Beginner"
+    },
+    {
+        "id": "9689058e-cbaf-4d70-9b1d-cff138d787a8",
+        "question": "How do you create an array of integers with 5 elements in C#?",
+        "answer": "```csharp\nint[] numbers = new int[5];\n```\n\nThis line creates an array of integers named numbers with 5 elements, all initialized to 0 by default.",
+        "level": "Beginner"
+    },
+    {
+        "id": "5ffa3a58-d8cd-4dd8-90f4-cc81ba81db41",
+        "question": "What is the correct way to instantiate an object of a class named 'Person'?",
+        "answer": "```csharp\nPerson person = new Person();\n```\n\nThis line creates a new instance of the Person class and assigns it to the variable person.",
+        "level": "Beginner"
+    },
+    {
+        "id": "0a0278ed-b673-4e5a-80ec-969ddcc7356b",
+        "question": "How do you write a for loop that iterates from 0 to 9?",
+        "answer": "```csharp\nfor (int i = 0; i < 10; i++)\n{\n    // Code to execute in each iteration\n    Console.WriteLine(i);\n}\n```\n\nThis loop starts at 0 and runs while i is less than 10, printing numbers 0 through 9.",
+        "level": "Beginner"
+    },
+    {
+        "id": "f6683b21-4827-4df4-9128-42cc5f704306",
+        "question": "What is the syntax for an if-else statement in C#?",
+        "answer": "```csharp\nif (condition)\n{\n    // Code to execute if condition is true\n}\nelse\n{\n    // Code to execute if condition is false\n}\n```\n\n**Example:**\n```csharp\nint number = 10;\n\nif (number > 5)\n{\n    Console.WriteLine(\"Number is greater than 5.\");\n}\nelse\n{\n    Console.WriteLine(\"Number is 5 or less.\");\n}\n```",
+        "level": "Beginner"
+    },
+    {
+        "id": "cd6fbb36-12d5-444a-8f9a-37d6ef0c49e4",
+        "question": "How do you use the 'using' statement to manage resources?",
+        "answer": "```markdown In C#, the using statement is used to ensure that resources are properly disposed of when they are no longer needed. This is especially important for objects that access unmanaged resources, such as file handles, database connections, or network streams. The using statement provides a convenient syntax that automatically calls the Dispose() method on the object when the code block is exited, even if an exception occurs.\n\n**Syntax:**\n\n```csharp\nusing (ResourceType resource = new ResourceType())\n{\n    // Use the resource here\n}\n// resource.Dispose() is automatically called here\n```\n\n**Example:**\n\n```csharp\nusing (StreamReader reader = new StreamReader(\"file.txt\"))\n{\n    string content = reader.ReadToEnd();\n    Console.WriteLine(content);\n}\n// reader.Dispose() is called automatically\n```\n\n**Key Points:**\n- The object used in a using statement must implement the IDisposable interface.\n- The using statement ensures deterministic disposal of resources.\n- You can declare multiple resources in a single using statement (C# 8.0 and later):\n\n  ```csharp\n  using var stream = new FileStream(\"file.txt\", FileMode.Open);\n  using var reader = new StreamReader(stream);\n  // Use reader here\n  // Both reader and stream are disposed at the end of the scope\n  ```\n\n**Summary:**  \nUse the using statement to manage resources efficiently and avoid resource leaks by ensuring that Dispose() is called automatically.",
+        "level": "Intermediate"
+    },
+    {
+        "id": "838e0317-3f76-4bfd-ab16-362a1a9cf685",
+        "question": "What is the correct way to declare and use a delegate in C#?",
+        "answer": "```markdown\nIn C#, a delegate is a type that represents references to methods with a specific parameter list and return type. Here’s how you can declare and use a delegate:\n\n### 1. Declare a Delegate\n\n```csharp\n// Declaration\npublic delegate int Operation(int x, int y);\n```\n\n### 2. Define Methods Matching the Delegate Signature\n\n```csharp\npublic class Calculator\n{\n    public int Add(int a, int b)\n    {\n        return a + b;\n    }\n\n    public int Multiply(int a, int b)\n    {\n        return a * b;\n    }\n}\n```\n\n### 3. Instantiate and Use the Delegate\n\n```csharp\nclass Program\n{\n    static void Main()\n    {\n        Calculator calc = new Calculator();\n\n        // Instantiate the delegate\n        Operation op = new Operation(calc.Add);\n\n        // Use the delegate\n        int result = op(5, 3); // Calls Add(5, 3)\n        Console.WriteLine(result); // Output: 8\n\n        // Reassign to another method\n        op = calc.Multiply;\n        result = op(5, 3); // Calls Multiply(5, 3)\n        Console.WriteLine(result); // Output: 15\n    }\n}\n```\n\n### Summary\n\n- **Declare** the delegate type.\n- **Create** methods that match the delegate signature.\n- **Instantiate** the delegate, referencing a matching method.\n- **Invoke** the delegate as if it were a method.\n\n> **Note:** With C# 2.0 and later, you can also use anonymous methods or lambda expressions with delegates.\n```\n",
+        "level": "Intermediate"
+    },
+    {
+        "id": "ade9ffec-45df-4aae-a5b8-adce8e276733",
+        "question": "How do you define an enum in C#?",
+        "answer": "```markdown You define an enum in C# using the enum keyword, followed by the name of the enum and a list of named constants (members) enclosed in curly braces. Here’s the basic syntax:\n\n```csharp\nenum DayOfWeek\n{\n    Sunday,\n    Monday,\n    Tuesday,\n    Wednesday,\n    Thursday,\n    Friday,\n    Saturday\n}\n```\n\nBy default, the first member has the value 0, and each subsequent member increases by 1. You can also explicitly assign values:\n\n```csharp\nenum ErrorCode\n{\n    None = 0,\n    NotFound = 404,\n    ServerError = 500\n}\n```\n\nYou can then use the enum like this:\n\n```csharp\nDayOfWeek today = DayOfWeek.Monday;\nif (today == DayOfWeek.Monday)\n{\n    Console.WriteLine(\"It's Monday!\");\n}\n```\n\nEnums are commonly used to represent a set of related named constants in a type-safe way.",
+        "level": "Intermediate"
+    },
+    {
+        "id": "f78e063b-9ec9-4fcc-a9d0-325352b9753a",
+        "question": "What is the syntax for a generic method in C#?",
+        "answer": "```csharp\n// Syntax for a generic method in C#\npublic T MethodName<T>(T parameter)\n{\n    // Method logic here\n    return parameter;\n}\n```\n\n**Example:**\n```csharp\npublic T Add<T>(T a, T b)\n{\n    dynamic x = a;\n    dynamic y = b;\n    return x + y;\n}\n```\n\n**Usage:**\n```csharp\nint result = Add<int>(3, 5);        // result = 8\ndouble sum = Add<double>(2.5, 4.1); // sum = 6.6\n```\n\n**Explanation:**\n- The type parameter `<T>` is specified after the method name.\n- You can use `T` as a type within the method's parameters and return type.\n- The actual type is provided when calling the method.",
+        "level": "Intermediate"
+    },
+    {
+        "id": "8cf790a8-132b-430f-831f-f65a7092ecfb",
+        "question": "How do you create an auto-implemented property in C#?",
+        "answer": "```markdown To create an auto-implemented property in C#, you use the following syntax:\n\n```csharp\npublic class Person\n{\n    public string Name { get; set; }\n}\n```\n\nIn this example, Name is an auto-implemented property. The compiler automatically creates a private, anonymous backing field that can only be accessed through the property's get and set accessors. You can also specify access modifiers or make it read-only or write-only:\n\n```csharp\npublic int Age { get; private set; } // Read-only outside the class\n```\n\nAuto-implemented properties simplify property declarations when no additional logic is required in the property accessors.",
+        "level": "Intermediate"
+    },
+    {
+        "id": "8b34aa97-6a38-4281-aa14-bfb2bf1741d2",
+        "question": "What is the syntax for a lambda expression in C#?",
+        "answer": "```markdown A lambda expression in C# uses the following syntax:\n\n```csharp\n(parameters) => expression\n```\nor for a statement block:\n```csharp\n(parameters) => { statements }\n```\n\n**Examples:**\n\nSingle parameter, single expression:\n```csharp\nx => x * x\n```\n\nMultiple parameters:\n```csharp\n(x, y) => x + y\n```\n\nWith a statement block:\n```csharp\n(x, y) => \n{\n    int sum = x + y;\n    return sum * 2;\n}\n```\n\n**Usage Example:**\n```csharp\nList<int> numbers = new List<int> { 1, 2, 3, 4, 5 };\nvar evenNumbers = numbers.Where(n => n % 2 == 0);\n```\n\n**Note:**  \n- The parameters can be explicitly typed, e.g., `(int x, int y) => x + y`.\n- If there is only one parameter, parentheses are optional: `n => n * n`.",
+        "level": "Intermediate"
+    },
+    {
+        "id": "732dee06-c2fe-4b46-83e2-3c3bcc0f093d",
+        "question": "How do you define an abstract class and an abstract method?",
+        "answer": "```markdown In C#, you define an abstract class using the abstract keyword. An abstract class can contain abstract methods, which are method signatures without an implementation. Abstract methods must also use the abstract keyword and do not have a body. Any class inheriting from the abstract class must provide an implementation for all abstract methods.\n\n**Example:**\n\n```csharp\n// Abstract class definition\npublic abstract class Animal\n{\n    // Abstract method (no implementation)\n    public abstract void MakeSound();\n\n    // Regular method (with implementation)\n    public void Sleep()\n    {\n        Console.WriteLine(\"Sleeping...\");\n    }\n}\n\n// Derived class must implement the abstract method\npublic class Dog : Animal\n{\n    public override void MakeSound()\n    {\n        Console.WriteLine(\"Woof!\");\n    }\n}\n```\n\n**Key Points:**\n- Use the abstract keyword for both the class and its abstract methods.\n- Abstract methods do not have a body (no curly braces).\n- Derived classes must override and implement all abstract methods.",
+        "level": "Intermediate"
+    },
+    {
+        "id": "0de76851-82df-426e-8e4b-85aaea3cec77",
+        "question": "How do you declare and use an event in C#?",
+        "answer": "```markdown\n### Declaring and Using an Event in C#\n\nIn C#, **events** are a way for a class to provide notifications to clients of that class when something of interest occurs. Events are typically used with delegates.\n\n#### 1. Declare a Delegate\n\nFirst, define a delegate that matches the signature of the event handler methods:\n\n```csharp\npublic delegate void MyEventHandler(object sender, EventArgs e);\n```\n\n#### 2. Declare an Event\n\nUse the `event` keyword with the delegate type:\n\n```csharp\npublic class Publisher\n{\n    public event MyEventHandler MyEvent;\n\n    public void DoSomething()\n    {\n        // Some logic here...\n\n        // Raise the event\n        OnMyEvent(EventArgs.Empty);\n    }\n\n    protected virtual void OnMyEvent(EventArgs e)\n    {\n        MyEvent?.Invoke(this, e);\n    }\n}\n```\n\n#### 3. Subscribe to the Event\n\nA subscriber class can attach a handler to the event:\n\n```csharp\npublic class Subscriber\n{\n    public void HandleEvent(object sender, EventArgs e)\n    {\n        Console.WriteLine(\"Event received!\");\n    }\n}\n```\n\n```csharp\n// Usage\nPublisher publisher = new Publisher();\nSubscriber subscriber = new Subscriber();\n\npublisher.MyEvent += subscriber.HandleEvent; // Subscribe\n\npublisher.DoSomething(); // This will trigger the event and call HandleEvent\n```\n\n#### 4. Unsubscribe from the Event\n\nYou can unsubscribe using the `-=` operator:\n\n```csharp\npublisher.MyEvent -= subscriber.HandleEvent;\n```\n\n---\n\n#### Notes\n\n- Events can only be invoked from within the class that declares them.\n- The `EventHandler` and `EventHandler<TEventArgs>` delegates are commonly used for events.\n- Use the null-conditional operator (`?.`) to safely invoke events.\n\n---\n\n#### Example Using Built-in EventHandler\n\n```csharp\npublic class Publisher\n{\n    public event EventHandler MyEvent;\n\n    public void DoSomething()\n    {\n        MyEvent?.Invoke(this, EventArgs.Empty);\n    }\n}\n```\n```",
+        "level": "Advanced"
+    },
+    {
+        "id": "8d82ba87-8ad4-4505-a49f-b45a8f7180b6",
+        "question": "What is the correct syntax for an extension method?",
+        "answer": "```csharp\n// Extension methods must be defined in a static class\npublic static class StringExtensions\n{\n    // The first parameter specifies the type being extended, preceded by 'this'\n    public static bool IsNullOrEmpty(this string str)\n    {\n        return string.IsNullOrEmpty(str);\n    }\n}\n\n// Usage:\nstring s = null;\nbool result = s.IsNullOrEmpty(); // Calls the extension method\n```\n\n**Key Points:**\n- The extension method must be in a static class.\n- The method itself must be static.\n- The first parameter must have the this modifier and specify the type to extend.\n- Extension methods are called as if they were instance methods on the extended type.",
+        "level": "Advanced"
+    },
+    {
+        "id": "75aaacd6-94de-4853-98af-2771a9066827",
+        "question": "How do you use the 'yield return' statement in an iterator method?",
+        "answer": "```markdown\nIn C#, the `yield return` statement is used within an iterator method to provide a value to the enumerator object one at a time. This allows you to create custom collections that can be iterated over using `foreach`, without needing to create an intermediate collection.\n\n### Syntax Example\n\n```csharp\npublic IEnumerable<int> GetEvenNumbers(int max)\n{\n    for (int i = 0; i <= max; i++)\n    {\n        if (i % 2 == 0)\n        {\n            yield return i; // Returns the next even number\n        }\n    }\n}\n```\n\n### How it works\n\n- The method must return `IEnumerable`, `IEnumerable<T>`, `IEnumerator`, or `IEnumerator<T>`.\n- Each time `yield return` is executed, the current location in the code is remembered.\n- When the next value is requested (e.g., by the next iteration of a `foreach` loop), execution resumes immediately after the last `yield return`.\n\n### Usage Example\n\n```csharp\nforeach (int even in GetEvenNumbers(10))\n{\n    Console.WriteLine(even);\n}\n```\n\nThis would output:\n```\n0\n2\n4\n6\n8\n10\n```\n\n### Notes\n\n- You can also use `yield break;` to end the iteration early.\n- `yield return` is especially useful for generating sequences on-the-fly or for implementing lazy evaluation.\n```\n",
+        "level": "Advanced"
+    },
+    {
+        "id": "6a49183e-6721-4ccd-b279-588b2258a225",
+        "question": "What is the syntax for a nullable value type in C#?",
+        "answer": "```markdown\nIn C#, a nullable value type allows a value type (such as int, double, bool, etc.) to represent all the values of its underlying type plus an additional null value. The syntax for declaring a nullable value type is by appending a question mark (?) to the value type.\n\n**Syntax:**\n```csharp\nTypeName? variableName;\n```\n\n**Example:**\n```csharp\nint? age = null;\ndouble? temperature = 36.6;\nbool? isActive = null;\n```\n\nAlternatively, you can use the `Nullable<T>` generic type:\n\n```csharp\nNullable<int> age = null;\n```\n\nBoth syntaxes are functionally equivalent, but the `?` syntax is more concise and commonly used.\n```",
+        "level": "Advanced"
+    },
+    {
+        "id": "df05b98d-ac22-426a-9a6c-55fd658e4a13",
+        "question": "How do you use the 'async' and 'await' keywords in a method?",
+        "answer": "```markdown\nIn C#, the `async` and `await` keywords are used to write asynchronous methods, allowing your code to perform non-blocking operations such as I/O, network calls, or long-running computations.\n\n### Syntax\n\n- Mark the method with the `async` modifier.\n- Use the `await` keyword before a call to an asynchronous operation (a method returning `Task`, `Task<T>`, or `ValueTask<T>`).\n\n### Example\n\n```csharp\npublic async Task<string> DownloadContentAsync(string url)\n{\n    using (HttpClient client = new HttpClient())\n    {\n        // The await keyword asynchronously waits for the task to complete.\n        string content = await client.GetStringAsync(url);\n        return content;\n    }\n}\n```\n\n### Key Points\n\n- The method signature must include the `async` modifier.\n- The return type is usually `Task`, `Task<T>`, or `void` (for event handlers).\n- Use `await` only inside an `async` method.\n- The `await` keyword pauses the method execution until the awaited task completes, without blocking the calling thread.\n\n### Usage\n\n```csharp\nstring result = await DownloadContentAsync(\"https://example.com\");\n```\n\n> **Note:** The calling method must also be `async` if you use `await` directly, or you can use `.Result` or `.Wait()` for synchronous blocking (not recommended).\n\n```\n",
+        "level": "Advanced"
+    },
+    {
+        "id": "babc3190-b27a-469f-94dc-c5ff98aed7e5",
+        "question": "What is the syntax for pattern matching using 'is' and 'switch' expressions?",
+        "answer": "```markdown Certainly! Here’s an advanced overview of pattern matching syntax in C# using is and switch expressions:\n\n## Pattern Matching with `is`\n\nYou can use the `is` keyword to check if an object matches a type or pattern, and optionally assign it to a variable:\n\n```csharp\nobject obj = \"hello\";\n\nif (obj is string s && s.Length > 3)\n{\n    Console.WriteLine($\"String of length > 3: {s}\");\n}\n```\n\nYou can also use more advanced patterns, such as property patterns:\n\n```csharp\nif (obj is string { Length: > 5 } longString)\n{\n    Console.WriteLine($\"Long string: {longString}\");\n}\n```\n\n## Pattern Matching with `switch` Expressions\n\nThe switch expression (introduced in C# 8.0) allows concise pattern matching:\n\n```csharp\nstring Classify(object input) => input switch\n{\n    int i when i > 0 => \"Positive integer\",\n    int i => \"Non-positive integer\",\n    string { Length: > 0 } s => $\"Non-empty string: {s}\",\n    null => \"Null value\",\n    _ => \"Unknown type\"\n};\n```\n\n### Example with Record Types and Positional Patterns\n\n```csharp\npublic record Point(int X, int Y);\n\nstring Describe(Point p) => p switch\n{\n    (0, 0) => \"Origin\",\n    (var x, 0) => $\"X-axis at {x}\",\n    (0, var y) => $\"Y-axis at {y}\",\n    (var x, var y) when x == y => \"On the line X=Y\",\n    _ => $\"Point at ({p.X}, {p.Y})\"\n};\n```\n\n## Summary Table\n\n| Syntax                | Example                                              |\n|-----------------------|-----------------------------------------------------|\n| Type pattern          | `if (obj is int i) { ... }`                         |\n| Property pattern      | `if (obj is string { Length: > 5 } s) { ... }`      |\n| Switch expression     | `input switch { int i => ..., string s => ... }`    |\n| Positional pattern    | `p switch { (0, 0) => ..., (x, y) => ... }`         |\n\n**References:**  \n- [Microsoft Docs: Pattern matching](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/functional/pattern-matching)\n- [Microsoft Docs: switch expressions](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/switch-expression)",
+        "level": "Advanced"
+    },
+    {
+        "id": "74527b41-9076-4657-9340-98550aa3eb14",
+        "question": "How do you use the 'ref' and 'out' keywords in method parameters?",
+        "answer": "```markdown\nIn C#, the `ref` and `out` keywords are used to pass arguments by reference to methods, allowing the method to modify the value of the parameter and have that change reflected outside the method.\n\n## `ref` Keyword\n\n- The `ref` keyword indicates that a parameter is passed by reference.\n- The variable passed as a `ref` parameter must be initialized before it is passed to the method.\n\n**Example:**\n\n```csharp\nvoid Increment(ref int number)\n{\n    number++;\n}\n\nint x = 5;\nIncrement(ref x);\n// x is now 6\n```\n\n## `out` Keyword\n\n- The `out` keyword also passes a parameter by reference.\n- Unlike `ref`, the variable passed as an `out` parameter does **not** need to be initialized before being passed.\n- The called method **must** assign a value to the `out` parameter before the method returns.\n\n**Example:**\n\n```csharp\nvoid GetValues(out int a, out int b)\n{\n    a = 10;\n    b = 20;\n}\n\nint x, y;\nGetValues(out x, out y);\n// x is 10, y is 20\n```\n\n## Key Differences\n\n| Feature         | `ref`                  | `out`                       |\n|-----------------|------------------------|-----------------------------|\n| Initialization  | Must be initialized    | Doesn't need to be initialized |\n| Assignment      | Optional in method     | Must be assigned in method  |\n\n## Usage in Method Signatures\n\n```csharp\nvoid MyMethod(ref int value1, out int value2)\n{\n    value1 += 5;      // value1 must be initialized before call\n    value2 = value1;  // value2 must be assigned before return\n}\n```\n\n**Calling the method:**\n\n```csharp\nint a = 3;\nint b;\nMyMethod(ref a, out b);\n// a is now 8, b is 8\n```\n```",
+        "level": "Advanced"
+    },
+    {
+        "id": "642ce137-4309-46b9-9033-9b31001bec45",
+        "question": "What is the correct syntax for a partial class?",
+        "answer": "```csharp\n// File: MyClass.Part1.cs\npublic partial class MyClass\n{\n    public void MethodA()\n    {\n        // Implementation of MethodA\n    }\n}\n\n// File: MyClass.Part2.cs\npublic partial class MyClass\n{\n    public void MethodB()\n    {\n        // Implementation of MethodB\n    }\n}\n```\n\n**Explanation:**\n\n- The partial keyword is used to split the definition of a class, struct, or interface over two or more source files.\n- All parts must use the partial keyword and have the same accessibility, name, and namespace.\n- At compile time, all parts are combined into a single class.\n\n**Syntax:**\n```csharp\npublic partial class ClassName\n{\n    // Members\n}\n```",
+        "level": "Advanced"
+    },
+    {
+        "id": "6ce6e870-06ba-4b70-9a29-f1276a79672e",
+        "question": "How do you use the 'nameof' operator in C#?",
+        "answer": "```markdown\nThe `nameof` operator in C# is used to obtain the simple (unqualified) string name of a variable, type, or member. It is evaluated at compile time, making it useful for refactoring, error messages, and avoiding hard-coded string literals.\n\n### Syntax\n\n```csharp\nnameof(identifier)\n```\n\n### Example Usage\n\n```csharp\nclass Person\n{\n    public string FirstName { get; set; }\n}\n\nPerson person = new Person();\nstring propertyName = nameof(person.FirstName); // \"FirstName\"\nstring className = nameof(Person);              // \"Person\"\n```\n\n### Common Scenarios\n\n- **Exception messages:**\n  ```csharp\n  void SetName(string name)\n  {\n      if (name == null)\n          throw new ArgumentNullException(nameof(name));\n  }\n  ```\n\n- **INotifyPropertyChanged implementations:**\n  ```csharp\n  public event PropertyChangedEventHandler PropertyChanged;\n\n  protected void OnPropertyChanged(string propertyName)\n  {\n      PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));\n  }\n\n  public string Name { get; set; }\n\n  public void UpdateName(string value)\n  {\n      Name = value;\n      OnPropertyChanged(nameof(Name));\n  }\n  ```\n\n### Benefits\n\n- **Refactoring safety:** If you rename the identifier, the string returned by `nameof` automatically updates.\n- **Compile-time checking:** Errors are caught at compile time if the identifier does not exist.\n\n### Notes\n\n- `nameof` does not evaluate expressions; it only returns the name of the identifier.\n- Introduced in C# 6.0.\n\n```\n",
+        "level": "Advanced"
+    },
+    {
+        "id": "55f70049-45a6-4c23-9b13-0f36411aac30",
+        "question": "What is the syntax for a record type in C#?",
+        "answer": "```csharp\n// Basic record type declaration\npublic record Person(string FirstName, string LastName);\n\n// With properties and methods\npublic record Employee\n{\n    public int Id { get; init; }\n    public string Name { get; init; }\n\n    public string GetDisplayName() => $\"{Id}: {Name}\";\n}\n\n// With inheritance\npublic record Manager(string FirstName, string LastName, int TeamSize) : Person(FirstName, LastName);\n```\n\n**Explanation:**\n- Use the record keyword to define an immutable reference type.\n- You can use positional parameters (primary constructor) or define properties inside the body.\n- Records support inheritance and value-based equality by default.",
+        "level": "Advanced"
+    },
+    {
+        "id": "76562de4-366f-4663-85fd-940fae0df613",
+        "question": "How do you define a static constructor in a class?",
+        "answer": "```csharp\nclass MyClass\n{\n    // Static constructor\n    static MyClass()\n    {\n        // Initialization code here\n    }\n}\n```\n\n**Key Points:**\n- A static constructor is declared using the static keyword and has no access modifiers or parameters.\n- It is called automatically before the first instance is created or any static members are referenced.\n- Used to initialize static fields or perform actions that need to be executed only once.",
+        "level": "Advanced"
+    },
+    {
+        "id": "53ab16a9-66cc-4340-9ec4-758988eca30b",
+        "question": "What is the syntax for an explicit interface implementation?",
+        "answer": "```csharp\n// Interface definition\npublic interface IExample\n{\n    void DoWork();\n}\n\n// Explicit interface implementation in a class\npublic class ExampleClass : IExample\n{\n    // Note: No access modifier (not public/private/protected)\n    void IExample.DoWork()\n    {\n        // Implementation code here\n        Console.WriteLine(\"Explicit interface implementation called.\");\n    }\n}\n```\n\n**Key Points:**\n- The method is prefixed with the interface name (`IExample.DoWork`).\n- No access modifier is used (not even `public`).\n- The method can only be accessed through an interface reference:\n\n```csharp\nIExample obj = new ExampleClass();\nobj.DoWork(); // Calls the explicit implementation\n```\n- It cannot be called directly via the class instance (`new ExampleClass().DoWork();` would result in a compile-time error).",
+        "level": "Advanced"
+    },
+    {
+        "id": "1387aa58-25bf-4d58-a195-cbf2ff491402",
+        "question": "How do you use the 'lock' statement for thread safety?",
+        "answer": "```markdown\nThe `lock` statement in C# is used to ensure that a block of code runs by only one thread at a time, providing thread safety when accessing shared resources. It works by acquiring an exclusive lock on a specified object reference for the duration of the code block.\n\n**Syntax:**\n```csharp\nlock (lockObject)\n{\n    // Critical section: code that accesses shared resources\n}\n```\n\n**Example:**\n```csharp\nprivate readonly object _lock = new object();\nprivate int _counter = 0;\n\npublic void IncrementCounter()\n{\n    lock (_lock)\n    {\n        _counter++;\n        // Only one thread can execute this block at a time\n    }\n}\n```\n\n**Key Points:**\n- The object used in `lock` (e.g., `_lock`) should be private and not externally accessible to avoid deadlocks.\n- Avoid locking on `this`, `typeof(TypeName)`, or string literals.\n- The `lock` statement is syntactic sugar for `Monitor.Enter` and `Monitor.Exit`.\n\n**When to Use:**\nUse `lock` when you need to protect shared data from concurrent access in a multithreaded environment.\n```\n",
+        "level": "Advanced"
+    },
+    {
+        "id": "8f3cd340-d7b9-43c8-9cdb-89b6b2836a4e",
+        "question": "How do you use the 'var' keyword for implicit typing?",
+        "answer": "```markdown In C#, the var keyword is used for implicit typing of local variables. When you use var, the compiler determines the variable's type based on the expression on the right side of the assignment at compile time.\n\n**Syntax Example:**\n\n```csharp\nvar number = 10;          // number is inferred as int\nvar name = \"Alice\";       // name is inferred as string\nvar items = new List<int>(); // items is inferred as List<int>\n```\n\n**Key Points:**\n- The variable must be initialized at the time of declaration.\n- The type is inferred by the compiler and cannot change after initialization.\n- var can only be used for local variables (not fields, method parameters, or return types).\n\n**When to Use:**\n- When the type is obvious from the right side of the assignment.\n- To simplify code, especially with complex types.\n\n**When Not to Use:**\n- When it reduces code readability or makes the type unclear.\n\n**Example:**\n\n```csharp\nvar person = new Person(); // person is of type Person\n```\n\n**Note:**  \nUsing var does not make C# a dynamically-typed language; the type is still determined at compile time.",
+        "level": "Intermediate"
+    },
+    {
+        "id": "d10749f2-296c-402a-b495-c37d0e6aa00d",
+        "question": "How do you define an enum in C#?",
+        "answer": "```csharp\n// Defining an enum in C#\nenum DaysOfWeek\n{\n    Sunday,\n    Monday,\n    Tuesday,\n    Wednesday,\n    Thursday,\n    Friday,\n    Saturday\n}\n```\n\n**Explanation:**\n- The enum keyword is used to declare an enumeration, a distinct type consisting of a set of named constants called the enumerator list.\n- By default, the underlying type of each element in the enum is `int`, and the first enumerator has the value 0, with each successive enumerator increasing by 1.\n- You can also specify custom values:\n\n```csharp\nenum ErrorCode\n{\n    None = 0,\n    Unknown = 1,\n    ConnectionLost = 100,\n    OutOfMemory = 200\n}\n```\n\n**Usage Example:**\n```csharp\nDaysOfWeek today = DaysOfWeek.Monday;\nif (today == DaysOfWeek.Monday)\n{\n    Console.WriteLine(\"Start of the work week!\");\n}\n```",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:59:27.953181Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "67956ae2-aaba-4956-8943-aec3b15fa4dc",
+        "question": "What is the syntax for pattern matching in C# switch statements?",
+        "answer": "```csharp\n// Example of pattern matching in a C# switch statement\n\nobject value = 42;\n\nswitch (value)\n{\n    case int i when i > 0:\n        Console.WriteLine($\"Positive integer: {i}\");\n        break;\n    case string s:\n        Console.WriteLine($\"String: {s}\");\n        break;\n    case null:\n        Console.WriteLine(\"Null value\");\n        break;\n    default:\n        Console.WriteLine(\"Other type\");\n        break;\n}\n```\n\n**Explanation:**\n- `case int i when i > 0:` matches if `value` is an `int` greater than 0.\n- `case string s:` matches if `value` is a `string`.\n- `case null:` matches if `value` is `null`.\n- `default:` matches any other case.\n\nPattern matching in switch statements allows you to match types and apply conditions (using `when`), making your code more expressive and concise.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:59:27.953193Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "ae3e3c4f-7190-4560-a5d5-7ddecd2ed64e",
+        "question": "What is the syntax for creating a generic class in C#?",
+        "answer": "```csharp\n// Syntax for creating a generic class in C#\npublic class MyGenericClass<T>\n{\n    // Field of generic type\n    private T _value;\n\n    // Constructor\n    public MyGenericClass(T value)\n    {\n        _value = value;\n    }\n\n    // Method that returns the generic type\n    public T GetValue()\n    {\n        return _value;\n    }\n}\n```\n\n**Usage Example:**\n```csharp\nvar intInstance = new MyGenericClass<int>(10);\nint value = intInstance.GetValue(); // value = 10\n\nvar stringInstance = new MyGenericClass<string>(\"Hello\");\nstring text = stringInstance.GetValue(); // text = \"Hello\"\n```\n\n**Explanation:**\n- The angle brackets `<T>` indicate that `MyGenericClass` is generic and `T` is a type parameter.\n- You can use any valid identifier instead of `T`, but `T` is conventional for \"Type\".\n- The class can be instantiated with any type (e.g., `int`, `string`, custom classes).",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:59:27.953244Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "f8ac4d41-0806-4e93-88de-ed0d937a1637",
+        "question": "What is the syntax for creating a record type in C# 9.0 and above?",
+        "answer": "```csharp\n// Basic record type with positional parameters\npublic record Person(string FirstName, string LastName);\n\n// Record type with properties and custom members\npublic record Employee\n{\n    public int Id { get; init; }\n    public string Name { get; init; }\n    public decimal Salary { get; init; }\n\n    // Custom method\n    public decimal AnnualSalary() => Salary * 12;\n}\n```\n\n**Explanation:**\n- The `record` keyword is used to define an immutable reference type with value-based equality.\n- Positional records (e.g., `Person`) automatically generate properties and a constructor.\n- Records can also be declared with property initializers and custom members, as shown in `Employee`.\n- Properties in records are typically `init`-only, allowing assignment during object initialization but not afterward.",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:59:27.953293Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "b3c1b645-a08e-4b91-bda2-bc821bc80fe8",
+        "question": "What is the correct syntax to define a class in C# for .NET Core?",
+        "answer": "```csharp\npublic class MyClass\n{\n    // Class members go here\n}\n```\n\n- Use the public (or another access modifier) keyword.\n- Use the class keyword followed by the class name (e.g., MyClass).\n- Enclose the class body within curly braces { }.\n- Add properties, methods, and other members inside the class body.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:59:27.952964Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "9980448b-52a5-4e29-b981-a940eb39f8c4",
+        "question": "How do you declare a variable of type string in C#?",
+        "answer": "```markdown You can declare a variable of type string in C# using the following syntax:\n\n```csharp\nstring myVariable = \"Hello, World!\";\n```\n\nHere, string is the data type, myVariable is the variable name, and \"Hello, World!\" is the value assigned to the variable.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:59:27.952988Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "60dc4044-cd4a-4457-b992-e4acf674ed59",
+        "question": "What is the syntax for a for loop in C#?",
+        "answer": "```csharp\nfor (int i = 0; i < 10; i++)\n{\n    // Code to execute in each iteration\n    Console.WriteLine(i);\n}\n```\n\n**Explanation:**\n- `int i = 0;` initializes the loop variable.\n- `i < 10;` is the loop condition; the loop continues while this is true.\n- `i++` increments the loop variable after each iteration.\n- The code inside the `{ }` block runs on each loop iteration.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:59:27.952998Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "74e33d36-0774-4794-9acb-3c66db1ea245",
+        "question": "How do you write a method that returns an integer in C#?",
+        "answer": "```markdown To write a method that returns an integer in C#, you specify int as the return type, give the method a name, and use the return statement to return an integer value. Here’s a simple example:\n\n```csharp\npublic int GetNumber()\n{\n    return 42;\n}\n```\n\nIn this example:\n\n- public is the access modifier.\n- int is the return type.\n- GetNumber is the method name.\n- return 42; returns the integer value 42.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:59:27.953008Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "3cdd1747-2ab3-454a-85b9-a1e1c6cb7e7e",
+        "question": "What is the syntax for an if-else statement in C#?",
+        "answer": "```csharp\nif (condition)\n{\n    // Code to execute if the condition is true\n}\nelse\n{\n    // Code to execute if the condition is false\n}\n```\n\n**Example:**\n```csharp\nint number = 10;\n\nif (number > 5)\n{\n    Console.WriteLine(\"Number is greater than 5\");\n}\nelse\n{\n    Console.WriteLine(\"Number is 5 or less\");\n}\n```",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:59:27.953017Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "35e1fb33-8be7-412b-bbbc-72953fc40c17",
+        "question": "How do you create an array of integers in C#?",
+        "answer": "```markdown You can create an array of integers in C# using the following syntax:\n\n```csharp\nint[] numbers = new int[5]; // Creates an array of 5 integers (all initialized to 0)\n```\n\nYou can also initialize the array with values:\n\n```csharp\nint[] numbers = new int[] { 1, 2, 3, 4, 5 };\n```\n\nOr, using shorthand syntax:\n\n```csharp\nint[] numbers = { 1, 2, 3, 4, 5 };\n```\n\nAll of these are valid ways to create an array of integers in C#.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:59:27.953025Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "e0cccda3-5dc5-4cc9-9b05-26dfcf8911a5",
+        "question": "How do you instantiate an object from a class in C#?",
+        "answer": "```markdown To instantiate an object from a class in C#, you use the new keyword followed by the class name and parentheses. Here’s the basic syntax:\n\n```csharp\nClassName objectName = new ClassName();\n```\n\n**Example:**\n\n```csharp\n// Define a class\npublic class Person\n{\n    public string Name;\n}\n\n// Instantiate an object from the class\nPerson person1 = new Person();\nperson1.Name = \"Alice\";\n```\n\nThis creates a new instance of the Person class and assigns it to the variable person1.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:59:27.953032Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "c929f616-dcec-443b-8b3b-220a9c8c9366",
+        "question": "What is the syntax for a switch statement in C#?",
+        "answer": "```csharp\nswitch (variable)\n{\n    case value1:\n        // Code to execute if variable == value1\n        break;\n    case value2:\n        // Code to execute if variable == value2\n        break;\n    default:\n        // Code to execute if variable doesn't match any case\n        break;\n}\n```\n\n**Example:**\n```csharp\nint day = 3;\n\nswitch (day)\n{\n    case 1:\n        Console.WriteLine(\"Monday\");\n        break;\n    case 2:\n        Console.WriteLine(\"Tuesday\");\n        break;\n    case 3:\n        Console.WriteLine(\"Wednesday\");\n        break;\n    default:\n        Console.WriteLine(\"Another day\");\n        break;\n}\n```\n**Output:**  \n```\nWednesday\n```\n**Note:**  \n- Each case must end with a break (or another jump statement like return).\n- The default case is optional and handles any values not matched by the cases.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:59:27.953040Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "71cb0901-f589-45a6-9678-7918d9fe86b0",
+        "question": "How do you write a comment in C#?",
+        "answer": "```csharp\n// This is a single-line comment\n\n/*\nThis is a\nmulti-line comment\n*/\n```",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:59:27.953047Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "eedd1689-47e4-46a0-9902-d3fc87f79911",
+        "question": "How do you define a constructor in a C# class?",
+        "answer": "```markdown In C#, you define a constructor in a class by creating a method with the same name as the class and no return type. Here’s a simple example:\n\n```csharp\npublic class Person\n{\n    // Constructor\n    public Person()\n    {\n        // Initialization code here\n        Console.WriteLine(\"Person object created!\");\n    }\n}\n```\n\n**Key points:**\n- The constructor has the same name as the class (`Person`).\n- It does not have a return type (not even `void`).\n- Constructors are used to initialize objects when they are created.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:59:27.953054Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "781c98c9-6133-4b03-b692-0fa8923e44b2",
+        "question": "What is the syntax for exception handling using try-catch in C#?",
+        "answer": "```csharp\ntry\n{\n    // Code that may throw an exception\n}\ncatch (ExceptionType ex)\n{\n    // Code to handle the exception\n    // ex.Message can be used to get the error message\n}\n```\n\n**Example:**\n```csharp\ntry\n{\n    int result = 10 / 0;\n}\ncatch (DivideByZeroException ex)\n{\n    Console.WriteLine(\"Cannot divide by zero: \" + ex.Message);\n}\n```\n\nYou can also use a general catch block:\n```csharp\ncatch (Exception ex)\n{\n    // Handles any exception\n}\n```",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:59:27.953062Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "db255fe8-7137-4a28-b35a-7b78164b0ad6",
+        "question": "How do you define a property in a C# class?",
+        "answer": "```markdown You can define a property in a C# class using the following syntax:\n\n```csharp\npublic class Person\n{\n    // Property with get and set accessors\n    public string Name { get; set; }\n}\n```\n\n- public: Access modifier (can also be private, protected, etc.)\n- string: Data type of the property\n- Name: Name of the property\n- { get; set; }: Accessors to get and set the value\n\nYou can also add logic to the accessors if needed:\n\n```csharp\nprivate int age;\npublic int Age\n{\n    get { return age; }\n    set { age = value; }\n}\n```\n\nThis is how you define properties in a C# class in .NET Core.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:59:27.953069Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "0e95a74f-c430-4330-8d25-89a9be2320ba",
+        "question": "How do you use string interpolation in C#?",
+        "answer": "```markdown You can use string interpolation in C# by prefixing a string literal with the $ symbol and placing expressions inside curly braces {} within the string. Here's an example:\n\n```csharp\nstring name = \"Alice\";\nint age = 30;\n\nstring message = $\"Hello, my name is {name} and I am {age} years old.\";\nConsole.WriteLine(message);\n// Output: Hello, my name is Alice and I am 30 years old.\n```\n\nString interpolation makes it easy to include variable values and expressions directly inside strings.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:59:27.953077Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "e4ead2ec-e01d-490e-a84f-08c18eb6860e",
+        "question": "What is the syntax for a while loop in C#?",
+        "answer": "```csharp\nwhile (condition)\n{\n    // Code to execute as long as the condition is true\n}\n```\n\n**Example:**\n```csharp\nint i = 0;\nwhile (i < 5)\n{\n    Console.WriteLine(i);\n    i++;\n}\n```\n\nThis loop will print numbers 0 to 4.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:59:27.953085Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "435d0188-8b73-48e0-9d49-75df8ea0ce6b",
+        "question": "How do you declare a constant in C#?",
+        "answer": "```markdown You can declare a constant in C# using the const keyword. The value of a constant must be assigned at the time of declaration and cannot be changed later.\n\n```csharp\nconst int MyNumber = 10;\nconst string Greeting = \"Hello, World!\";\n```\n\nConstants are usually written in uppercase letters by convention.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T08:59:27.953092Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "2f73208b-0745-4705-a231-d7e967292c0b",
+        "question": "How do you define an interface in C#?",
+        "answer": "```markdown To define an interface in C#, use the interface keyword followed by the interface name and a set of method/property signatures (without implementation). Here’s the syntax:\n\n```csharp\npublic interface IMyInterface\n{\n    void DoWork();\n    int Calculate(int x, int y);\n    string Name { get; set; }\n}\n```\n\n**Key Points:**\n- Interface names often start with I by convention.\n- Members of an interface do not have access modifiers (they are always public).\n- Interfaces cannot contain fields or implementation code (except for default interface methods in newer C# versions).\n- A class or struct implements an interface using the : symbol:\n\n```csharp\npublic class MyClass : IMyInterface\n{\n    public string Name { get; set; }\n\n    public void DoWork()\n    {\n        // Implementation here\n    }\n\n    public int Calculate(int x, int y)\n    {\n        return x + y;\n    }\n}\n```",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:59:27.953101Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "d8a6fce1-c22e-4393-b881-658221f6c7f1",
+        "question": "What is the syntax for implementing an interface in a C# class?",
+        "answer": "```markdown To implement an interface in a C# class in .NET Core, use the following syntax:\n\n```csharp\n// Define the interface\npublic interface IMyInterface\n{\n    void MyMethod();\n}\n\n// Implement the interface in a class\npublic class MyClass : IMyInterface\n{\n    public void MyMethod()\n    {\n        // Implementation of the method\n        Console.WriteLine(\"MyMethod implementation.\");\n    }\n}\n```\n\n**Key points:**\n- Use the : symbol after the class name to specify the interface(s) being implemented.\n- All members of the interface must be implemented in the class.\n- A class can implement multiple interfaces by separating them with commas.\n\n```csharp\npublic class MyClass : IFirstInterface, ISecondInterface\n{\n    // Implement members of both interfaces\n}\n```",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:59:27.953109Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "9956f11a-3d68-4429-bda3-5abe785ca3ca",
+        "question": "How do you define an abstract class in C#?",
+        "answer": "```markdown In C#, you define an abstract class using the abstract keyword. An abstract class cannot be instantiated directly and can contain abstract methods (methods without implementation) as well as regular methods with implementation.\n\nHere’s the syntax:\n\n```csharp\npublic abstract class Animal\n{\n    public abstract void MakeSound(); // Abstract method (no body)\n\n    public void Eat() // Regular method\n    {\n        Console.WriteLine(\"Eating...\");\n    }\n}\n```\n\nKey points:\n\n- Use the abstract keyword before the class declaration.\n- Abstract classes can have both abstract and non-abstract members.\n- Any class inheriting from an abstract class must implement all abstract methods.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:59:27.953117Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "d2f7ec03-dcd1-4c98-b148-a6eeef620e47",
+        "question": "How do you write a lambda expression in C#?",
+        "answer": "```markdown A lambda expression in C# is a concise way to represent an anonymous method using the => (lambda) operator. The basic syntax is:\n\n```csharp\n(parameters) => expression_or_statement_block\n```\n\n**Examples:**\n\n1. **Single parameter, single expression:**\n   ```csharp\n   Func<int, int> square = x => x * x;\n   // Usage: square(5) returns 25\n   ```\n\n2. **Multiple parameters:**\n   ```csharp\n   Func<int, int, int> add = (a, b) => a + b;\n   // Usage: add(2, 3) returns 5\n   ```\n\n3. **No parameters:**\n   ```csharp\n   Action greet = () => Console.WriteLine(\"Hello!\");\n   // Usage: greet();\n   ```\n\n4. **Statement block:**\n   ```csharp\n   Func<int, int, int> max = (a, b) =>\n   {\n       if (a > b)\n           return a;\n       else\n           return b;\n   };\n   // Usage: max(4, 7) returns 7\n   ```\n\n**Usage Contexts:**\n- LINQ queries\n- Delegates\n- Event handlers\n\n**Summary:**  \nA lambda expression uses the => operator to define anonymous functions inline, making your code more concise and readable.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:59:27.953125Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "b0342fe2-91d9-4d1b-b361-d7342441acd8",
+        "question": "What is the syntax for using LINQ to filter a list in C#?",
+        "answer": "```csharp\nusing System;\nusing System.Collections.Generic;\nusing System.Linq;\n\nclass Program\n{\n    static void Main()\n    {\n        List<int> numbers = new List<int> { 1, 5, 8, 12, 20, 25 };\n\n        // Using LINQ query syntax\n        var evenNumbersQuery = from n in numbers\n                               where n % 2 == 0\n                               select n;\n\n        // Using LINQ method syntax\n        var evenNumbersMethod = numbers.Where(n => n % 2 == 0);\n\n        Console.WriteLine(\"Even numbers (Query Syntax): \" + string.Join(\", \", evenNumbersQuery));\n        Console.WriteLine(\"Even numbers (Method Syntax): \" + string.Join(\", \", evenNumbersMethod));\n    }\n}\n```\n\n**Explanation:**\n\n- **Query Syntax:**  \n  ```csharp\n  var result = from item in collection\n               where condition\n               select item;\n  ```\n- **Method Syntax:**  \n  ```csharp\n  var result = collection.Where(item => condition);\n  ```\n\nBoth syntaxes filter a list based on a condition using LINQ in C#.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:59:27.953134Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "5475cad0-e017-45d7-ba93-5d6dc6b8d7a6",
+        "question": "How do you define an asynchronous method in C#?",
+        "answer": "```markdown To define an asynchronous method in C#, you use the async modifier in the method signature and typically return a Task or Task<T>. Inside the method, you can use the await keyword to asynchronously wait for operations.\n\nHere’s a basic example:\n\n```csharp\npublic async Task MyAsyncMethod()\n{\n    await Task.Delay(1000); // Simulates an asynchronous operation\n    Console.WriteLine(\"Operation completed.\");\n}\n```\n\nFor methods that return a value:\n\n```csharp\npublic async Task<int> CalculateAsync()\n{\n    await Task.Delay(500);\n    return 42;\n}\n```\n\nIf the method doesn’t need to return a value or a Task, you can use async void, but this is generally reserved for event handlers:\n\n```csharp\npublic async void Button_Click(object sender, EventArgs e)\n{\n    await Task.Delay(1000);\n    // Handle event\n}\n```\n\n**Key Points:**\n- Use async in the method signature.\n- Return Task, Task<T>, or (rarely) void.\n- Use await for asynchronous operations inside the method.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:59:27.953142Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "d3715d2d-5138-4ef3-b907-961a3731360a",
+        "question": "What is the syntax for dependency injection in ASP.NET Core?",
+        "answer": "```markdown\nIn ASP.NET Core, dependency injection (DI) is built-in and typically configured in the `Startup.cs` file (or in `Program.cs` in .NET 6+ minimal hosting model). The syntax involves registering services in the DI container and then injecting them into constructors.\n\n### 1. Registering Services\n\nYou register services in the `ConfigureServices` method:\n\n```csharp\npublic void ConfigureServices(IServiceCollection services)\n{\n    // Register a transient service\n    services.AddTransient<IMyService, MyService>();\n\n    // Register a scoped service\n    services.AddScoped<IOtherService, OtherService>();\n\n    // Register a singleton service\n    services.AddSingleton<IAnotherService, AnotherService>();\n}\n```\n\n### 2. Injecting Services\n\nYou inject services via constructor injection:\n\n```csharp\npublic class MyController : Controller\n{\n    private readonly IMyService _myService;\n\n    public MyController(IMyService myService)\n    {\n        _myService = myService;\n    }\n\n    // Use _myService in your actions\n}\n```\n\n### 3. Minimal API Example (.NET 6+)\n\nIn .NET 6+ with the minimal hosting model:\n\n```csharp\nvar builder = WebApplication.CreateBuilder(args);\n\nbuilder.Services.AddScoped<IMyService, MyService>();\n\nvar app = builder.Build();\n\napp.MapGet(\"/\", (IMyService myService) => myService.DoSomething());\n\napp.Run();\n```\n\n**Summary Table:**\n\n| Lifetime    | Method                | Description                  |\n|-------------|----------------------|------------------------------|\n| Transient   | AddTransient<T, U>() | New instance every request   |\n| Scoped      | AddScoped<T, U>()    | One per HTTP request         |\n| Singleton   | AddSingleton<T, U>() | One for the application's lifetime |\n\n**References:**\n- [Microsoft Docs: Dependency injection in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection)\n```\n",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:59:27.953150Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "751a1d52-0e35-4034-891f-8f8ad35d9e62",
+        "question": "How do you register a service in the dependency injection container in .NET Core?",
+        "answer": "```markdown To register a service in the dependency injection (DI) container in .NET Core, you typically use the IServiceCollection interface in the ConfigureServices method of your Startup class. You can register services with different lifetimes: Singleton, Scoped, or Transient.\n\nHere's an example:\n\n```csharp\npublic void ConfigureServices(IServiceCollection services)\n{\n    // Register a service with transient lifetime\n    services.AddTransient<IMyService, MyService>();\n\n    // Register a service with scoped lifetime\n    services.AddScoped<IOtherService, OtherService>();\n\n    // Register a service with singleton lifetime\n    services.AddSingleton<IAnotherService, AnotherService>();\n}\n```\n\n**Explanation:**\n- `AddTransient<TInterface, TImplementation>()`: A new instance is provided every time the service is requested.\n- `AddScoped<TInterface, TImplementation>()`: A new instance is created per scope (typically per web request).\n- `AddSingleton<TInterface, TImplementation>()`: A single instance is used throughout the application's lifetime.\n\nAfter registration, you can inject these services into your controllers or other classes via constructor injection.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:59:27.953158Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "c0573e78-82b5-4cf4-83f9-fc1d4273e274",
+        "question": "How do you use the 'using' statement for resource management in C#?",
+        "answer": "```markdown In C#, the using statement is used to ensure that objects that consume unmanaged resources (like file handles, database connections, etc.) are properly disposed of when they are no longer needed. This helps prevent resource leaks.\n\nHere's the basic syntax:\n\n```csharp\nusing (var resource = new ResourceType())\n{\n    // Use the resource here\n}\n// At this point, resource.Dispose() is called automatically\n```\n\n**Example: Using a FileStream**\n\n```csharp\nusing (var fileStream = new FileStream(\"example.txt\", FileMode.Open))\n{\n    // Read from or write to the file\n}\n// fileStream.Dispose() is called automatically here\n```\n\n**Key Points:**\n\n- The object used in the using statement must implement the IDisposable interface.\n- When the code block completes (even if an exception occurs), the Dispose method is called automatically.\n- In C# 8.0 and later, you can use the using declaration for more concise syntax:\n\n```csharp\nusing var fileStream = new FileStream(\"example.txt\", FileMode.Open);\n// Use fileStream here\n// fileStream.Dispose() is called at the end of the scope\n```\n\nThis pattern is essential for managing resources efficiently in .NET Core applications.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:59:27.953167Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "5b796138-ae47-4eab-a815-1f54c46572d5",
+        "question": "How do you create a generic method in C#?",
+        "answer": "```markdown To create a generic method in C#, you use angle brackets <> to specify the type parameter(s) after the method name. This allows the method to operate on different data types without duplicating code.\n\n**Syntax Example:**\n\n```csharp\npublic T GenericMethod<T>(T parameter)\n{\n    // You can use 'T' as a type within this method\n    return parameter;\n}\n```\n\n**Usage Example:**\n\n```csharp\nint result = GenericMethod<int>(5);          // T is int\nstring text = GenericMethod<string>(\"hello\"); // T is string\n```\n\n**Key Points:**\n- The type parameter (e.g., T) is declared in angle brackets after the method name.\n- You can specify multiple type parameters: `<T1, T2>`.\n- The type is inferred by the compiler in many cases, so you may not always need to specify it explicitly when calling the method.\n\n**Example with Multiple Type Parameters:**\n\n```csharp\npublic void Swap<T>(ref T a, ref T b)\n{\n    T temp = a;\n    a = b;\n    b = temp;\n}\n```\n\n**Calling the Swap method:**\n\n```csharp\nint x = 1, y = 2;\nSwap(ref x, ref y); // x is now 2, y is now 1\n```\n\nGenerics help you write reusable and type-safe code in C#.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:59:27.953174Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "bd72e330-2684-4991-b201-ee76c7dcacc4",
+        "question": "How do you use extension methods in C#?",
+        "answer": "```markdown To use extension methods in C#, follow these steps:\n\n1. **Define a static class** to contain your extension method.\n2. **Create a static method** inside that class. The first parameter of the method specifies which type the method operates on, and it must be preceded by the this modifier.\n3. **Import the namespace** containing your extension method with a using directive.\n4. **Call the extension method** as if it were a regular method on the target type.\n\n### Example\n\n```csharp\n// 1. Define the static class and extension method\npublic static class StringExtensions\n{\n    // 2. 'this' keyword on the first parameter\n    public static bool IsCapitalized(this string str)\n    {\n        if (string.IsNullOrEmpty(str))\n            return false;\n        return char.IsUpper(str[0]);\n    }\n}\n\n// 3. Import the namespace (if needed)\n// using YourNamespace;\n\n// 4. Use the extension method\nclass Program\n{\n    static void Main()\n    {\n        string word = \"Hello\";\n        bool result = word.IsCapitalized(); // Calls the extension method\n        Console.WriteLine(result); // Output: True\n    }\n}\n```\n\n### Key Points\n\n- Extension methods must be defined in a static class.\n- The first parameter specifies the type being extended and uses the this keyword.\n- Extension methods are called as if they are instance methods on the type.\n- You need to include the namespace where the extension method is defined.\n\n**Note:** Extension methods do not actually modify the original type; they provide syntactic sugar for calling static methods.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:59:27.953200Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "01a4a62c-c566-419a-bafa-3a248ba14b6c",
+        "question": "How do you define and use nullable types in C#?",
+        "answer": "```markdown\n### Defining and Using Nullable Types in C#\n\nIn C#, value types (like `int`, `double`, `bool`, etc.) cannot be assigned `null` by default. To allow a value type to represent `null`, you can use **nullable types**.\n\n#### 1. Defining Nullable Types\n\nYou can define a nullable type in two ways:\n\n- Using the `?` syntax:\n  ```csharp\n  int? myNumber = null;\n  ```\n\n- Using the `Nullable<T>` generic type:\n  ```csharp\n  Nullable<int> myNumber = null;\n  ```\n\nBoth are equivalent.\n\n#### 2. Checking for a Value\n\nYou can check if a nullable type has a value using the `.HasValue` property or by comparing to `null`:\n\n```csharp\nif (myNumber.HasValue)\n{\n    Console.WriteLine($\"Value: {myNumber.Value}\");\n}\nelse\n{\n    Console.WriteLine(\"No value assigned.\");\n}\n```\n\nOr simply:\n\n```csharp\nif (myNumber != null)\n{\n    Console.WriteLine($\"Value: {myNumber}\");\n}\n```\n\n#### 3. Getting the Value\n\n- Use `.Value` to get the value (throws an exception if `null`):\n  ```csharp\n  int value = myNumber.Value;\n  ```\n\n- Use the null-coalescing operator `??` to provide a default:\n  ```csharp\n  int value = myNumber ?? 0; // If myNumber is null, value will be 0\n  ```\n\n#### 4. Example\n\n```csharp\nint? age = null;\n\nage = 25;\n\nif (age.HasValue)\n{\n    Console.WriteLine($\"Age is {age.Value}\");\n}\nelse\n{\n    Console.WriteLine(\"Age is not specified.\");\n}\n\n// Using null-coalescing operator\nint displayAge = age ?? -1;\nConsole.WriteLine($\"Display Age: {displayAge}\");\n```\n\n#### 5. Nullable Reference Types (C# 8.0+)\n\nFor reference types, you can use nullable reference types to indicate whether a variable may be `null`:\n\n```csharp\nstring? name = null;\n```\n\n> **Note:** Nullable reference types require enabling nullable context in your project.\n\n---\n\n**Summary:**  \nUse `?` or `Nullable<T>` to define nullable value types, check for `null` before accessing their value, and use the null-coalescing operator for default values.\n```\n",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:59:27.953207Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "2076e4f3-bac3-4c81-847a-8c9444433df8",
+        "question": "How do you create a custom attribute in C#?",
+        "answer": "```markdown To create a custom attribute in C#, you define a class that inherits from System.Attribute. You can also specify usage restrictions with the AttributeUsage attribute.\n\n```csharp\nusing System;\n\n// Define the custom attribute\n[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = false, AllowMultiple = true)]\npublic class MyCustomAttribute : Attribute\n{\n    public string Description { get; }\n    public int Version { get; set; }\n\n    public MyCustomAttribute(string description)\n    {\n        Description = description;\n    }\n}\n\n// Apply the custom attribute\n[MyCustomAttribute(\"This is a sample class\", Version = 1)]\npublic class SampleClass\n{\n    [MyCustomAttribute(\"This is a sample method\", Version = 2)]\n    public void SampleMethod() { }\n}\n```\n\n**Key Points:**\n- Inherit from `System.Attribute`.\n- Use `[AttributeUsage]` to control where your attribute can be applied.\n- Define constructors and properties for attribute parameters.\n- Apply your attribute using `[MyCustomAttribute(...)]` syntax.",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:59:27.953215Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "32f44b50-4453-43cf-9d45-fed0bd2dd356",
+        "question": "What is the syntax for reflection to get type information in .NET Core?",
+        "answer": "```csharp\n// Using reflection to get type information in .NET Core\n\n// 1. Get the Type object from an instance\nvar obj = new MyClass();\nType type1 = obj.GetType();\n\n// 2. Get the Type object from a type name\nType type2 = typeof(MyClass);\n\n// 3. Get the Type object from a fully qualified type name\nType type3 = Type.GetType(\"Namespace.MyClass, AssemblyName\");\n\n// Example: Getting type information\nConsole.WriteLine(type1.FullName); // Prints the full type name\n\n// Getting properties, methods, etc.\nvar properties = type1.GetProperties();\nvar methods = type1.GetMethods();\nvar fields = type1.GetFields();\nvar constructors = type1.GetConstructors();\n\n// Example: Listing all method names\nforeach (var method in methods)\n{\n    Console.WriteLine(method.Name);\n}\n```\n\n**Note:**  \n- Reflection is in the `System.Reflection` namespace.\n- In .NET Core, reflection APIs are similar to .NET Framework, but some APIs may have different behaviors or limitations.  \n- Always include `using System;` and `using System.Reflection;` as needed.",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:59:27.953222Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "b59511b5-b148-4f62-b451-a1cb01b41e1e",
+        "question": "How do you use async/await with Task in C#?",
+        "answer": "```markdown\nIn C#, `async` and `await` are used to write asynchronous code in a clear and concise way, especially when working with `Task` or `Task<T>` objects. Here’s how you use them:\n\n### 1. Mark the Method as `async`\n\nAdd the `async` modifier to your method. The method should return either `Task`, `Task<T>`, or `void` (for event handlers).\n\n```csharp\npublic async Task MyAsyncMethod()\n{\n    // Asynchronous code here\n}\n```\n\n### 2. Use `await` with an Asynchronous Operation\n\nInside the `async` method, use the `await` keyword before a method that returns a `Task` or `Task<T>`. This tells the compiler to asynchronously wait for the task to complete.\n\n```csharp\npublic async Task<string> DownloadContentAsync(string url)\n{\n    using (var httpClient = new HttpClient())\n    {\n        string content = await httpClient.GetStringAsync(url);\n        return content;\n    }\n}\n```\n\n### 3. Calling the Async Method\n\nYou can call the async method and either `await` it (if inside another async method) or use `.Result` or `.Wait()` (not recommended, as it can cause deadlocks).\n\n```csharp\n// Inside another async method\nstring result = await DownloadContentAsync(\"https://example.com\");\n\n// In a synchronous context (not recommended)\nstring result = DownloadContentAsync(\"https://example.com\").Result;\n```\n\n### 4. Example: Using Task.Run\n\nYou can also run CPU-bound work asynchronously using `Task.Run`:\n\n```csharp\npublic async Task<int> CalculateAsync()\n{\n    int result = await Task.Run(() => \n    {\n        // Simulate long-running calculation\n        Thread.Sleep(2000);\n        return 42;\n    });\n    return result;\n}\n```\n\n### Key Points\n\n- Use `async` on the method signature.\n- Use `await` before a `Task`-returning method.\n- The method returns `Task` or `Task<T>`.\n- Avoid blocking calls like `.Result` or `.Wait()` in UI or ASP.NET Core apps.\n\n### References\n\n- [Microsoft Docs: Asynchronous programming with async and await](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/async/)\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:59:27.953229Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "1cdd68be-2dac-40bb-bc8d-62f31f6b43f2",
+        "question": "How do you write a custom middleware in ASP.NET Core?",
+        "answer": "```markdown To write a custom middleware in ASP.NET Core, you typically create a class with an Invoke or InvokeAsync method that takes an HttpContext and a RequestDelegate. You then register this middleware in the application's request pipeline using the IApplicationBuilder.UseMiddleware<T>() extension method.\n\nHere's a step-by-step example:\n\n1. **Create the Middleware Class**\n\n```csharp\npublic class CustomMiddleware\n{\n    private readonly RequestDelegate _next;\n\n    public CustomMiddleware(RequestDelegate next)\n    {\n        _next = next;\n    }\n\n    public async Task InvokeAsync(HttpContext context)\n    {\n        // Pre-processing logic before the next middleware\n        Console.WriteLine(\"Custom Middleware: Before next middleware\");\n\n        await _next(context); // Call the next middleware\n\n        // Post-processing logic after the next middleware\n        Console.WriteLine(\"Custom Middleware: After next middleware\");\n    }\n}\n```\n\n2. **Register the Middleware in the Pipeline**\n\nIn your `Startup.cs` (for .NET Core 3.x and earlier) or in the `Program.cs` (for .NET 6+ minimal hosting), register the middleware:\n\n```csharp\npublic void Configure(IApplicationBuilder app, IWebHostEnvironment env)\n{\n    app.UseMiddleware<CustomMiddleware>();\n\n    // Other middlewares (e.g., routing, endpoints)\n    app.UseRouting();\n    app.UseEndpoints(endpoints =>\n    {\n        endpoints.MapControllers();\n    });\n}\n```\n\n**Or in .NET 6+ minimal hosting:**\n\n```csharp\nvar builder = WebApplication.CreateBuilder(args);\nvar app = builder.Build();\n\napp.UseMiddleware<CustomMiddleware>();\n\napp.MapControllers();\napp.Run();\n```\n\n3. **(Optional) Create an Extension Method for Cleaner Syntax**\n\n```csharp\npublic static class CustomMiddlewareExtensions\n{\n    public static IApplicationBuilder UseCustomMiddleware(this IApplicationBuilder builder)\n    {\n        return builder.UseMiddleware<CustomMiddleware>();\n    }\n}\n```\n\nThen register with:\n\n```csharp\napp.UseCustomMiddleware();\n```\n\n---\n\n**Summary:**  \nA custom middleware in ASP.NET Core is a class with an `Invoke` or `InvokeAsync` method that processes the `HttpContext` and calls the next middleware in the pipeline. Register it using `app.UseMiddleware<YourMiddleware>()` or a custom extension method.",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:59:27.953236Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "c36fc2c5-c484-4f99-a8e9-6731463faa9d",
+        "question": "How do you use dependency injection with scoped, singleton, and transient lifetimes in .NET Core?",
+        "answer": "```markdown\nIn .NET Core, dependency injection (DI) is built-in and configured in the `Startup.cs` (or `Program.cs` in .NET 6+). Services are registered with different lifetimes:\n\n- **Singleton**: A single instance is created and shared throughout the application's lifetime.\n- **Scoped**: A new instance is created per HTTP request (or per scope).\n- **Transient**: A new instance is created every time the service is requested.\n\n### Registering Services\n\nYou register services in the DI container using the following methods:\n\n```csharp\npublic void ConfigureServices(IServiceCollection services)\n{\n    // Singleton: One instance for the entire application\n    services.AddSingleton<IMySingletonService, MySingletonService>();\n\n    // Scoped: One instance per HTTP request\n    services.AddScoped<IMyScopedService, MyScopedService>();\n\n    // Transient: New instance every time it's requested\n    services.AddTransient<IMyTransientService, MyTransientService>();\n}\n```\n\n### Injecting Services\n\nYou can inject these services into controllers or other services via constructor injection:\n\n```csharp\npublic class MyController : ControllerBase\n{\n    private readonly IMySingletonService _singletonService;\n    private readonly IMyScopedService _scopedService;\n    private readonly IMyTransientService _transientService;\n\n    public MyController(\n        IMySingletonService singletonService,\n        IMyScopedService scopedService,\n        IMyTransientService transientService)\n    {\n        _singletonService = singletonService;\n        _scopedService = scopedService;\n        _transientService = transientService;\n    }\n\n    // Use the services in your actions\n}\n```\n\n### Summary Table\n\n| Lifetime   | Instance per...         | Use case                          |\n|------------|------------------------|-----------------------------------|\n| Singleton  | Application            | Shared state, stateless services  |\n| Scoped     | HTTP Request / Scope   | Per-request data, DB contexts     |\n| Transient  | Service request        | Lightweight, stateless services   |\n\n### Notes\n\n- Avoid storing state in singleton services that is specific to a user/request.\n- Scoped services are ideal for things like EF Core `DbContext`.\n- Transient services are best for lightweight, stateless operations.\n\nFor more advanced scenarios, you can also inject `IServiceProvider` or use factory methods.\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:59:27.953252Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "e7b5a8ab-9a32-4888-ba05-c7c892c588fd",
+        "question": "How do you define and use delegates in C#?",
+        "answer": "```markdown\n### Defining and Using Delegates in C#\n\nA **delegate** in C# is a type that represents references to methods with a particular parameter list and return type. Delegates are used to pass methods as arguments to other methods, and they are the foundation for events and callback methods.\n\n#### 1. Defining a Delegate\n\nTo define a delegate, use the `delegate` keyword followed by the return type and parameter list:\n\n```csharp\n// Delegate that takes two integers and returns an integer\npublic delegate int Operation(int x, int y);\n```\n\n#### 2. Assigning a Method to a Delegate\n\nYou can assign any method that matches the delegate's signature:\n\n```csharp\npublic class Calculator\n{\n    public int Add(int a, int b) => a + b;\n    public int Subtract(int a, int b) => a - b;\n}\n```\n\n```csharp\nCalculator calc = new Calculator();\nOperation op = calc.Add; // Assigning method to delegate\n```\n\n#### 3. Invoking the Delegate\n\nYou can invoke the delegate as if it were a method:\n\n```csharp\nint result = op(5, 3); // Calls calc.Add(5, 3)\nConsole.WriteLine(result); // Output: 8\n```\n\n#### 4. Multicast Delegates\n\nDelegates can reference multiple methods using the `+` or `+=` operator:\n\n```csharp\nOperation op = calc.Add;\nop += calc.Subtract; // Now op references both Add and Subtract\n\nint result = op(10, 5); // Only the result of the last method (Subtract) is returned\n```\n\n#### 5. Using Anonymous Methods and Lambda Expressions\n\nYou can use anonymous methods or lambda expressions with delegates:\n\n```csharp\nOperation op = delegate(int x, int y) { return x * y; };\nOperation op2 = (x, y) => x / y;\n```\n\n#### 6. Built-in Delegates\n\nC# provides generic delegates like `Func<>`, `Action<>`, and `Predicate<>`:\n\n```csharp\nFunc<int, int, int> multiply = (a, b) => a * b;\nAction<string> print = s => Console.WriteLine(s);\n```\n\n---\n\n**Summary Table**\n\n| Syntax                       | Example                                 |\n|------------------------------|-----------------------------------------|\n| Delegate declaration         | `public delegate int Operation(int x, int y);` |\n| Assign method to delegate    | `Operation op = calc.Add;`              |\n| Invoke delegate              | `int result = op(5, 3);`                |\n| Multicast delegate           | `op += calc.Subtract;`                  |\n| Lambda with delegate         | `Operation op = (x, y) => x * y;`       |\n| Built-in delegate (Func)     | `Func<int, int, int> f = (x, y) => x+y;`|\n\n---\n\n**References:**\n- [Microsoft Docs: Delegates](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/delegates/)\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:59:27.953259Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "468648ea-418d-43f2-b8f1-16980ebb3576",
+        "question": "What is the syntax for creating and using events in C#?",
+        "answer": "```markdown\n### Creating and Using Events in C# (.NET Core)\n\n#### 1. Define a Delegate\n\nAn event in C# is based on a delegate type. First, define a delegate that specifies the signature of the event handler methods.\n\n```csharp\npublic delegate void MyEventHandler(object sender, EventArgs e);\n```\n\n#### 2. Declare an Event\n\nUse the `event` keyword with the delegate type to declare an event in a class.\n\n```csharp\npublic class Publisher\n{\n    public event MyEventHandler MyEvent;\n}\n```\n\n#### 3. Raise (Invoke) the Event\n\nWithin the class, raise the event by invoking it, typically in a protected virtual method.\n\n```csharp\npublic class Publisher\n{\n    public event MyEventHandler MyEvent;\n\n    protected virtual void OnMyEvent()\n    {\n        MyEvent?.Invoke(this, EventArgs.Empty);\n    }\n\n    public void DoSomething()\n    {\n        // Some logic...\n        OnMyEvent(); // Raise the event\n    }\n}\n```\n\n#### 4. Subscribe to the Event\n\nOther classes can subscribe to the event using `+=` and provide a handler method matching the delegate signature.\n\n```csharp\npublic class Subscriber\n{\n    public void HandleEvent(object sender, EventArgs e)\n    {\n        Console.WriteLine(\"Event received!\");\n    }\n}\n```\n\n```csharp\nvar publisher = new Publisher();\nvar subscriber = new Subscriber();\n\npublisher.MyEvent += subscriber.HandleEvent;\npublisher.DoSomething(); // Output: Event received!\n```\n\n---\n\n#### **Using Built-in EventHandler Delegate**\n\nFor most cases, you can use the built-in `EventHandler` or `EventHandler<TEventArgs>` delegate:\n\n```csharp\npublic class Publisher\n{\n    public event EventHandler MyEvent;\n\n    protected virtual void OnMyEvent()\n    {\n        MyEvent?.Invoke(this, EventArgs.Empty);\n    }\n}\n```\n\n---\n\n### **Summary Table**\n\n| Step         | Syntax Example                                  |\n|--------------|-------------------------------------------------|\n| Delegate     | `public delegate void MyEventHandler(...);`      |\n| Event        | `public event MyEventHandler MyEvent;`           |\n| Raise Event  | `MyEvent?.Invoke(this, EventArgs.Empty);`        |\n| Subscribe    | `publisher.MyEvent += subscriber.HandleEvent;`   |\n\n---\n```",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:59:27.953266Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "ee7e0c15-f59e-4324-b9ae-e1452e6fed5c",
+        "question": "How do you use tuples in C#?",
+        "answer": "```markdown\n### Using Tuples in C#\n\nTuples in C# (from C# 7.0 onwards) provide a lightweight way to group multiple values into a single compound value without creating a custom class or struct. The syntax is concise and supports named elements for better readability.\n\n#### 1. Creating a Tuple\n\nYou can create a tuple using the `(T1, T2, ..., Tn)` syntax:\n\n```csharp\nvar tuple = (1, \"apple\", true);\n```\n\n#### 2. Accessing Tuple Elements\n\nTuple elements can be accessed using `.Item1`, `.Item2`, etc.:\n\n```csharp\nConsole.WriteLine(tuple.Item1); // 1\nConsole.WriteLine(tuple.Item2); // apple\nConsole.WriteLine(tuple.Item3); // true\n```\n\n#### 3. Named Tuple Elements\n\nYou can assign names to tuple elements for clarity:\n\n```csharp\nvar person = (Name: \"Alice\", Age: 30, IsMember: true);\nConsole.WriteLine(person.Name);     // Alice\nConsole.WriteLine(person.Age);      // 30\nConsole.WriteLine(person.IsMember); // true\n```\n\n#### 4. Returning Tuples from Methods\n\nTuples are commonly used to return multiple values from a method:\n\n```csharp\n(string Name, int Age) GetPerson()\n{\n    return (\"Bob\", 25);\n}\n\nvar result = GetPerson();\nConsole.WriteLine(result.Name); // Bob\nConsole.WriteLine(result.Age);  // 25\n```\n\n#### 5. Deconstructing Tuples\n\nYou can deconstruct tuples into separate variables:\n\n```csharp\nvar (name, age) = GetPerson();\nConsole.WriteLine(name); // Bob\nConsole.WriteLine(age);  // 25\n```\n\n#### 6. Tuple Type Declaration\n\nYou can explicitly declare the tuple type:\n\n```csharp\n(ValueTuple<int, string, bool> myTuple) = (42, \"dotnet\", false);\n```\n\n#### 7. Using Tuples with LINQ and Collections\n\nTuples can be used in collections and LINQ queries:\n\n```csharp\nvar list = new List<(int Id, string Value)>\n{\n    (1, \"A\"),\n    (2, \"B\")\n};\n\nforeach (var (id, value) in list)\n{\n    Console.WriteLine($\"{id}: {value}\");\n}\n```\n\n#### 8. Notes\n\n- Tuples are value types (`struct`) and are mutable.\n- For more complex scenarios or when you need immutability, consider using `record` types or custom classes.\n\n**References:**\n- [Microsoft Docs: Tuples](https://learn.microsoft.com/en-us/dotnet/csharp/tuples)\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:59:27.953273Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "acac0888-ca48-42d7-a2e5-7fd32566c1c3",
+        "question": "How do you implement IDisposable and use the Dispose pattern in C#?",
+        "answer": "```markdown\nTo implement `IDisposable` and use the Dispose pattern in C#, follow these steps:\n\n### 1. Implement the IDisposable Interface\n\nThe `IDisposable` interface requires you to implement the `Dispose()` method.\n\n### 2. Dispose Pattern (with Finalizer)\n\nIf your class holds unmanaged resources directly or references to other IDisposable objects, use the full dispose pattern:\n\n```csharp\npublic class MyResource : IDisposable\n{\n    // Flag to detect redundant calls\n    private bool _disposed = false;\n\n    // Example of an unmanaged resource\n    private IntPtr _unmanagedResource;\n\n    // Example of a managed resource\n    private SomeManagedResource _managedResource;\n\n    public MyResource()\n    {\n        // Allocate resources\n        _unmanagedResource = /* allocate unmanaged resource */;\n        _managedResource = new SomeManagedResource();\n    }\n\n    // Public implementation of Dispose pattern callable by consumers.\n    public void Dispose()\n    {\n        Dispose(true);\n        GC.SuppressFinalize(this);\n    }\n\n    // Protected implementation of Dispose pattern.\n    protected virtual void Dispose(bool disposing)\n    {\n        if (_disposed)\n            return;\n\n        if (disposing)\n        {\n            // Free any other managed objects here.\n            _managedResource?.Dispose();\n        }\n\n        // Free any unmanaged objects here.\n        if (_unmanagedResource != IntPtr.Zero)\n        {\n            // Release unmanaged resource\n            // Example: Marshal.FreeHGlobal(_unmanagedResource);\n            _unmanagedResource = IntPtr.Zero;\n        }\n\n        _disposed = true;\n    }\n\n    // Destructor/Finalizer\n    ~MyResource()\n    {\n        Dispose(false);\n    }\n}\n```\n\n### 3. Usage Example\n\n```csharp\nusing (var resource = new MyResource())\n{\n    // Use resource\n}\n// Dispose is called automatically at the end of the using block\n```\n\n### 4. Key Points\n\n- **Dispose(bool disposing):**  \n  - `disposing == true`: Called from `Dispose()`, safe to access managed objects.\n  - `disposing == false`: Called from finalizer, only unmanaged resources should be accessed.\n- **GC.SuppressFinalize(this):** Prevents the finalizer from running if Dispose has already been called.\n- **Finalizer (~MyResource):** Only needed if you have unmanaged resources.\n\n### 5. Reference\n\n- [Microsoft Docs: Implement a Dispose method](https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-dispose)\n\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:59:27.953280Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "7d00fda5-48db-476c-868b-620de341969d",
+        "question": "How do you use the yield return statement in C#?",
+        "answer": "```markdown\nThe `yield return` statement in C# is used within an iterator method to provide a value to the enumerator object one at a time, without creating a temporary collection. This enables deferred execution and efficient memory usage, especially when working with large data sets or streams.\n\n**Syntax Example:**\n\n```csharp\npublic IEnumerable<int> GetEvenNumbers(int max)\n{\n    for (int i = 0; i <= max; i++)\n    {\n        if (i % 2 == 0)\n        {\n            yield return i;\n        }\n    }\n}\n```\n\n**Usage:**\n\n```csharp\nforeach (var even in GetEvenNumbers(10))\n{\n    Console.WriteLine(even);\n}\n```\n\n**Key Points:**\n\n- The method must return `IEnumerable`, `IEnumerable<T>`, `IEnumerator`, or `IEnumerator<T>`.\n- Each `yield return` pauses the method, saving its state, and resumes when the next value is requested.\n- You can use `yield break;` to end the iteration early.\n- Useful for custom collection iteration, streaming data, or implementing lazy evaluation.\n\n**Example with `yield break`:**\n\n```csharp\npublic IEnumerable<int> GetNumbersUntilNegative(IEnumerable<int> numbers)\n{\n    foreach (var n in numbers)\n    {\n        if (n < 0)\n            yield break;\n        yield return n;\n    }\n}\n```\n```",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:59:27.953287Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "b538724a-dc6e-411b-960e-22769826ff50",
+        "question": "How do you use dependency injection in a console application in .NET Core?",
+        "answer": "```markdown\nIn .NET Core, dependency injection (DI) is built-in and can be used in console applications similarly to how it's used in ASP.NET Core. Here’s how you can set up and use DI in a .NET Core console app:\n\n### 1. Add Required NuGet Packages\n\nMake sure your project references the following package (if not already present):\n\n```bash\ndotnet add package Microsoft.Extensions.DependencyInjection\n```\n\n### 2. Define Your Services and Interfaces\n\n```csharp\npublic interface IGreetingService\n{\n    void Greet(string name);\n}\n\npublic class GreetingService : IGreetingService\n{\n    public void Greet(string name)\n    {\n        Console.WriteLine($\"Hello, {name}!\");\n    }\n}\n```\n\n### 3. Configure the DI Container\n\nIn your `Program.cs`, set up the service collection and build the service provider:\n\n```csharp\nusing Microsoft.Extensions.DependencyInjection;\n\nclass Program\n{\n    static void Main(string[] args)\n    {\n        // 1. Create service collection\n        var serviceCollection = new ServiceCollection();\n\n        // 2. Register services\n        serviceCollection.AddTransient<IGreetingService, GreetingService>();\n\n        // 3. Build service provider\n        var serviceProvider = serviceCollection.BuildServiceProvider();\n\n        // 4. Resolve and use services\n        var greeter = serviceProvider.GetRequiredService<IGreetingService>();\n        greeter.Greet(\"World\");\n    }\n}\n```\n\n### 4. Constructor Injection\n\nYou can also use constructor injection for classes that depend on services:\n\n```csharp\npublic class App\n{\n    private readonly IGreetingService _greetingService;\n\n    public App(IGreetingService greetingService)\n    {\n        _greetingService = greetingService;\n    }\n\n    public void Run()\n    {\n        _greetingService.Greet(\"Dependency Injection\");\n    }\n}\n\n// In Program.cs\nserviceCollection.AddTransient<App>();\nvar app = serviceProvider.GetRequiredService<App>();\napp.Run();\n```\n\n### 5. Summary\n\n- Register your services with `IServiceCollection`.\n- Build the provider with `BuildServiceProvider()`.\n- Use `GetRequiredService<T>()` to resolve dependencies.\n- Use constructor injection for dependent classes.\n\nThis approach brings the power of dependency injection to your .NET Core console applications, making them more modular and testable.\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:59:27.953301Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "b2bff153-a298-45ab-8bd2-222b11473692",
+        "question": "How do you use the 'global using' directive in .NET 6 and above?",
+        "answer": "```markdown\nIn .NET 6 and above, the `global using` directive allows you to specify namespaces that are automatically available across all files in your project, eliminating the need to repeatedly include the same `using` statements in every file.\n\n### Syntax\n\n```csharp\nglobal using NamespaceName;\n```\n\nFor example:\n```csharp\nglobal using System;\nglobal using System.Collections.Generic;\n```\n\n### How to Use\n\n1. **In Any C# File**  \n   You can place `global using` directives at the top of any `.cs` file. However, it's common practice to create a dedicated file (e.g., `GlobalUsings.cs`) in your project root and put all your global usings there.\n\n2. **Effect**  \n   All files in the same project will have access to the namespaces specified with `global using`, as if you had written a normal `using` directive at the top of each file.\n\n### Example\n\n**GlobalUsings.cs**\n```csharp\nglobal using System;\nglobal using System.Linq;\nglobal using MyProject.Shared;\n```\n\n**AnyOtherFile.cs**\n```csharp\n// No need to write 'using System;' or 'using System.Linq;'\nConsole.WriteLine(\"Hello, World!\");\nvar numbers = Enumerable.Range(1, 10);\n```\n\n### Notes\n\n- `global using` is only available in .NET 6 (C# 10) and above.\n- You can also use `global using static` and `global using alias` for static imports and aliases, respectively.\n\n**Example:**\n```csharp\nglobal using static System.Math;\nglobal using Project = MyCompany.MyProject;\n```\n\n### Benefits\n\n- Reduces boilerplate code.\n- Makes common namespaces available everywhere in the project.\n- Improves code readability and maintainability.\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:59:27.953308Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "365fcba7-c8ad-42b9-9b84-20814a569935",
+        "question": "How do you use nullable reference types and what is the syntax to enable them?",
+        "answer": "```markdown\n### Using Nullable Reference Types in .NET Core\n\nNullable reference types help you write safer code by distinguishing between variables that can be `null` and those that cannot. This feature is available in C# 8.0 and later.\n\n#### Enabling Nullable Reference Types\n\nYou can enable nullable reference types in your project in two main ways:\n\n1. **Project-wide (Recommended):**\n\n   Add the following line to your `.csproj` file inside a `<PropertyGroup>`:\n\n   ```xml\n   <Nullable>enable</Nullable>\n   ```\n\n2. **Per File or Region:**\n\n   At the top of your C# file or within a code region, use:\n\n   ```csharp\n   #nullable enable\n   ```\n\n#### Syntax and Usage\n\n- **Non-nullable reference type:**  \n  By default, reference types are non-nullable when the feature is enabled.\n\n  ```csharp\n  string name = \"Alice\"; // Cannot be null\n  ```\n\n- **Nullable reference type:**  \n  Add a `?` to indicate a reference type can be null.\n\n  ```csharp\n  string? nickname = null; // Can be null\n  ```\n\n- **Nullability Warnings:**  \n  The compiler will warn you if you assign `null` to a non-nullable reference type or if you dereference a potentially null value.\n\n  ```csharp\n  void PrintLength(string? input)\n  {\n      // Warning: Possible dereference of a null reference\n      Console.WriteLine(input.Length);\n  }\n  ```\n\n  To suppress the warning (if you're sure it's not null), use the null-forgiving operator `!`:\n\n  ```csharp\n  Console.WriteLine(input!.Length);\n  ```\n\n#### Example\n\n```csharp\n#nullable enable\n\npublic class Person\n{\n    public string Name { get; set; } // Non-nullable\n    public string? Nickname { get; set; } // Nullable\n}\n```\n\n#### Summary Table\n\n| Syntax           | Meaning                        |\n|------------------|-------------------------------|\n| `string`         | Non-nullable reference type    |\n| `string?`        | Nullable reference type        |\n| `#nullable enable` | Enable in file/region        |\n| `<Nullable>enable</Nullable>` | Enable in project |\n\n**Note:** Nullable reference types are a compile-time feature and do not change the runtime behavior of your code.\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:59:27.953314Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "e630ad06-2568-42eb-adb7-6da874c91331",
+        "question": "How do you create and use local functions in C#?",
+        "answer": "```markdown\n### Creating and Using Local Functions in C#\n\n**Local functions** in C# are functions declared inside the body of another method, constructor, or property accessor. They help encapsulate helper logic that is only relevant within the containing method, improving code organization and readability.\n\n#### Syntax\n\n```csharp\nvoid OuterMethod()\n{\n    // Local function declaration\n    void LocalFunction(int x)\n    {\n        Console.WriteLine($\"Value: {x}\");\n    }\n\n    // Using the local function\n    LocalFunction(42);\n}\n```\n\n#### Key Points\n\n- Local functions can have parameters, return types, and even be generic.\n- They can access variables and parameters from the containing method (including `ref`, `out`, and `in` parameters).\n- They are only visible within the scope of the containing method.\n\n#### Example: Returning Values\n\n```csharp\nint CalculateSum(int a, int b)\n{\n    // Local function with return value\n    int Add(int x, int y) => x + y;\n\n    return Add(a, b);\n}\n```\n\n#### Example: Using Local Functions for Recursion\n\n```csharp\nint Factorial(int n)\n{\n    // Recursive local function\n    int Compute(int x)\n    {\n        if (x <= 1) return 1;\n        return x * Compute(x - 1);\n    }\n\n    return Compute(n);\n}\n```\n\n#### When to Use Local Functions\n\n- When helper logic is only relevant to a single method.\n- To avoid polluting the containing class with private methods.\n- To improve code clarity and maintainability.\n\n#### Notes\n\n- Local functions were introduced in C# 7.0.\n- They differ from lambdas: local functions have better performance, can be recursive, and support `ref`/`out` parameters.\n\n**References:**\n- [Microsoft Docs: Local Functions](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/local-functions)\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:59:27.953322Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "2bef05aa-b6ce-42da-8e05-f035212b7c02",
+        "question": "How do you use the 'with' expression for immutable objects in C#?",
+        "answer": "```markdown\nIn C#, the `with` expression is used with **record types** to create a copy of an immutable object with some properties modified. This feature was introduced in C# 9.0 and is primarily intended for use with records, which are reference types designed for immutability.\n\n### Syntax Example\n\n```csharp\npublic record Person(string FirstName, string LastName, int Age);\n\nvar person1 = new Person(\"Alice\", \"Smith\", 30);\n\n// Create a new object with a modified Age property\nvar person2 = person1 with { Age = 31 };\n\n// person1 remains unchanged\nConsole.WriteLine(person1); // Output: Person { FirstName = Alice, LastName = Smith, Age = 30 }\nConsole.WriteLine(person2); // Output: Person { FirstName = Alice, LastName = Smith, Age = 31 }\n```\n\n### Key Points\n\n- The `with` expression creates a **shallow copy** of the original object, applying any specified property changes.\n- It only works with **record types** (not with regular classes or structs).\n- The original object remains unchanged, preserving immutability.\n\n### Usage\n\nThe `with` expression is ideal for scenarios where you want to create a new version of an object with some updated values, without mutating the original instance.\n\n```csharp\nvar updatedPerson = person1 with { LastName = \"Johnson\", Age = 32 };\n```\n\nThis creates a new `Person` object with the updated `LastName` and `Age`, while `person1` remains unchanged.\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:59:27.953329Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "8c4960db-1f35-46ff-9b14-4877209a5b3c",
+        "question": "How do you define and use indexers in C#?",
+        "answer": "```markdown\n### Defining and Using Indexers in C#\n\n**Indexers** in C# allow objects to be indexed like arrays. They are defined using the `this` keyword and are commonly used to provide array-like access to collections or custom types.\n\n#### Defining an Indexer\n\nHere's a basic example of how to define an indexer in a class:\n\n```csharp\npublic class SampleCollection<T>\n{\n    private T[] arr = new T[100];\n\n    // Indexer declaration\n    public T this[int index]\n    {\n        get { return arr[index]; }\n        set { arr[index] = value; }\n    }\n}\n```\n\n- The `this` keyword is used to define the indexer.\n- The parameter list (e.g., `int index`) specifies the type of index.\n- The return type (`T` in this case) is the type of element accessed.\n\n#### Using an Indexer\n\nYou can use the indexer just like an array:\n\n```csharp\nvar collection = new SampleCollection<string>();\ncollection[0] = \"Hello\";\ncollection[1] = \"World\";\n\nConsole.WriteLine(collection[0]); // Output: Hello\nConsole.WriteLine(collection[1]); // Output: World\n```\n\n#### Key Points\n\n- Indexers can be overloaded (e.g., by using different parameter types or numbers).\n- Indexers can be read-only, write-only, or read-write.\n- Indexers can have multiple parameters (like multidimensional arrays).\n\n#### Example: Indexer with Multiple Parameters\n\n```csharp\npublic class Matrix\n{\n    private int[,] data = new int[10, 10];\n\n    public int this[int row, int col]\n    {\n        get { return data[row, col]; }\n        set { data[row, col] = value; }\n    }\n}\n\n// Usage:\nvar matrix = new Matrix();\nmatrix[2, 3] = 42;\nConsole.WriteLine(matrix[2, 3]); // Output: 42\n```\n\n**Summary:**  \nIndexers provide a way to access class or struct instances using array-like syntax, making your types more intuitive and flexible.\n```",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:59:27.953340Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "c718b7e5-07cf-49a8-b977-ac9464b0fa5e",
+        "question": "How do you use the 'init' accessor for properties in C# 9.0 and above?",
+        "answer": "```markdown\nIn C# 9.0 and above, the `init` accessor allows you to set properties only during object initialization (i.e., in an object initializer or constructor), but not afterwards. This enables immutable objects with more flexible initialization than traditional `readonly` properties.\n\n**Syntax Example:**\n\n```csharp\npublic class Person\n{\n    public string FirstName { get; init; }\n    public string LastName { get; init; }\n}\n```\n\n**Usage:**\n\n```csharp\nvar person = new Person\n{\n    FirstName = \"Alice\",\n    LastName = \"Smith\"\n};\n\n// The following line would cause a compile-time error:\n// person.FirstName = \"Bob\"; // Error: init-only property\n```\n\n**Key Points:**\n- `init` can be used instead of `set` for properties.\n- Properties with `init` can only be assigned during object creation (object initializer or constructor).\n- After initialization, the property becomes effectively immutable.\n- Useful for creating immutable data models and records.\n\n**With Records (C# 9.0+):**\n\n```csharp\npublic record Person(string FirstName, string LastName);\n\n// Or with explicit properties:\npublic record Person\n{\n    public string FirstName { get; init; }\n    public string LastName { get; init; }\n}\n```\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T08:59:27.953351Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    },
+    {
+        "id": "76030a2c-6955-4732-a58f-0f3f6dd48eb7",
+        "question": "How do you use the 'nameof' operator in C#?",
+        "answer": "```markdown The nameof operator in C# is used to obtain the simple (unqualified) string name of a variable, type, or member. It is evaluated at compile time and helps avoid hardcoding string literals, making code more maintainable and less error-prone.\n\n**Syntax Example:**\n\n```csharp\npublic class Person\n{\n    public string FirstName { get; set; }\n\n    public void PrintName()\n    {\n        Console.WriteLine(nameof(FirstName)); // Output: FirstName\n    }\n}\n```\n\n**Common Use Cases:**\n\n- **Argument validation:**\n  ```csharp\n  void SetAge(int age)\n  {\n      if (age < 0)\n          throw new ArgumentException(\"Age cannot be negative.\", nameof(age));\n  }\n  ```\n\n- **PropertyChanged notifications (MVVM):**\n  ```csharp\n  public event PropertyChangedEventHandler PropertyChanged;\n\n  protected void OnPropertyChanged(string propertyName)\n  {\n      PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));\n  }\n\n  private string _name;\n  public string Name\n  {\n      get => _name;\n      set\n      {\n          _name = value;\n          OnPropertyChanged(nameof(Name));\n      }\n  }\n  ```\n\n**Benefits:**\n\n- Refactoring safety: If you rename the variable or member, the nameof expression updates automatically.\n- Compile-time checking: Errors are caught at compile time, not runtime.\n\n**Summary Table:**\n\n| Expression         | Output         |\n|--------------------|---------------|\n| nameof(Person)     | \"Person\"      |\n| nameof(FirstName)  | \"FirstName\"   |\n| nameof(SetAge)     | \"SetAge\"      |\n\nUse nameof for safer, cleaner, and more maintainable code when referring to identifiers as strings.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T08:59:27.953362Z",
+        "topic": "4de1383d-ac22-4fba-a29c-821f652249aa"
+    }
+]

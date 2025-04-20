@@ -1,0 +1,386 @@
+[
+    {
+        "id": "f32805a5-1ced-42b2-915c-580218674538",
+        "question": "How do you create a new module using Angular CLI?",
+        "answer": "```markdown To create a new module using Angular CLI, use the following command:\n\n```bash\nng generate module module-name\n```\nor the shorthand:\n\n```bash\nng g m module-name\n```\n\nReplace module-name with the name you want for your module.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T10:26:04.803810Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "4b75acc2-f10a-4da5-844e-6b8bc1863184",
+        "question": "Which command lists all available Angular CLI commands?",
+        "answer": "```markdown **Answer:**\n\nTo list all available Angular CLI commands, use:\n\n```bash\nng help\n```\n\nThis command displays a list of all available Angular CLI commands along with a brief description of each.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T10:26:04.803817Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "900e7654-6598-4051-92ed-1e7f3d1f9a1a",
+        "question": "How do you add routing to a new Angular project during creation?",
+        "answer": "```markdown\nTo add routing to a new Angular project during creation, use the `--routing` flag with the `ng new` command:\n\n```bash\nng new my-app --routing\n```\n\nThis will generate a new Angular project named `my-app` with routing enabled, including a `src/app/app-routing.module.ts` file for managing routes.\n```",
+        "level": "Beginner",
+        "created_at": "2025-04-20T10:26:04.803824Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "fe164c66-8fbe-47be-a907-c08bc15c2809",
+        "question": "What command updates Angular CLI to the latest version?",
+        "answer": "```markdown\nTo update Angular CLI to the latest version, use the following command:\n\n```bash\nng update @angular/cli\n```\n\nOr, you can use npm directly:\n\n```bash\nnpm install -g @angular/cli@latest\n```\n```",
+        "level": "Beginner",
+        "created_at": "2025-04-20T10:26:04.803832Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "3b5b9af2-8a40-49d8-9053-f56e13244fc5",
+        "question": "How do you run unit tests in an Angular project?",
+        "answer": "```markdown To run unit tests in an Angular project, use the following command in your terminal:\n\n```bash\nng test\n```\n\nThis command will launch the test runner (usually Karma) and execute all unit tests in your project.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T10:26:04.803840Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "e528b343-0f90-4d87-bb38-9a053c75a1ef",
+        "question": "Which command is used to run end-to-end tests in Angular?",
+        "answer": "```markdown\nThe command used to run end-to-end (E2E) tests in Angular is:\n\n```\nng e2e\n```\n\nThis command executes the end-to-end tests for your Angular application using the configured testing framework.\n```",
+        "level": "Beginner",
+        "created_at": "2025-04-20T10:26:04.803849Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "2bb411ab-5d99-42b1-97cf-18e163b2bfae",
+        "question": "How do you generate a new directive using Angular CLI?",
+        "answer": "```markdown To generate a new directive using Angular CLI, use the following command:\n\n```bash\nng generate directive directive-name\n```\nor the shorthand:\n\n```bash\nng g d directive-name\n```\n\nReplace directive-name with the name you want for your directive.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T10:26:04.803856Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "257dffd3-c326-41da-81e7-b639caf08dbe",
+        "question": "What is the command to generate a new pipe in Angular?",
+        "answer": "```markdown\nTo generate a new pipe in Angular, use the following command:\n\n```bash\nng generate pipe pipe-name\n```\n\nOr the shorthand:\n\n```bash\nng g p pipe-name\n```\n\nReplace pipe-name with the desired name for your pipe.\n```",
+        "level": "Beginner",
+        "created_at": "2025-04-20T10:26:04.803864Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "1dbffce7-b4ed-45cb-840b-ac411084c031",
+        "question": "How do you generate a new class using Angular CLI?",
+        "answer": "```markdown To generate a new class using Angular CLI, use the following command:\n\n```bash\nng generate class class-name\n```\nor the shorthand:\n\n```bash\nng g class class-name\n```\n\nReplace class-name with the desired name for your class.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T10:26:04.803872Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "d4f9a8d2-5d5c-419d-8ef6-532cc0855cd1",
+        "question": "Which command is used to generate a new interface in Angular?",
+        "answer": "```markdown **Answer:**\n\nTo generate a new interface in Angular, use the following command:\n\n```bash\nng generate interface <interface-name>\n```\nor the shorthand:\n\n```bash\nng g i <interface-name>\n```\n\nReplace `<interface-name>` with the desired name for your interface.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T10:26:04.803879Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "97898728-f0ab-430d-a83b-8bb6647a8821",
+        "question": "How can you generate a new enum using Angular CLI?",
+        "answer": "```markdown To generate a new enum using the Angular CLI, you can use the generate (or g) command with the enum schematic. The basic syntax is:\n\n```bash\nng generate enum <enum-name>\n```\nor\n```bash\nng g enum <enum-name>\n```\n\n**Example:**\n```bash\nng g enum status\n```\n\nThis will create a new enum file named status.enum.ts in the src/app directory by default.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T10:26:04.803886Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "97955b75-32d9-4b3b-8133-45723091eea4",
+        "question": "What command is used to generate a guard in Angular?",
+        "answer": "```markdown\nTo generate a guard in Angular, use the following command:\n\n```\nng generate guard guard-name\n```\n\nor the shorthand:\n\n```\nng g guard guard-name\n```\n\nReplace guard-name with the desired name for your guard.\n```",
+        "level": "Beginner",
+        "created_at": "2025-04-20T10:26:04.803894Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "1939edcd-f332-43ea-a5a9-7decfe3fb742",
+        "question": "How do you generate a new Angular application within a workspace?",
+        "answer": "```markdown To generate a new Angular application within an existing workspace, use the following Angular CLI command:\n\n```bash\nng generate application <app-name>\n```\nor the shorthand:\n```bash\nng g application <app-name>\n```\n\nReplace `<app-name>` with the desired name of your new application.\n\n**Example:**\n```bash\nng generate application my-new-app\n```\n\nThis command will create a new application named my-new-app inside your Angular workspace.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T10:26:04.803903Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "8523109f-4a0b-4b56-b484-5858bc4e0a25",
+        "question": "Which command is used to add a new library to an Angular workspace?",
+        "answer": "```markdown\nThe command used to add a new library to an Angular workspace is:\n\n```\nng generate library <library-name>\n```\n\nor using the shorthand:\n\n```\nng g library <library-name>\n```\n\nReplace `<library-name>` with the desired name of your library.\n```",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T10:26:04.803911Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "3be21959-0ddb-4e94-9be2-52cba82f6a28",
+        "question": "How do you build a specific project in a multi-project Angular workspace?",
+        "answer": "```markdown To build a specific project in a multi-project Angular workspace, use the following command:\n\n```bash\nng build <project-name>\n```\n\nReplace `<project-name>` with the actual name of the project you want to build, as defined in your `angular.json` file.\n\n**Example:**\n\n```bash\nng build my-app\n```\n\nThis command will build only the specified project (`my-app`) within your workspace.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T10:26:04.803920Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "2bd7fe67-f7d1-4a2b-8434-2c61ef52b7b3",
+        "question": "What is the command to lint an Angular project?",
+        "answer": "```markdown\nTo lint an Angular project, use the following command:\n\n```bash\nng lint\n```\n\nThis command analyzes your project's code for linting errors based on the configuration specified in your `angular.json` and linting configuration files (such as `.eslintrc.json` or `tslint.json`).\n```",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T10:26:04.803928Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "862da44f-df84-42d8-a53e-6bca41def0fb",
+        "question": "How do you run a specific schematic using Angular CLI?",
+        "answer": "```markdown To run a specific schematic using the Angular CLI, use the following command:\n\n```bash\nng generate <schematic-collection>:<schematic-name> [options]\n```\n\n**Example:**  \nTo run the `component` schematic from the default Angular schematics collection:\n\n```bash\nng generate @schematics/angular:component my-component\n```\n\n- `<schematic-collection>`: The npm package or collection containing the schematic (e.g., `@schematics/angular`).\n- `<schematic-name>`: The name of the schematic to run (e.g., `component`, `service`).\n- `[options]`: Additional options specific to the schematic.\n\n**Tip:**  \nIf the schematic is from the default collection (usually `@schematics/angular`), you can omit the collection name:\n\n```bash\nng generate component my-component\n```",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T10:26:04.803936Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "ae32d4cb-2bf7-4ea8-857b-a09850662253",
+        "question": "Which command is used to update all Angular dependencies?",
+        "answer": "```markdown\nThe command used to update all Angular dependencies is:\n\n```\nng update @angular/cli @angular/core\n```\n\nThis command updates the Angular CLI and core framework packages to the latest compatible versions. For a complete update of all dependencies, you can also run:\n\n```\nng update\n```\n\nThis will list and help update other dependencies as needed.\n```",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T10:26:04.803943Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "befa8fae-a3fb-41b8-b1e1-946892f55737",
+        "question": "How can you add a third-party package using Angular CLI?",
+        "answer": "```markdown To add a third-party package using Angular CLI, you use the ng add command followed by the package name. This command installs the package via npm and may also perform additional setup specific to Angular.\n\n```bash\nng add <package-name>\n```\n\n**Example:**  \nTo add Angular Material:\n\n```bash\nng add @angular/material\n```\n\n> **Note:** Not all npm packages support ng add. For standard packages, use npm install:\n\n```bash\nnpm install <package-name>\n```\n\n**References:**\n- [Angular CLI Documentation: ng add](https://angular.io/cli/add)\n- [npm install documentation](https://docs.npmjs.com/cli/v9/commands/npm-install)",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T10:26:04.803958Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "7b0c18e7-3e2e-4728-95ae-f51a59cba8f7",
+        "question": "What is the command to eject an Angular CLI project (in older versions)?",
+        "answer": "```markdown\nIn older versions of Angular CLI, the command to eject an Angular CLI project was:\n\n```\nng eject\n```\n\n> **Note:**  \n> The `ng eject` command was removed in Angular CLI version 6 and later. It was used to extract the underlying Webpack configuration for advanced customization.\n```",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T10:26:04.803971Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "2ff4a62e-2184-4904-93ec-f55bbf950e49",
+        "question": "How do you specify a different port when serving an Angular app?",
+        "answer": "```markdown To specify a different port when serving an Angular app, use the --port option with the ng serve command. For example, to run the app on port 4201:\n\n```bash\nng serve --port 4201\n```\n\nYou can also use the shorthand -p:\n\n```bash\nng serve -p 4201\n```\n\nThis will start your Angular development server on http://localhost:4201 instead of the default port 4200.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T10:26:04.803983Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "0f13036c-2676-464b-8f00-610cdbf1917f",
+        "question": "Which command is used to generate a resolver in Angular?",
+        "answer": "```markdown\nThe command used to generate a resolver in Angular is:\n\n```bash\nng generate resolver <resolver-name>\n```\nor using the shorthand:\n```bash\nng g r <resolver-name>\n```\n\nReplace `<resolver-name>` with the desired name for your resolver.\n```",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T10:26:04.803993Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "4ef667d9-9085-4175-8628-ba8d251031df",
+        "question": "How do you enable production mode when serving an Angular app?",
+        "answer": "```markdown\nTo enable production mode when serving an Angular app, use the `--configuration=production` (or the shorthand `-c production`) flag with the `ng serve` command:\n\n```bash\nng serve --configuration=production\n# or\nng serve -c production\n```\n\nThis ensures that Angular uses production optimizations such as Ahead-of-Time (AOT) compilation, minification, and other performance improvements.\n\n**Note:** For deployment, it's recommended to use `ng build --configuration=production` and serve the output with a production-ready web server.\n```",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T10:26:04.804006Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "4823d29e-ccc2-4429-8aee-368a00509eeb",
+        "question": "What is the command to analyze the bundle size of an Angular build?",
+        "answer": "```markdown\nTo analyze the bundle size of an Angular build, use the following command:\n\n```bash\nng build --stats-json\n```\n\nThis command generates a `stats.json` file in the `dist/` directory. You can then use tools like [Webpack Bundle Analyzer](https://www.npmjs.com/package/webpack-bundle-analyzer) to visualize the bundle:\n\n```bash\nnpx webpack-bundle-analyzer dist/<your-project-name>/stats.json\n```\n```",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T10:26:04.804013Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "cf5cc5bd-d91c-4977-aca3-6483b11a635e",
+        "question": "How do you run Angular CLI commands with verbose output?",
+        "answer": "```markdown To run Angular CLI commands with verbose output, add the `--verbose` flag to your command. This provides more detailed information about the command's execution.\n\n**Example:**\n\n```bash\nng build --verbose\n```\n\nYou can use `--verbose` with other Angular CLI commands as well, such as `ng serve`, `ng test`, etc.\n\n**General Syntax:**\n\n```bash\nng <command> --verbose\n```\n\nThis is helpful for debugging and understanding what the CLI is doing behind the scenes.",
+        "level": "Intermediate",
+        "created_at": "2025-04-20T10:26:04.804021Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "80555c86-4af0-47c3-949f-30f44da69d2a",
+        "question": "Which command is used to generate a new schematic project?",
+        "answer": "```markdown\nThe command used to generate a new schematic project in Angular is:\n\n```bash\nng generate application <project-name>\n```\n\nor using the shorthand:\n\n```bash\nng g application <project-name>\n```\n\nThis command creates a new application project within your Angular workspace.\n```",
+        "level": "Advanced",
+        "created_at": "2025-04-20T10:26:04.804027Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "0662516d-f727-4f13-992a-cdd6c33f9115",
+        "question": "How do you use Angular CLI to deploy an app to Firebase?",
+        "answer": "```markdown\n### Deploying an Angular App to Firebase Using Angular CLI\n\nTo deploy your Angular application to Firebase, follow these steps:\n\n1. **Install Firebase Tools Globally**\n\n   ```bash\n   npm install -g firebase-tools\n   ```\n\n2. **Build Your Angular App**\n\n   Generate a production build of your app:\n\n   ```bash\n   ng build --prod\n   ```\n\n   By default, the output will be in the `dist/your-project-name` directory.\n\n3. **Login to Firebase**\n\n   Authenticate with your Firebase account:\n\n   ```bash\n   firebase login\n   ```\n\n4. **Initialize Firebase in Your Project**\n\n   In your Angular project root, run:\n\n   ```bash\n   firebase init\n   ```\n\n   - Select **Hosting**.\n   - Choose your Firebase project.\n   - Set the public directory to `dist/your-project-name` (replace with your actual output folder).\n   - Configure as a single-page app? **Yes** (type `y`).\n   - Do **not** overwrite `index.html` when prompted.\n\n5. **Deploy to Firebase**\n\n   Deploy your built app to Firebase Hosting:\n\n   ```bash\n   firebase deploy\n   ```\n\n---\n\n#### Summary Table\n\n| Step | Command                                      | Description                                  |\n|------|----------------------------------------------|----------------------------------------------|\n| 1    | `npm install -g firebase-tools`              | Install Firebase CLI                         |\n| 2    | `ng build --prod`                            | Build Angular app for production             |\n| 3    | `firebase login`                             | Login to Firebase                            |\n| 4    | `firebase init`                              | Initialize Firebase Hosting                  |\n| 5    | `firebase deploy`                            | Deploy app to Firebase Hosting               |\n\n---\n\n**Tip:**  \nYou can automate the build and deploy process with:\n\n```bash\nng build --prod && firebase deploy\n```\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T10:26:04.804034Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "adb6971d-e350-41bc-aa73-b17aab196eb8",
+        "question": "What command is used to extract i18n messages from an Angular project?",
+        "answer": "```markdown\nThe command used to extract i18n messages from an Angular project is:\n\n```bash\nng extract-i18n\n```\n\nThis command scans your Angular application for marked translatable text and generates a source translation file (by default, `messages.xlf`).\n```",
+        "level": "Advanced",
+        "created_at": "2025-04-20T10:26:04.804042Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "3c85e0d0-5538-4ac3-b58f-a798686d90b7",
+        "question": "How do you generate a component with inline styles and template using Angular CLI?",
+        "answer": "```markdown To generate a component with inline styles and an inline template using Angular CLI, use the following command:\n\n```bash\nng generate component component-name --inline-style --inline-template\n```\nor using the shorthand flags:\n```bash\nng g c component-name -s -t\n```\n\n- `--inline-style` or `-s`: Puts styles directly in the component's decorator instead of a separate file.\n- `--inline-template` or `-t`: Puts the template directly in the component's decorator instead of a separate file.\n\n**Example:**\n```bash\nng g c user-profile -s -t\n```\n\nThis will create a `user-profile` component with both the template and styles inlined within the TypeScript file.",
+        "level": "Advanced",
+        "created_at": "2025-04-20T10:26:04.804106Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "5be6b730-adac-49be-a84b-93506438014b",
+        "question": "Which command is used to remove a package using Angular CLI?",
+        "answer": "```markdown\nTo remove a package using Angular CLI, use the following command:\n\n```bash\nng remove <package-name>\n```\n\nReplace `<package-name>` with the name of the package you want to remove.\n\n**Example:**\n```bash\nng remove @angular/material\n```\n\nThis command will uninstall the specified package and update your `package.json` and related configuration files accordingly.\n```",
+        "level": "Advanced",
+        "created_at": "2025-04-20T10:26:04.804114Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "a1b1ee6b-ed23-4ed8-9989-c669bf6bf2cd",
+        "question": "What is the command to create a new Angular project?",
+        "answer": "```bash\nng new project-name\n```\n\nReplace project-name with your desired project folder name. This command creates a new Angular project with all the necessary files and configuration.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T10:26:04.803750Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "533fd385-bc23-4bfe-8a26-1dee0e144358",
+        "question": "How do you serve an Angular application locally?",
+        "answer": "```markdown To serve an Angular application locally, use the following command in your project directory:\n\n```bash\nng serve\n```\n\nOr the shorthand:\n\n```bash\nng s\n```\n\nBy default, this will start the development server at http://localhost:4200/. Open this URL in your browser to view your application.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T10:26:04.803777Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "185aa2f9-256e-43f8-93c7-df6ea9b28274",
+        "question": "Which command is used to build an Angular project for production?",
+        "answer": "```markdown\nThe command used to build an Angular project for production is:\n\n```\nng build --prod\n```\n\nOr, with Angular CLI version 12 and above, you can use:\n\n```\nng build --configuration production\n```\nBoth commands will compile your application with optimizations for production.\n```",
+        "level": "Beginner",
+        "created_at": "2025-04-20T10:26:04.803785Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "5f47d6e0-6228-4360-a544-25a27730266a",
+        "question": "How can you generate a new component in Angular using the CLI?",
+        "answer": "```markdown To generate a new component in Angular using the CLI, use the following command:\n\n```bash\nng generate component component-name\n```\n\nOr, using the shorthand:\n\n```bash\nng g c component-name\n```\n\nReplace component-name with the desired name for your component. This command will create a new folder with the component files in your project.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T10:26:04.803794Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "b655f1f4-faff-44d4-b4e9-e96e2b001b46",
+        "question": "What is the command to generate a new service in Angular?",
+        "answer": "```markdown To generate a new service in Angular, use the following command:\n\n```bash\nng generate service service-name\n```\n\nOr the shorthand:\n\n```bash\nng g s service-name\n```\n\nReplace service-name with the desired name for your service.",
+        "level": "Beginner",
+        "created_at": "2025-04-20T10:26:04.803801Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "47836905-3987-4136-ac08-7e02d92fc482",
+        "question": "How do you build an Angular library for publishing?",
+        "answer": "```markdown\nTo build an Angular library for publishing, follow these steps:\n\n1. **Generate a Library:**\n   ```bash\n   ng generate library your-library-name\n   ```\n   This creates a library project under `projects/your-library-name`.\n\n2. **Develop Your Library:**\n   - Add components, services, and modules as needed inside the library folder.\n   - Export public APIs in the `public-api.ts` file.\n\n3. **Build the Library:**\n   ```bash\n   ng build your-library-name\n   ```\n   This command compiles the library into the `dist/your-library-name` folder in an Angular Package Format (APF) suitable for publishing.\n\n4. **Verify the Build Output:**\n   - Ensure the `dist/your-library-name` folder contains `package.json`, `README.md`, and the compiled files.\n\n5. **Publish to npm (optional):**\n   - Navigate to the dist folder:\n     ```bash\n     cd dist/your-library-name\n     ```\n   - Log in to npm (if not already):\n     ```bash\n     npm login\n     ```\n   - Publish the library:\n     ```bash\n     npm publish --access public\n     ```\n\n**Tips:**\n- Update the `package.json` with correct metadata (name, version, description, etc.).\n- Make sure to test your library in a separate Angular project before publishing.\n\n**References:**\n- [Angular CLI: Creating Libraries](https://angular.io/guide/creating-libraries)\n- [Angular Package Format](https://angular.io/guide/angular-package-format)\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T10:26:04.804049Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "8efbd90e-43e4-47ce-b0e5-8b355dcab0c7",
+        "question": "Which command allows you to run a custom builder in Angular CLI?",
+        "answer": "```markdown\nThe command to run a custom builder in Angular CLI is:\n\n```\nng run <project>:<target>[:<configuration>]\n```\n\n- `<project>`: The name of your Angular project as defined in `angular.json`.\n- `<target>`: The custom builder or architect target you want to run (e.g., `deploy`, `lint`, `custom-task`).\n- `<configuration>` (optional): The configuration to use (e.g., `production`, `staging`).\n\n**Example:**\n```\nng run my-app:custom-task:production\n```\nThis runs the `custom-task` builder for the `my-app` project using the `production` configuration.\n```",
+        "level": "Advanced",
+        "created_at": "2025-04-20T10:26:04.804056Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "51c61dbe-c626-402e-acfa-a97571e0269b",
+        "question": "How do you use Angular CLI to update a specific package to a specific version?",
+        "answer": "```markdown To update a specific package to a specific version using Angular CLI, use the following command:\n\n```bash\nng update <package-name>@<version>\n```\n\n**Example:**  \nTo update `@angular/core` to version `16.1.0`:\n\n```bash\nng update @angular/core@16.1.0\n```\n\n**Notes:**\n- You can update multiple packages at once by listing them separated by spaces.\n- Always review the [Angular Update Guide](https://update.angular.io/) for recommended update paths and additional steps.\n- For non-Angular dependencies, use `npm install <package-name>@<version>` instead.\n\n**References:**\n- [Angular CLI ng update documentation](https://angular.io/cli/update)",
+        "level": "Advanced",
+        "created_at": "2025-04-20T10:26:04.804063Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "33d0dbcd-88ad-4233-afa7-3e31090a8d0b",
+        "question": "What is the command to generate a workspace with no initial application?",
+        "answer": "```markdown\nTo generate a new Angular workspace with no initial application, use the following command:\n\n```bash\nng new my-workspace --create-application=false\n```\n\n- Replace `my-workspace` with your desired workspace name.\n- The `--create-application=false` flag ensures that no initial application is created within the workspace.\n```",
+        "level": "Advanced",
+        "created_at": "2025-04-20T10:26:04.804070Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "2f17ede0-7d06-48b3-bbd1-94f655d257ce",
+        "question": "How do you configure file replacements for different environments in Angular CLI?",
+        "answer": "```markdown ### Configuring File Replacements for Different Environments in Angular CLI\n\nAngular CLI allows you to replace files (such as environment configuration files) depending on the build environment (development, production, etc.). This is typically used to swap out `environment.ts` with `environment.prod.ts` during a production build.\n\n#### Steps to Configure File Replacements\n\n1. **Locate the `angular.json` File**  \n   This file is at the root of your Angular project.\n\n2. **Find the Build Configuration Section**  \n   Under the `projects` → `<your-project-name>` → `architect` → `build` → `configurations` section.\n\n3. **Add or Edit the `fileReplacements` Array**  \n   Specify which files should be replaced for each environment.\n\n   ```json\n   \"configurations\": {\n     \"production\": {\n       \"fileReplacements\": [\n         {\n           \"replace\": \"src/environments/environment.ts\",\n           \"with\": \"src/environments/environment.prod.ts\"\n         }\n       ],\n       ...\n     },\n     \"staging\": {\n       \"fileReplacements\": [\n         {\n           \"replace\": \"src/environments/environment.ts\",\n           \"with\": \"src/environments/environment.staging.ts\"\n         }\n       ],\n       ...\n     }\n   }\n   ```\n\n4. **Build with the Desired Configuration**  \n   Use the `--configuration` (or `-c`) flag:\n\n   ```bash\n   ng build --configuration=production\n   ng build --configuration=staging\n   ```\n\n#### Example\n\nSuppose you have these files:\n\n- `src/environments/environment.ts` (default)\n- `src/environments/environment.prod.ts` (production)\n- `src/environments/environment.staging.ts` (staging)\n\nYour `angular.json` should include:\n\n```json\n\"fileReplacements\": [\n  {\n    \"replace\": \"src/environments/environment.ts\",\n    \"with\": \"src/environments/environment.prod.ts\"\n  }\n]\n```\n\nfor the `production` configuration, and similarly for `staging`.\n\n---\n\n**Summary Table**\n\n| Environment | Replace                                 | With                                      |\n|-------------|-----------------------------------------|-------------------------------------------|\n| production  | `src/environments/environment.ts`       | `src/environments/environment.prod.ts`    |\n| staging     | `src/environments/environment.ts`       | `src/environments/environment.staging.ts` |\n\n---\n\n**References:**\n- [Angular CLI: File Replacements](https://angular.io/guide/build#configuring-application-environments)\n- [angular.json Reference](https://angular.io/guide/workspace-config)",
+        "level": "Advanced",
+        "created_at": "2025-04-20T10:26:04.804077Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "928c8ad1-8064-4d0f-ae96-1c4268b6a8dd",
+        "question": "Which command is used to run a schematic from a third-party collection?",
+        "answer": "```markdown\nTo run a schematic from a third-party collection in Angular, use the following command:\n\n```bash\nng generate <collection-name>:<schematic-name>\n```\n\n**Example:**\n\nIf you want to run the `ng-add` schematic from the `@angular/material` collection:\n\n```bash\nng generate @angular/material:ng-add\n```\n\nOr, using the shorthand:\n\n```bash\nng g @angular/material:ng-add\n```\n\n**General Syntax:**\n\n```bash\nng generate <collection-name>:<schematic-name> [options]\n```\n```",
+        "level": "Advanced",
+        "created_at": "2025-04-20T10:26:04.804085Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "4be10c29-d39c-44b2-944d-54f955663ef5",
+        "question": "How do you use Angular CLI to create a universal (SSR) application?",
+        "answer": "```markdown\nTo create a Universal (Server-Side Rendering, SSR) application using Angular CLI, follow these steps:\n\n1. **Create a New Angular Application (if you don't have one):**\n   ```bash\n   ng new my-universal-app\n   cd my-universal-app\n   ```\n\n2. **Add Angular Universal Support:**\n   Use the Angular CLI `@nguniversal/express-engine` schematic to add SSR support:\n   ```bash\n   ng add @nguniversal/express-engine\n   ```\n   This command:\n   - Installs necessary dependencies.\n   - Updates your `angular.json` and `package.json`.\n   - Adds server-side files (`server.ts`, `src/main.server.ts`, etc.).\n   - Creates a server module (`AppServerModule`).\n\n3. **Build the Application for SSR:**\n   ```bash\n   npm run build:ssr\n   ```\n   This builds both the browser and server bundles.\n\n4. **Serve the Universal Application Locally:**\n   ```bash\n   npm run serve:ssr\n   ```\n   This starts a local Express server rendering your Angular app on the server.\n\n---\n\n**Summary Table of Key Angular Universal CLI Commands**\n\n| Command                              | Description                                 |\n|---------------------------------------|---------------------------------------------|\n| `ng add @nguniversal/express-engine`  | Adds Universal (SSR) support                |\n| `npm run build:ssr`                   | Builds browser and server bundles           |\n| `npm run serve:ssr`                   | Serves the app with server-side rendering   |\n\n**References:**\n- [Angular Universal Guide](https://angular.io/guide/universal)\n- [Angular CLI Documentation](https://angular.io/cli)\n```\n",
+        "level": "Advanced",
+        "created_at": "2025-04-20T10:26:04.804092Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "6723dcee-2153-42ce-b68b-e14f71257474",
+        "question": "What command is used to add PWA support to an Angular project?",
+        "answer": "```markdown\nTo add Progressive Web App (PWA) support to an Angular project, use the following command:\n\n```bash\nng add @angular/pwa\n```\n\nThis command configures your Angular application with the necessary files and settings for PWA features, such as a manifest file and service worker.\n```",
+        "level": "Advanced",
+        "created_at": "2025-04-20T10:26:04.804099Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "9ba82022-b649-4dca-9931-8de4401cc26c",
+        "question": "How do you use Angular CLI to build with Ahead-of-Time (AOT) compilation?",
+        "answer": "```markdown To build an Angular application with Ahead-of-Time (AOT) compilation using the Angular CLI, use the following command:\n\n```bash\nng build --aot\n```\n\n**Explanation:**\n\n- `ng build`: Compiles the application into an output directory (`dist/` by default).\n- `--aot`: Enables Ahead-of-Time compilation, which compiles your Angular HTML and TypeScript code into efficient JavaScript code during the build process, improving performance and reducing bundle size.\n\n**Additional Options:**\n\n- For a production build with AOT (recommended for deployment), use:\n  ```bash\n  ng build --configuration production\n  ```\n  or (Angular CLI v8 and below):\n  ```bash\n  ng build --prod\n  ```\n  Production builds enable AOT by default and also apply other optimizations like minification and tree-shaking.\n\n**Summary Table:**\n\n| Command                            | Description                                  |\n|-------------------------------------|----------------------------------------------|\n| `ng build --aot`                    | Build with AOT compilation                   |\n| `ng build --configuration production` | Production build (AOT enabled by default)    |\n\n**References:**\n- [Angular CLI Documentation – ng build](https://angular.io/cli/build)\n- [AOT Compilation Guide](https://angular.io/guide/aot-compiler)",
+        "level": "Advanced",
+        "created_at": "2025-04-20T10:26:04.804121Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "8a78dcca-8ce4-4362-a236-2281bd9bc15c",
+        "question": "What is the command to run a production build with source maps enabled?",
+        "answer": "```bash\nng build --configuration production --source-map\n```\n\nOr using the shorthand:\n\n```bash\nng build --prod --source-map\n```\n\nThis command creates a production build with source maps enabled for easier debugging.",
+        "level": "Advanced",
+        "created_at": "2025-04-20T10:26:04.804129Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "50fe1362-fd09-4a88-9970-9aa994c12776",
+        "question": "How do you use Angular CLI to enable differential loading?",
+        "answer": "```markdown\n### Enabling Differential Loading with Angular CLI\n\n**Differential loading** is a feature in Angular that allows you to serve modern JavaScript (ES2015+) to browsers that support it, while serving legacy JavaScript (ES5) to older browsers. This improves performance for most users.\n\n#### How to Enable Differential Loading\n\nAngular CLI enables differential loading by default for projects targeting browsers that require both ES2015 and ES5 bundles.\n\n#### Steps:\n\n1. **Check `browserslist` File:**\n   - Open the `browserslist` file in your Angular project root.\n   - Ensure it includes both modern and legacy browsers, for example:\n     ```\n     > 0.5%\n     last 2 versions\n     Firefox ESR\n     not dead\n     IE 11 # This line triggers ES5 bundle for IE11\n     ```\n\n2. **Build Your Project:**\n   - Run the standard build command:\n     ```bash\n     ng build --prod\n     ```\n   - Angular CLI will automatically generate both ES2015 and ES5 bundles if your `browserslist` includes legacy browsers (like IE 11).\n\n3. **Verify Output:**\n   - Check the `dist/` folder. You should see both modern and legacy bundles (e.g., `main-es2015.js` and `main-es5.js`).\n\n#### Notes\n\n- **Angular 12+**: Differential loading is only enabled if your `browserslist` includes browsers that require ES5 (e.g., IE 11). If you remove IE 11, only modern bundles are produced.\n- **No Additional Flags Needed**: Differential loading is managed automatically based on your `browserslist` configuration.\n\n#### References\n\n- [Angular Differential Loading Guide](https://angular.io/guide/deployment#differential-loading)\n- [Browserslist Documentation](https://github.com/browserslist/browserslist)\n\n```\n**Summary:**  \nTo enable differential loading, ensure your `browserslist` includes legacy browsers (like IE 11) and build your project with `ng build --prod`. Angular CLI will handle the rest.\n```",
+        "level": "Advanced",
+        "created_at": "2025-04-20T10:26:04.804136Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "f3e9f0fb-6f81-4daa-8771-eabbebcf765b",
+        "question": "Which command is used to generate a workspace schematic?",
+        "answer": "```markdown\nThe command used to generate a workspace schematic in Angular is:\n\n```bash\nng generate workspace-schematic <schematic-name>\n```\n\nReplace `<schematic-name>` with the desired name for your schematic.\n```",
+        "level": "Advanced",
+        "created_at": "2025-04-20T10:26:04.804143Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    },
+    {
+        "id": "0a64e64c-285d-496f-9841-be626ac28569",
+        "question": "How do you use Angular CLI to serve an application with SSL enabled?",
+        "answer": "```markdown To serve an Angular application with SSL enabled using Angular CLI, you can use the following command:\n\n```bash\nng serve --ssl true --ssl-key <path-to-key-file> --ssl-cert <path-to-cert-file>\n```\n\n**Parameters:**\n\n- `--ssl true`: Enables SSL.\n- `--ssl-key`: Path to your SSL key file (e.g., `./ssl/server.key`).\n- `--ssl-cert`: Path to your SSL certificate file (e.g., `./ssl/server.crt`).\n\n**Example:**\n\n```bash\nng serve --ssl true --ssl-key ./ssl/server.key --ssl-cert ./ssl/server.crt\n```\n\nThis will start your Angular application on `https://localhost:4200` using the specified SSL certificate and key.\n\n> **Tip:** You can generate a self-signed certificate for local development using OpenSSL:\n> \n> ```bash\n> openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout server.key -out server.crt\n> ```\n> \n> Place the generated `server.key` and `server.crt` in a secure directory (e.g., `./ssl/`).",
+        "level": "Advanced",
+        "created_at": "2025-04-20T10:26:04.804150Z",
+        "topic": "95038da2-0876-484c-a7bf-7fe8fdf34763"
+    }
+]

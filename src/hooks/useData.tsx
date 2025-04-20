@@ -63,6 +63,7 @@ const loadPathQuestions = async (pathId: string) => {
       "message-broker",
       "uml",
       "azure",
+      "angular",
       "db",
     ];
 
@@ -118,12 +119,12 @@ export const usePath = (pathId: string | undefined): PathResponse => {
         // First check immediate subpaths
         for (const subpath of path.subpaths) {
           if (subpath.id === pathId) {
-            return { 
-              subpath: { 
-                ...subpath, 
-                count: subpath.count || 0 
-              }, 
-              parent: ancestorPath || path 
+            return {
+              subpath: {
+                ...subpath,
+                count: subpath.count || 0
+              },
+              parent: ancestorPath || path
             };
           }
           // If this subpath has its own subpaths, search them recursively
@@ -217,9 +218,9 @@ export const useAllQuestions = () => {
   useEffect(() => {
     const loadAllQuestions = async () => {
       if (!paths || paths.length === 0) return;
-      
+
       const questions: Record<string, Question[]> = {};
-      
+
       // A function to recursively collect all path IDs
       const collectPathIds = (items: any[]): string[] => {
         let ids: string[] = [];
@@ -231,9 +232,9 @@ export const useAllQuestions = () => {
         }
         return ids;
       };
-      
+
       const allPathIds = collectPathIds(paths);
-      
+
       for (const pathId of allPathIds) {
         try {
           const pathQuestions = await loadPathQuestions(pathId);
@@ -244,13 +245,13 @@ export const useAllQuestions = () => {
           // Skip if questions can't be loaded for this path
         }
       }
-      
+
       setAllQuestions(questions);
       setLoading(false);
     };
-    
+
     loadAllQuestions();
   }, [paths]);
-  
+
   return { questions: allQuestions, loading };
 };
