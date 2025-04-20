@@ -8,19 +8,13 @@ import { useProgress } from "../hooks/useProgress";
 import { ChevronRight, BookOpen, CheckCircle, RotateCcw } from "lucide-react";
 import { Skeleton } from "../components/ui/skeleton";
 import { Button } from "../components/ui/button";
-import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "../components/ui/resizable";
-import { ScrollArea } from "../components/ui/scroll-area";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 const LearningPath = () => {
   const [expandAll, setExpandAll] = useState(false);
-  const [activeQuestionId, setActiveQuestionId] = useState<string | null>(null);
-  const isMobile = useIsMobile();
 
   const toggleExpandAll = () => {
     setExpandAll((prev) => !prev);
   };
-  
   const { pathId } = useParams<{ pathId: string }>();
   const [searchParams] = useSearchParams();
   const highlightedQuestion = searchParams.get("q");
@@ -52,16 +46,23 @@ const LearningPath = () => {
   const loading = pathLoading || questionsLoading;
   const error = pathError || questionsError;
 
-  const handleQuestionSelect = (questionId: string) => {
-    setActiveQuestionId(questionId);
-  };
+  useEffect(() => {
+    if (!loading && questions) {
 
-  // Calculate progress
-  const progress = pathId
-    ? getPathProgress(pathId, questions)
-    : { completed: 0, total: 0 };
-  const progressPercentage =
-    progress.total > 0 ? (progress.completed / progress.total) * 100 : 0;
+      setFilteredQuestions(questions);
+    }
+  }, [questions, loading]);
+
+  // Handle question highlighting
+  useEffect(() => {
+    if (highlightedQuestion && !loading) {
+      const questionIndex = parseInt(highlightedQuestion);
+      const element = document.getElementById(`question-${questionIndex}`);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [highlightedQuestion, loading]);
 
   const handleMarkAsRead = (questionId: string) => {
     if (pathId) {
@@ -95,25 +96,12 @@ const LearningPath = () => {
     resetProgress(pathId);
   };
 
-  // Handle question highlighting
-  useEffect(() => {
-    if (highlightedQuestion && !loading) {
-      const questionIndex = parseInt(highlightedQuestion);
-      const element = document.getElementById(`question-${questionIndex}`);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-  }, [highlightedQuestion, loading]);
-
-  useEffect(() => {
-    if (!loading && questions) {
-      setFilteredQuestions(questions);
-    }
-  }, [questions, loading]);
-
-  // Get the active question data
-  const activeQuestion = questions?.find(q => q.id === activeQuestionId);
+  // Calculate progress
+  const progress = pathId
+    ? getPathProgress(pathId, questions)
+    : { completed: 0, total: 0 };
+  const progressPercentage =
+    progress.total > 0 ? (progress.completed / progress.total) * 100 : 0;
 
   if (loading) {
     return (
@@ -153,11 +141,12 @@ const LearningPath = () => {
     );
   }
 
-  if (isMobile) {
-    return (
-      <div className="min-h-screen flex flex-col bg-background text-foreground">
-        <Header title={path.title} showBackButton={true} />
-        <main className="flex-1 container mx-auto px-4 py-6">
+  return (
+    <div className="min-h-screen flex flex-col bg-background text-foreground">
+      <Header title={path.title} showBackButton={true} />
+
+      <main className="flex-1 px-0 sm:px-6 md:px-8 lg:px-12 pb-12">
+        <div className="container mx-auto max-w-3xl lg:max-w-5xl xl:max-w-6xl px-4 sm:px-6 md:px-8 lg:px-16 py-6 sm:py-8">
           <div className="flex justify-between items-center mt-4 mb-6">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               {isSubpath && parentPath && (
@@ -255,13 +244,11 @@ const LearningPath = () => {
                   <div
                     key={question.id}
                     id={`question-${originalIndex}`}
-                    className={`animate-fadeIn animate-delay-${
-                      Math.min(index, 3) * 100
-                    } ${
-                      highlightedQuestion === originalIndex.toString()
+                    className={`animate-fadeIn animate-delay-${Math.min(index, 3) * 100
+                      } ${highlightedQuestion === originalIndex.toString()
                         ? "ring-2 ring-blue-400 rounded-xl"
                         : ""
-                    }`}
+                      }`}
                   >
                     <QuestionCard
                       key={question.id}
@@ -313,139 +300,8 @@ const LearningPath = () => {
               </div>
             )}
           </div>
-        </main>
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground">
-      <Header title={path.title} showBackButton={true} />
-      
-      <ResizablePanelGroup
-        direction="horizontal"
-        className="flex-1 h-[calc(100vh-4rem)]"
-      >
-        <ResizablePanel defaultSize={50} minSize={30}>
-          <ScrollArea className="h-full">
-            <div className="p-6">
-              <div className="mb-8">
-                <div className="flex flex-wrap gap-3 mb-4">
-                  <div className="inline-block px-3 py-1 text-sm font-medium rounded-full bg-secondary text-secondary-foreground">
-                    {path.level}
-                  </div>
-                  <div className="inline-block px-3 py-1 text-sm font-medium rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                    {progress.completed} of {progress.total} Completed
-                  </div>
-                </div>
-                
-                <h1 className="text-3xl font-bold mb-4">{path.title}</h1>
-                <p className="text-lg text-muted-foreground">{path.description}</p>
-
-                {/* Progress bar and action buttons */}
-                <div className="mt-6 mb-2">
-                  <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-green-500 transition-all duration-500 ease-in-out"
-                      style={{ width: `${progressPercentage}%` }}
-                    ></div>
-                  </div>
-                  <div className="flex justify-between items-center mt-2 text-sm text-muted-foreground">
-                    <span>{progressPercentage.toFixed(0)}% Complete</span>
-                  </div>
-                  <div className="flex justify-end items-center mt-2 text-sm text-muted-foreground">
-                    <div className="flex space-x-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={handleResetProgress}
-                        title="Reset all progress"
-                        className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
-                      >
-                        <RotateCcw className="h-4 w-4 mr-1" />
-                        Reset
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={handleMarkAllAsRead}
-                        className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-                      >
-                        <BookOpen className="h-4 w-4 mr-1" />
-                        Mark all as read
-                      </Button>
-
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={toggleExpandAll}
-                        className="text-purple-600 hover:text-purple-800 dark:text-purple-400 dark:hover:text-purple-300"
-                      >
-                        {expandAll ? "Collapse All" : "Expand All"}
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <QuestionFilter
-                questions={questions}
-                onFilterChange={setFilteredQuestions}
-                searchQuery={searchQuery}
-                setSearchQuery={setSearchQuery}
-              />
-
-              <div className="space-y-4">
-                {filteredQuestions.map((question, index) => (
-                  <QuestionCard
-                    key={question.id}
-                    index={index}
-                    id={question.id}
-                    question={question.question}
-                    answer={question.answer}
-                    level={question.level}
-                    onMarkAsRead={handleMarkAsRead}
-                    onUndoRead={handleUndoMarkAsRead}
-                    isRead={isQuestionRead(pathId || "", question.id)}
-                    highlightQuery={searchQuery}
-                    isExpanded={false}
-                    isActive={activeQuestionId === question.id}
-                    onSelect={() => handleQuestionSelect(question.id)}
-                    useCompactView={true}
-                  />
-                ))}
-              </div>
-            </div>
-          </ScrollArea>
-        </ResizablePanel>
-
-        <ResizableHandle withHandle />
-
-        <ResizablePanel defaultSize={50} minSize={30}>
-          <ScrollArea className="h-full">
-            <div className="p-6">
-              {activeQuestion ? (
-                <>
-                  <h2 className="text-xl font-bold mb-6">{activeQuestion.question}</h2>
-                  <div className="prose dark:prose-invert max-w-none">
-                    {typeof activeQuestion.answer === "string" ? (
-                      <div className="markdown-content">
-                        {activeQuestion.answer.replace(/^```markdown\n?|```$/g, "")}
-                      </div>
-                    ) : (
-                      activeQuestion.answer
-                    )}
-                  </div>
-                </>
-              ) : (
-                <div className="flex items-center justify-center h-full text-muted-foreground">
-                  Select a question to view its answer
-                </div>
-              )}
-            </div>
-          </ScrollArea>
-        </ResizablePanel>
-      </ResizablePanelGroup>
+        </div>
+      </main>
     </div>
   );
 };
