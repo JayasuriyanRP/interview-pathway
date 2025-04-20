@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card } from "./ui/card";
 import { cn } from "@/lib/utils";
@@ -10,7 +9,6 @@ import { Button } from "./ui/button";
 import { usePathQuestions } from "@/hooks/useData";
 import { useProgress } from "@/hooks/useProgress";
 import { Link } from "react-router-dom";
-import RecentlyReadSection from "./RecentlyReadSection";
 
 interface Subpath {
   id: string;
@@ -19,7 +17,6 @@ interface Subpath {
   count: number;
   level: string;
   subpaths?: Subpath[];
-  icon?: string;
 }
 
 interface NestedPathCardProps {
@@ -39,16 +36,9 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const hasNestedPaths = path.subpaths && path.subpaths.length > 0;
-  const { getPathProgress, isSubpathCompleted, isPathCompleted, getLastReadTimestamp, isQuestionRead } = useProgress();
+  const { getPathProgress, isSubpathCompleted, isPathCompleted } =
+    useProgress();
   const { questions } = usePathQuestions(path.id);
-
-  // Sort questions by difficulty level
-  const sortedQuestions = questions?.sort((a, b) => {
-    const levelOrder = { Beginner: 1, Intermediate: 2, Advanced: 3 };
-    return (levelOrder[a.level] || 0) - (levelOrder[b.level] || 0);
-  });
-
-  const hasReadQuestions = questions?.some((q) => isQuestionRead(path.id, String(q.id)));
 
   // Calculate the actual progress
   const progress = getPathProgress(path.id, questions);
@@ -115,29 +105,21 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
             <h2 className="text-xl font-bold">{path.title}</h2>
             <p className="mt-2 text-muted-foreground">{path.description}</p>
 
-            {hasReadQuestions && (
-              <RecentlyReadSection pathId={path.id} questions={questions} />
-            )}
-
             <div className="mt-4">
               <h3 className="text-md font-semibold mb-2">Questions</h3>
-              {["Beginner", "Intermediate", "Advanced"].map((level) => {
-                const levelQuestions = sortedQuestions?.filter(q => q.level === level);
-                if (!levelQuestions?.length) return null;
-
-                return (
-                  <div key={level} className="mb-4">
-                    <h4 className="text-sm font-medium text-muted-foreground mb-2">{level}</h4>
-                    <ul className="space-y-2">
-                      {levelQuestions.map((q, i) => (
-                        <li key={i} className="border-b pb-2">
-                          {q.question}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                );
-              })}
+              <ul className="space-y-2">
+                {questions && questions.length > 0 ? (
+                  questions.map((q, i) => (
+                    <li key={i} className="border-b pb-2">
+                      {q.question}
+                    </li>
+                  ))
+                ) : (
+                  <li className="text-muted-foreground">
+                    No questions available
+                  </li>
+                )}
+              </ul>
             </div>
 
             <div className="mt-6">

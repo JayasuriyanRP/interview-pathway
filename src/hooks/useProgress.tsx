@@ -6,23 +6,21 @@ import { getDatabase, ref, set, get, onValue } from "firebase/database";
 import { initializeApp } from "firebase/app";
 
 // Define the type for progress data
-type PathProgress = {
-  completed: boolean;
-  lastRead: number;
-  subpaths: Record<string, {
+type ProgressData = {
+  questions: Record<string, boolean>;
+  questionsByPath: Record<string, string[]>;
+  paths: Record<string, {
     completed: boolean;
     lastRead: number;
     subpaths?: Record<string, {
       completed: boolean;
       lastRead: number;
+      subpaths?: Record<string, {
+        completed: boolean;
+        lastRead: number;
+      }>;
     }>;
   }>;
-};
-
-type ProgressData = {
-  questions: Record<string, boolean>;
-  questionsByPath: Record<string, string[]>;
-  paths: Record<string, PathProgress>;
   lastRead: Record<string, number>;
   lastUpdated: number;
 };
@@ -267,7 +265,7 @@ export const useProgress = () => {
         updatedPaths[mainPathId] = {
           completed: false,
           lastRead: Date.now(),
-          subpaths: {} // Always initialize with empty record
+          subpaths: {}
         };
       }
 
@@ -385,15 +383,11 @@ export const useProgress = () => {
         updatedPaths[pathId] = {
           completed: true,
           lastRead: Date.now(),
-          subpaths: {} // Always initialize with empty record
+          subpaths: {}
         };
       } else {
-        updatedPaths[pathId] = {
-          ...updatedPaths[pathId],
-          completed: true,
-          lastRead: Date.now(),
-          subpaths: updatedPaths[pathId].subpaths || {} // Ensure subpaths exists
-        };
+        updatedPaths[pathId].completed = true;
+        updatedPaths[pathId].lastRead = Date.now();
       }
 
       return {
@@ -406,17 +400,15 @@ export const useProgress = () => {
     toast.success("Learning path marked as completed!");
   };
 
-  const isQuestionRead = (pathId: string, questionId: number | string): boolean => {
-    const questionIdStr = String(questionId);
-    
+  const isQuestionRead = (pathId: string, questionId: number): boolean => {
     // First check the traditional way
-    if (progress?.questions?.[`${pathId}-${questionIdStr}`]) {
+    if (progress?.questions?.[`${pathId}-${questionId}`]) {
       return true;
     }
 
     // Then check the new structure
     if (progress?.questionsByPath?.[pathId]) {
-      return progress.questionsByPath[pathId].includes(questionIdStr);
+      return progress.questionsByPath[pathId].includes(String(questionId));
     }
 
     return false;
