@@ -40,8 +40,13 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
     useProgress();
   const { questions } = usePathQuestions(path.id);
 
+  const sortedQuestions = questions?.sort((a, b) => {
+    const levelOrder = { Beginner: 1, Intermediate: 2, Advanced: 3 };
+    return (levelOrder[a.level] || 0) - (levelOrder[b.level] || 0);
+  });
+
   // Calculate the actual progress
-  const progress = getPathProgress(path.id, questions);
+  const progress = getPathProgress(path.id, sortedQuestions);
   const isPathActuallyCompleted =
     isCompleted || isSubpathCompleted(path.id) || isPathCompleted(path.id);
 
@@ -93,7 +98,7 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
               hasNestedPaths={hasNestedPaths}
               isExpanded={isExpanded}
               subpathsCount={path.subpaths?.length || 0}
-              questionsCount={questions?.length || 0}
+              questionsCount={sortedQuestions?.length || 0}
               progress={progress}
               handleToggleExpand={handleToggleExpand}
               onPathClick={onPathClick}
@@ -108,8 +113,8 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
             <div className="mt-4">
               <h3 className="text-md font-semibold mb-2">Questions</h3>
               <ul className="space-y-2">
-                {questions && questions.length > 0 ? (
-                  questions.map((q, i) => (
+                {sortedQuestions && sortedQuestions.length > 0 ? (
+                  sortedQuestions.map((q, i) => (
                     <li key={i} className="border-b pb-2">
                       {q.question}
                     </li>
@@ -188,7 +193,7 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
           hasNestedPaths={hasNestedPaths}
           isExpanded={isExpanded}
           subpathsCount={path.subpaths?.length || 0}
-          questionsCount={questions?.length || 0}
+          questionsCount={sortedQuestions?.length || 0}
           progress={progress}
           handleToggleExpand={handleToggleExpand}
           onPathClick={onPathClick}
