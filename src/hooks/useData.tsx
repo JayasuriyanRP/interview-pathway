@@ -55,7 +55,7 @@ const loadPathQuestions = async (pathId: string) => {
       "data-structures-and-algorithms",
       "example",
       "golang",
-      "html",
+      "frontend",
       "js",
       "react",
       "ts",

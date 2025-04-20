@@ -20,6 +20,30 @@
         "level": "Intermediate"
       },
       {
+        "id": "css-basics",
+        "title": "CSS Basics",
+        "description": "Basic CSS concepts, syntax, and common interview questions",
+        "level": "Beginner"
+      },
+      {
+        "id": "sass-basics",
+        "title": "SASS Basics",
+        "description": "Introduction to SASS (Syntactically Awesome Style Sheets) and basic SASS syntax and features",
+        "level": "Beginner"
+      },
+      {
+        "id": "responsive-design-basics",
+        "title": "Responsive Design Basics",
+        "description": "Basic concepts of responsive design, including layout techniques and strategies",
+        "level": "Beginner"
+      },
+      {
+        "id": "css-media-queries-basics",
+        "title": "CSS Media Queries Basics",
+        "description": "Introduction to CSS Media Queries for creating responsive web designs",
+        "level": "Beginner"
+      },
+      {
         "id": "frontend-react",
         "title": "React",
         "description": "React framework interview questions and answers",
