@@ -29,13 +29,11 @@ const QuestionFilter: React.FC<QuestionFilterProps> = ({
   setSearchQuery,
 }) => {
   const [filteredCount, setFilteredCount] = useState(questions.length);
-  const [highlightedQuestions, setHighlightedQuestions] = useState<any[]>(questions);
 
   useEffect(() => {
     if (!searchQuery.trim()) {
       onFilterChange(questions);
       setFilteredCount(questions.length);
-      setHighlightedQuestions(questions);
       return;
     }
 
@@ -87,9 +85,8 @@ const QuestionFilter: React.FC<QuestionFilterProps> = ({
       return newQ;
     });
 
-    onFilterChange(filtered);
+    onFilterChange(highlightedFiltered);
     setFilteredCount(filtered.length);
-    setHighlightedQuestions(highlightedFiltered);
   }, [searchQuery, questions, onFilterChange]);
 
   return (
@@ -119,38 +116,8 @@ const QuestionFilter: React.FC<QuestionFilterProps> = ({
           Found {filteredCount} matching questions
         </div>
       )}
-      {/* Example preview of matching questions with highlights (optional, remove if not desired) */}
-      {searchQuery && highlightedQuestions.length > 0 && (
-        <div className="mt-4 space-y-3">
-          {highlightedQuestions.slice(0, 5).map((q, idx) => (
-            <div key={q.id || idx} className="p-2 border-b last:border-none">
-              <div
-                className="font-semibold"
-                dangerouslySetInnerHTML={{ __html: q._highlightedQuestion || q.question }}
-              />
-              {q._highlightedAnswer && typeof q._highlightedAnswer === "string" ? (
-                <div
-                  className="text-sm mt-1 text-gray-700"
-                  dangerouslySetInnerHTML={{ __html: q._highlightedAnswer }}
-                />
-              ) : Array.isArray(q._highlightedAnswer) ? (
-                q._highlightedAnswer.map((block: any, i: number) =>
-                  block.type === "text" ? (
-                    <div
-                      key={i}
-                      className="text-sm mt-1 text-gray-700"
-                      dangerouslySetInnerHTML={{ __html: block.content }}
-                    />
-                  ) : null
-                )
-              ) : null}
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 };
 
 export default QuestionFilter;
-

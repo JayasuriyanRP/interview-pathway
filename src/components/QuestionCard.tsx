@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { ChevronDown, CheckCircle2, Undo, Edit, Clipboard, ClipboardCheck } from "lucide-react";
 import Answer from "./Answer";
@@ -19,6 +20,8 @@ interface QuestionProps {
   isExpanded: boolean;
   onEdit?: (id: string, updatedQuestion: string, updatedAnswer: string) => void;
   editable?: boolean;
+  _highlightedQuestion?: string;
+  _highlightedAnswer?: any;
 }
 
 const levelBadgeVariant = {
@@ -40,12 +43,13 @@ const Question: React.FC<QuestionProps> = ({
   isExpanded = false,
   onEdit,
   editable = false,
+  _highlightedQuestion,
+  _highlightedAnswer,
 }) => {
   const [isOpen, setIsOpen] = useState(isExpanded);
   const [isEditing, setIsEditing] = useState(false);
 
   const [copied, setCopied] = useState(false);
-
 
   useEffect(() => {
     setIsOpen(isExpanded);
@@ -57,7 +61,6 @@ const Question: React.FC<QuestionProps> = ({
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
-
 
   const toggleAnswer = () => {
     setIsOpen(!isOpen);
@@ -138,9 +141,10 @@ const Question: React.FC<QuestionProps> = ({
             </h3>
             <div className="flex items-center gap-2">
               <h3 className="font-semibold leading-snug tracking-tight text-gray-800 dark:text-gray-100">
-                <h1 className="font-mono text-sm sm:text-base md:text-lg tracking-wide px-1 py-0.5 rounded">
-                  {question}
-                </h1>
+                <h1 
+                  className="font-mono text-sm sm:text-base md:text-lg tracking-wide px-1 py-0.5 rounded"
+                  dangerouslySetInnerHTML={{ __html: _highlightedQuestion || question }}  
+                ></h1>
               </h3>
               <button
                 onClick={handleCopy}
@@ -186,11 +190,16 @@ const Question: React.FC<QuestionProps> = ({
       {isOpen && (
         <div className="px-2 sm:px-6 pb-4 sm:pb-6 pt-1 sm:pt-2 border-t border-border animate-slideUp bg-white dark:bg-black">
           {isMarkdown ? (
-            <MarkdownView
-              content={answer.replace(/^```markdown\n?|```$/g, "")}
-            />
+            _highlightedAnswer && typeof _highlightedAnswer === "string" ? (
+              <MarkdownView content={_highlightedAnswer.replace(/^```markdown\n?|```$/g, "")} />
+            ) : (
+              <MarkdownView content={answer.replace(/^```markdown\n?|```$/g, "")} />
+            )
           ) : (
-            <Answer answer={answer} highlightQuery={highlightQuery} />
+            <Answer 
+              answer={_highlightedAnswer || answer} 
+              highlightQuery={highlightQuery} 
+            />
           )}
         </div>
       )}
