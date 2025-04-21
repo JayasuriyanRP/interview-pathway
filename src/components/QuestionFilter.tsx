@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -16,10 +15,14 @@ const QuestionFilter: React.FC<QuestionFilterProps> = ({
   searchQuery,
   setSearchQuery,
 }) => {
+  // Keep track of filtered questions count
+  const [filteredCount, setFilteredCount] = useState(questions.length);
+
   // Filter questions based on search query
   useEffect(() => {
     if (!searchQuery.trim()) {
       onFilterChange(questions);
+      setFilteredCount(questions.length);
       return;
     }
 
@@ -46,6 +49,7 @@ const QuestionFilter: React.FC<QuestionFilterProps> = ({
     });
     
     onFilterChange(filtered);
+    setFilteredCount(filtered.length);
   }, [searchQuery, questions, onFilterChange]);
 
   return (
@@ -72,7 +76,7 @@ const QuestionFilter: React.FC<QuestionFilterProps> = ({
       </div>
       {searchQuery && (
         <div className="mt-2 text-sm text-gray-500">
-          Found {filtered?.length || 0} matching questions
+          Found {filteredCount} matching questions
         </div>
       )}
     </div>
