@@ -72,7 +72,7 @@ const QuestionFilter: React.FC<QuestionFilterProps> = ({
       </div>
       {searchQuery && (
         <div className="mt-2 text-sm text-gray-500">
-          Found {onFilterChange.length} matching questions
+          Found {filtered?.length || 0} matching questions
         </div>
       )}
     </div>

@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Input } from "@/components/ui/input";
 import { Search, Filter } from "lucide-react";
@@ -22,6 +23,10 @@ const FilterSearch: React.FC<FilterSearchProps> = ({
   levelFilter,
   setLevelFilter,
 }) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
   return (
     <div className="flex flex-col sm:flex-row gap-2">
       <div className="relative flex-1">
@@ -30,7 +35,7 @@ const FilterSearch: React.FC<FilterSearchProps> = ({
           type="search"
           placeholder="Search subpaths..."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={handleSearch}
           className="pl-9 w-full"
         />
       </div>
