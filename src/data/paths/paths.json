@@ -183,39 +183,21 @@
         "level": "Beginner",
         "subpaths": [
           {
-            "id": "backend-csharp-advanced",
-            "title": "C# Advanced",
-            "description": "Advanced C# language features and best practices.",
-            "level": "Advanced"
-          },
-          {
             "id": "backend-csharp-basic",
             "title": "C# Basics",
             "description": "Fundamentals of C# programming for backend development.",
             "level": "Beginner"
           },
           {
-            "id": "backend-csharp-behavioral-design-patterns",
-            "title": "Behavioral Design Patterns",
-            "description": "Design patterns that focus on object interactions and responsibilities.",
-            "level": "Advanced"
+            "id": "csharp-syntaxes",
+            "title": "C# Syntaxes",
+            "description": "Common C# syntax patterns and related interview questions",
+            "level": "Beginner"
           },
           {
-            "id": "backend-csharp-creational-design-patterns",
-            "title": "Creational Design Patterns",
-            "description": "Patterns for object creation mechanisms in C#.",
-            "level": "Intermediate"
-          },
-          {
-            "id": "backend-csharp-design-patterns",
-            "title": "Design Patterns",
-            "description": "Common design patterns and their implementation in C#.",
-            "level": "Intermediate"
-          },
-          {
-            "id": "backend-csharp-entityframework",
-            "title": "Entity Framework",
-            "description": "ORM for .NET to work with relational data using domain-specific objects.",
+            "id": "c-sharp-async",
+            "title": "Async Programming",
+            "description": "Asynchronous programming with async/await in C#.",
             "level": "Intermediate"
           },
           {
@@ -225,9 +207,9 @@
             "level": "Intermediate"
           },
           {
-            "id": "backend-dotnet",
-            "title": ".NET Ecosystem",
-            "description": "Overview of .NET Core and related backend tools and frameworks.",
+            "id": "backend-csharp-entityframework",
+            "title": "Entity Framework",
+            "description": "ORM for .NET to work with relational data using domain-specific objects.",
             "level": "Intermediate"
           },
           {
@@ -237,27 +219,45 @@
             "level": "Intermediate"
           },
           {
-            "id": "c-sharp-advanced",
-            "title": "Advanced C#",
-            "description": "Advanced features and performance optimizations in C#.",
-            "level": "Advanced"
-          },
-          {
-            "id": "c-sharp-advanced-transformed",
-            "title": "Advanced C# (Transformed)",
-            "description": "Deep dive into transformed concepts of advanced C#.",
-            "level": "Advanced"
-          },
-          {
-            "id": "c-sharp-async",
-            "title": "Async Programming",
-            "description": "Asynchronous programming with async/await in C#.",
+            "id": "backend-csharp-design-patterns",
+            "title": "Design Patterns",
+            "description": "Common design patterns and their implementation in C#.",
             "level": "Intermediate"
           },
           {
-            "id": "c-sharp-questions",
-            "title": "C# Interview Questions",
-            "description": "Commonly asked questions in C# interviews with answers.",
+            "id": "backend-csharp-creational-design-patterns",
+            "title": "Creational Design Patterns",
+            "description": "Patterns for object creation mechanisms in C#.",
+            "level": "Intermediate"
+          },
+          {
+            "id": "backend-csharp-behavioral-design-patterns",
+            "title": "Behavioral Design Patterns",
+            "description": "Design patterns that focus on object interactions and responsibilities.",
+            "level": "Intermediate"
+          },
+          {
+            "id": "backend-csharp-structural-design-patterns",
+            "title": "Structural Design Patterns",
+            "description": "Design patterns that deal with object composition and relationships in C#.",
+            "level": "Intermediate"
+          },
+          {
+            "id": "backend-csharp-oops",
+            "title": "Object-Oriented Programming (OOP) in C#",
+            "description": "Core object-oriented principles in C# including encapsulation, inheritance, polymorphism, and abstraction.",
+            "level": "Beginner"
+          },
+          {
+            "id": "csharp-version-comparison",
+            "title": "C# 8 vs C# 9 vs C# 10",
+            "description": "Compare features, improvements, and differences between C# 8, C# 9, and C# 10 with interview-focused insights",
+            "level": "Intermediate"
+          },
+          {
+            "id": "dotnet-version-comparison",
+            "title": ".NET Core 3.1 vs .NET 6 vs .NET 8",
+            "description": "Explore key differences, enhancements, and migration considerations across major .NET versions",
             "level": "Intermediate"
           },
           {
@@ -267,16 +267,28 @@
             "level": "Intermediate"
           },
           {
+            "id": "backend-dotnet",
+            "title": ".NET Ecosystem",
+            "description": "Overview of .NET Core and related backend tools and frameworks.",
+            "level": "Intermediate"
+          },
+          {
+            "id": "c-sharp-questions",
+            "title": "C# Interview Questions",
+            "description": "Commonly asked questions in C# interviews with answers.",
+            "level": "Intermediate"
+          },
+          {
             "id": "securing-api",
             "title": "Securing APIs",
             "description": "Techniques for securing APIs using tokens, rate limits, and identity.",
             "level": "Advanced"
           },
           {
-            "id": "csharp-syntaxes",
-            "title": "C# Syntaxes",
-            "description": "Common C# syntax patterns and related interview questions",
-            "level": "Beginner"
+            "id": "backend-csharp-advanced",
+            "title": "C# Advanced",
+            "description": "Advanced C# language features and best practices.",
+            "level": "Advanced"
           }
         ]
       },

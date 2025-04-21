@@ -1,164 +1,402 @@
 [
   {
-    "id": "be-13",
-    "question": "Can we have a try block without a catch block in C#?",
-    "answer": [
-      {
-        "type": "text",
-        "content": "Yes, a `try` block can exist without a `catch` block as long as it has a `finally` block."
-      },
-      {
-        "type": "code",
-        "language": "csharp",
-        "content": "try\n{\n    Console.WriteLine(\"Inside try block\");\n}\nfinally\n{\n    Console.WriteLine(\"Finally block executes regardless of exception.\");\n}"
-      },
-      {
-        "type": "text",
-        "content": "This is useful when we want to **ensure cleanup code runs** (like closing database connections) **without handling exceptions** explicitly."
-      }
-    ]
+    "id": "ade6a601-d9d7-4b30-88a3-0be4dbf3c3a0",
+    "question": "How does the catch block work in C#?",
+    "answer": "```markdown\nIn C#, the `catch` block is used to handle exceptions that occur in the associated `try` block. When an exception is thrown inside the `try` block, the runtime looks for a matching `catch` block to handle the error. The code inside the `catch` block is executed, allowing you to respond to the error, log it, or take corrective action.\n\n**Basic Syntax:**\n```csharp\ntry\n{\n    // Code that might throw an exception\n}\ncatch (ExceptionType ex)\n{\n    // Code to handle the exception\n}\n```\n\n**Example:**\n```csharp\ntry\n{\n    int number = int.Parse(\"abc\"); // This will throw a FormatException\n}\ncatch (FormatException ex)\n{\n    Console.WriteLine(\"Input string is not a valid number.\");\n}\n```\n\n**Key Points:**\n- You can have multiple `catch` blocks to handle different exception types.\n- If no exception occurs, the `catch` block is skipped.\n- The `catch` block can access the exception object (e.g., `ex`) for more details about the error.\n```\n",
+    "level": "Beginner",
+    "created_at": "2025-04-21T05:05:02.745429Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
   },
   {
-    "id": "be-14",
-    "question": "What happens if an exception is thrown in a finally block?",
-    "answer": [
-      {
-        "type": "text",
-        "content": "If an exception is thrown in a `finally` block, it will **override any previous exception** thrown in the `try` block."
-      },
-      {
-        "type": "code",
-        "language": "csharp",
-        "content": "try\n{\n    throw new Exception(\"Try block exception\");\n}\nfinally\n{\n    throw new Exception(\"Finally block exception\"); // This overrides the original exception\n}"
-      },
-      {
-        "type": "text",
-        "content": "This can cause unintended behavior, so it's recommended to avoid throwing exceptions inside `finally`."
-      }
-    ]
+    "id": "624232d2-c97f-4df5-9596-2d1d025c2c43",
+    "question": "What is the finally block used for in C# error handling?",
+    "answer": "```markdown The finally block in C# error handling is used to execute code after a try and catch block, regardless of whether an exception was thrown or not. It is typically used for cleanup operations, such as closing files, releasing resources, or resetting values.\n\n**Example:**\n\n```csharp\ntry\n{\n    // Code that may throw an exception\n}\ncatch (Exception ex)\n{\n    // Code to handle the exception\n}\nfinally\n{\n    // Code that will always run, even if an exception occurs\n}\n```\n\n**Key Points:**\n- The finally block always executes after the try and catch blocks.\n- It is commonly used for resource cleanup.\n- It runs even if an exception is not caught or if a return statement is encountered in the try or catch blocks.",
+    "level": "Beginner",
+    "created_at": "2025-04-21T05:05:02.745442Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
   },
   {
-    "id": "be-15",
+    "id": "8551cb46-9eaf-43e7-b5fd-3a8808f2f94a",
+    "question": "How do you throw an exception manually in C#?",
+    "answer": "```markdown To throw an exception manually in C#, you use the throw keyword followed by a new instance of an exception class. For example:\n\n```csharp\nthrow new Exception(\"Something went wrong!\");\n```\n\nYou can also throw more specific exceptions, such as:\n\n```csharp\nthrow new ArgumentNullException(\"parameterName\", \"Parameter cannot be null.\");\n```\n\nThis is typically done inside a method when you want to indicate that an error has occurred.",
+    "level": "Beginner",
+    "created_at": "2025-04-21T05:05:02.745456Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "8850a0d8-f705-4da6-9d25-cf6cc4742378",
+    "question": "What is the base class for all exceptions in C#?",
+    "answer": "```markdown\nThe base class for all exceptions in C# is `System.Exception`.\n```",
+    "level": "Beginner",
+    "created_at": "2025-04-21T05:05:02.745468Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "89ff1478-41b5-4b24-b021-33a16b8cdd6f",
+    "question": "What is exception handling in C#?",
+    "answer": "```markdown Exception handling in C# is a mechanism that allows you to detect and respond to errors that occur during program execution. It helps prevent your program from crashing by catching exceptions (unexpected events or errors) and handling them gracefully.\n\nIn C#, exception handling is done using the try, catch, and finally blocks:\n\n```csharp\ntry\n{\n    // Code that might throw an exception\n    int result = 10 / 0;\n}\ncatch (DivideByZeroException ex)\n{\n    // Code to handle the exception\n    Console.WriteLine(\"Cannot divide by zero.\");\n}\nfinally\n{\n    // Code that always runs, whether an exception occurred or not\n    Console.WriteLine(\"Operation complete.\");\n}\n```\n\n- **try**: Contains code that might throw an exception.\n- **catch**: Handles the exception if one occurs.\n- **finally**: (Optional) Contains code that runs no matter what, often used for cleanup.\n\nException handling makes your programs more robust and user-friendly by allowing you to manage errors effectively.",
+    "level": "Beginner",
+    "created_at": "2025-04-21T05:05:02.745371Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "2d12ef75-81bf-4b7d-be85-66c4268d15e2",
+    "question": "Which keywords are used for error handling in C#?",
+    "answer": "```markdown The keywords used for error handling in C# are:\n\n- `try`\n- `catch`\n- `finally`\n- `throw`\n\n**Example:**\n```csharp\ntry\n{\n    // Code that may cause an exception\n}\ncatch (Exception ex)\n{\n    // Code to handle the exception\n}\nfinally\n{\n    // Code that runs regardless of an exception\n}\n```\nYou can use the `throw` keyword to manually raise an exception.",
+    "level": "Beginner",
+    "created_at": "2025-04-21T05:05:02.745401Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "39722729-b36d-4c81-b812-9e63c78a1fb0",
+    "question": "What is the purpose of the try block in C#?",
+    "answer": "```markdown The try block in C# is used to wrap code that might throw an exception during execution. Its main purpose is to allow you to handle potential errors gracefully. If an exception occurs within the try block, control is passed to the corresponding catch block, where you can handle the error. This helps prevent your program from crashing unexpectedly.\n\n**Example:**\n```csharp\ntry\n{\n    int result = 10 / 0; // This will throw a DivideByZeroException\n}\ncatch (DivideByZeroException ex)\n{\n    Console.WriteLine(\"Cannot divide by zero!\");\n}\n```\n\n**Summary:**  \nThe try block is used to detect and handle exceptions, making your code more robust and reliable.",
+    "level": "Beginner",
+    "created_at": "2025-04-21T05:05:02.745413Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "da19163a-92f0-4c8f-842a-71917aeb46a9",
+    "question": "How can you catch multiple types of exceptions in C#?",
+    "answer": "```markdown You can catch multiple types of exceptions in C# by using multiple catch blocks, each specifying a different exception type. The catch blocks are checked in order, and the first one that matches the thrown exception type is executed.\n\nHere’s an example:\n\n```csharp\ntry\n{\n    // Code that may throw exceptions\n}\ncatch (FormatException ex)\n{\n    Console.WriteLine(\"A format exception occurred: \" + ex.Message);\n}\ncatch (NullReferenceException ex)\n{\n    Console.WriteLine(\"A null reference exception occurred: \" + ex.Message);\n}\ncatch (Exception ex)\n{\n    // This will catch any other exceptions not caught above\n    Console.WriteLine(\"An exception occurred: \" + ex.Message);\n}\n```\n\n**Key points:**\n- Place more specific exceptions before more general ones (like `Exception`).\n- Only one catch block will execute for a thrown exception.\n- You can also use a single catch block for multiple exception types using pattern matching (C# 7.0+):\n\n```csharp\ncatch (Exception ex) when (ex is FormatException || ex is NullReferenceException)\n{\n    Console.WriteLine(\"A format or null reference exception occurred: \" + ex.Message);\n}\n```\n\nThis approach helps you handle different exception types appropriately in your C# programs.",
+    "level": "Beginner",
+    "created_at": "2025-04-21T05:05:02.745479Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "1dbf3da8-4787-4abb-a9fd-510412b9f05c",
+    "question": "What happens if an exception is not caught in C#?",
+    "answer": "```markdown If an exception is not caught in C#, the program will terminate abnormally. The runtime will display an error message describing the unhandled exception, including its type and stack trace. Any code after the point where the exception was thrown will not execute. Uncaught exceptions can cause loss of data or resources, so it is important to handle exceptions appropriately using try-catch blocks.\n\n**Example:**\n\n```csharp\nint x = 10;\nint y = 0;\nint result = x / y; // This will throw a DivideByZeroException\nConsole.WriteLine(\"This line will not execute.\");\n```\n\n**Output:**\n```\nUnhandled exception. System.DivideByZeroException: Attempted to divide by zero.\n   at Program.Main()\n```\n\n**Summary:**  \nIf an exception is not caught, the application crashes and the exception details are shown.",
+    "level": "Beginner",
+    "created_at": "2025-04-21T05:05:02.745493Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "125c8474-2723-4030-b2c1-452a3379fa7e",
+    "question": "What is the difference between System.Exception and System.SystemException?",
+    "answer": "```markdown **System.Exception** is the base class for all exceptions in C#. It represents errors that occur during application execution. All exception types, both predefined and user-defined, ultimately derive from System.Exception.\n\n**System.SystemException** is a subclass of System.Exception. It acts as the base class for exceptions that are thrown by the .NET runtime (the CLR), rather than by user code. Examples of exceptions derived from System.SystemException include:\n\n- System.NullReferenceException\n- System.IndexOutOfRangeException\n- System.DivideByZeroException\n\n**Key Differences:**\n\n| System.Exception                    | System.SystemException                       |\n|-------------------------------------|----------------------------------------------|\n| Base class for all exceptions       | Derived from System.Exception                |\n| Can be used for user-defined errors | Intended for exceptions thrown by the runtime|\n| Not usually thrown directly         | Not usually thrown directly                  |\n| Examples: custom exceptions         | Examples: NullReferenceException, etc.       |\n\n**Summary:**  \nSystem.Exception is the root of the exception hierarchy, while System.SystemException is a specific subclass used for exceptions generated by the .NET runtime environment. User-defined exceptions should generally inherit directly from System.Exception, not System.SystemException.",
+    "level": "Intermediate",
+    "created_at": "2025-04-21T05:05:02.745507Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "d146d6e0-f6cd-4921-8e3b-5b28fc5ae92a",
+    "question": "How do you create a custom exception in C#?",
+    "answer": "```markdown To create a custom exception in C#, you define a new class that inherits from the Exception class (or a derived exception class). It's recommended to implement the standard constructors to ensure your exception can be used in various scenarios.\n\n```csharp\nusing System;\n\npublic class MyCustomException : Exception\n{\n    public MyCustomException() { }\n\n    public MyCustomException(string message)\n        : base(message) { }\n\n    public MyCustomException(string message, Exception inner)\n        : base(message, inner) { }\n}\n```\n\n**Usage Example:**\n```csharp\nthrow new MyCustomException(\"Something went wrong!\");\n```\n\n**Best Practices:**\n- Name your exception classes with the suffix Exception.\n- Provide the standard constructors for flexibility.\n- Optionally, add custom properties or methods if needed for additional context.",
+    "level": "Intermediate",
+    "created_at": "2025-04-21T05:05:02.745523Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "bfcfc838-8332-4355-98bc-38303b91940d",
+    "question": "What is the purpose of the InnerException property?",
+    "answer": "```markdown The **InnerException** property in C# is used to provide additional context when an exception is thrown as a direct result of another exception. It allows you to chain exceptions together, preserving the original exception that caused the current one. This is especially useful for debugging and error tracing, as it helps you understand the sequence of errors that led to the final exception.\n\n**Example:**\n\n```csharp\ntry\n{\n    // Some code that throws an exception\n}\ncatch (Exception ex)\n{\n    throw new ApplicationException(\"An error occurred in the application.\", ex);\n}\n```\n\nIn this example, the original exception (ex) is passed as the InnerException to the new ApplicationException. When handling the ApplicationException, you can inspect its InnerException property to see the original error.\n\n**Key Points:**\n- **InnerException** helps maintain the exception chain.\n- It provides more detailed error information.\n- Useful for debugging complex error scenarios.",
+    "level": "Intermediate",
+    "created_at": "2025-04-21T05:05:02.745538Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "1be070f7-5333-47fc-bfb5-6b16fa63e13c",
+    "question": "How can you rethrow an exception in C#?",
+    "answer": "```markdown To rethrow an exception in C#, you use the throw statement without specifying the exception variable. This preserves the original stack trace, which is important for debugging. Here’s an example:\n\n```csharp\ntry\n{\n    // Some code that may throw an exception\n}\ncatch (Exception ex)\n{\n    // Handle or log the exception if needed\n    throw; // Rethrows the current exception\n}\n```\n\n**Note:**  \nUsing throw ex; instead of throw; will reset the stack trace, making it harder to trace the original error location. Always use throw; to rethrow the current exception while preserving the stack trace.",
+    "level": "Intermediate",
+    "created_at": "2025-04-21T05:05:02.745552Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "df99c8fa-e393-4821-a21b-23b41790e834",
     "question": "What is the difference between throw and throw ex in C#?",
-    "answer": [
-      {
-        "type": "text",
-        "content": "`throw` preserves the original stack trace, whereas `throw ex` resets the stack trace, making debugging harder."
-      },
-      {
-        "type": "code",
-        "language": "csharp",
-        "content": "try\n{\n    throw new Exception(\"Original Exception\");\n}\ncatch (Exception ex)\n{\n    throw; // Preserves original stack trace\n    // throw ex; // Resets stack trace, making debugging difficult\n}"
-      }
-    ]
+    "answer": "```markdown\n**Difference between `throw` and `throw ex` in C#:**\n\n- **`throw;`**  \n  - Re-throws the current exception.\n  - Preserves the original stack trace, which is crucial for debugging.\n  - Commonly used inside a `catch` block when you want to handle something and then let the exception propagate.\n\n- **`throw ex;`**  \n  - Throws the caught exception object (`ex`) again.\n  - **Resets the stack trace** to the current location, losing the original error location information.\n  - Makes debugging harder because you lose the context of where the exception was originally thrown.\n\n**Example:**\n\n```csharp\ntry\n{\n    // Some code that throws an exception\n}\ncatch (Exception ex)\n{\n    // Option 1: Preserves stack trace\n    throw;\n\n    // Option 2: Resets stack trace (not recommended)\n    // throw ex;\n}\n```\n\n**Best Practice:**  \nAlways use `throw;` to re-throw exceptions unless you have a specific reason to modify the exception. This ensures the original stack trace is preserved.\n```",
+    "level": "Intermediate",
+    "created_at": "2025-04-21T05:05:02.745566Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
   },
   {
-    "id": "be-16",
-    "question": "What happens if a return statement is inside a finally block?",
-    "answer": [
-      {
-        "type": "text",
-        "content": "If a `finally` block contains a `return` statement, it **overrides any return value from the try or catch block**."
-      },
-      {
-        "type": "code",
-        "language": "csharp",
-        "content": "static int Test()\n{\n    try { return 1; }\n    finally { return 2; } // This overrides the try block return\n}\n\nConsole.WriteLine(Test()); // Output: 2"
-      }
-    ]
+    "id": "6bd85c83-adb2-4a13-a60d-2ac1a7d3eb3b",
+    "question": "How does exception propagation work in C#?",
+    "answer": "```markdown ### How Exception Propagation Works in C#\n\nIn C#, **exception propagation** refers to the process by which an exception moves up the call stack until it is caught by a matching `catch` block or causes the program to terminate if unhandled.\n\n#### How It Works\n\n1. **Exception Thrown:** When an error occurs, an exception is thrown using the `throw` statement.\n2. **Searching for a Handler:** The runtime looks for a `catch` block that can handle the exception, starting in the current method.\n3. **Moving Up the Call Stack:** \n    - If no suitable `catch` block is found in the current method, the exception propagates to the calling method.\n    - This process repeats up the call stack until a matching `catch` block is found.\n4. **Unhandled Exception:** \n    - If the exception reaches the top of the call stack without being caught, the program terminates and displays an error message.\n\n#### Example\n\n```csharp\nvoid MethodA()\n{\n    try\n    {\n        MethodB();\n    }\n    catch (Exception ex)\n    {\n        Console.WriteLine(\"Caught in MethodA: \" + ex.Message);\n    }\n}\n\nvoid MethodB()\n{\n    MethodC();\n}\n\nvoid MethodC()\n{\n    throw new InvalidOperationException(\"Something went wrong!\");\n}\n```\n\n- `MethodC` throws an exception.\n- `MethodB` does not handle it, so the exception propagates to `MethodA`.\n- `MethodA` has a `try-catch` block, so the exception is caught there.\n\n#### Key Points\n\n- Exception propagation allows centralized error handling.\n- Only the first matching `catch` block handles the exception.\n- If no handler is found, the application will terminate.\n\n#### Best Practices\n\n- Catch exceptions at the appropriate level where you can handle them meaningfully.\n- Avoid catching exceptions too early unless you can resolve or log them properly.\n\n---\n\n**In summary:** Exception propagation in C# moves exceptions up the call stack until a suitable handler is found, enabling structured and centralized error handling.",
+    "level": "Intermediate",
+    "created_at": "2025-04-21T05:05:02.745580Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
   },
   {
-    "id": "be-17",
-    "question": "Can we catch multiple exceptions in a single catch block?",
-    "answer": [
-      {
-        "type": "text",
-        "content": "Yes, from C# 7.0 onwards, multiple exceptions can be caught using the `when` filter or a single catch block with pattern matching."
-      },
-      {
-        "type": "code",
-        "language": "csharp",
-        "content": "try\n{\n    throw new ArgumentException(\"Invalid argument\");\n}\ncatch (Exception ex) when (ex is ArgumentException || ex is NullReferenceException)\n{\n    Console.WriteLine(\"Caught ArgumentException or NullReferenceException\");\n}"
-      }
-    ]
+    "id": "82609013-0c2c-4cb4-af41-23f27ff16924",
+    "question": "What is a stack trace and how is it useful in error handling?",
+    "answer": "```markdown A **stack trace** in C# is a report that provides information about the sequence of method calls that led to a particular point in the execution of a program, typically when an exception occurs.\n\n### What is a Stack Trace?\n\n- It is a textual representation of the call stack at a specific moment, usually when an exception is thrown.\n- Each line in the stack trace shows a method call, starting from the method where the exception occurred and tracing back up to the entry point of the program.\n\n### Example\n\n```csharp\ntry\n{\n    // Some code that throws an exception\n}\ncatch (Exception ex)\n{\n    Console.WriteLine(ex.StackTrace);\n}\n```\n\nSample output:\n```\n   at MyApp.Program.DoWork() in C:\\Projects\\MyApp\\Program.cs:line 25\n   at MyApp.Program.Main(String[] args) in C:\\Projects\\MyApp\\Program.cs:line 10\n```\n\n### How is it Useful in Error Handling?\n\n- **Debugging:** Helps developers identify exactly where an error occurred and the sequence of method calls that led to it.\n- **Root Cause Analysis:** By examining the stack trace, you can trace back through the code to find the source of the problem.\n- **Logging:** Including stack traces in error logs makes it easier to diagnose issues after deployment.\n- **Exception Propagation:** When exceptions are caught and rethrown, stack traces help maintain context about the original error.\n\n### Best Practices\n\n- Always log the stack trace when handling exceptions, especially in production environments.\n- Use `ex.ToString()` to get both the exception message and the stack trace.\n\n---\n\n**In summary:**  \nA stack trace is an essential tool in C# error handling, providing detailed information about the call sequence leading to an error, which greatly aids in debugging and maintaining robust applications.",
+    "level": "Intermediate",
+    "created_at": "2025-04-21T05:05:02.745595Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
   },
   {
-    "id": "be-18",
-    "question": "Can we use an empty catch block? What are the consequences?",
-    "answer": [
-      {
-        "type": "text",
-        "content": "Yes, but using an empty catch block **swallows exceptions**, making debugging difficult and potentially leading to hidden errors."
-      },
-      {
-        "type": "code",
-        "language": "csharp",
-        "content": "try\n{\n    int result = 10 / 0;\n}\ncatch { } // Bad practice: Exception is silently ignored"
-      },
-      {
-        "type": "text",
-        "content": "Instead, log the exception properly:\n\n```csharp\ncatch (Exception ex)\n{\n    Console.WriteLine(ex.Message);\n}\n```"
-      }
-    ]
+    "id": "0d4cd2dc-0e9d-4fe1-b435-77bef7b34759",
+    "question": "How can you log exceptions in C#?",
+    "answer": "```markdown You can log exceptions in C# using various approaches, depending on your application's requirements and the logging framework you choose. Here are some common methods:\n\n### 1. Using `try-catch` and `Console.WriteLine`\n\n```csharp\ntry\n{\n    // Code that may throw an exception\n}\ncatch (Exception ex)\n{\n    Console.WriteLine($\"Exception: {ex.Message}\");\n    Console.WriteLine($\"Stack Trace: {ex.StackTrace}\");\n}\n```\n\n### 2. Using `System.Diagnostics.Trace`\n\n```csharp\nusing System.Diagnostics;\n\ntry\n{\n    // Code that may throw an exception\n}\ncatch (Exception ex)\n{\n    Trace.WriteLine($\"Exception: {ex}\");\n}\n```\n\n### 3. Using a Logging Framework (e.g., NLog, log4net, Serilog)\n\n**Example with NLog:**\n\n1. Install NLog via NuGet:\n\n   ```\n   Install-Package NLog\n   ```\n\n2. Configure NLog and log exceptions:\n\n   ```csharp\n   private static readonly NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();\n\n   try\n   {\n       // Code that may throw an exception\n   }\n   catch (Exception ex)\n   {\n       logger.Error(ex, \"An error occurred\");\n   }\n   ```\n\n### 4. Writing to a File Manually\n\n```csharp\ntry\n{\n    // Code that may throw an exception\n}\ncatch (Exception ex)\n{\n    System.IO.File.AppendAllText(\"log.txt\", $\"{DateTime.Now}: {ex}\\n\");\n}\n```\n\n---\n\n**Best Practice:**  \nFor production applications, it's recommended to use a robust logging framework (like NLog, log4net, or Serilog) for flexibility, configurability, and support for multiple log targets (files, databases, event logs, etc.).",
+    "level": "Intermediate",
+    "created_at": "2025-04-21T05:05:02.745608Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
   },
   {
-    "id": "be-19",
-    "question": "What is the difference between checked and unchecked in C#?",
-    "answer": [
-      {
-        "type": "text",
-        "content": "The `checked` keyword enables **overflow checking**, while `unchecked` ignores it (default behavior for non-constant expressions)."
-      },
-      {
-        "type": "code",
-        "language": "csharp",
-        "content": "int x = int.MaxValue;\n\n// Checked will throw OverflowException\nint y = checked(x + 1);"
-      }
-    ]
+    "id": "11f13573-d7e9-4a5a-ae3c-a98e823dc6ce",
+    "question": "What is the AggregateException class used for?",
+    "answer": "```markdown The `AggregateException` class in C# is used to represent one or more errors that occur during the execution of parallel or asynchronous operations. It is commonly encountered when working with the Task Parallel Library (TPL), such as with `Task` or `Parallel` classes.\n\n### Key Points\n\n- **Purpose:** To encapsulate multiple exceptions into a single exception object.\n- **Typical Usage:** When multiple tasks run concurrently and more than one task throws an exception, these exceptions are bundled into an `AggregateException`.\n- **Accessing Inner Exceptions:** The `InnerExceptions` property provides a collection of all the exceptions that were thrown.\n- **Handling:** You can use the `Handle` method to process each inner exception individually.\n\n### Example\n\n```csharp\ntry\n{\n    Task task1 = Task.Run(() => { throw new InvalidOperationException(\"Task 1 failed.\"); });\n    Task task2 = Task.Run(() => { throw new ArgumentException(\"Task 2 failed.\"); });\n    Task.WaitAll(task1, task2);\n}\ncatch (AggregateException ex)\n{\n    foreach (var inner in ex.InnerExceptions)\n    {\n        Console.WriteLine(inner.Message);\n    }\n}\n```\n\n**Output:**\n```\nTask 1 failed.\nTask 2 failed.\n```\n\n### Summary\n\n`AggregateException` is essential for robust error handling in parallel and asynchronous programming, allowing you to manage multiple exceptions in a structured way.",
+    "level": "Intermediate",
+    "created_at": "2025-04-21T05:05:02.745621Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
   },
   {
-    "id": "be-20",
-    "question": "How does exception handling work with asynchronous methods?",
-    "answer": [
-      {
-        "type": "text",
-        "content": "In async methods, exceptions must be caught using `try-catch` inside the `await` block. Otherwise, they are wrapped in an `AggregateException`."
-      },
-      {
-        "type": "code",
-        "language": "csharp",
-        "content": "async Task TestAsync()\n{\n    try\n    {\n        await Task.Run(() => throw new Exception(\"Async Error\"));\n    }\n    catch (Exception ex)\n    {\n        Console.WriteLine(\"Caught: \" + ex.Message);\n    }\n}"
-      }
-    ]
+    "id": "a5eef7c4-695d-46ef-8f78-be4a8cec36ea",
+    "question": "How do you handle exceptions in asynchronous methods in C#?",
+    "answer": "```markdown\nIn C#, exceptions in asynchronous methods are handled using try-catch blocks, just like in synchronous code. However, because asynchronous methods often return a Task or Task<T>, exceptions are captured and stored in the Task. When you await the Task, any exceptions are re-thrown at the await point, allowing you to catch them with try-catch.\n\n**Example:**\n\n```csharp\npublic async Task MyAsyncMethod()\n{\n    try\n    {\n        // Await an asynchronous operation that may throw\n        await SomeOtherAsyncMethod();\n    }\n    catch (Exception ex)\n    {\n        // Handle the exception\n        Console.WriteLine($\"Exception caught: {ex.Message}\");\n    }\n}\n```\n\n**Key Points:**\n\n- Place the try-catch block inside the async method, wrapping the await statement.\n- If you do not await the Task (e.g., fire-and-forget), exceptions may go unobserved unless you attach a continuation or handle the Task's Exception property.\n- For methods returning Task, exceptions are propagated to the caller and can be caught when the Task is awaited.\n\n**Catching exceptions from awaited tasks:**\n\n```csharp\ntry\n{\n    await MyAsyncMethod();\n}\ncatch (Exception ex)\n{\n    // Handle exceptions thrown from MyAsyncMethod\n}\n```\n\n**Summary:**  \nAlways use try-catch around await statements to handle exceptions in asynchronous methods. If you do not await the Task, check the Task.Exception property or use continuations to observe exceptions.\n```\n",
+    "level": "Intermediate",
+    "created_at": "2025-04-21T05:05:02.745635Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
   },
   {
-    "id": "be-23",
-    "question": "What happens if an exception is thrown from within a 'catch' block?",
-    "answer": [
-      {
-        "type": "text",
-        "content": "If an exception is thrown within a 'catch' block, it will propagate up the call stack, potentially overriding the original exception if not handled properly. This can lead to loss of information about the initial exception."
-      },
-      {
-        "type": "code",
-        "language": "csharp",
-        "content": "try\n{\n    // Some code that throws an exception\n}\ncatch (Exception ex)\n{\n    // Handling the first exception\n    try\n    {\n        // Some code that throws another exception\n    }\n    catch (Exception innerEx)\n    {\n        // This exception can override the original one\n        throw innerEx;\n    }\n}"
-      }
-    ]
+    "id": "5d870f8f-eace-44c3-a4ed-d4cf3fa2e4be",
+    "question": "What is the difference between checked and unchecked contexts in C#?",
+    "answer": "```markdown\nIn C#, **checked** and **unchecked** contexts control how arithmetic overflow is handled for integral-type operations (such as `int`, `long`, etc.).\n\n### checked Context\n\n- In a `checked` context, arithmetic overflow **raises a runtime exception** (`OverflowException`).\n- This is useful when you want to ensure that overflow conditions are detected and handled.\n\n**Example:**\n```csharp\nchecked\n{\n    int x = int.MaxValue;\n    int y = x + 1; // Throws OverflowException\n}\n```\n\n### unchecked Context\n\n- In an `unchecked` context, arithmetic overflow **does not raise an exception**; the result wraps around (default behavior).\n- This is useful for performance or when overflow is expected and acceptable.\n\n**Example:**\n```csharp\nunchecked\n{\n    int x = int.MaxValue;\n    int y = x + 1; // y becomes int.MinValue, no exception thrown\n}\n```\n\n### Summary Table\n\n| Context   | Overflow Behavior         | Exception Thrown?      |\n|-----------|--------------------------|------------------------|\n| checked   | Detects overflow         | Yes (`OverflowException`) |\n| unchecked | Ignores overflow (wraps) | No                     |\n\n**Note:** By default, most arithmetic operations in C# are `unchecked` unless the `/checked` compiler option is enabled or the code is explicitly placed in a `checked` block.\n```\n",
+    "level": "Intermediate",
+    "created_at": "2025-04-21T05:05:02.745648Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
   },
   {
-    "id": "be-25",
-    "question": "What is the effect of an unhandled exception in a Task run by Task.Run()?",
-    "answer": [
-      {
-        "type": "text",
-        "content": "An unhandled exception in a Task run by Task.Run() will cause the Task to transition to the Faulted state. If the exception is not observed (e.g., by awaiting the Task or accessing its Exception property), it can lead to the application terminating due to an unobserved task exception."
-      },
-      {
-        "type": "code",
-        "language": "csharp",
-        "content": "Task.Run(() =>\n{\n    throw new InvalidOperationException(\"Something went wrong\");\n});\n\n// If the Task is not awaited or its Exception property is not accessed,\n// the exception may go unobserved, potentially terminating the application."
-      }
-    ]
+    "id": "6b5a30f1-6ef4-4f23-a61b-25033170d1f4",
+    "question": "How do you handle exceptions in parallel programming in C#?",
+    "answer": "```markdown\n### Handling Exceptions in Parallel Programming in C#\n\nIn parallel programming with C# (using `Parallel.For`, `Parallel.ForEach`, or `Task`), exceptions are handled differently than in sequential code. When multiple tasks or iterations throw exceptions, these are aggregated and thrown as an `AggregateException`.\n\n#### Key Points\n\n- **Exceptions are not thrown immediately:** In parallel loops or tasks, exceptions are captured and wrapped in an `AggregateException`.\n- **AggregateException:** This exception contains all the exceptions thrown by individual tasks or iterations.\n\n#### Example: Handling Exceptions in `Parallel.For`\n\n```csharp\ntry\n{\n    Parallel.For(0, 10, i =>\n    {\n        if (i == 5)\n            throw new InvalidOperationException($\"Error at iteration {i}\");\n        Console.WriteLine(i);\n    });\n}\ncatch (AggregateException ex)\n{\n    foreach (var inner in ex.InnerExceptions)\n    {\n        Console.WriteLine($\"Caught exception: {inner.Message}\");\n    }\n}\n```\n\n#### Example: Handling Exceptions in Tasks\n\n```csharp\nvar tasks = new List<Task>();\n\nfor (int i = 0; i < 5; i++)\n{\n    int local = i;\n    tasks.Add(Task.Run(() =>\n    {\n        if (local == 2)\n            throw new Exception(\"Task failed\");\n    }));\n}\n\ntry\n{\n    Task.WaitAll(tasks.ToArray());\n}\ncatch (AggregateException ex)\n{\n    ex.Handle(e =>\n    {\n        Console.WriteLine($\"Handled exception: {e.Message}\");\n        return true; // Mark as handled\n    });\n}\n```\n\n#### Best Practices\n\n- Always catch `AggregateException` when using parallel constructs.\n- Use the `Handle` method of `AggregateException` to process or filter exceptions.\n- Be aware that if an exception is unhandled, it will propagate and may terminate your application.\n\n#### References\n\n- [Microsoft Docs: Exception Handling in Task Parallel Library](https://learn.microsoft.com/en-us/dotnet/standard/parallel-programming/exception-handling-task-parallel-library)\n```\n",
+    "level": "Advanced",
+    "created_at": "2025-04-21T05:05:02.745662Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "1ed2c82b-6941-46d2-8286-8ba08d04f247",
+    "question": "What are exception filters and how are they used in C#?",
+    "answer": "```markdown Exception filters in C# are a feature that allows you to specify a condition for a catch block to handle an exception. They enable more granular and expressive error handling by letting you catch exceptions only when certain criteria are met, without resorting to rethrowing or nesting catch blocks.\n\n## Syntax\n\nException filters use the `when` keyword in a catch clause:\n\n```csharp\ntry\n{\n    // Code that may throw an exception\n}\ncatch (Exception ex) when (/* condition */)\n{\n    // Handle exception if condition is true\n}\n```\n\n## How They Work\n\n- The condition after `when` is a boolean expression.\n- If the exception is thrown, the runtime evaluates the filter.\n- If the filter returns `true`, the catch block executes.\n- If it returns `false`, the exception continues to propagate and may be caught by another catch block or higher up the call stack.\n\n## Example\n\n```csharp\ntry\n{\n    // Some code that may throw\n}\ncatch (IOException ex) when (ex.Message.Contains(\"disk full\"))\n{\n    Console.WriteLine(\"Handle disk full error specifically.\");\n}\ncatch (IOException ex)\n{\n    Console.WriteLine(\"Handle other IO exceptions.\");\n}\n```\n\nIn this example:\n\n- The first catch block only handles `IOException` if the message contains \"disk full\".\n- Other IO exceptions are handled by the second catch block.\n\n## Benefits\n\n- **Improved Readability:** Keeps catch blocks focused and avoids deeply nested try-catch structures.\n- **No Side Effects:** The filter expression should be free of side effects, as it may be evaluated multiple times.\n- **Selective Handling:** Enables handling exceptions based on runtime state or exception data.\n\n## Use Cases\n\n- Logging only certain exceptions.\n- Handling exceptions differently based on environment or user context.\n- Filtering exceptions based on properties (e.g., error codes, messages).\n\n## Notes\n\n- Exception filters are available in C# 6.0 and later.\n- They are especially useful in asynchronous programming and when working with complex exception hierarchies.\n\n---\n\n**Summary:**  \nException filters in C# use the `when` keyword to conditionally handle exceptions in catch blocks, making error handling more precise and expressive.",
+    "level": "Advanced",
+    "created_at": "2025-04-21T05:05:02.745676Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "1c3f4275-0c6b-41fe-9575-6d304cbf289f",
+    "question": "How can you ensure resource cleanup when an exception occurs?",
+    "answer": "```markdown To ensure resource cleanup when an exception occurs in C#, you should use the **try-finally** construct or, preferably, the **using** statement for objects that implement `IDisposable`. This guarantees that resources such as file handles, database connections, or network streams are properly released, even if an exception is thrown.\n\n### Using `try-finally`\n\n```csharp\nFileStream stream = null;\ntry\n{\n    stream = new FileStream(\"data.txt\", FileMode.Open);\n    // Perform operations on the stream\n}\nfinally\n{\n    if (stream != null)\n        stream.Dispose(); // Ensures cleanup even if an exception occurs\n}\n```\n\n### Using `using` Statement\n\nThe `using` statement is a shorthand for try-finally that automatically calls `Dispose()` on the object when the block is exited, regardless of whether an exception was thrown.\n\n```csharp\nusing (var stream = new FileStream(\"data.txt\", FileMode.Open))\n{\n    // Perform operations on the stream\n} // stream.Dispose() is called automatically here\n```\n\n### Key Points\n\n- **try-finally**: Use when you need explicit control over cleanup.\n- **using**: Preferred for `IDisposable` resources; ensures deterministic cleanup.\n- Always release unmanaged resources to prevent resource leaks, even in the presence of exceptions.\n\n**References:**\n- [Microsoft Docs: try-finally](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/try-finally)\n- [Microsoft Docs: using statement](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-statement)",
+    "level": "Advanced",
+    "created_at": "2025-04-21T05:05:02.745690Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "0731e45a-a981-4e78-9bbc-60a39375d370",
+    "question": "What is the difference between a handled and an unhandled exception?",
+    "answer": "```markdown\n### Difference Between a Handled and an Unhandled Exception in C#\n\nIn C#, **exceptions** are runtime errors that disrupt the normal flow of a program. How these exceptions are managed determines whether they are *handled* or *unhandled*.\n\n#### Handled Exception\n\n- **Definition:** An exception is *handled* when it is caught and processed by the program using a `try-catch` (or `try-catch-finally`) block.\n- **Behavior:** The program can recover from the error, log it, display a user-friendly message, or take corrective action.\n- **Example:**\n  ```csharp\n  try\n  {\n      int x = int.Parse(\"not a number\");\n  }\n  catch (FormatException ex)\n  {\n      Console.WriteLine(\"Input was not in a correct format.\");\n  }\n  ```\n- **Outcome:** The application continues running after the exception is handled.\n\n#### Unhandled Exception\n\n- **Definition:** An exception is *unhandled* if it is not caught by any `catch` block in the call stack.\n- **Behavior:** The exception propagates up the call stack. If it remains unhandled, the .NET runtime terminates the application and may display an error message.\n- **Example:**\n  ```csharp\n  int x = int.Parse(\"not a number\"); // No try-catch block\n  ```\n- **Outcome:** The application crashes, and the runtime may display a stack trace or error dialog.\n\n#### Summary Table\n\n| Aspect                | Handled Exception                | Unhandled Exception             |\n|-----------------------|----------------------------------|---------------------------------|\n| Caught by code?       | Yes (`try-catch`)                | No                              |\n| Application continues?| Usually                          | No (application terminates)     |\n| Error reporting       | Controlled (custom messages/log) | Default runtime error message   |\n| Recovery possible?    | Yes                              | No (unless handled globally)    |\n\n#### Best Practice\n\nAlways handle exceptions where recovery or meaningful error reporting is possible. For unhandled exceptions, consider using global handlers (e.g., `AppDomain.UnhandledException`) to log errors before termination.\n```\n",
+    "level": "Advanced",
+    "created_at": "2025-04-21T05:05:02.745705Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "497eb243-dd57-494d-b30a-66a8a0e4765e",
+    "question": "How can you globally handle unhandled exceptions in a C# application?",
+    "answer": "```markdown\nTo globally handle unhandled exceptions in a C# application, you can subscribe to special events provided by the .NET runtime. This allows you to log, display, or otherwise process exceptions that are not caught elsewhere in your code.\n\n### For Console Applications\n\nSubscribe to the following events at the start of your application (e.g., in `Main`):\n\n```csharp\nusing System;\n\nclass Program\n{\n    static void Main(string[] args)\n    {\n        AppDomain.CurrentDomain.UnhandledException += (sender, e) =>\n        {\n            Exception ex = (Exception)e.ExceptionObject;\n            // Log or handle the exception\n            Console.WriteLine($\"Unhandled exception: {ex.Message}\");\n        };\n\n        // Your application code here\n    }\n}\n```\n\n### For Windows Forms Applications\n\nHandle both `AppDomain.CurrentDomain.UnhandledException` and `Application.ThreadException`:\n\n```csharp\nusing System;\nusing System.Windows.Forms;\n\nstatic class Program\n{\n    [STAThread]\n    static void Main()\n    {\n        Application.ThreadException += (sender, e) =>\n        {\n            // Handle UI thread exceptions\n            MessageBox.Show($\"UI Thread exception: {e.Exception.Message}\");\n        };\n\n        AppDomain.CurrentDomain.UnhandledException += (sender, e) =>\n        {\n            Exception ex = (Exception)e.ExceptionObject;\n            // Handle non-UI thread exceptions\n            MessageBox.Show($\"Non-UI Thread exception: {ex.Message}\");\n        };\n\n        Application.EnableVisualStyles();\n        Application.SetCompatibleTextRenderingDefault(false);\n        Application.Run(new MainForm());\n    }\n}\n```\n\n### For WPF Applications\n\nHandle `AppDomain.CurrentDomain.UnhandledException` and `Application.DispatcherUnhandledException`:\n\n```csharp\nusing System;\nusing System.Windows;\n\npublic partial class App : Application\n{\n    public App()\n    {\n        this.DispatcherUnhandledException += (sender, e) =>\n        {\n            // Handle UI thread exceptions\n            MessageBox.Show($\"UI Thread exception: {e.Exception.Message}\");\n            e.Handled = true;\n        };\n\n        AppDomain.CurrentDomain.UnhandledException += (sender, e) =>\n        {\n            Exception ex = (Exception)e.ExceptionObject;\n            // Handle non-UI thread exceptions\n            MessageBox.Show($\"Non-UI Thread exception: {ex.Message}\");\n        };\n    }\n}\n```\n\n### Notes\n\n- These handlers should be set as early as possible in your application's lifecycle.\n- Global exception handlers are a last resort; always use local try-catch blocks where possible.\n- Unhandled exceptions may terminate the application, especially in .NET Core and later.\n- For ASP.NET applications, use `Application_Error` in `Global.asax` or middleware for global exception handling.\n\n**References:**\n- [Microsoft Docs: Handling and Throwing Exceptions](https://learn.microsoft.com/en-us/dotnet/standard/exceptions/)\n- [AppDomain.UnhandledException Event](https://learn.microsoft.com/en-us/dotnet/api/system.appdomain.unhandledexception)\n```\n",
+    "level": "Advanced",
+    "created_at": "2025-04-21T05:05:02.745720Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "0f4aa788-67d3-4741-956c-19e1393dc519",
+    "question": "What are fatal exceptions and how should they be handled?",
+    "answer": "```markdown ### Fatal Exceptions in C# and Their Handling\n\n**Fatal exceptions** are errors that occur during the execution of a program and indicate conditions from which the application cannot reasonably recover. These exceptions typically represent serious problems such as:\n\n- Out of memory (`OutOfMemoryException`)\n- Stack overflow (`StackOverflowException`)\n- Access violations (`AccessViolationException`)\n- Execution engine failures (`ExecutionEngineException`)\n\n#### Characteristics of Fatal Exceptions\n\n- **Unrecoverable:** The application state is likely corrupted, making it unsafe or impossible to continue execution.\n- **Not Meant to be Caught:** Many fatal exceptions are not meant to be caught or handled in user code. For example, catching `StackOverflowException` or `ExecutionEngineException` is not possible in .NET Core and later versions.\n- **Process Termination:** The .NET runtime will often terminate the process when a fatal exception occurs to prevent further damage or data corruption.\n\n#### Handling Fatal Exceptions\n\n**Best Practices:**\n\n1. **Do Not Catch Fatal Exceptions:**  \n   Avoid catching fatal exceptions in general `catch` blocks. Use specific exception types in your catch statements to prevent accidentally catching fatal exceptions.\n   ```csharp\n   try\n   {\n       // Code that may throw exceptions\n   }\n   catch (IOException ex)\n   {\n       // Handle IO exceptions\n   }\n   // Avoid: catch (Exception ex) { ... }\n   ```\n\n2. **Fail Fast:**  \n   If a fatal exception is detected, allow the application to terminate. This prevents running in an unpredictable or corrupted state.\n\n3. **Use AppDomain.UnhandledException:**  \n   For logging or cleanup purposes, you can subscribe to the `AppDomain.UnhandledException` event. However, do not attempt to recover or continue execution from this event.\n   ```csharp\n   AppDomain.CurrentDomain.UnhandledException += (sender, e) =>\n   {\n       // Log the exception\n       var ex = e.ExceptionObject as Exception;\n       LogException(ex);\n   };\n   ```\n\n4. **Design for Robustness:**  \n   Write code defensively to minimize the chance of fatal exceptions (e.g., avoid unbounded recursion, manage memory usage carefully).\n\n#### Summary Table\n\n| Exception Type             | Can Be Caught? | Should Be Handled? | Typical Action         |\n|---------------------------|:--------------:|:------------------:|-----------------------|\n| `OutOfMemoryException`    | Yes*           | No                 | Log and terminate     |\n| `StackOverflowException`  | No             | No                 | Process terminates    |\n| `AccessViolationException`| Yes*           | No                 | Log and terminate     |\n| `ExecutionEngineException`| No             | No                 | Process terminates    |\n\n\\* In .NET Core and later, some exceptions cannot be caught even with try/catch.\n\n---\n\n**In summary:**  \nFatal exceptions indicate irrecoverable errors. The recommended approach is to let the application terminate, possibly logging the error for diagnostics, but never attempting to continue execution. Always write code to avoid these exceptions rather than trying to handle them.",
+    "level": "Advanced",
+    "created_at": "2025-04-21T05:05:02.745734Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "7d72262b-0ec6-453f-92c5-8d2070de2691",
+    "question": "How does exception handling differ between synchronous and asynchronous code in C#?",
+    "answer": "```markdown\n### Exception Handling in Synchronous vs. Asynchronous Code in C#\n\n#### Synchronous Code\n\nIn synchronous C# code, exception handling is straightforward:\n\n- Exceptions are thrown immediately when an error occurs.\n- They propagate up the call stack until caught by a `catch` block.\n- Example:\n\n    ```csharp\n    try\n    {\n        // Code that may throw\n        int result = 10 / int.Parse(\"0\");\n    }\n    catch (DivideByZeroException ex)\n    {\n        Console.WriteLine(\"Caught: \" + ex.Message);\n    }\n    ```\n\n#### Asynchronous Code\n\nIn asynchronous code (using `async`/`await` and `Task`), exception handling has important differences:\n\n- Exceptions thrown inside an `async` method are captured and stored in the returned `Task`.\n- The exception is **not thrown immediately**; instead, it is re-thrown when the `Task` is awaited or its `Result`/`Wait()` is accessed.\n- To handle exceptions, wrap the `await` expression in a `try-catch` block.\n\n    ```csharp\n    async Task<int> DivideAsync(int a, int b)\n    {\n        return await Task.Run(() => a / b);\n    }\n\n    async Task CallDivideAsync()\n    {\n        try\n        {\n            int result = await DivideAsync(10, 0);\n        }\n        catch (DivideByZeroException ex)\n        {\n            Console.WriteLine(\"Caught async: \" + ex.Message);\n        }\n    }\n    ```\n\n- If you **do not await** the task (fire-and-forget), unhandled exceptions may go unnoticed or be observed by the runtime's unobserved exception handler.\n\n#### Key Differences\n\n| Aspect                | Synchronous Code                         | Asynchronous Code (`async`/`await`)           |\n|-----------------------|------------------------------------------|-----------------------------------------------|\n| Exception propagation | Immediate, up the call stack             | Stored in `Task`; re-thrown on `await`        |\n| Handling location     | Where the exception is thrown            | Where the `Task` is awaited                   |\n| Fire-and-forget       | N/A                                      | Exceptions may be unobserved                  |\n| AggregateException    | Rarely seen                              | Multiple exceptions can be aggregated in `Task`|\n\n#### Summary\n\n- **Synchronous:** Exceptions are thrown and caught immediately.\n- **Asynchronous:** Exceptions are captured in the `Task` and must be handled when the `Task` is awaited or its result is accessed.\n- Always use `try-catch` around `await` to handle exceptions in asynchronous code.\n```\n",
+    "level": "Advanced",
+    "created_at": "2025-04-21T05:05:02.745750Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "366896ea-49b8-4dbd-911b-307a93abfa20",
+    "question": "What is the role of the AppDomain.UnhandledException event?",
+    "answer": "```markdown\nThe `AppDomain.UnhandledException` event in C# plays a crucial role in error handling at the application domain level. It is triggered when an exception is thrown in any thread within the application domain and is not caught by any `try-catch` block.\n\n**Key Points:**\n\n- **Purpose:** It provides a last-chance notification mechanism for unhandled exceptions before the application terminates.\n- **Scope:** The event is raised for exceptions that are not handled anywhere else in the code, regardless of the thread in which they occur.\n- **Usage:** You can subscribe to this event to log error details, perform cleanup, or notify users before the process exits.\n- **Limitation:** Handling this event does **not** prevent the application from terminating. It is primarily for logging or final actions.\n\n**Example:**\n\n```csharp\nAppDomain.CurrentDomain.UnhandledException += (sender, e) =>\n{\n    Exception ex = (Exception)e.ExceptionObject;\n    Console.WriteLine($\"Unhandled exception: {ex.Message}\");\n    // Perform logging or cleanup here\n};\n```\n\n**Important Notes:**\n\n- The process will still terminate after this event is raised.\n- Not all exceptions will trigger this event (e.g., exceptions in background threads may behave differently depending on the .NET version).\n- Use this event as a safety net, not as a primary error handling mechanism.\n\n**References:**\n- [Microsoft Docs: AppDomain.UnhandledException Event](https://learn.microsoft.com/en-us/dotnet/api/system.appdomain.unhandledexception)\n```\n",
+    "level": "Advanced",
+    "created_at": "2025-04-21T05:05:02.745764Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "aa2abcb6-1e5e-4d2f-acbb-59059d568939",
+    "question": "How can you prevent exception swallowing in C#?",
+    "answer": "```markdown To prevent exception swallowing in C#, you should avoid catching exceptions without proper handling or rethrowing. Exception swallowing occurs when an exception is caught but not acted upon, which can obscure bugs and make debugging difficult.\n\n**Best Practices to Prevent Exception Swallowing:**\n\n1. **Avoid Empty Catch Blocks**\n   ```csharp\n   try\n   {\n       // Some code that may throw\n   }\n   catch (Exception)\n   {\n       // BAD: Swallows the exception\n   }\n   ```\n\n2. **Log Exceptions**\n   Always log exceptions if you catch them, so you have a record of what went wrong.\n   ```csharp\n   try\n   {\n       // Some code\n   }\n   catch (Exception ex)\n   {\n       // Log the exception\n       logger.LogError(ex, \"An error occurred\");\n       throw; // Rethrow to preserve stack trace\n   }\n   ```\n\n3. **Rethrow Exceptions Properly**\n   Use `throw;` (not `throw ex;`) to preserve the original stack trace.\n   ```csharp\n   catch (Exception ex)\n   {\n       // Optionally log\n       throw; // Preserves stack trace\n   }\n   ```\n\n4. **Catch Specific Exceptions**\n   Only catch exceptions you can handle meaningfully.\n   ```csharp\n   try\n   {\n       // Some code\n   }\n   catch (FileNotFoundException ex)\n   {\n       // Handle file not found\n   }\n   ```\n\n5. **Avoid Catching System.Exception Unnecessarily**\n   Catching all exceptions can hide critical errors (like `OutOfMemoryException`).\n\n**Summary Table**\n\n| Practice                       | Prevents Swallowing? | Preserves Info? |\n|------------------------------- |:-------------------:|:---------------:|\n| Empty catch block              | ❌                  | ❌              |\n| Logging and rethrowing         | ✅                  | ✅              |\n| Catching specific exceptions   | ✅                  | ✅              |\n| Using `throw;` (not `throw ex;`)| ✅                  | ✅              |\n\n**Conclusion**\n\nPrevent exception swallowing by handling exceptions appropriately: log them, rethrow if you can't handle, and always catch the most specific exception types possible. This ensures errors are visible and debuggable.",
+    "level": "Advanced",
+    "created_at": "2025-04-21T05:05:02.745777Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "af2ddab5-f8bb-4aa4-92fe-23a5701e9819",
+    "question": "What are best practices for designing custom exceptions in C#?",
+    "answer": "```markdown\n### Best Practices for Designing Custom Exceptions in C#\n\nWhen designing custom exceptions in C#, follow these best practices to ensure clarity, maintainability, and consistency:\n\n1. **Inherit from the Appropriate Base Class**\n   - Derive custom exceptions from `System.Exception` or a more specific subclass like `ApplicationException` (rarely used) or `ArgumentException` if applicable.\n   - Avoid inheriting from `System.SystemException` or `System.Exception` directly unless necessary.\n\n2. **Use the \"Exception\" Suffix**\n   - Name your custom exception classes with the \"Exception\" suffix for clarity (e.g., `InvalidOrderException`).\n\n3. **Implement Standard Constructors**\n   - Provide the following constructors:\n     - Parameterless constructor\n     - Constructor with a `string` message\n     - Constructor with a `string` message and an `Exception` inner exception\n     - Protected constructor for serialization\n\n   ```csharp\n   public class InvalidOrderException : Exception\n   {\n       public InvalidOrderException() { }\n       public InvalidOrderException(string message) : base(message) { }\n       public InvalidOrderException(string message, Exception inner) : base(message, inner) { }\n       protected InvalidOrderException(\n         System.Runtime.Serialization.SerializationInfo info,\n         System.Runtime.Serialization.StreamingContext context) : base(info, context) { }\n   }\n   ```\n\n4. **Be Specific and Document Usage**\n   - Create custom exceptions only for exceptional conditions specific to your domain or application logic.\n   - Document when and why the exception should be thrown.\n\n5. **Support Serialization**\n   - Mark the class with `[Serializable]` and implement the protected serialization constructor if your exception may be serialized (e.g., in distributed applications).\n\n   ```csharp\n   [Serializable]\n   public class InvalidOrderException : Exception\n   {\n       // Constructors as above\n   }\n   ```\n\n6. **Avoid Overusing Custom Exceptions**\n   - Prefer using built-in exceptions (e.g., `ArgumentNullException`, `InvalidOperationException`) when they accurately describe the error condition.\n\n7. **Do Not Catch General Exceptions**\n   - Avoid catching `Exception` unless you have a compelling reason; catch specific exceptions instead.\n\n8. **Include Relevant Data**\n   - If needed, add properties to provide additional context (e.g., an order ID in `InvalidOrderException`).\n\n   ```csharp\n   public int OrderId { get; }\n   public InvalidOrderException(string message, int orderId) : base(message)\n   {\n       OrderId = orderId;\n   }\n   ```\n\n9. **Keep Exceptions Lightweight**\n   - Avoid heavy logic or resource allocation in exception constructors.\n\n10. **Document Exception Throwing**\n    - Clearly document which methods may throw your custom exception and under what circumstances.\n\n---\n\n**References:**\n- [Microsoft Docs: Best Practices for Exceptions](https://learn.microsoft.com/en-us/dotnet/standard/exceptions/best-practices-for-exceptions)\n- [Microsoft Docs: Creating and Throwing Exceptions](https://learn.microsoft.com/en-us/dotnet/standard/exceptions/how-to-create-user-defined-exceptions)\n```\n",
+    "level": "Advanced",
+    "created_at": "2025-04-21T05:05:02.745791Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "43da92a1-1560-4676-9988-ae8425a3530f",
+    "question": "How does exception handling impact performance in C#?",
+    "answer": "```markdown Exception handling in C#—using try, catch, and finally blocks—has a measurable impact on performance, but the effect depends on how exceptions are used:\n\n- **Normal Execution (No Exception Thrown):**\n  - The presence of try/catch blocks incurs minimal overhead. The JIT compiler optimizes for the common case where no exception is thrown, so wrapping code in try blocks is generally inexpensive.\n  - However, excessive or deeply nested try/catch blocks can slightly increase code size and affect inlining, which may have a minor impact on performance.\n\n- **When an Exception is Thrown:**\n  - Throwing and catching exceptions is **expensive**. The runtime must:\n    - Capture the current stack trace.\n    - Unwind the call stack to find a matching catch block.\n    - Allocate and initialize the exception object.\n  - This process is significantly slower than regular control flow—often by orders of magnitude.\n\n- **Best Practices:**\n  - **Do not use exceptions for normal control flow.** Exceptions should signal truly exceptional or error conditions.\n  - Use return codes or other mechanisms for expected conditions (e.g., parsing failures).\n  - Minimize the scope of try blocks to only the code that may throw.\n\n**Summary Table:**\n\n| Scenario                        | Performance Impact      |\n|----------------------------------|------------------------|\n| try/catch, no exception thrown   | Minimal                |\n| Exception thrown and caught      | Significant overhead   |\n| Frequent exception usage         | Severe performance hit |\n\n**References:**\n- [Microsoft Docs: Best Practices for Exceptions](https://learn.microsoft.com/en-us/dotnet/standard/exceptions/best-practices-for-exceptions)\n- [Eric Lippert: Vexing Exceptions](https://ericlippert.com/2008/09/10/vexing-exceptions/)\n\n**In short:**  \nException handling is efficient when exceptions are rare, but throwing and catching exceptions is slow. Design your code to avoid exceptions in performance-critical paths.",
+    "level": "Advanced",
+    "created_at": "2025-04-21T05:05:02.745803Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "21d8f857-d7d3-4632-8678-945f3542a7ad",
+    "question": "What is the difference between exceptions and errors in C#?",
+    "answer": "```markdown\nIn C#, **exceptions** and **errors** are often used interchangeably in casual conversation, but they have distinct meanings:\n\n### Exceptions\n- **Definition:** Exceptions are objects that represent runtime issues or unexpected situations that a program can handle.\n- **Handling:** They can be caught and managed using `try`, `catch`, and `finally` blocks.\n- **Examples:** `NullReferenceException`, `IndexOutOfRangeException`, `FileNotFoundException`.\n- **Purpose:** Allow the program to recover or gracefully handle problems without crashing.\n\n### Errors\n- **Definition:** In C#, the term \"error\" is less formal. It generally refers to serious problems that are often outside the control of the program.\n- **Handling:** Errors are typically not meant to be caught or handled by the application. They may represent issues like hardware failure or corrupted memory.\n- **Examples:** Stack overflow, out of memory, or fatal system errors.\n- **Purpose:** Indicate critical issues that usually require the program to terminate.\n\n> **Summary:**  \n> - **Exceptions** are recoverable and can be handled in code.\n> - **Errors** are usually unrecoverable and indicate serious problems.\n\nMost of the time in C#, you work with **exceptions** for error handling.\n```",
+    "level": "Beginner",
+    "created_at": "2025-04-21T05:05:02.745815Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "5b6ff4c4-74c3-4e12-bc4f-64559c534cf5",
+    "question": "How can you catch all exceptions in a try block?",
+    "answer": "```markdown You can catch all exceptions in a try block by using a catch block that catches the base Exception type. Here’s an example:\n\n```csharp\ntry\n{\n    // Code that may throw an exception\n}\ncatch (Exception ex)\n{\n    // Handle any exception\n    Console.WriteLine(\"An error occurred: \" + ex.Message);\n}\n```\n\n**Note:**  \nCatching all exceptions can be useful for logging or displaying a generic error message, but it’s generally better to catch specific exceptions when possible to handle different error cases appropriately.",
+    "level": "Beginner",
+    "created_at": "2025-04-21T05:05:02.745827Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "43352906-bf72-4210-b950-fae00e2bea48",
+    "question": "What is a NullReferenceException and how can it be avoided?",
+    "answer": "```markdown A **NullReferenceException** in C# occurs when you try to access a member (such as a method or property) on an object that is `null`. In other words, your code is trying to use an object that hasn't been initialized.\n\n### Example\n\n```csharp\nstring message = null;\nint length = message.Length; // This line throws NullReferenceException\n```\n\n### How to Avoid NullReferenceException\n\n1. **Check for null before accessing members:**\n\n   ```csharp\n   if (message != null)\n   {\n       int length = message.Length;\n   }\n   ```\n\n2. **Use the null-conditional operator (`?.`):**\n\n   ```csharp\n   int? length = message?.Length; // Returns null if message is null\n   ```\n\n3. **Initialize objects before use:**\n\n   ```csharp\n   string message = \"\";\n   int length = message.Length; // Safe, message is not null\n   ```\n\n4. **Use nullable value types and null-coalescing operator (`??`):**\n\n   ```csharp\n   int length = message?.Length ?? 0; // Returns 0 if message is null\n   ```\n\n### Summary\n\nA `NullReferenceException` happens when you try to use an object that is `null`. Always check for `null` or use safe navigation operators to prevent this error.",
+    "level": "Beginner",
+    "created_at": "2025-04-21T05:05:02.745841Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "cb20544c-82b2-42a4-b273-263dc185466f",
+    "question": "What is the purpose of the using statement in resource management?",
+    "answer": "```markdown The using statement in C# is used for resource management, specifically to ensure that unmanaged resources (like file handles, database connections, or network streams) are properly released when they are no longer needed. It provides a convenient syntax that automatically calls the Dispose() method on objects that implement the IDisposable interface, even if an exception occurs.\n\n**Purpose of the using statement:**\n\n- **Automatic Resource Cleanup:** It ensures that resources are released as soon as the code block is exited.\n- **Exception Safety:** Resources are disposed of even if an exception is thrown within the using block.\n- **Cleaner Code:** It reduces boilerplate code by eliminating the need to explicitly call Dispose() in a finally block.\n\n**Example:**\n\n```csharp\nusing (var file = new StreamReader(\"example.txt\"))\n{\n    string content = file.ReadToEnd();\n    // file is automatically closed and disposed at the end of this block\n}\n```\n\nIn this example, the StreamReader object is disposed of automatically when the using block ends, ensuring that the file handle is released properly.",
+    "level": "Intermediate",
+    "created_at": "2025-04-21T05:05:02.745855Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "7e009bce-f389-408d-86c3-f24398bcb501",
+    "question": "How can you handle exceptions in LINQ queries?",
+    "answer": "```markdown\nIn C#, exceptions in LINQ queries can occur during query execution, especially with deferred execution (e.g., when using `IEnumerable<T>`). To handle exceptions in LINQ queries:\n\n1. **Wrap the query execution in a try-catch block:**  \n   Since LINQ queries are often lazily evaluated, exceptions are thrown when you enumerate the results (e.g., with `foreach`, `ToList()`, etc.), not when you define the query.\n\n   ```csharp\n   try\n   {\n       var numbers = new List<int> { 1, 2, 0, 4 };\n       var results = numbers.Select(n => 10 / n);\n\n       foreach (var result in results)\n       {\n           Console.WriteLine(result);\n       }\n   }\n   catch (DivideByZeroException ex)\n   {\n       Console.WriteLine($\"Exception caught: {ex.Message}\");\n   }\n   ```\n\n2. **Handle exceptions within the query using helper methods:**  \n   You can use a helper method inside your query to catch and handle exceptions for each element.\n\n   ```csharp\n   var numbers = new List<int> { 1, 2, 0, 4 };\n   var results = numbers.Select(n => SafeDivide(10, n));\n\n   foreach (var result in results)\n   {\n       Console.WriteLine(result);\n   }\n\n   int SafeDivide(int numerator, int denominator)\n   {\n       try\n       {\n           return numerator / denominator;\n       }\n       catch (DivideByZeroException)\n       {\n           return 0; // or any default/error value\n       }\n   }\n   ```\n\n**Summary:**  \n- Use a try-catch block around the enumeration of the LINQ query.\n- Alternatively, handle exceptions for each element within the query using helper methods.\n```\n",
+    "level": "Intermediate",
+    "created_at": "2025-04-21T05:05:02.745868Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "a5d26531-2c48-4e8d-a387-edbcb544c784",
+    "question": "What is the difference between a checked exception and an unchecked exception in C#?",
+    "answer": "```markdown\nIn C#, the terms **checked exception** and **unchecked exception** are not formally used as they are in languages like Java. However, you can understand the difference as follows:\n\n### Unchecked Exceptions\n- In C#, **all exceptions are unchecked**.\n- This means the compiler does **not require** methods to declare the exceptions they might throw, nor does it force callers to handle them.\n- Most exceptions in C# (such as `NullReferenceException`, `IndexOutOfRangeException`, etc.) are derived from the `System.Exception` class.\n- You can choose to handle exceptions using `try-catch` blocks, but it's not enforced by the compiler.\n\n### Checked Exceptions (Not in C#)\n- In languages like Java, **checked exceptions** are exceptions that must be either caught or declared in the method signature.\n- C# **does not support checked exceptions**; there is no mechanism to enforce exception handling at compile time.\n\n### Summary Table\n\n| Language Feature      | C# Support | Java Support |\n|----------------------|:----------:|:------------:|\n| Checked Exceptions   | No         | Yes          |\n| Unchecked Exceptions | Yes        | Yes          |\n\n### Example\n\n```csharp\npublic void MyMethod()\n{\n    // This might throw an exception, but the compiler does not enforce handling it\n    int x = int.Parse(\"not a number\");\n}\n```\n\nIn the above example, if an exception occurs, it's up to the developer to handle it. The compiler does not require any exception handling.\n\n---\n\n**In summary:**  \nC# only has unchecked exceptions; it does not have checked exceptions like Java. Exception handling in C# is optional and not enforced by the compiler.\n```\n",
+    "level": "Intermediate",
+    "created_at": "2025-04-21T05:05:02.745881Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "b5590e47-9261-4db6-bfdf-ee25beeace69",
+    "question": "How can you handle exceptions in event handlers?",
+    "answer": "```markdown\nIn C#, exceptions in event handlers can be handled using try-catch blocks within the event handler method itself. This ensures that any exceptions thrown during the execution of the handler are caught and managed, preventing them from propagating up the call stack and potentially crashing the application.\n\n**Example:**\n\n```csharp\nprivate void Button_Click(object sender, EventArgs e)\n{\n    try\n    {\n        // Code that may throw an exception\n        int result = 10 / int.Parse(\"0\");\n    }\n    catch (DivideByZeroException ex)\n    {\n        MessageBox.Show(\"Cannot divide by zero!\");\n    }\n    catch (Exception ex)\n    {\n        // Handle other exceptions\n        MessageBox.Show(\"An error occurred: \" + ex.Message);\n    }\n}\n```\n\n**Best Practices:**\n- Always use specific exception types when possible.\n- Avoid catching `Exception` unless necessary.\n- Log exceptions for debugging and maintenance.\n- Provide user-friendly error messages.\n\n**Note:** If an exception is not handled within the event handler, it may terminate the application, especially in WinForms or WPF applications.\n```",
+    "level": "Intermediate",
+    "created_at": "2025-04-21T05:05:02.745892Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "36bbd0fc-6f36-4b4d-b6bf-113e5d696dc4",
+    "question": "What is the role of the Exception.Data property?",
+    "answer": "```markdown The Exception.Data property in C# provides a key-value collection (specifically, an IDictionary) that allows you to attach additional, user-defined information to an exception object. This can be useful for supplying extra context about the error, such as variable values, operation details, or custom error codes, which can assist in debugging and logging.\n\n**Example:**\n\n```csharp\ntry\n{\n    // Some code that may throw an exception\n    throw new InvalidOperationException(\"Something went wrong!\");\n}\ncatch (InvalidOperationException ex)\n{\n    ex.Data[\"OperationID\"] = 1234;\n    ex.Data[\"Timestamp\"] = DateTime.Now;\n    Console.WriteLine($\"Error: {ex.Message}\");\n    foreach (var key in ex.Data.Keys)\n    {\n        Console.WriteLine($\"{key}: {ex.Data[key]}\");\n    }\n}\n```\n\n**Key Points:**\n\n- Exception.Data is an IDictionary (key-value pairs).\n- It is empty by default; you can add custom data as needed.\n- Useful for passing additional context with exceptions.\n- The data persists with the exception object and can be accessed wherever the exception is caught.\n\n**Summary:**  \nException.Data enables you to enrich exceptions with custom information, making error handling and diagnostics more effective.",
+    "level": "Intermediate",
+    "created_at": "2025-04-21T05:05:02.745904Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "980fb370-784a-433b-9f80-886e54cced01",
+    "question": "How do you handle exceptions in constructors and destructors?",
+    "answer": "```markdown\n### Handling Exceptions in Constructors and Destructors in C#\n\n#### Constructors\n\n- **Catching Exceptions:**  \n  You can catch and handle exceptions within a constructor using a `try-catch` block. If an exception is not caught, it will propagate up the call stack, and the object will not be constructed.\n- **Best Practices:**  \n  - Avoid letting exceptions escape from constructors unless absolutely necessary.\n  - If an exception occurs, ensure that any resources allocated before the exception are properly released.\n\n**Example:**\n```csharp\npublic class MyClass\n{\n    public MyClass()\n    {\n        try\n        {\n            // Code that may throw an exception\n        }\n        catch (Exception ex)\n        {\n            // Handle or log the exception\n            // Optionally, rethrow if you want to propagate\n            throw new InvalidOperationException(\"Error in constructor\", ex);\n        }\n    }\n}\n```\n\n#### Destructors (Finalizers)\n\n- **Catching Exceptions:**  \n  Exceptions thrown in destructors (finalizers) are **not** catchable by user code. If an exception is thrown and not handled within the destructor, the process may terminate or the exception will be ignored (in .NET Framework, it terminates the process; in .NET Core and later, it's ignored).\n- **Best Practices:**  \n  - Always wrap the finalizer code in a `try-catch` block.\n  - Never let exceptions escape a destructor.\n  - Log exceptions if necessary, but do not throw.\n\n**Example:**\n```csharp\npublic class MyClass\n{\n    ~MyClass()\n    {\n        try\n        {\n            // Cleanup code that may throw\n        }\n        catch (Exception ex)\n        {\n            // Log the exception, but do not throw\n            // e.g., Logger.Log(ex);\n        }\n    }\n}\n```\n\n#### Summary Table\n\n| Context      | Can Catch Exceptions? | Best Practice                        |\n|--------------|----------------------|--------------------------------------|\n| Constructor  | Yes                  | Catch, handle, or rethrow as needed  |\n| Destructor   | No (must handle)     | Catch and suppress/log exceptions    |\n\n**References:**\n- [Microsoft Docs: Exception Handling (C#)](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/exceptions/)\n- [Microsoft Docs: Finalizers (Destructors)](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/destructors)\n```\n",
+    "level": "Advanced",
+    "created_at": "2025-04-21T05:05:02.745917Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "6de2df84-395b-4744-8c9a-3d6f884b83ff",
+    "question": "How can you implement retry logic for transient errors?",
+    "answer": "```markdown\nTo implement retry logic for transient errors in C#, you can use a loop or recursion to attempt the operation multiple times, catching exceptions that indicate transient failures (such as network timeouts). You can also introduce a delay (optionally with exponential backoff) between retries. For more robust solutions, you might use libraries like [Polly](https://github.com/App-vNext/Polly).\n\n### Example: Manual Retry Logic with Exponential Backoff\n\n```csharp\nint maxRetries = 5;\nint delay = 1000; // Initial delay in milliseconds\n\nfor (int attempt = 1; attempt <= maxRetries; attempt++)\n{\n    try\n    {\n        // Attempt the operation\n        PerformOperation();\n        break; // Success, exit the loop\n    }\n    catch (TransientException ex) // Replace with your specific transient exception\n    {\n        if (attempt == maxRetries)\n        {\n            // Rethrow if max retries reached\n            throw;\n        }\n        // Wait before retrying (exponential backoff)\n        Thread.Sleep(delay);\n        delay *= 2;\n    }\n}\n```\n\n### Example: Using Polly Library\n\nPolly is a popular .NET library for resilience and transient-fault handling.\n\n```csharp\nusing Polly;\nusing Polly.Retry;\n\nvar retryPolicy = Policy\n    .Handle<TransientException>() // Replace with your transient exception\n    .WaitAndRetry(\n        retryCount: 5,\n        sleepDurationProvider: attempt => TimeSpan.FromSeconds(Math.Pow(2, attempt))\n    );\n\nretryPolicy.Execute(() =>\n{\n    PerformOperation();\n});\n```\n\n### Key Points\n\n- **Identify transient errors:** Only retry on exceptions that are likely to be resolved by retrying.\n- **Limit retries:** Set a maximum number of attempts to avoid infinite loops.\n- **Backoff strategy:** Use delays between retries, preferably with exponential backoff.\n- **Use libraries:** Consider Polly for more advanced scenarios (circuit breakers, fallback, etc.).\n\n**References:**\n- [Polly Documentation](https://github.com/App-vNext/Polly)\n- [Microsoft Docs: Transient Fault Handling](https://learn.microsoft.com/en-us/azure/architecture/best-practices/transient-faults)\n```\n",
+    "level": "Advanced",
+    "created_at": "2025-04-21T05:05:02.745930Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "5339c662-08c6-4460-bfb2-052ebad1e4cb",
+    "question": "What is the difference between catching Exception and catching specific exception types?",
+    "answer": "```markdown When handling errors in C#, you can catch exceptions in two main ways: by catching the base Exception type or by catching specific exception types. Here’s the difference:\n\n## Catching `Exception`\n\n```csharp\ntry\n{\n    // Code that may throw an exception\n}\ncatch (Exception ex)\n{\n    // Handles any exception derived from System.Exception\n}\n```\n\n- **Catches all exceptions**: This block will catch any exception that inherits from `System.Exception`, including both expected and unexpected errors.\n- **Less precise**: It can make debugging harder because you might inadvertently catch exceptions you didn’t anticipate, potentially hiding bugs.\n- **Not recommended for most cases**: Catching all exceptions can mask programming errors (like `NullReferenceException` or `OutOfMemoryException`) that should usually be allowed to crash the program or be handled differently.\n\n## Catching Specific Exception Types\n\n```csharp\ntry\n{\n    // Code that may throw an exception\n}\ncatch (FileNotFoundException ex)\n{\n    // Handles only FileNotFoundException\n}\ncatch (IOException ex)\n{\n    // Handles other IO exceptions\n}\n```\n\n- **Catches only specified exceptions**: Each catch block handles a particular exception type, allowing for tailored error handling.\n- **More precise and safer**: You can provide appropriate responses for different error conditions and avoid swallowing unexpected exceptions.\n- **Best practice**: It’s generally better to catch only the exceptions you expect and know how to handle.\n\n## Summary Table\n\n| Approach                | Scope                     | Use Case                        | Risk                        |\n|-------------------------|---------------------------|----------------------------------|-----------------------------|\n| `catch (Exception ex)`  | All exceptions            | Last-resort, logging, fallback   | May hide bugs, less control |\n| `catch (SpecificType)`  | Specific exception types  | Expected/known error conditions  | More robust, safer          |\n\n**In summary:**  \nCatching specific exception types is preferred because it allows for more controlled and meaningful error handling, while catching `Exception` is broader and riskier, and should be reserved for scenarios where you need to handle any error in a generic way (such as logging unhandled exceptions).",
+    "level": "Intermediate",
+    "created_at": "2025-04-21T05:05:02.745947Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "5483a3de-c248-4c05-b27a-9c9e08534c1d",
+    "question": "How can you test exception handling in unit tests?",
+    "answer": "```markdown To test exception handling in C# unit tests, you typically use the testing framework’s features to assert that a specific exception is thrown under certain conditions. Here’s how you can do it using **xUnit**, **NUnit**, and **MSTest**:\n\n---\n\n### xUnit Example\n\n```csharp\nusing Xunit;\n\npublic class CalculatorTests\n{\n    [Fact]\n    public void Divide_ByZero_ThrowsDivideByZeroException()\n    {\n        var calculator = new Calculator();\n\n        Assert.Throws<DivideByZeroException>(() => calculator.Divide(10, 0));\n    }\n}\n```\n\n---\n\n### NUnit Example\n\n```csharp\nusing NUnit.Framework;\n\npublic class CalculatorTests\n{\n    [Test]\n    public void Divide_ByZero_ThrowsDivideByZeroException()\n    {\n        var calculator = new Calculator();\n\n        Assert.Throws<DivideByZeroException>(() => calculator.Divide(10, 0));\n    }\n}\n```\n\n---\n\n### MSTest Example\n\n```csharp\nusing Microsoft.VisualStudio.TestTools.UnitTesting;\n\n[TestClass]\npublic class CalculatorTests\n{\n    [TestMethod]\n    [ExpectedException(typeof(DivideByZeroException))]\n    public void Divide_ByZero_ThrowsDivideByZeroException()\n    {\n        var calculator = new Calculator();\n        calculator.Divide(10, 0);\n    }\n}\n```\n\n---\n\n## Key Points\n\n- Use `Assert.Throws<TException>` (xUnit/NUnit) or `[ExpectedException]` (MSTest) to verify exceptions.\n- You can also capture the exception and assert on its properties if needed:\n\n    ```csharp\n    var ex = Assert.Throws<DivideByZeroException>(() => calculator.Divide(10, 0));\n    Assert.Equal(\"Attempted to divide by zero.\", ex.Message);\n    ```\n\n- This ensures your code handles errors as expected and improves reliability.\n\n---\n\n**Summary:**  \nTesting exception handling in unit tests involves asserting that the correct exception is thrown for invalid operations, using the features provided by your test framework.",
+    "level": "Intermediate",
+    "created_at": "2025-04-21T05:05:02.745959Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "fa317af7-da6a-4fee-b951-ab6b22b1ced6",
+    "question": "What is the purpose of the FaultException class in WCF?",
+    "answer": "```markdown\nThe `FaultException` class in Windows Communication Foundation (WCF) is used to handle and communicate errors between a WCF service and its clients in a controlled and interoperable manner. Unlike standard .NET exceptions, which may not serialize well across service boundaries, `FaultException` allows services to send SOAP faults that can be understood by clients regardless of their platform.\n\n**Purpose of FaultException in WCF:**\n\n- **Standardized Error Communication:** It enables WCF services to return detailed error information to clients using SOAP fault messages, rather than unhandled exceptions that could reveal sensitive information or cause interoperability issues.\n- **Custom Faults:** By using the generic `FaultException<TDetail>`, developers can define and send custom error details (data contracts) to clients, allowing for rich error information while maintaining strong typing.\n- **Graceful Error Handling:** Clients can catch `FaultException` and handle specific service errors gracefully, improving robustness and user experience.\n- **Security:** It helps prevent leaking internal exception details to clients, as only the information included in the fault contract is sent.\n\n**Example:**\n\n```csharp\n// Define a fault contract\n[DataContract]\npublic class MyCustomFault\n{\n    [DataMember]\n    public string ErrorMessage { get; set; }\n}\n\n// Service operation with FaultContract\n[OperationContract]\n[FaultContract(typeof(MyCustomFault))]\nvoid MyServiceOperation();\n\n// Throwing a FaultException in the service\nthrow new FaultException<MyCustomFault>(\n    new MyCustomFault { ErrorMessage = \"A specific error occurred.\" },\n    new FaultReason(\"Custom error\")\n);\n```\n\n**Summary:**  \n`FaultException` is essential in WCF for robust, interoperable, and secure error handling, allowing services to communicate faults to clients in a standardized way.\n```",
+    "level": "Advanced",
+    "created_at": "2025-04-21T05:05:02.745971Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "bc395aeb-7893-4dc6-bf01-66ef67c584d2",
+    "question": "How can you handle exceptions in ASP.NET Core applications?",
+    "answer": "```markdown\nIn ASP.NET Core applications, exception handling is crucial for building robust and user-friendly web applications. Here are advanced techniques for handling exceptions:\n\n### 1. **Middleware for Global Exception Handling**\n\nASP.NET Core provides middleware to catch unhandled exceptions globally. The most common approach is to use the built-in `UseExceptionHandler` middleware in `Startup.cs`:\n\n```csharp\npublic void Configure(IApplicationBuilder app, IWebHostEnvironment env)\n{\n    if (env.IsDevelopment())\n    {\n        app.UseDeveloperExceptionPage();\n    }\n    else\n    {\n        app.UseExceptionHandler(\"/Home/Error\"); // Redirects to Error action\n        app.UseHsts();\n    }\n    // Other middleware...\n}\n```\n\nYou can also configure a custom exception handling lambda:\n\n```csharp\napp.UseExceptionHandler(errorApp =>\n{\n    errorApp.Run(async context =>\n    {\n        context.Response.StatusCode = 500;\n        context.Response.ContentType = \"application/json\";\n        var errorFeature = context.Features.Get<IExceptionHandlerFeature>();\n        if (errorFeature != null)\n        {\n            var ex = errorFeature.Error;\n            // Log the exception, etc.\n            await context.Response.WriteAsync(new\n            {\n                error = ex.Message\n            }.ToString());\n        }\n    });\n});\n```\n\n### 2. **Exception Filters**\n\nFor more granular control, you can use exception filters at the controller or action level:\n\n```csharp\npublic class CustomExceptionFilter : IExceptionFilter\n{\n    public void OnException(ExceptionContext context)\n    {\n        // Log exception, set result, etc.\n        context.Result = new ObjectResult(\"An error occurred\")\n        {\n            StatusCode = 500\n        };\n        context.ExceptionHandled = true;\n    }\n}\n\n// Register globally in Startup.cs\nservices.AddControllers(options =>\n{\n    options.Filters.Add<CustomExceptionFilter>();\n});\n```\n\n### 3. **Try-Catch Blocks**\n\nFor specific code sections, use traditional try-catch blocks:\n\n```csharp\npublic IActionResult MyAction()\n{\n    try\n    {\n        // Code that may throw\n    }\n    catch (SpecificException ex)\n    {\n        // Handle specific exception\n        return BadRequest(\"Specific error occurred\");\n    }\n    catch (Exception ex)\n    {\n        // Handle general exceptions\n        return StatusCode(500, \"An error occurred\");\n    }\n}\n```\n\n### 4. **Logging Exceptions**\n\nAlways log exceptions for diagnostics. Use built-in logging:\n\n```csharp\nprivate readonly ILogger<HomeController> _logger;\n\npublic HomeController(ILogger<HomeController> logger)\n{\n    _logger = logger;\n}\n\npublic IActionResult Index()\n{\n    try\n    {\n        // ...\n    }\n    catch (Exception ex)\n    {\n        _logger.LogError(ex, \"An error occurred in Index\");\n        throw; // Optionally rethrow\n    }\n}\n```\n\n### 5. **Problem Details for HTTP APIs**\n\nFor APIs, use standardized error responses:\n\n```csharp\napp.UseExceptionHandler(appBuilder =>\n{\n    appBuilder.Run(async context =>\n    {\n        context.Response.StatusCode = 500;\n        context.Response.ContentType = \"application/problem+json\";\n        var error = context.Features.Get<IExceptionHandlerFeature>()?.Error;\n        var problem = new ProblemDetails\n        {\n            Status = 500,\n            Title = \"An error occurred\",\n            Detail = error?.Message\n        };\n        await context.Response.WriteAsJsonAsync(problem);\n    });\n});\n```\n\n---\n\n**Summary:**  \nHandle exceptions in ASP.NET Core using global middleware, exception filters, try-catch blocks, and proper logging. For APIs, return standardized error responses using `ProblemDetails`. This ensures your application is robust, secure, and provides meaningful feedback to users and developers.\n```\n",
+    "level": "Advanced",
+    "created_at": "2025-04-21T05:05:02.745982Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "4999ecdb-db39-46c4-bc4c-e36233841b76",
+    "question": "How do you propagate exceptions across application domains?",
+    "answer": "```markdown\n### Propagating Exceptions Across Application Domains in C#\n\nIn .NET, **application domains** (AppDomains) provide isolation between executing applications. When you execute code in another AppDomain (for example, using `AppDomain.DoCallBack` or `AppDomain.CreateInstanceAndUnwrap`), exceptions that occur in the remote domain can be propagated back to the calling domain, but with some important considerations:\n\n#### 1. Exception Serialization\n\n- **Exceptions must be serializable** to cross AppDomain boundaries. Most built-in exceptions in .NET are serializable (they have the `[Serializable]` attribute).\n- If you throw a custom exception, ensure it is marked with `[Serializable]` and implements the serialization constructor.\n\n#### 2. How Exceptions Are Propagated\n\n- When an exception is thrown in a remote AppDomain, the .NET runtime serializes the exception object and sends it to the calling AppDomain.\n- The calling AppDomain receives a deserialized copy of the exception and can catch it as usual.\n\n#### 3. Example\n\n```csharp\nusing System;\nusing System.Runtime.Serialization;\n\n[Serializable]\npublic class MyCustomException : Exception\n{\n    public MyCustomException(string message) : base(message) { }\n    protected MyCustomException(SerializationInfo info, StreamingContext context)\n        : base(info, context) { }\n}\n\npublic class Worker : MarshalByRefObject\n{\n    public void DoWork()\n    {\n        throw new MyCustomException(\"Something went wrong in the other AppDomain!\");\n    }\n}\n\nclass Program\n{\n    static void Main()\n    {\n        AppDomain domain = AppDomain.CreateDomain(\"NewDomain\");\n        try\n        {\n            var worker = (Worker)domain.CreateInstanceAndUnwrap(\n                typeof(Worker).Assembly.FullName,\n                typeof(Worker).FullName);\n            worker.DoWork();\n        }\n        catch (Exception ex)\n        {\n            Console.WriteLine($\"Caught exception: {ex.GetType().Name} - {ex.Message}\");\n        }\n        finally\n        {\n            AppDomain.Unload(domain);\n        }\n    }\n}\n```\n\n#### 4. Important Notes\n\n- **Stack Trace:** The stack trace in the exception will reflect the remote AppDomain, not the calling domain.\n- **Type Fidelity:** If the exception type is not available in the calling AppDomain, a `SerializationException` or a generic `Exception` may be thrown instead.\n- **AppDomain Boundaries:** Exception propagation only works if the exception is serializable and both domains can resolve the exception type.\n\n#### 5. Best Practices\n\n- Always make custom exceptions serializable.\n- Avoid passing non-serializable objects in exception properties.\n- Handle exceptions at the AppDomain boundary to avoid losing information.\n\n**References:**\n- [MSDN: Handling and Propagating Exceptions Across AppDomain Boundaries](https://learn.microsoft.com/en-us/dotnet/framework/app-domains/handling-and-propagating-exceptions)\n```\n",
+    "level": "Advanced",
+    "created_at": "2025-04-21T05:05:02.745996Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "396be438-3e8e-47fc-8f64-ab215551d987",
+    "question": "What are the limitations of exception handling in C#?",
+    "answer": "```markdown\n### Limitations of Exception Handling in C#\n\nException handling in C# is a powerful mechanism, but it has several limitations and caveats that developers should be aware of:\n\n1. **Performance Overhead**  \n   Throwing and catching exceptions is computationally expensive. Overusing exceptions, especially for control flow, can significantly degrade performance.\n\n2. **Not All Errors are Exceptions**  \n   Some errors, such as stack overflows, out-of-memory conditions, or hardware failures, may not be catchable using standard exception handling mechanisms.\n\n3. **Resource Leaks**  \n   If resources (like file handles or database connections) are not properly released (e.g., by forgetting to use `finally` or `using`), exceptions can lead to resource leaks.\n\n4. **Exception Swallowing**  \n   Catch blocks that are too broad (e.g., `catch (Exception)`) can inadvertently hide bugs by swallowing exceptions, making debugging difficult.\n\n5. **Loss of Context**  \n   Rethrowing exceptions incorrectly (e.g., using `throw ex;` instead of `throw;`) can lose the original stack trace, making it harder to diagnose issues.\n\n6. **Unhandled Exceptions**  \n   If exceptions are not properly handled, they can crash the application. In multi-threaded applications, unhandled exceptions in threads can be particularly problematic.\n\n7. **Non-deterministic Behavior**  \n   Exceptions can make program flow harder to reason about, especially in complex systems, leading to unpredictable behavior if not managed carefully.\n\n8. **Limited to Managed Code**  \n   Exception handling in C# works only within managed code. Unmanaged code (e.g., native DLLs) may not propagate exceptions in a way that C# can handle.\n\n9. **Exception Filters are Limited**  \n   While C# supports exception filters (`catch (Exception ex) when (...)`), their use is limited compared to some other languages, and they can't always express complex filtering logic.\n\n10. **No Compile-Time Checking**  \n    Unlike some languages (e.g., Java with checked exceptions), C# does not enforce exception handling at compile time, which can lead to unhandled exceptions at runtime.\n\n### Summary\n\nWhile exception handling is essential for robust applications, it should be used judiciously and with an understanding of its limitations. Proper design, resource management, and error handling strategies are necessary to avoid common pitfalls.\n```\n",
+    "level": "Advanced",
+    "created_at": "2025-04-21T05:05:02.746007Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "4097c291-562e-41e0-9c6b-d72274e97918",
+    "question": "How can you use exception handling to implement graceful degradation?",
+    "answer": "```markdown ### Using Exception Handling for Graceful Degradation in C#\n\n**Graceful degradation** refers to designing software so that when part of it fails, the system continues to operate, possibly with reduced functionality, instead of crashing entirely. In C#, exception handling is a key tool for implementing this.\n\n#### How to Use Exception Handling for Graceful Degradation\n\n1. **Try-Catch Blocks Around Risky Operations**\n   - Enclose code that might fail in a `try` block.\n   - Catch specific exceptions to handle known failure modes.\n\n2. **Fallback Logic in Catch Blocks**\n   - In the `catch` block, provide alternative logic or reduced functionality.\n   - For example, if a database connection fails, switch to reading from a local cache.\n\n3. **Logging and User Notification**\n   - Log the exception details for diagnostics.\n   - Inform the user about the degraded state, if appropriate.\n\n4. **Continue Application Execution**\n   - Ensure the application continues running, even if with limited features.\n\n#### Example\n\n```csharp\npublic string GetUserProfile(int userId)\n{\n    try\n    {\n        // Primary operation: fetch from database\n        return FetchProfileFromDatabase(userId);\n    }\n    catch (SqlException ex)\n    {\n        // Log the error\n        LogError(ex);\n\n        // Graceful degradation: fallback to cache\n        try\n        {\n            return FetchProfileFromCache(userId);\n        }\n        catch (Exception cacheEx)\n        {\n            LogError(cacheEx);\n            // Inform the user or return a default profile\n            return \"User profile is temporarily unavailable.\";\n        }\n    }\n}\n```\n\n#### Key Points\n\n- **Catch Specific Exceptions:** Avoid catching `Exception` unless necessary; handle only expected failure types.\n- **Fallback Strategies:** Use alternative resources, default values, or disable non-critical features.\n- **User Experience:** Provide meaningful feedback to users about the degraded state.\n- **Logging:** Always log exceptions for future troubleshooting.\n\n---\n\nBy thoughtfully using exception handling, you can ensure your C# applications degrade gracefully, maintaining core functionality and a positive user experience even when errors occur.",
+    "level": "Advanced",
+    "created_at": "2025-04-21T05:05:02.746019Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "fca833f8-95c3-4dd9-875a-dd6023c96695",
+    "question": "How does exception handling interact with async/await in C#?",
+    "answer": "```markdown\n### How Exception Handling Interacts with `async`/`await` in C#\n\nWhen using `async` and `await` in C#, exception handling works seamlessly with the familiar `try`/`catch` blocks, but with some important nuances:\n\n#### 1. Exceptions in Asynchronous Methods\n\n- If an exception is thrown **before** the first `await` in an `async` method, it behaves like a synchronous exception and is thrown immediately.\n- If an exception is thrown **after** an `await` (or inside a method that is awaited), it is captured and stored in the returned `Task`.\n\n#### 2. Catching Exceptions\n\n- To catch exceptions from an `async` method, you should `await` the method inside a `try`/`catch` block.\n- The exception is re-thrown at the point of the `await` if the task has faulted.\n\n```csharp\npublic async Task DoSomethingAsync()\n{\n    // This exception is thrown immediately\n    throw new InvalidOperationException(\"Oops!\");\n}\n\npublic async Task UseAsyncMethod()\n{\n    try\n    {\n        await DoSomethingAsync();\n    }\n    catch (InvalidOperationException ex)\n    {\n        Console.WriteLine($\"Caught exception: {ex.Message}\");\n    }\n}\n```\n\n#### 3. Unobserved Exceptions\n\n- If you call an `async` method but **do not await** its returned `Task`, exceptions may go unobserved and can cause the process to terminate (in .NET 4.5+) or be swallowed.\n- Always `await` your tasks or explicitly observe exceptions via `Task.ContinueWith` or similar mechanisms.\n\n#### 4. AggregateException\n\n- When using `Task.Wait()` or `Task.Result` on a faulted task, exceptions are wrapped in an `AggregateException`.\n- With `await`, the original exception is re-thrown directly, making it easier to handle.\n\n#### 5. Example\n\n```csharp\npublic async Task<int> DivideAsync(int a, int b)\n{\n    await Task.Delay(100); // Simulate async work\n    return a / b; // May throw DivideByZeroException\n}\n\npublic async Task RunAsync()\n{\n    try\n    {\n        int result = await DivideAsync(10, 0);\n    }\n    catch (DivideByZeroException ex)\n    {\n        Console.WriteLine(\"Cannot divide by zero!\");\n    }\n}\n```\n\n#### **Summary Table**\n\n| Scenario                           | Exception Handling Behavior                |\n|-------------------------------------|-------------------------------------------|\n| Exception before first `await`      | Thrown synchronously                      |\n| Exception after an `await`          | Captured in Task, re-thrown on `await`    |\n| Not awaiting the Task               | Exception may go unobserved               |\n| Using `Task.Wait()`/`Task.Result`   | Exception wrapped in `AggregateException` |\n\n**In summary:**  \nUse `try`/`catch` around `await` statements to handle exceptions from asynchronous methods, and always await your tasks to ensure exceptions are observed and handled properly.\n```\n",
+    "level": "Intermediate",
+    "created_at": "2025-04-21T05:05:02.746031Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
+  },
+  {
+    "id": "a8e11047-8fbe-4139-a3d4-d6f5e9f33d11",
+    "question": "What is the difference between Task.Exception and Task.Status in error handling?",
+    "answer": "```markdown\n**Task.Exception** and **Task.Status** are both properties of the `Task` class in C#, but they serve different purposes in error handling:\n\n### Task.Exception\n- **Purpose:** Holds the exception(s) that caused the task to fault.\n- **Type:** `AggregateException`\n- **Usage:** Accessed when a task has failed (i.e., is in the `Faulted` state).\n- **Example:**  \n  ```csharp\n  if (myTask.IsFaulted)\n  {\n      Console.WriteLine(myTask.Exception);\n  }\n  ```\n- **Note:** Accessing `Exception` when the task has not faulted returns `null`.\n\n### Task.Status\n- **Purpose:** Indicates the current lifecycle state of the task.\n- **Type:** `TaskStatus` (an enum)\n- **Common Values:** `Created`, `Running`, `RanToCompletion`, `Faulted`, `Canceled`\n- **Usage:** Checked to determine if the task has completed successfully, failed, or was canceled.\n- **Example:**  \n  ```csharp\n  if (myTask.Status == TaskStatus.Faulted)\n  {\n      // Handle the error\n  }\n  ```\n\n### Summary Table\n\n| Property         | Purpose                        | Type                | Error Handling Role                    |\n|------------------|-------------------------------|---------------------|----------------------------------------|\n| `Task.Exception` | Holds exceptions from failure  | `AggregateException`| Provides details about the error(s)    |\n| `Task.Status`    | Indicates task's state         | `TaskStatus` enum   | Shows if the task failed, succeeded, etc.|\n\n**In summary:**  \nUse `Task.Status` to check if a task has faulted, and use `Task.Exception` to retrieve the exception details when it has.\n```",
+    "level": "Intermediate",
+    "created_at": "2025-04-21T05:05:02.746044Z",
+    "topic": "48cf0d0f-fb82-41e4-87c8-a9dda0e7565b"
   }
 ]
