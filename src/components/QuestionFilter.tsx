@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -9,47 +10,86 @@ interface QuestionFilterProps {
   setSearchQuery: (query: string) => void;
 }
 
+// Helper to highlight all terms in a text
+function highlightText(text: string, terms: string[]): string {
+  if (!terms.length || !text) return text;
+  let pattern = terms
+    .filter(t => t.trim())
+    .map(t => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+    .join("|");
+  if (!pattern) return text;
+  const regex = new RegExp(`(${pattern})`, "gi");
+  return text.replace(regex, "<mark>$1</mark>");
+}
+
 const QuestionFilter: React.FC<QuestionFilterProps> = ({
   questions,
   onFilterChange,
   searchQuery,
   setSearchQuery,
 }) => {
-  // Keep track of filtered questions count
   const [filteredCount, setFilteredCount] = useState(questions.length);
+  const [highlightedQuestions, setHighlightedQuestions] = useState<any[]>(questions);
 
-  // Filter questions based on search query
   useEffect(() => {
     if (!searchQuery.trim()) {
       onFilterChange(questions);
       setFilteredCount(questions.length);
+      setHighlightedQuestions(questions);
       return;
     }
 
-    const terms = searchQuery.toLowerCase().split(" ");
+    const terms = searchQuery.toLowerCase().split(" ").filter(Boolean);
     const filtered = questions.filter((q) => {
-      // Search in question text
-      const questionMatches = terms.every(term => 
+      const questionMatches = terms.every(term =>
         q.question.toLowerCase().includes(term)
       );
-      
-      // Search in answer text if it's a string
-      const answerMatches = typeof q.answer === "string" 
-        ? terms.every(term => q.answer.toLowerCase().includes(term)) 
-        : Array.isArray(q.answer)
-          ? terms.every(term => 
-              q.answer.some(block => 
-                block.type === "text" && block.content && 
-                block.content.toLowerCase().includes(term)
+
+      const answerMatches =
+        typeof q.answer === "string"
+          ? terms.every(term => q.answer.toLowerCase().includes(term))
+          : Array.isArray(q.answer)
+            ? terms.every(term =>
+                q.answer.some(
+                  block =>
+                    block.type === "text" &&
+                    block.content &&
+                    block.content.toLowerCase().includes(term)
+                )
               )
-            )
-          : false;
-      
+            : false;
+
       return questionMatches || answerMatches;
     });
-    
+
+    // Generate highlighted questions/answers
+    const highlightedFiltered = filtered.map(q => {
+      // Clone original
+      const newQ = { ...q };
+      newQ._highlightedQuestion = highlightText(q.question, terms);
+
+      if (typeof q.answer === "string") {
+        newQ._highlightedAnswer = highlightText(q.answer, terms);
+      } else if (Array.isArray(q.answer)) {
+        newQ._highlightedAnswer = q.answer.map((block) => {
+          if (block.type === "text" && block.content) {
+            return {
+              ...block,
+              content: highlightText(block.content, terms),
+            };
+          }
+          return block;
+        });
+      } else {
+        newQ._highlightedAnswer = q.answer;
+      }
+
+      return newQ;
+    });
+
     onFilterChange(filtered);
     setFilteredCount(filtered.length);
+    setHighlightedQuestions(highlightedFiltered);
   }, [searchQuery, questions, onFilterChange]);
 
   return (
@@ -79,8 +119,38 @@ const QuestionFilter: React.FC<QuestionFilterProps> = ({
           Found {filteredCount} matching questions
         </div>
       )}
+      {/* Example preview of matching questions with highlights (optional, remove if not desired) */}
+      {searchQuery && highlightedQuestions.length > 0 && (
+        <div className="mt-4 space-y-3">
+          {highlightedQuestions.slice(0, 5).map((q, idx) => (
+            <div key={q.id || idx} className="p-2 border-b last:border-none">
+              <div
+                className="font-semibold"
+                dangerouslySetInnerHTML={{ __html: q._highlightedQuestion || q.question }}
+              />
+              {q._highlightedAnswer && typeof q._highlightedAnswer === "string" ? (
+                <div
+                  className="text-sm mt-1 text-gray-700"
+                  dangerouslySetInnerHTML={{ __html: q._highlightedAnswer }}
+                />
+              ) : Array.isArray(q._highlightedAnswer) ? (
+                q._highlightedAnswer.map((block: any, i: number) =>
+                  block.type === "text" ? (
+                    <div
+                      key={i}
+                      className="text-sm mt-1 text-gray-700"
+                      dangerouslySetInnerHTML={{ __html: block.content }}
+                    />
+                  ) : null
+                )
+              ) : null}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
 export default QuestionFilter;
+
