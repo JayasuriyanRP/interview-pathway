@@ -462,22 +462,52 @@
     "level": "All Levels",
     "subpaths": [
       {
-        "id": "algorithms-arrays",
-        "title": "Arrays & Strings",
-        "description": "Common array and string manipulation problems",
-        "level": "Beginner"
-      },
-      {
-        "id": "algorithms-graphs",
-        "title": "Graphs & Trees",
-        "description": "Tree and graph traversal algorithms",
+        "id": "algorithms-csharp",
+        "title": "Algorithms in C#",
+        "description": "Solve common algorithmic challenges using C# with interview-oriented solutions.",
         "level": "Intermediate"
       },
       {
-        "id": "algorithms-dynamic",
-        "title": "Dynamic Programming",
-        "description": "Dynamic programming concepts and problems",
-        "level": "Advanced"
+        "id": "algorithms-golang",
+        "title": "Algorithms in Go",
+        "description": "Implement and practice algorithms in Golang for backend interviews and performance.",
+        "level": "Intermediate"
+      },
+      {
+        "id": "csharp-datastructures",
+        "title": "Data Structures in C#",
+        "description": "Master data structure implementations and their applications using C#.",
+        "level": "Intermediate"
+      },
+      {
+        "id": "golang-datastructures",
+        "title": "Data Structures in Go",
+        "description": "Build foundational and advanced data structures using Golang.",
+        "level": "Intermediate"
+      },
+      {
+        "id": "two-pointers",
+        "title": "Two Pointers Pattern",
+        "description": "Solve array and string problems efficiently using the two pointers technique.",
+        "level": "Intermediate"
+      },
+      {
+        "id": "binary-search",
+        "title": "Binary Search",
+        "description": "Master binary search and its variations for sorted data problems.",
+        "level": "Intermediate"
+      },
+      {
+        "id": "fast-slow-pointers",
+        "title": "Fast and Slow Pointers",
+        "description": "Detect cycles and solve problems on linked lists and arrays using the fast and slow pointer technique.",
+        "level": "Intermediate"
+      },
+      {
+        "id": "sliding-window",
+        "title": "Sliding Window",
+        "description": "Tackle substring and subarray problems with optimized sliding window strategies.",
+        "level": "Intermediate"
       }
     ]
   },
