@@ -42,7 +42,7 @@ const loadPathsData = async () => {
   // Ensure each path has a count property
   return pathsResponse.default.map((path: any) => ({
     ...path,
-    count: path.subpaths?.length || 0
+    count: path.subpaths?.length || 0,
   }));
 };
 
@@ -65,7 +65,8 @@ const loadPathQuestions = async (pathId: string) => {
       "azure",
       "angular",
       "db",
-    ];
+      "access-control",
+      ];
 
     for (const folder of folders) {
       try {
@@ -88,7 +89,11 @@ const loadPathQuestions = async (pathId: string) => {
 };
 
 export const useData = () => {
-  const { data: paths = [], isLoading, error } = useQuery({
+  const {
+    data: paths = [],
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["paths"],
     queryFn: loadPathsData,
     staleTime: 1000 * 60 * 5, // Cache for 5 minutes
@@ -122,9 +127,9 @@ export const usePath = (pathId: string | undefined): PathResponse => {
             return {
               subpath: {
                 ...subpath,
-                count: subpath.count || 0
+                count: subpath.count || 0,
               },
-              parent: ancestorPath || path
+              parent: ancestorPath || path,
             };
           }
           // If this subpath has its own subpaths, search them recursively
@@ -180,7 +185,9 @@ export const usePath = (pathId: string | undefined): PathResponse => {
   return pathData;
 };
 
-export const usePathQuestions = (pathId: string | undefined): QuestionsResponse => {
+export const usePathQuestions = (
+  pathId: string | undefined
+): QuestionsResponse => {
   const {
     data: questions = [],
     isLoading,
@@ -201,7 +208,9 @@ export const usePathQuestions = (pathId: string | undefined): QuestionsResponse 
 };
 
 // Function to get questions for a specific path (used by SearchDialog)
-export const getQuestionsForPath = async (pathId: string): Promise<Question[]> => {
+export const getQuestionsForPath = async (
+  pathId: string
+): Promise<Question[]> => {
   try {
     return await loadPathQuestions(pathId);
   } catch {
@@ -211,7 +220,9 @@ export const getQuestionsForPath = async (pathId: string): Promise<Question[]> =
 
 // Custom hook to store all questions data (for search functionality)
 export const useAllQuestions = () => {
-  const [allQuestions, setAllQuestions] = useState<Record<string, Question[]>>({});
+  const [allQuestions, setAllQuestions] = useState<Record<string, Question[]>>(
+    {}
+  );
   const [loading, setLoading] = useState(true);
   const { paths } = useData();
 

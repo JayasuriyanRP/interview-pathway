@@ -449,6 +449,12 @@
             "title": "Relational vs NoSQL",
             "description": "Comparative analysis between traditional relational databases and modern NoSQL data stores.",
             "level": "Intermediate"
+          },
+          {
+            "id": "backend-sql-interview",
+            "title": "SQL Interview Questions and Concepts",
+            "description": "Fundamental SQL concepts commonly asked in interviews, including SELECT queries, JOINs, GROUP BY, subqueries, indexes, and normalization.",
+            "level": "Beginner"
           }
         ]
       }
@@ -777,6 +783,56 @@
         "title": "Azure Cosmos DB",
         "description": "Globally distributed NoSQL database service with multi-model support and high scalability.",
         "level": "Advanced"
+      },
+      {
+        "id": "azure-event-hub",
+        "title": "Azure Event Hub",
+        "description": "Foundational concepts of Azure Event Hub for big data streaming, including event producers, partitions, consumer groups, and throughput units.",
+        "level": "Beginner"
+      },
+      {
+        "id": "azure-event-grid",
+        "title": "Azure Event Grid",
+        "description": "Understanding Azure Event Grid for reactive event-driven architecture, including event sources, handlers, filters, and delivery.",
+        "level": "Beginner"
+      },
+      {
+        "id": "azure-sql",
+        "title": "Azure SQL Database",
+        "description": "Getting started with Azure SQL including provisioning, querying, scaling, and configuring performance and security features.",
+        "level": "Beginner"
+      },
+      {
+        "id": "azure-redis-cache",
+        "title": "Azure Redis Cache",
+        "description": "Core concepts of Azure Redis Cache for high-speed data access, including caching strategies, keys, expiration, and performance tuning.",
+        "level": "Beginner"
+      },
+      {
+        "id": "azure-service-bus",
+        "title": "Azure Service Bus",
+        "description": "Introduction to Azure Service Bus, focusing on queues, topics, message delivery patterns, and enterprise messaging solutions.",
+        "level": "Beginner"
+      },
+      {
+        "id": "azure-app-configuration",
+        "title": "Azure App Configuration",
+        "description": "Introduction to Azure App Configuration for centralized management of application settings and feature flags across environments.",
+        "level": "Beginner"
+      }
+    ]
+  },
+  {
+    "id": "authentication-authorization",
+    "title": "Authentication and Authorization",
+    "description": "Understand identity management, authentication flows, and access control in cloud-native applications, including OAuth 2.0, OpenID Connect, and role-based access.",
+    "level": "Intermediate",
+    "subpaths": [
+      {
+        "id": "oidc-vs-oauth",
+        "title": "OIDC vs OAuth",
+        "description": "Compare OpenID Connect and OAuth 2.0, exploring their roles in authentication and authorization, key differences, and common use cases.",
+        "level": "Intermediate"
       }
     ]
   }
