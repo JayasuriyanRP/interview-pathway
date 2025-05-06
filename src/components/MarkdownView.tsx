@@ -10,7 +10,9 @@ import { Button } from "./ui/button";
 const MarkdownView = ({ content }: { content: string }) => {
   const copiedMapRef = useRef<{ [key: string]: boolean }>({});
   const copyTimeouts = useRef<{ [key: string]: NodeJS.Timeout }>({});
-  const [wrapEnabled, setWrapEnabled] = useState<{ [key: string]: boolean }>({});
+  const [wrapEnabled, setWrapEnabled] = useState<{ [key: string]: boolean }>(
+    {}
+  );
 
   useEffect(() => {
     Prism.highlightAll();
@@ -37,9 +39,9 @@ const MarkdownView = ({ content }: { content: string }) => {
   };
 
   const toggleWrap = (key: string) => {
-    setWrapEnabled(prev => ({
+    setWrapEnabled((prev) => ({
       ...prev,
-      [key]: !prev[key]
+      [key]: !prev[key],
     }));
   };
 
@@ -63,7 +65,9 @@ const MarkdownView = ({ content }: { content: string }) => {
           }) {
             const match = /language-(\w+)/.exec(className || "");
             const codeText = String(children).replace(/\n$/, "");
-            const uniqueKey = `${codeText.substring(0, 20)}-${match?.[1] || "plain"}`;
+            const uniqueKey = `${codeText.substring(0, 20)}-${
+              match?.[1] || "plain"
+            }`;
 
             return !inline && match ? (
               <div className="relative">
@@ -78,7 +82,10 @@ const MarkdownView = ({ content }: { content: string }) => {
                   <button
                     onClick={(e) => {
                       e.preventDefault();
-                      const codeElement = e.currentTarget.parentElement?.nextElementSibling?.querySelector('code') as HTMLElement;
+                      const codeElement =
+                        e.currentTarget.parentElement?.nextElementSibling?.querySelector(
+                          "code"
+                        ) as HTMLElement;
                       handleCopy(codeText, uniqueKey, codeElement);
                     }}
                     className="bg-gray-700 text-white p-1 rounded-md hover:bg-gray-600"
@@ -91,7 +98,13 @@ const MarkdownView = ({ content }: { content: string }) => {
                     )}
                   </button>
                 </div>
-                <pre className={`rounded-lg p-4 overflow-auto bg-gray-900 text-white ${wrapEnabled[uniqueKey] ? 'whitespace-pre-wrap break-words' : ''}`}>
+                <pre
+                  className={`rounded-lg p-4 overflow-auto bg-gray-900 text-white ${
+                    wrapEnabled[uniqueKey]
+                      ? "whitespace-pre-wrap break-words"
+                      : ""
+                  }`}
+                >
                   <code className={`language-${match[1]}`} {...props}>
                     {codeText}
                   </code>
@@ -104,7 +117,9 @@ const MarkdownView = ({ content }: { content: string }) => {
             );
           },
           h1: ({ children }) => (
-            <h1 className="font-heading font-bold text-2xl tracking-tight">{children}</h1>
+            <h1 className="font-heading font-bold text-2xl tracking-tight">
+              {children}
+            </h1>
           ),
           h2: ({ children }) => (
             <h2 className="font-bold text-xl mt-5 mb-2">{children}</h2>
@@ -113,27 +128,30 @@ const MarkdownView = ({ content }: { content: string }) => {
             <h3 className="font-semibold text-lg mt-4 mb-2">{children}</h3>
           ),
           p: ({ children }) => (
-            <p className="text-sm md:text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+            <p className="text-sm sm:text-base md:text-[1rem] text-gray-700 dark:text-gray-300 leading-relaxed">
               {children}
             </p>
           ),
           ul: ({ children }) => (
-            <ul className="text-sm md:text-lg list-disc pl-6 marker:text-gray-700 dark:marker:text-gray-300">
+            <ul className="text-sm sm:text-base md:text-[1rem] list-disc pl-6 marker:text-gray-700 dark:marker:text-gray-300">
               {children}
             </ul>
           ),
           ol: ({ children }) => (
-            <ol className="text-sm md:text-lg list-decimal pl-6 marker:text-gray-700 dark:marker:text-gray-300">
+            <ol className="text-sm sm:text-base md:text-[1rem] list-decimal pl-6 marker:text-gray-700 dark:marker:text-gray-300">
               {children}
             </ol>
           ),
           blockquote: ({ children }) => (
-            <blockquote className="text-sm md:text-lg border-l-4 border-gray-500 pl-4 italic text-gray-600 dark:text-gray-400">
+            <blockquote className="text-sm sm:text-base md:text-[1rem] border-l-4 border-gray-500 pl-4 italic text-gray-600 dark:text-gray-400">
               {children}
             </blockquote>
           ),
           a: ({ children, href }) => (
-            <a href={href} className="text-sm md:text-lg text-blue-500 hover:underline">
+            <a
+              href={href}
+              className="text-sm sm:text-base md:text-[1rem] text-blue-500 hover:underline"
+            >
               {children}
             </a>
           ),
@@ -143,7 +161,7 @@ const MarkdownView = ({ content }: { content: string }) => {
             </strong>
           ),
           em: ({ children }) => (
-            <em className="italic text-sm md:text-lg text-gray-800 dark:text-gray-200">
+            <em className="italic text-sm sm:text-base md:text-[1rem] text-gray-800 dark:text-gray-200">
               {children}
             </em>
           ),
@@ -158,15 +176,15 @@ const MarkdownView = ({ content }: { content: string }) => {
             </div>
           ),
           th: ({ children }) => (
-            <th className="border text-sm md:text-lg border-gray-300 dark:border-gray-700 px-4 py-2 bg-gray-100 dark:bg-gray-800 text-left">
+            <th className="border text-sm sm:text-base md:text-[1rem] border-gray-300 dark:border-gray-700 px-4 py-2 bg-gray-100 dark:bg-gray-800 text-left">
               {children}
             </th>
           ),
           td: ({ children }) => (
-            <td className="border text-sm md:text-lg border-gray-300 dark:border-gray-700 px-4 py-2">
+            <td className="border text-sm sm:text-base md:text-[1rem] border-gray-300 dark:border-gray-700 px-4 py-2">
               {children}
             </td>
-          )
+          ),
         }}
       >
         {content}

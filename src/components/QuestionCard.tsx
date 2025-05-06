@@ -1,6 +1,12 @@
-
 import React, { useEffect, useState } from "react";
-import { ChevronDown, CheckCircle2, Undo, Edit, Clipboard, ClipboardCheck } from "lucide-react";
+import {
+  ChevronDown,
+  CheckCircle2,
+  Undo,
+  Edit,
+  Clipboard,
+  ClipboardCheck,
+} from "lucide-react";
 import Answer from "./Answer";
 import MarkdownView from "./MarkdownView";
 import { Badge } from "./ui/badge";
@@ -108,10 +114,11 @@ const Question: React.FC<QuestionProps> = ({
   }
   return (
     <div
-      className={`mb-6 bg-card rounded-xl border-2 overflow-hidden border ${isRead
-        ? "bg-green-200 dark:bg-green-950 border-green-400 dark:border-green-800"
-        : "border-blue-400 dark:border-blue-800"
-        } shadow-xl transition-all duration-300`}
+      className={`mb-6 bg-card rounded-xl border-2 overflow-hidden border ${
+        isRead
+          ? "bg-green-200 dark:bg-green-950 border-green-400 dark:border-green-800"
+          : "border-blue-400 dark:border-blue-800"
+      } shadow-xl transition-all duration-300`}
     >
       <div
         className="p-4 sm:p-2 lg:p-4 cursor-pointer flex flex-col sm:flex-row items-start sm:items-center gap-3"
@@ -140,18 +147,19 @@ const Question: React.FC<QuestionProps> = ({
               {index + 1}.
             </h3>
             <div className="flex items-center gap-2">
-              <h3 className="font-semibold leading-snug tracking-tight text-gray-800 dark:text-gray-100">
-                <h1 
-                  className="font-mono text-sm sm:text-base md:text-lg tracking-wide px-1 py-0.5 rounded"
-                  dangerouslySetInnerHTML={{ __html: _highlightedQuestion || question }}  
-                ></h1>
-              </h3>
+              <h1 className="font-mono text-sm sm:text-base md:text-md lg:text-base tracking-wide [word-spacing:0.1em] px-1 py-0.5 rounded">
+                {question}
+              </h1>
               <button
                 onClick={handleCopy}
                 title="Copy question"
                 className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 p-1 rounded"
               >
-                {copied ? <ClipboardCheck size={16} /> : <Clipboard size={16} />}
+                {copied ? (
+                  <ClipboardCheck size={16} />
+                ) : (
+                  <Clipboard size={16} />
+                )}
               </button>
             </div>
           </div>
@@ -179,8 +187,9 @@ const Question: React.FC<QuestionProps> = ({
                 </button>
               )}
               <ChevronDown
-                className={`h-5 w-5 text-gray-500 transition-transform duration-300 ${isOpen ? "rotate-180" : ""
-                  }`}
+                className={`h-5 w-5 text-gray-500 transition-transform duration-300 ${
+                  isOpen ? "rotate-180" : ""
+                }`}
               />
             </div>
           </div>
@@ -191,14 +200,21 @@ const Question: React.FC<QuestionProps> = ({
         <div className="px-2 sm:px-6 pb-4 sm:pb-6 pt-1 sm:pt-2 border-t border-border animate-slideUp bg-white dark:bg-black">
           {isMarkdown ? (
             _highlightedAnswer && typeof _highlightedAnswer === "string" ? (
-              <MarkdownView content={_highlightedAnswer.replace(/^```markdown\n?|```$/g, "")} />
+              <MarkdownView
+                content={_highlightedAnswer.replace(
+                  /^```markdown\n?|```$/g,
+                  ""
+                )}
+              />
             ) : (
-              <MarkdownView content={answer.replace(/^```markdown\n?|```$/g, "")} />
+              <MarkdownView
+                content={answer.replace(/^```markdown\n?|```$/g, "")}
+              />
             )
           ) : (
-            <Answer 
-              answer={_highlightedAnswer || answer} 
-              highlightQuery={highlightQuery} 
+            <Answer
+              answer={_highlightedAnswer || answer}
+              highlightQuery={highlightQuery}
             />
           )}
         </div>
