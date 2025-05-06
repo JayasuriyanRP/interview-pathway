@@ -78,6 +78,12 @@
             "title": "React Syntaxes",
             "description": "Common React syntax patterns and related interview questions",
             "level": "Beginner"
+          },
+          {
+            "id": "react-synthetic-events",
+            "title": "React Synthetic Events",
+            "description": "Understanding how React handles events using its SyntheticEvent system, including event pooling and cross-browser compatibility.",
+            "level": "Intermediate"
           }
         ]
       },
@@ -427,12 +433,6 @@
         ]
       },
       {
-        "id": "backend-dotnet",
-        "title": "ASP.NET Core",
-        "description": ".NET web application framework",
-        "level": "Advanced"
-      },
-      {
         "id": "database",
         "title": "Database",
         "description": "Concepts and technologies related to modern database systems.",
@@ -455,6 +455,26 @@
             "title": "SQL Interview Questions and Concepts",
             "description": "Fundamental SQL concepts commonly asked in interviews, including SELECT queries, JOINs, GROUP BY, subqueries, indexes, and normalization.",
             "level": "Beginner"
+          }
+        ]
+      },
+      {
+        "id": "backend-dotnetcore",
+        "title": ".NET Core",
+        "description": ".NET Core runtime and application development topics",
+        "level": "Intermediate",
+        "subpaths": [
+          {
+            "id": "dotnetcore-middleware",
+            "title": "Middleware in .NET Core",
+            "description": "Understanding and implementing custom and built-in middleware in ASP.NET Core.",
+            "level": "Intermediate"
+          },
+          {
+            "id": "dotnetcore-caching",
+            "title": "Caching in .NET Core",
+            "description": "Techniques for in-memory, distributed, and response caching in .NET Core applications.",
+            "level": "Intermediate"
           }
         ]
       }
@@ -819,6 +839,24 @@
         "title": "Azure App Configuration",
         "description": "Introduction to Azure App Configuration for centralized management of application settings and feature flags across environments.",
         "level": "Beginner"
+      },
+      {
+        "id": "azure-active-directory",
+        "title": "Azure Active Directory (AAD)",
+        "description": "Identity and access management service for managing users, groups, and access to resources.",
+        "level": "Intermediate"
+      },
+      {
+        "id": "azure-aks",
+        "title": "Azure Kubernetes Service (AKS)",
+        "description": "Managed Kubernetes service in Azure for running containerized applications at scale.",
+        "level": "Intermediate"
+      },
+      {
+        "id": "azure-managed-identity",
+        "title": "Azure Managed Identity",
+        "description": "Provides Azure services with an automatically managed identity for secure authentication to other services.",
+        "level": "Intermediate"
       }
     ]
   },

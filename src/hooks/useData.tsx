@@ -66,7 +66,8 @@ const loadPathQuestions = async (pathId: string) => {
       "angular",
       "db",
       "access-control",
-      ];
+      "dotnet",
+    ];
 
     for (const folder of folders) {
       try {
