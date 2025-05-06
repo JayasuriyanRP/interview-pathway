@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams, Link, useSearchParams } from "react-router-dom";
 import Header from "../components/Header";
 import QuestionCard from "../components/QuestionCard";
@@ -8,13 +8,10 @@ import { useProgress } from "../hooks/useProgress";
 import { ChevronRight, BookOpen, CheckCircle, RotateCcw } from "lucide-react";
 import { Skeleton } from "../components/ui/skeleton";
 import { Button } from "../components/ui/button";
+import ScrollToTopButton from "../components/ScrollToTopButton";
 
 const LearningPath = () => {
   const [expandAll, setExpandAll] = useState(false);
-
-  const toggleExpandAll = () => {
-    setExpandAll((prev) => !prev);
-  };
   const { pathId } = useParams<{ pathId: string }>();
   const [searchParams] = useSearchParams();
   const highlightedQuestion = searchParams.get("q");
@@ -33,6 +30,7 @@ const LearningPath = () => {
 
   const [filteredQuestions, setFilteredQuestions] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const initialRenderRef = useRef(true);
 
   const {
     markQuestionAsRead,
@@ -41,14 +39,18 @@ const LearningPath = () => {
     getPathProgress,
     markSubpathAsCompleted,
     resetProgress,
+    getLastReadQuestionId,
   } = useProgress();
 
   const loading = pathLoading || questionsLoading;
   const error = pathError || questionsError;
 
+  const toggleExpandAll = () => {
+    setExpandAll((prev) => !prev);
+  };
+
   useEffect(() => {
     if (!loading && questions) {
-
       setFilteredQuestions(questions);
     }
   }, [questions, loading]);
@@ -63,6 +65,29 @@ const LearningPath = () => {
       }
     }
   }, [highlightedQuestion, loading]);
+
+  // Auto scroll to last read question
+  useEffect(() => {
+    if (!loading && pathId && questions.length > 0 && initialRenderRef.current) {
+      initialRenderRef.current = false;
+      const lastReadId = getLastReadQuestionId(pathId);
+      
+      if (lastReadId) {
+        // Find the question in the filtered list
+        const questionIndex = questions.findIndex(q => q.id === lastReadId);
+        
+        if (questionIndex !== -1) {
+          // Small delay to ensure DOM is ready
+          setTimeout(() => {
+            const element = document.getElementById(`question-${questionIndex}`);
+            if (element) {
+              element.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+          }, 300);
+        }
+      }
+    }
+  }, [loading, questions, pathId, getLastReadQuestionId]);
 
   const handleMarkAsRead = (questionId: string) => {
     if (pathId) {
@@ -243,7 +268,7 @@ const LearningPath = () => {
                 return (
                   <div
                     key={question.id}
-                    id={`question-${originalIndex}`}
+                    id={`question-${index}`}
                     className={`animate-fadeIn animate-delay-${Math.min(index, 3) * 100
                       } ${highlightedQuestion === originalIndex.toString()
                         ? "ring-2 ring-blue-400 rounded-xl"
@@ -302,6 +327,8 @@ const LearningPath = () => {
           </div>
         </div>
       </main>
+      
+      <ScrollToTopButton />
     </div>
   );
 };
