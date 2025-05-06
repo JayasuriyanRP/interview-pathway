@@ -115,7 +115,7 @@ const LearningPath = () => {
             console.log(`Found last read question ID: ${lastReadId}`);
             
             // Find the question in the questions list
-            const questionIndex = questions.findIndex(q => q.id === parseInt(lastReadId));
+            const questionIndex = questions.findIndex(q => q.id == lastReadId);
             
             if (questionIndex !== -1) {
               console.log(`Found question at index: ${questionIndex}`);

@@ -64,7 +64,7 @@ export const useProgress = () => {
     if (!database) return;
     const progressRef = ref(database, "progressData");
 
-    console.log(database)
+    // console.log(database)
     get(progressRef)
       .then((snapshot) => {
         if (snapshot.exists()) {
@@ -453,7 +453,7 @@ export const useProgress = () => {
   };
 
   // Updated function to get the last read question ID for a path
-  const getLastReadQuestionId = (pathId: string): number | null => {
+  const getLastReadQuestionId = (pathId: string): string | null => {
     try {
       // Get all the question keys for this path that have been read
       const pathQuestionKeys = Object.keys(progress.lastRead || {})
@@ -472,7 +472,7 @@ export const useProgress = () => {
       // Extract the question ID from the key (format is "pathId-questionId")
       const questionId = lastReadKey.split('-')[1];
       console.log(`Last read question for path ${pathId}: ${questionId}`);
-      return parseInt(questionId);
+      return questionId;
     } catch (error) {
       console.error("Error getting last read question ID:", error);
       return null;
