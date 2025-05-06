@@ -36,6 +36,7 @@ const LearningPath = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const initialRenderRef = useRef(true);
   const orientationChangeRef = useRef(false);
+  const scrollAttemptedRef = useRef(false);
 
   const {
     markQuestionAsRead,
@@ -99,32 +100,52 @@ const LearningPath = () => {
     }
   }, [highlightedQuestion, loading]);
 
-  // Auto scroll to last read question
+  // Improved auto scroll to last read question
   useEffect(() => {
-    if (!loading && pathId && questions.length > 0 && initialRenderRef.current) {
-      initialRenderRef.current = false;
+    // Only run if not loading, we have questions, and we haven't attempted scrolling yet
+    if (!loading && pathId && questions.length > 0 && !scrollAttemptedRef.current) {
+      // Mark that we've attempted to scroll so we don't try again
+      scrollAttemptedRef.current = true;
       
-      if (getLastReadQuestionId && typeof getLastReadQuestionId === 'function') {
-        const lastReadId = getLastReadQuestionId(pathId);
-        
-        if (lastReadId) {
-          // Find the question in the filtered list
-          const questionIndex = questions.findIndex(q => q.id === lastReadId);
+      try {
+        if (getLastReadQuestionId && typeof getLastReadQuestionId === 'function') {
+          const lastReadId = getLastReadQuestionId(pathId);
           
-          if (questionIndex !== -1) {
-            // Small delay to ensure DOM is ready
-            setTimeout(() => {
-              const element = document.getElementById(`question-${questionIndex}`);
-              if (element) {
-                element.scrollIntoView({ behavior: "smooth", block: "center" });
-              }
-            }, 300);
+          if (lastReadId) {
+            console.log(`Found last read question ID: ${lastReadId}`);
+            
+            // Find the question in the questions list
+            const questionIndex = questions.findIndex(q => q.id === parseInt(lastReadId));
+            
+            if (questionIndex !== -1) {
+              console.log(`Found question at index: ${questionIndex}`);
+              
+              // Use a longer delay to ensure DOM is fully rendered
+              setTimeout(() => {
+                const element = document.getElementById(`question-${questionIndex}`);
+                if (element) {
+                  console.log("Scrolling to last read question");
+                  element.scrollIntoView({ behavior: "smooth", block: "center" });
+                } else {
+                  console.log(`Element question-${questionIndex} not found in DOM`);
+                }
+              }, 500);
+            } else {
+              console.log(`Question with ID ${lastReadId} not found in questions list`);
+            }
+          } else {
+            console.log("No last read question ID found");
           }
+        } else {
+          console.log("getLastReadQuestionId function not available");
         }
+      } catch (error) {
+        console.error("Error during auto-scroll:", error);
       }
     }
   }, [loading, questions, pathId, getLastReadQuestionId]);
 
+  // Mark a question as read when the user clicks on it
   const handleMarkAsRead = (questionId: string) => {
     if (pathId) {
       markQuestionAsRead(pathId, questionId);
@@ -156,6 +177,8 @@ const LearningPath = () => {
 
   const handleResetProgress = () => {
     resetProgress(pathId);
+    // Reset scroll attempt flag so we can scroll again after reset
+    scrollAttemptedRef.current = false;
   };
 
   // Calculate progress

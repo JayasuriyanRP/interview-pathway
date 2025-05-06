@@ -452,14 +452,15 @@ export const useProgress = () => {
     return progress.lastRead[id] || 0;
   };
 
-  // New function to get the last read question ID for a path
-  const getLastReadQuestionId = (pathId: string): string | null => {
+  // Updated function to get the last read question ID for a path
+  const getLastReadQuestionId = (pathId: string): number | null => {
     try {
       // Get all the question keys for this path that have been read
       const pathQuestionKeys = Object.keys(progress.lastRead || {})
         .filter(key => key.startsWith(`${pathId}-`));
       
       if (pathQuestionKeys.length === 0) {
+        console.log(`No read questions found for path: ${pathId}`);
         return null;
       }
       
@@ -470,14 +471,14 @@ export const useProgress = () => {
       
       // Extract the question ID from the key (format is "pathId-questionId")
       const questionId = lastReadKey.split('-')[1];
-      return questionId;
+      console.log(`Last read question for path ${pathId}: ${questionId}`);
+      return parseInt(questionId);
     } catch (error) {
       console.error("Error getting last read question ID:", error);
       return null;
     }
   };
 
-  // Sync manually with Firebase
   const refreshFromCloud = async () => {
     if (!database) {
       toast.error("Cloud sync failed. Database is not initialized.");
@@ -540,6 +541,6 @@ export const useProgress = () => {
     resetProgress,
     refreshFromCloud,
     isSyncing,
-    getLastReadQuestionId, // Add the new function to the return object
+    getLastReadQuestionId,
   };
 };
