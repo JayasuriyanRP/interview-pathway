@@ -5,9 +5,13 @@ import { ArrowUp } from "lucide-react";
 
 const ScrollToTopButton = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [lastScrollPosition, setLastScrollPosition] = useState(0);
 
   useEffect(() => {
     const toggleVisibility = () => {
+      // Save last scroll position
+      setLastScrollPosition(window.scrollY);
+      
       if (window.scrollY > 300) {
         setIsVisible(true);
       } else {
@@ -20,6 +24,9 @@ const ScrollToTopButton = () => {
   }, []);
 
   const scrollToTop = () => {
+    // Save last position before scrolling to top
+    setLastScrollPosition(window.scrollY);
+    
     window.scrollTo({
       top: 0,
       behavior: "smooth",

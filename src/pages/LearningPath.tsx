@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, Link, useSearchParams } from "react-router-dom";
 import Header from "../components/Header";
@@ -6,6 +5,7 @@ import QuestionCard from "../components/QuestionCard";
 import QuestionFilter from "../components/QuestionFilter";
 import { usePath, usePathQuestions } from "../hooks/useData";
 import { useProgress } from "../hooks/useProgress";
+import { useIsMobile } from "../hooks/use-mobile";
 import { ChevronRight, BookOpen, CheckCircle, RotateCcw } from "lucide-react";
 import { Skeleton } from "../components/ui/skeleton";
 import { Button } from "../components/ui/button";
@@ -16,6 +16,9 @@ const LearningPath = () => {
   const { pathId } = useParams<{ pathId: string }>();
   const [searchParams] = useSearchParams();
   const highlightedQuestion = searchParams.get("q");
+  const isMobile = useIsMobile();
+  const scrollPositionRef = useRef(0);
+  
   const {
     path,
     loading: pathLoading,
@@ -32,6 +35,7 @@ const LearningPath = () => {
   const [filteredQuestions, setFilteredQuestions] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const initialRenderRef = useRef(true);
+  const orientationChangeRef = useRef(false);
 
   const {
     markQuestionAsRead,
@@ -49,6 +53,34 @@ const LearningPath = () => {
   const toggleExpandAll = () => {
     setExpandAll((prev) => !prev);
   };
+
+  // Save scroll position when orientation changes
+  useEffect(() => {
+    const handleBeforeOrientationChange = () => {
+      scrollPositionRef.current = window.scrollY;
+      orientationChangeRef.current = true;
+    };
+
+    const handleOrientationChange = () => {
+      if (orientationChangeRef.current) {
+        setTimeout(() => {
+          window.scrollTo({
+            top: scrollPositionRef.current,
+            behavior: "auto"
+          });
+          orientationChangeRef.current = false;
+        }, 100);
+      }
+    };
+
+    window.addEventListener('orientationchange', handleBeforeOrientationChange);
+    window.addEventListener('resize', handleOrientationChange);
+
+    return () => {
+      window.removeEventListener('orientationchange', handleBeforeOrientationChange);
+      window.removeEventListener('resize', handleOrientationChange);
+    };
+  }, []);
 
   useEffect(() => {
     if (!loading && questions) {
@@ -98,6 +130,7 @@ const LearningPath = () => {
       markQuestionAsRead(pathId, questionId);
     }
   };
+  
   const handleUndoMarkAsRead = (questionId: string) => {
     if (pathId) {
       undoMarkQuestionAsRead(pathId, questionId);
