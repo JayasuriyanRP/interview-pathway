@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { debounce } from "lodash";
@@ -453,6 +452,31 @@ export const useProgress = () => {
     return progress.lastRead[id] || 0;
   };
 
+  // New function to get the last read question ID for a path
+  const getLastReadQuestionId = (pathId: string): string | null => {
+    try {
+      // Get all the question keys for this path that have been read
+      const pathQuestionKeys = Object.keys(progress.lastRead || {})
+        .filter(key => key.startsWith(`${pathId}-`));
+      
+      if (pathQuestionKeys.length === 0) {
+        return null;
+      }
+      
+      // Find the one with the most recent timestamp
+      const lastReadKey = pathQuestionKeys.reduce((latest, current) => {
+        return progress.lastRead[current] > progress.lastRead[latest] ? current : latest;
+      }, pathQuestionKeys[0]);
+      
+      // Extract the question ID from the key (format is "pathId-questionId")
+      const questionId = lastReadKey.split('-')[1];
+      return questionId;
+    } catch (error) {
+      console.error("Error getting last read question ID:", error);
+      return null;
+    }
+  };
+
   // Sync manually with Firebase
   const refreshFromCloud = async () => {
     if (!database) {
@@ -516,5 +540,6 @@ export const useProgress = () => {
     resetProgress,
     refreshFromCloud,
     isSyncing,
+    getLastReadQuestionId, // Add the new function to the return object
   };
 };

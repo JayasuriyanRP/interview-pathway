@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, Link, useSearchParams } from "react-router-dom";
 import Header from "../components/Header";
@@ -70,20 +71,23 @@ const LearningPath = () => {
   useEffect(() => {
     if (!loading && pathId && questions.length > 0 && initialRenderRef.current) {
       initialRenderRef.current = false;
-      const lastReadId = getLastReadQuestionId(pathId);
       
-      if (lastReadId) {
-        // Find the question in the filtered list
-        const questionIndex = questions.findIndex(q => q.id === lastReadId);
+      if (getLastReadQuestionId && typeof getLastReadQuestionId === 'function') {
+        const lastReadId = getLastReadQuestionId(pathId);
         
-        if (questionIndex !== -1) {
-          // Small delay to ensure DOM is ready
-          setTimeout(() => {
-            const element = document.getElementById(`question-${questionIndex}`);
-            if (element) {
-              element.scrollIntoView({ behavior: "smooth", block: "center" });
-            }
-          }, 300);
+        if (lastReadId) {
+          // Find the question in the filtered list
+          const questionIndex = questions.findIndex(q => q.id === lastReadId);
+          
+          if (questionIndex !== -1) {
+            // Small delay to ensure DOM is ready
+            setTimeout(() => {
+              const element = document.getElementById(`question-${questionIndex}`);
+              if (element) {
+                element.scrollIntoView({ behavior: "smooth", block: "center" });
+              }
+            }, 300);
+          }
         }
       }
     }
