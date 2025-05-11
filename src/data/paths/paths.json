@@ -481,6 +481,51 @@
     ]
   },
   {
+    "id": "communication-protocols",
+    "title": "Communication Protocols",
+    "description": "Learn and compare modern communication protocols used in APIs, real-time systems, and distributed applications.",
+    "icon": "SatelliteDish",
+    "level": "All Levels",
+    "subpaths": [
+      {
+        "id": "rest-api",
+        "title": "REST APIs",
+        "description": "Understand RESTful architecture and how to build scalable, stateless web services.",
+        "level": "Beginner"
+      },
+      {
+        "id": "soap-api",
+        "title": "SOAP APIs",
+        "description": "Learn how to build and consume SOAP-based services using XML and WSDL standards.",
+        "level": "Intermediate"
+      },
+      {
+        "id": "websockets",
+        "title": "WebSockets",
+        "description": "Implement real-time, full-duplex communication between clients and servers using WebSockets.",
+        "level": "Intermediate"
+      },
+      {
+        "id": "sse-events",
+        "title": "Server-Sent Events (SSE)",
+        "description": "Push real-time updates from server to client using simple and efficient HTTP-based streaming.",
+        "level": "Beginner"
+      },
+      {
+        "id": "grpc",
+        "title": "gRPC",
+        "description": "Build high-performance, strongly-typed APIs and microservices using gRPC and Protocol Buffers.",
+        "level": "Advanced"
+      },
+      {
+        "id": "protocols-comparison",
+        "title": "Comparing Protocols",
+        "description": "Analyze the strengths, limitations, and ideal use cases of REST, SOAP, WebSockets, SSE, and gRPC.",
+        "level": "All Levels"
+      }
+    ]
+  },
+  {
     "id": "algorithms",
     "title": "Data Structures & Algorithms",
     "description": "Practice common algorithmic problems and data structures frequently asked in technical interviews.",

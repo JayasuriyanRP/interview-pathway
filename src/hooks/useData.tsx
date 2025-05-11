@@ -56,6 +56,7 @@ const loadPathQuestions = async (pathId: string) => {
       "example",
       "golang",
       "frontend",
+      "communication",
       "js",
       "react",
       "ts",
