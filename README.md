@@ -35,6 +35,16 @@ Interview Pathway is a modern web application designed to help users prepare for
 
 This project is open source! Feel free to fork, modify, and contribute. See the LICENSE file for details.
 
+# App Screenshots
+
+Here are some screenshots of Interview Pathway in action:
+
+![Home Screen](assets/HOME_SCREEN.png)
+![Frontend Path](assets/FRONTEND.png)
+![React Path](assets/REACT.png)
+![Data Structures Path](assets/DATA_STRUCTURES.png)
+![Role Based Path](assets/ROLE_BASED.png)
+
 ## Getting Started
 
 To run the project locally:
