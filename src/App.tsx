@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -12,7 +13,7 @@ import NestedPathExample from "./components/NestedPathExample";
 import AskAI from "./pages/AskAi";
 import AIConverter from "./pages/AIConverter";
 import { AuthProvider } from "./context/AuthContext";
-import React from "react"; // Add explicit React import
+import React from "react";
 
 // Create a new QueryClient instance outside the component
 const queryClient = new QueryClient({
@@ -38,6 +39,10 @@ const App = () => (
                 <Route path="/" element={<Index />} />
                 <Route path="/path/:pathId" element={<LearningPath />} />
                 <Route path="/subpaths/:pathId" element={<SubpathsList />} />
+                {/* Nested path routes */}
+                <Route path="/path/:parentId/:childId" element={<LearningPath />} />
+                <Route path="/path/:parentId/:childId/:grandchildId" element={<LearningPath />} />
+                <Route path="/path/:parentId/:childId/:grandchildId/:greatGrandchildId" element={<LearningPath />} />
                 <Route path="/examples" element={<LearningPath />} />
                 <Route path="/nested-example" element={<NestedPathExample />} />
                 <Route path="/ask-ai" element={<AskAI />} />
