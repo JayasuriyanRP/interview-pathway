@@ -7,6 +7,8 @@ interface PathItem {
 interface Path {
   id: string;
   title: string;
+  description?: string;
+  level?: string;
   subpaths?: Path[];
 }
 

@@ -87,9 +87,11 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
       />
 
       <NestedPathCardFooter
-        count={path.count}
+        pathId={path.id}
         hasNestedPaths={hasNestedPaths}
         isExpanded={isExpanded}
+        subpathsCount={path.subpaths?.length || 0}
+        questionsCount={path.count}
         handleToggleExpand={handleToggleExpand}
       />
     </Card>

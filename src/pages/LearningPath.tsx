@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import QuestionCard from "../components/QuestionCard";
 import LoadingState from "../components/LoadingState";
 import ErrorState from "../components/ErrorState";
-import QuestionFilter from "../components/QuestionFilter";
+import LearningPathFilter from "../components/LearningPathFilter";
 import PathHeader from "../components/PathHeader";
 import ScrollToTopButton from "../components/ScrollToTopButton";
 import { usePathQuestions, useData } from "../hooks/useData";
@@ -156,7 +156,7 @@ const LearningPath = () => {
             onResetProgress={handleResetProgress}
           />
 
-          <QuestionFilter
+          <LearningPathFilter
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
             levelFilter={levelFilter}
@@ -173,12 +173,15 @@ const LearningPath = () => {
                 }}
               >
                 <QuestionCard
-                  question={question}
-                  questionNumber={index + 1}
-                  totalQuestions={filteredQuestions.length}
-                  pathId={actualPathId || ""}
+                  index={index}
+                  id={question.id}
+                  question={question.question}
+                  answer={question.answer}
+                  level={question.level}
                   onMarkAsRead={handleQuestionRead}
-                  onMarkAsUnread={handleQuestionUnread}
+                  onUndoRead={handleQuestionUnread}
+                  isRead={getPathProgress(actualPathId || "", questions).completed > 0}
+                  isExpanded={false}
                 />
               </div>
             ))}

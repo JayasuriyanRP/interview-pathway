@@ -479,6 +479,10 @@ export const useProgress = () => {
     }
   };
 
+  const resetSubpathProgress = async (pathId: string) => {
+    await resetProgress(pathId);
+  };
+
   const refreshFromCloud = async () => {
     if (!database) {
       toast.error("Cloud sync failed. Database is not initialized.");
@@ -539,6 +543,7 @@ export const useProgress = () => {
     getPathProgress,
     getLastReadTimestamp,
     resetProgress,
+    resetSubpathProgress,
     refreshFromCloud,
     isSyncing,
     getLastReadQuestionId,
