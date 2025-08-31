@@ -18,6 +18,10 @@ I’ve enjoyed seeing the app improve with every small enhancement, including:
 - Daily streaks and reminders (planned)
 - Leaderboards and community features (planned)
 
+## Analytics & Privacy
+
+This site uses Google Analytics to track page visits and user engagement. No personally identifiable information is collected. Data is used solely to improve the app and understand usage patterns. For more details, see [Google Analytics privacy documentation](https://support.google.com/analytics/answer/6004245?hl=en).
+
 ## Project Overview
 
 Interview Pathway is a modern web application designed to help users prepare for technical interviews. It provides structured learning paths, nested subpaths, and categorized questions/answers for a wide range of technologies (e.g., Frontend, Angular, HTML, CSS, and more).
