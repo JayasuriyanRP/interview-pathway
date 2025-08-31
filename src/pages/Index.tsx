@@ -112,7 +112,7 @@ const Index = () => {
                     variant="default"
                     className="bg-indigo-600 hover:bg-indigo-700"
                   >
-                    Ask AI
+                    Ask AI - With Local LLM
                   </Button>
                 </Link>
                 <Link to="/convert-ai">
@@ -120,7 +120,7 @@ const Index = () => {
                     variant="default"
                     className="bg-indigo-600 hover:bg-indigo-700"
                   >
-                    Convert from skillora.ai
+                    Convert from skillora.ai with Local LLM
                   </Button>
                 </Link>
               </div>
