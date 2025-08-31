@@ -1,6 +1,5 @@
-
 import React, { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ChevronLeft, Home } from "lucide-react";
 import { Button } from "./ui/button";
 import ThemeToggle from "./ThemeToggle";
@@ -15,8 +14,6 @@ import {
 } from "./ui/breadcrumb";
 import FirebaseConfigModal from "./FirebaseConfigModal";
 import { useAuth } from "@/context/AuthContext";
-import { useData } from "@/hooks/useData";
-import { buildBreadcrumbPath, getPathSegments, buildPathUrl } from "@/utils/pathUtils";
 
 interface HeaderProps {
   title?: string;
@@ -30,13 +27,7 @@ const Header: React.FC<HeaderProps> = ({
   path = [],
 }) => {
   const navigate = useNavigate();
-  const params = useParams();
   const { isAuthenticated } = useAuth();
-  const { paths } = useData();
-
-  // Build breadcrumb path from URL parameters
-  const pathSegments = getPathSegments(params);
-  const breadcrumbPath = paths.length > 0 ? buildBreadcrumbPath(paths, pathSegments) : path;
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -66,24 +57,22 @@ const Header: React.FC<HeaderProps> = ({
                   </BreadcrumbLink>
                 </BreadcrumbItem>
 
-                {breadcrumbPath.map((item, index) => (
+                {path.map((item, index) => (
                   <React.Fragment key={item.id}>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
-                      {index === breadcrumbPath.length - 1 ? (
+                      {index === path.length - 1 ? (
                         <BreadcrumbPage>{item.title}</BreadcrumbPage>
                       ) : (
                         <BreadcrumbLink asChild>
-                          <Link to={buildPathUrl(pathSegments.slice(0, index + 1))}>
-                            {item.title}
-                          </Link>
+                          <Link to={`/subpaths/${item.id}`}>{item.title}</Link>
                         </BreadcrumbLink>
                       )}
                     </BreadcrumbItem>
                   </React.Fragment>
                 ))}
 
-                {title && breadcrumbPath.length === 0 && (
+                {title && path.length === 0 && (
                   <>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>

@@ -1,194 +1,393 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link, useSearchParams } from "react-router-dom";
 import Header from "../components/Header";
 import QuestionCard from "../components/QuestionCard";
-import LoadingState from "../components/LoadingState";
-import ErrorState from "../components/ErrorState";
-import LearningPathFilter from "../components/LearningPathFilter";
-import PathHeader from "../components/PathHeader";
-import ScrollToTopButton from "../components/ScrollToTopButton";
-import { usePathQuestions, useData } from "../hooks/useData";
+import QuestionFilter from "../components/QuestionFilter";
+import { usePath, usePathQuestions } from "../hooks/useData";
 import { useProgress } from "../hooks/useProgress";
-import { getPathSegments, findNestedPath } from "@/utils/pathUtils";
+import { useIsMobile } from "../hooks/use-mobile";
+import { ChevronRight, BookOpen, CheckCircle, RotateCcw } from "lucide-react";
+import { Skeleton } from "../components/ui/skeleton";
+import { Button } from "../components/ui/button";
+import ScrollToTopButton from "../components/ScrollToTopButton";
 
 const LearningPath = () => {
-  const params = useParams();
-  const { paths } = useData();
+  const [expandAll, setExpandAll] = useState(false);
+  const { pathId } = useParams<{ pathId: string }>();
+  const [searchParams] = useSearchParams();
+  const highlightedQuestion = searchParams.get("q");
+  const isMobile = useIsMobile();
+  const scrollPositionRef = useRef(0);
   
-  // Get the actual path ID from nested URL structure
-  const pathSegments = getPathSegments(params);
-  const actualPathId = pathSegments[pathSegments.length - 1]; // Get the last segment as the actual path ID
-  
-  const { questions, loading, error } = usePathQuestions(actualPathId);
   const {
-    getPathProgress,
+    path,
+    loading: pathLoading,
+    error: pathError,
+    isSubpath,
+    parentPath,
+  } = usePath(pathId);
+  const {
+    questions,
+    loading: questionsLoading,
+    error: questionsError,
+  } = usePathQuestions(pathId);
+
+  const [filteredQuestions, setFilteredQuestions] = useState<any[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const initialRenderRef = useRef(true);
+  const orientationChangeRef = useRef(false);
+  const scrollAttemptedRef = useRef(false);
+
+  const {
     markQuestionAsRead,
     undoMarkQuestionAsRead,
+    isQuestionRead,
+    getPathProgress,
     markSubpathAsCompleted,
-    resetSubpathProgress,
+    resetProgress,
     getLastReadQuestionId,
   } = useProgress();
 
-  // Find the actual path object for header display
-  const currentPath = paths.length > 0 ? findNestedPath(paths, pathSegments) : null;
+  const loading = pathLoading || questionsLoading;
+  const error = pathError || questionsError;
 
-  const [searchQuery, setSearchQuery] = useState("");
-  const [levelFilter, setLevelFilter] = useState<string | null>(null);
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const [hasScrolledToLastRead, setHasScrolledToLastRead] = useState(false);
-  const questionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const toggleExpandAll = () => {
+    setExpandAll((prev) => !prev);
+  };
 
-  const filteredQuestions = questions.filter((question) => {
-    const matchesSearch =
-      searchQuery === "" ||
-      question.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (typeof question.answer === "string" &&
-        question.answer.toLowerCase().includes(searchQuery.toLowerCase()));
-
-    const matchesLevel =
-      !levelFilter ||
-      question.level === levelFilter ||
-      question.level === "All Levels";
-
-    return matchesSearch && matchesLevel;
-  });
-
-  const progress = getPathProgress(actualPathId || "", questions);
-  const progressPercentage =
-    progress.total > 0 ? Math.round((progress.completed / progress.total) * 100) : 0;
-
-  // Handle window resize and scroll restoration
+  // Save scroll position when orientation changes
   useEffect(() => {
-    const handleResize = () => {
-      window.scrollTo(0, scrollPosition);
+    const handleBeforeOrientationChange = () => {
+      scrollPositionRef.current = window.scrollY;
+      orientationChangeRef.current = true;
     };
 
-    const handleScroll = () => {
-      setScrollPosition(window.scrollY);
+    const handleOrientationChange = () => {
+      if (orientationChangeRef.current) {
+        setTimeout(() => {
+          window.scrollTo({
+            top: scrollPositionRef.current,
+            behavior: "auto"
+          });
+          orientationChangeRef.current = false;
+        }, 100);
+      }
     };
 
-    window.addEventListener("resize", handleResize);
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('orientationchange', handleBeforeOrientationChange);
+    window.addEventListener('resize', handleOrientationChange);
 
     return () => {
-      window.removeEventListener("resize", handleResize);
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('orientationchange', handleBeforeOrientationChange);
+      window.removeEventListener('resize', handleOrientationChange);
     };
-  }, [scrollPosition]);
+  }, []);
 
-  // Auto scroll to last read question
   useEffect(() => {
-    if (
-      !loading &&
-      !error &&
-      questions.length > 0 &&
-      actualPathId &&
-      !hasScrolledToLastRead &&
-      Object.keys(questionRefs.current).length > 0
-    ) {
-      console.log("Attempting to scroll to last read question...");
-      
-      const lastReadId = getLastReadQuestionId?.(actualPathId);
-      console.log("Last read question ID:", lastReadId);
-      
-      if (lastReadId && questionRefs.current[lastReadId]) {
-        console.log("Found question element for ID:", lastReadId);
-        
-        setTimeout(() => {
-          const element = questionRefs.current[lastReadId];
-          if (element) {
-            console.log("Scrolling to element:", element);
-            element.scrollIntoView({ 
-              behavior: "smooth", 
-              block: "start",
-              inline: "nearest"
-            });
-            setHasScrolledToLastRead(true);
-          } else {
-            console.log("Element not found in refs for ID:", lastReadId);
-          }
-        }, 1000);
-      } else {
-        console.log("No last read question found or element not in refs");
-        setHasScrolledToLastRead(true);
+    if (!loading && questions) {
+      setFilteredQuestions(questions);
+    }
+  }, [questions, loading]);
+
+  // Handle question highlighting
+  useEffect(() => {
+    if (highlightedQuestion && !loading) {
+      const questionIndex = parseInt(highlightedQuestion);
+      const element = document.getElementById(`question-${questionIndex}`);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
       }
     }
-  }, [loading, error, questions, actualPathId, hasScrolledToLastRead, getLastReadQuestionId]);
+  }, [highlightedQuestion, loading]);
 
-  const handleQuestionRead = (questionId: string) => {
-    if (actualPathId) {
-      markQuestionAsRead(actualPathId, questionId);
+  // Improved auto scroll to last read question
+  useEffect(() => {
+    // Only run if not loading, we have questions, and we haven't attempted scrolling yet
+    if (!loading && pathId && questions.length > 0 && !scrollAttemptedRef.current) {
+      // Mark that we've attempted to scroll so we don't try again
+      scrollAttemptedRef.current = true;
+      
+      try {
+        if (getLastReadQuestionId && typeof getLastReadQuestionId === 'function') {
+          const lastReadId = getLastReadQuestionId(pathId);
+          
+          if (lastReadId) {
+            console.log(`Found last read question ID: ${lastReadId}`);
+            
+            // Find the question in the questions list
+            const questionIndex = questions.findIndex(q => q.id == lastReadId);
+            
+            if (questionIndex !== -1) {
+              console.log(`Found question at index: ${questionIndex}`);
+              
+              // Use a longer delay to ensure DOM is fully rendered
+              setTimeout(() => {
+                const element = document.getElementById(`question-${questionIndex}`);
+                if (element) {
+                  console.log("Scrolling to last read question");
+                  element.scrollIntoView({ behavior: "smooth", block: "center" });
+                } else {
+                  console.log(`Element question-${questionIndex} not found in DOM`);
+                }
+              }, 500);
+            } else {
+              console.log(`Question with ID ${lastReadId} not found in questions list`);
+            }
+          } else {
+            console.log("No last read question ID found");
+          }
+        } else {
+          console.log("getLastReadQuestionId function not available");
+        }
+      } catch (error) {
+        console.error("Error during auto-scroll:", error);
+      }
+    }
+  }, [loading, questions, pathId, getLastReadQuestionId]);
+
+  // Mark a question as read when the user clicks on it
+  const handleMarkAsRead = (questionId: string) => {
+    if (pathId) {
+      markQuestionAsRead(pathId, questionId);
+    }
+  };
+  
+  const handleUndoMarkAsRead = (questionId: string) => {
+    if (pathId) {
+      undoMarkQuestionAsRead(pathId, questionId);
     }
   };
 
-  const handleQuestionUnread = (questionId: string) => {
-    if (actualPathId) {
-      undoMarkQuestionAsRead(actualPathId, questionId);
-    }
+  const handleMarkAllAsRead = () => {
+    if (!pathId) return;
+
+    questions.forEach((q, index) => {
+      setTimeout(() => {
+        markQuestionAsRead(pathId, q.id);
+      }, index * 50); // 50ms delay per question
+    });
+
+    // If it's a subpath, mark it as completed after all questions are marked
+    setTimeout(() => {
+      if (isSubpath) {
+        markSubpathAsCompleted(pathId);
+      }
+    }, questions.length * 50);
   };
 
   const handleResetProgress = () => {
-    if (actualPathId && window.confirm("Are you sure you want to reset all progress for this path?")) {
-      resetSubpathProgress(actualPathId);
-      setHasScrolledToLastRead(false);
-    }
+    resetProgress(pathId);
+    // Reset scroll attempt flag so we can scroll again after reset
+    scrollAttemptedRef.current = false;
   };
 
+  // Calculate progress
+  const progress = pathId
+    ? getPathProgress(pathId, questions)
+    : { completed: 0, total: 0 };
+  const progressPercentage =
+    progress.total > 0 ? (progress.completed / progress.total) * 100 : 0;
+
   if (loading) {
-    return <LoadingState />;
+    return (
+      <div className="min-h-screen bg-background">
+        <Header title="Loading..." showBackButton={true} />
+        <div className="container mx-auto max-w-3xl px-4 sm:px-6 md:px-8 lg:px-12 py-6 sm:py-8">
+          <Skeleton className="h-6 w-32 mb-4" />
+          <Skeleton className="h-10 w-3/4 mb-6" />
+          <Skeleton className="h-6 w-full mb-10" />
+
+          {[1, 2, 3].map((i) => (
+            <Skeleton key={i} className="h-24 w-full rounded-xl mb-6" />
+          ))}
+        </div>
+      </div>
+    );
   }
 
-  if (error || !currentPath) {
-    return <ErrorState />;
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center text-red-500">
+          <p className="text-lg font-medium">Error loading data</p>
+          <p className="text-sm">{error.message}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!path) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-lg font-medium">Learning path not found</p>
+        </div>
+      </div>
+    );
   }
 
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
-      <Header title={currentPath?.title} showBackButton={true} />
+      <Header title={path.title} showBackButton={true} />
 
-      <main className="flex-1 container mx-auto max-w-4xl px-4 py-6">
-        <div className="space-y-6">
-          <PathHeader
-            title={currentPath.title}
-            description={currentPath.description || ""}
-            level={currentPath.level || ""}
-            totalSubpaths={questions.length}
-            onResetProgress={handleResetProgress}
-          />
+      <main className="flex-1 px-0 sm:px-6 md:px-8 lg:px-12 pb-12">
+        <div className="container mx-auto max-w-3xl lg:max-w-5xl xl:max-w-6xl px-4 sm:px-6 md:px-8 lg:px-16 py-6 sm:py-8">
+          <div className="flex justify-between items-center mt-4 mb-6">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              {isSubpath && parentPath && (
+                <>
+                  <Link
+                    to={`/subpaths/${parentPath.id}`}
+                    className="hover:text-foreground"
+                  >
+                    {parentPath.title}
+                  </Link>
+                  <ChevronRight className="w-4 h-4" />
+                  <span className="font-medium text-foreground">
+                    {path.title}
+                  </span>
+                </>
+              )}
+            </div>
+          </div>
 
-          <LearningPathFilter
+          <div className="mb-8 mt-2 animate-fadeIn">
+            <div className="flex flex-wrap gap-3 mb-4">
+              <div className="inline-block px-3 py-1 text-sm font-medium rounded-full bg-secondary text-secondary-foreground">
+                {path.level}
+              </div>
+              <div className="inline-block px-3 py-1 text-sm font-medium rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                {progress.completed} of {progress.total} Completed
+              </div>
+            </div>
+            <h1 className="text-3xl md:text-4xl font-bold mb-4">
+              {path.title}
+            </h1>
+            <p className="text-lg text-muted-foreground">{path.description}</p>
+
+            {/* Progress bar */}
+            <div className="mt-6 mb-2">
+              <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-green-500 transition-all duration-500 ease-in-out"
+                  style={{ width: `${progressPercentage}%` }}
+                ></div>
+              </div>
+              <div className="flex justify-between items-center mt-2 text-sm text-muted-foreground">
+                <span>{progressPercentage.toFixed(0)}% Complete</span>
+              </div>
+              <div className="flex justify-end items-center mt-2 text-sm text-muted-foreground">
+                <div className="flex space-x-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleResetProgress}
+                    title="Reset all progress"
+                    className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
+                  >
+                    <RotateCcw className="h-4 w-4 mr-1" />
+                    Reset
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleMarkAllAsRead}
+                    className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                  >
+                    <BookOpen className="h-4 w-4 mr-1" />
+                    Mark all as read
+                  </Button>
+
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={toggleExpandAll}
+                    className="text-purple-600 hover:text-purple-800 dark:text-purple-400 dark:hover:text-purple-300"
+                  >
+                    {expandAll ? "Collapse All" : "Expand All"}
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Question filter */}
+          <QuestionFilter
+            questions={questions}
+            onFilterChange={setFilteredQuestions}
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
-            levelFilter={levelFilter}
-            setLevelFilter={setLevelFilter}
-            progressPercentage={progressPercentage}
           />
 
           <div className="space-y-6">
-            {filteredQuestions.map((question, index) => (
-              <div
-                key={question.id}
-                ref={(el) => {
-                  questionRefs.current[question.id] = el;
-                }}
-              >
-                <QuestionCard
-                  index={index}
-                  id={question.id}
-                  question={question.question}
-                  answer={question.answer}
-                  level={question.level}
-                  onMarkAsRead={handleQuestionRead}
-                  onUndoRead={handleQuestionUnread}
-                  isRead={getPathProgress(actualPathId || "", questions).completed > 0}
-                  isExpanded={false}
-                />
+            {filteredQuestions.length > 0 ? (
+              filteredQuestions.map((question, index) => {
+                // Find the original index in the questions array
+                const originalIndex = question.id; //questions.findIndex(q => q.id === question.id);
+
+                return (
+                  <div
+                    key={question.id}
+                    id={`question-${index}`}
+                    className={`animate-fadeIn animate-delay-${Math.min(index, 3) * 100
+                      } ${highlightedQuestion === originalIndex.toString()
+                        ? "ring-2 ring-blue-400 rounded-xl"
+                        : ""
+                      }`}
+                  >
+                    <QuestionCard
+                      key={question.id}
+                      index={index}
+                      id={question.id}
+                      question={question.question}
+                      answer={question.answer}
+                      level={question.level}
+                      onMarkAsRead={handleMarkAsRead}
+                      onUndoRead={handleUndoMarkAsRead}
+                      isRead={isQuestionRead(pathId || "", question.id)}
+                      highlightQuery={searchQuery}
+                      isExpanded={expandAll}
+                      onEdit={(id, updatedQuestion, updatedAnswer) => {
+                        // Implement your logic to update the question in your state
+                        // For example:
+
+                        const updatedQuestions = questions.map((q) =>
+                          q.id === id
+                            ? {
+                              ...q,
+                              question: updatedQuestion,
+                              answer: updatedAnswer.replace(
+                                /^```markdown\n?|```$/g,
+                                ""
+                              ),
+                            }
+                            : q
+                        );
+                        setFilteredQuestions(updatedQuestions);
+                        // You might also want to update your backend here
+                      }}
+                      editable={false}
+                    />
+                  </div>
+                );
+              })
+            ) : searchQuery ? (
+              <div className="bg-card rounded-xl p-6 text-center border border-border">
+                <p className="text-muted-foreground">
+                  No questions match your search criteria.
+                </p>
               </div>
-            ))}
+            ) : (
+              <div className="bg-card rounded-xl p-6 text-center border border-border">
+                <p className="text-muted-foreground">
+                  No questions available for this path yet.
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </main>
-
+      
       <ScrollToTopButton />
     </div>
   );
