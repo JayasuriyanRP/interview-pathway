@@ -33,30 +33,15 @@ const App = () => (
         <TooltipProvider>
           <AuthProvider>
             <Sonner />
-            <BrowserRouter>
+            <BrowserRouter basename="/interview-pathway/">
               <Routes>
-                <Route path="/interview-pathway/" element={<Index />} />
-                <Route
-                  path="/interview-pathway/path/:pathId"
-                  element={<LearningPath />}
-                />
-                <Route
-                  path="/interview-pathway/subpaths/:pathId"
-                  element={<SubpathsList />}
-                />
-                <Route
-                  path="/interview-pathway/examples"
-                  element={<LearningPath />}
-                />
-                <Route
-                  path="/interview-pathway/nested-example"
-                  element={<NestedPathExample />}
-                />
-                <Route path="/interview-pathway/ask-ai" element={<AskAI />} />
-                <Route
-                  path="/interview-pathway/convert-ai"
-                  element={<AIConverter />}
-                />
+                <Route path="/" element={<Index />} />
+                <Route path="/path/:pathId" element={<LearningPath />} />
+                <Route path="/subpaths/:pathId" element={<SubpathsList />} />
+                <Route path="/examples" element={<LearningPath />} />
+                <Route path="/nested-example" element={<NestedPathExample />} />
+                <Route path="/ask-ai" element={<AskAI />} />
+                <Route path="/convert-ai" element={<AIConverter />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>
