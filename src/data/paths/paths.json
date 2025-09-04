@@ -1,12 +1,5 @@
 [
   {
-    "id": "example-path",
-    "title": "Example Path with All Content Types",
-    "description": "This path demonstrates all content types available in the app, including text, code, lists, tables, images, quotes, and notes.",
-    "icon": "FileText",
-    "level": "Beginner"
-  },
-  {
     "id": "frontend",
     "title": "Frontend Development",
     "description": "Master essential frontend interview questions covering HTML, CSS, JavaScript, and popular frameworks.",
@@ -29,12 +22,6 @@
         "id": "sass-basics",
         "title": "SASS Basics",
         "description": "Introduction to SASS (Syntactically Awesome Style Sheets) and basic SASS syntax and features",
-        "level": "Beginner"
-      },
-      {
-        "id": "responsive-design-basics",
-        "title": "Responsive Design Basics",
-        "description": "Basic concepts of responsive design, including layout techniques and strategies",
         "level": "Beginner"
       },
       {
@@ -168,10 +155,31 @@
         "level": "All Levels"
       },
       {
-        "id": "ts-syntaxes",
-        "title": "TypeScript Syntaxes",
-        "description": "Common TypeScript syntax patterns and related interview questions",
-        "level": "Beginner"
+        "id": "typescript",
+        "title": "TypeScript",
+        "description": "Master TypeScript concepts and advanced topics for frontend and backend development.",
+        "icon": "Code",
+        "level": "Intermediate",
+        "subpaths": [
+          {
+            "id": "ts-syntaxes",
+            "title": "TypeScript Syntaxes",
+            "description": "Common TypeScript syntax patterns and related interview questions.",
+            "level": "Beginner"
+          },
+          {
+            "id": "ts-advanced-questions",
+            "title": "Advanced TypeScript Questions",
+            "description": "Deep dive into advanced TypeScript concepts and their applications.",
+            "level": "Advanced"
+          },
+          {
+            "id": "ts-questions",
+            "title": "General TypeScript Questions",
+            "description": "General TypeScript interview questions covering a wide range of topics.",
+            "level": "Intermediate"
+          }
+        ]
       }
     ]
   },
@@ -590,12 +598,6 @@
     "level": "Advanced",
     "subpaths": [
       {
-        "id": "system-design-scalability",
-        "title": "Scalability",
-        "description": "Building systems that scale to millions of users",
-        "level": "Advanced"
-      },
-      {
         "id": "system-design-microservices",
         "title": "Microservices",
         "description": "Microservice architecture patterns and practices",
@@ -681,12 +683,6 @@
         "level": "Intermediate"
       },
       {
-        "id": "message-broker-kafka",
-        "title": "Apache Kafka",
-        "description": "Explore Kafka's architecture, how to produce and consume messages, and work with Kafka topics, partitions, and brokers.",
-        "level": "Intermediate"
-      },
-      {
         "id": "message-broker-advanced",
         "title": "Advanced Message Broker Concepts",
         "description": "Deep dive into distributed messaging patterns, message durability, fault tolerance, and scaling message brokers.",
@@ -748,33 +744,6 @@
             "title": "JavaScript",
             "description": "JavaScript concepts and best practices",
             "level": "Beginner"
-          },
-          {
-            "id": "frontend-react",
-            "title": "React",
-            "description": "React fundamentals, hooks, and advanced concepts",
-            "level": "Intermediate"
-          }
-        ]
-      },
-      {
-        "id": "cloud",
-        "title": "Cloud Computing",
-        "description": "AWS, Azure, Google Cloud, and DevOps concepts.",
-        "icon": "Cloud",
-        "level": "Advanced",
-        "subpaths": [
-          {
-            "id": "cloud-aws",
-            "title": "AWS",
-            "description": "Amazon Web Services concepts and best practices",
-            "level": "Intermediate"
-          },
-          {
-            "id": "cloud-docker",
-            "title": "Docker & Kubernetes",
-            "description": "Containerization and orchestration",
-            "level": "Advanced"
           }
         ]
       }

@@ -43,3 +43,43 @@ Each file should be structured as an **array** of questions:
 7. `note` - Additional information or context (can be highlighted)
 
 See `example-path.json` for a complete example of all content block types.
+
+# Questions Data
+
+This folder contains JSON files for interview questions categorized by topics and frameworks.
+
+## Scripts for Validation
+
+### 1. Validate Questions Script
+
+**File:** `src/scripts/validate_questions.js`
+
+**Purpose:**
+
+- Checks all paths and subpaths in `paths.json` to ensure they have corresponding question files in the `questions` folder.
+- Removes paths and subpaths without corresponding question files.
+
+**Usage:**
+
+```bash
+node src/scripts/validate_questions.js
+```
+
+### 2. Find Unlinked Questions Script
+
+**File:** `src/scripts/find_unlinked_questions.js`
+
+**Purpose:**
+
+- Identifies question files in the `questions` folder that are not linked to any path or subpath in `paths.json`.
+
+**Usage:**
+
+```bash
+node src/scripts/find_unlinked_questions.js
+```
+
+## Notes
+
+- Ensure `paths.json` and the `questions` folder are up-to-date before running the scripts.
+- Run these scripts to maintain consistency between paths and question files.

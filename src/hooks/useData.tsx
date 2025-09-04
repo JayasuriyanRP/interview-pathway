@@ -86,7 +86,7 @@ const loadPathQuestions = async (pathId: string) => {
     const response = await import(`../data/questions/${pathId}.json`);
     return response.default;
   } catch (err) {
-    console.log(`No specific question file for ${pathId}`);
+    // console.log(`No specific question file for ${pathId}`);
     return [];
   }
 };

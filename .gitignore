@@ -25,3 +25,58 @@ dist-ssr
 
 node_modules/*
 ai-code-gen/venv/**
+
+# Add common temporary files and directories to ignore
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+
+# Ignore build artifacts
+build/
+coverage/
+
+# Ignore environment files
+.env
+.env.*
+
+# Ignore OS-specific files
+Thumbs.db
+Desktop.ini
+
+# Ignore Python cache files
+__pycache__/
+*.py[cod]
+
+# Ignore IDE-specific files
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Ignore temporary scripts
+*.sh~
+*.ps1~
+
+# Ignore Visual Studio database files
+*.mdf
+*.ldf
+*.ndf
+
+# Ignore Visual Studio specific files
+.vs/
+*.dbmdl
+*.dbproj.user
+*.pdb
+*.suo
+*.user
+*.v12.suo
+*.cache
+*.aps
+*.ncb
+*.opendb
+*.opensdf
+*.sdf
+*.sqlite
+*.sqlite3
