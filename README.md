@@ -4,7 +4,7 @@
 
 Preparing for technical interviews across multiple tech stacks can be overwhelming, especially when trying to track progress and cover topics from Beginner to Advanced levels. As someone with experience in many technologies, I found it challenging to organize my preparation and monitor my learning journey.
 
-This inspired me to build Interview Pathway—a platform for anyone facing similar struggles. I started by drafting my idea as a prompt in lovable.dev, which provided a solid foundation for the project structure. While preparing for interviews, I developed this app in parallel, and it helped me crack interviews more effectively. Now, I’m excited to share this tool with the community, hoping it helps others as much as it helped me.
+This inspired me to build Interview Pathway—a platform for anyone facing similar struggles. While preparing for interviews, I developed this app in parallel, and it helped me crack interviews more effectively. Now, I’m excited to share this tool with the community, hoping it helps others as much as it helped me.
 
 I’ve enjoyed seeing the app improve with every small enhancement, including:
 
