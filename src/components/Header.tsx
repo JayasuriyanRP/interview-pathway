@@ -1,108 +1,95 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { ChevronLeft, Home } from "lucide-react";
+import React from "react";
 import { Button } from "./ui/button";
+import { ArrowLeft, Home, ChevronRight } from "lucide-react";
+import { useNavigate, Link } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
 import UserMenu from "./UserMenu";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "./ui/breadcrumb";
 import FirebaseConfigModal from "./FirebaseConfigModal";
 import { useAuth } from "@/context/AuthContext";
+import { BreadcrumbItem as BreadcrumbItemType } from "@/utils/pathUtils";
 
 interface HeaderProps {
   title?: string;
   showBackButton?: boolean;
-  path?: { id: string; title: string }[];
+  breadcrumbs?: BreadcrumbItemType[];
 }
 
 const Header: React.FC<HeaderProps> = ({
   title,
   showBackButton = false,
-  path = [],
+  breadcrumbs = [],
 }) => {
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
+  const { user } = useAuth();
+
+  const handleBack = () => {
+    navigate(-1);
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center px-4 sm:px-6">
-        <div className="flex flex-1 items-center gap-2">
-          {showBackButton && (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => navigate(-1)}
-              className="mr-2"
-              aria-label="Go back"
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </Button>
-          )}
+      <div className="container mx-auto px-4 py-3 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            {showBackButton && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleBack}
+                className="flex items-center gap-2"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                <span className="hidden sm:inline">Back</span>
+              </Button>
+            )}
 
-          <div className="hidden md:flex">
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink asChild>
-                    <Link to="/" className="flex items-center gap-1">
-                      <Home className="h-4 w-4" />
-                      <span>Home</span>
-                    </Link>
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-
-                {path.map((item, index) => (
-                  <React.Fragment key={item.id}>
-                    <BreadcrumbSeparator />
-                    <BreadcrumbItem>
-                      {index === path.length - 1 ? (
-                        <BreadcrumbPage>{item.title}</BreadcrumbPage>
-                      ) : (
-                        <BreadcrumbLink asChild>
-                          <Link to={`/subpaths/${item.id}`}>{item.title}</Link>
-                        </BreadcrumbLink>
-                      )}
-                    </BreadcrumbItem>
+            {/* Enhanced breadcrumb navigation */}
+            <nav className="flex items-center space-x-1 text-sm">
+              {breadcrumbs.length > 0 ? (
+                breadcrumbs.map((crumb, index) => (
+                  <React.Fragment key={crumb.id}>
+                    {index > 0 && (
+                      <ChevronRight className="h-4 w-4 text-muted-foreground/50" />
+                    )}
+                    {index === breadcrumbs.length - 1 ? (
+                      <span className="text-foreground font-medium px-2 py-1 rounded-md bg-muted/50">
+                        {crumb.title}
+                      </span>
+                    ) : (
+                      <Link
+                        to={crumb.url}
+                        className="text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded-md hover:bg-muted/50 flex items-center gap-1"
+                      >
+                        {crumb.id === 'home' && <Home className="h-4 w-4" />}
+                        <span>{crumb.title}</span>
+                      </Link>
+                    )}
                   </React.Fragment>
-                ))}
+                ))
+              ) : (
+                <Link
+                  to="/"
+                  className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded-md hover:bg-muted/50"
+                >
+                  <Home className="h-4 w-4" />
+                  <span>Interview Pathway</span>
+                </Link>
+              )}
+            </nav>
 
-                {title && path.length === 0 && (
-                  <>
-                    <BreadcrumbSeparator />
-                    <BreadcrumbItem>
-                      <BreadcrumbPage>{title}</BreadcrumbPage>
-                    </BreadcrumbItem>
-                  </>
-                )}
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-
-          <div className="md:hidden">
-            {title ? (
-              <h1 className="text-base font-semibold truncate max-w-[200px]">
+            {/* Title for smaller screens */}
+            {title && (
+              <h1 className="text-lg font-semibold text-foreground sm:hidden">
                 {title}
               </h1>
-            ) : (
-              <Link to="/" className="flex items-center">
-                <span className="text-base font-semibold">
-                  Interview Pathways
-                </span>
-              </Link>
             )}
           </div>
-        </div>
 
-        <div className="flex items-center gap-2">
-          <FirebaseConfigModal />
-          <UserMenu />
-          <ThemeToggle />
+          <div className="flex items-center space-x-2">
+            <FirebaseConfigModal />
+            {user && <UserMenu />}
+            <ThemeToggle />
+          </div>
         </div>
       </div>
     </header>

@@ -36,7 +36,7 @@ const App = () => (
             <BrowserRouter basename="/interview-pathway/">
               <Routes>
                 <Route path="/" element={<Index />} />
-                <Route path="/path/:pathId" element={<LearningPath />} />
+                <Route path="/path/*" element={<LearningPath />} />
                 <Route path="/subpaths/:pathId" element={<SubpathsList />} />
                 <Route path="/examples" element={<LearningPath />} />
                 <Route path="/nested-example" element={<NestedPathExample />} />

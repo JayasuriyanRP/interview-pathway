@@ -2,13 +2,14 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../components/Header";
-import NestedPathCard from "../components/NestedPathCard";
+import SubPathList from "../components/path/SubPathList";
 import LoadingState from "../components/LoadingState";
 import ErrorState from "../components/ErrorState";
 import FilterSearch from "../components/FilterSearch";
 import PathHeader from "../components/PathHeader";
 import EmptyState from "../components/EmptyState";
 import { usePath, useData } from "../hooks/useData";
+import { PathNavigator } from "@/utils/pathUtils";
 import { levelOrder } from "@/lib/utils";
 
 const SubpathsList = () => {
@@ -17,43 +18,15 @@ const SubpathsList = () => {
   const { paths } = useData();
   const [searchQuery, setSearchQuery] = useState("");
   const [levelFilter, setLevelFilter] = useState<string | null>(null);
-  const [breadcrumbPath, setBreadcrumbPath] = useState<
-    { id: string; title: string }[]
-  >([]);
 
-  // Build breadcrumb path
+  // Initialize PathNavigator and get breadcrumbs
   useEffect(() => {
-    if (paths && pathId) {
-      const buildPath = (
-        allPaths: any[],
-        targetId: string,
-        currentPath: { id: string; title: string }[] = []
-      ): { id: string; title: string }[] | null => {
-        // Check in top-level paths
-        for (const item of allPaths) {
-          if (item.id === targetId) {
-            return [...currentPath, { id: item.id, title: item.title }];
-          }
-
-          // Check in subpaths if they exist
-          if (item.subpaths && item.subpaths.length > 0) {
-            const pathWithSubpath = buildPath(item.subpaths, targetId, [
-              ...currentPath,
-              { id: item.id, title: item.title },
-            ]);
-            if (pathWithSubpath) return pathWithSubpath;
-          }
-        }
-        return null;
-      };
-
-      const result = buildPath(paths, pathId);
-      if (result) {
-        // Remove the last item as it's the current path
-        setBreadcrumbPath(result.slice(0, -1));
-      }
+    if (paths) {
+      PathNavigator.initialize(paths);
     }
-  }, [paths, pathId]);
+  }, [paths]);
+
+  const breadcrumbs = pathId ? PathNavigator.generateBreadcrumbs(pathId) : [];
 
   const handlePathClick = (newPathId: string) => {
     // This helps with tracking navigation through nested paths
@@ -95,7 +68,7 @@ const SubpathsList = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
-      <Header title={path?.title} showBackButton={true} path={breadcrumbPath} />
+      <Header title={path?.title} showBackButton={true} breadcrumbs={breadcrumbs} />
 
       <main className="flex-1 container mx-auto max-w-5xl px-4 py-6">
         <div className="space-y-6">
@@ -127,14 +100,12 @@ const SubpathsList = () => {
           )}
 
           {/* Nested Subpath Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredSubpaths.map((subpath) => (
-              <NestedPathCard
-                key={subpath.id}
-                path={subpath}
-                onPathClick={handlePathClick}
-              />
-            ))}
+          <div className="space-y-4">
+            <SubPathList 
+              subpaths={filteredSubpaths}
+              depth={0}
+              onPathClick={handlePathClick}
+            />
           </div>
         </div>
       </main>

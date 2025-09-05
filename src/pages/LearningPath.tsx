@@ -1,149 +1,109 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useParams, Link, useSearchParams } from "react-router-dom";
+import { useParams, useLocation, Link } from "react-router-dom";
 import Header from "../components/Header";
 import QuestionCard from "../components/QuestionCard";
 import QuestionFilter from "../components/QuestionFilter";
-import { usePath, usePathQuestions } from "../hooks/useData";
-import { useProgress } from "../hooks/useProgress";
-import { useIsMobile } from "../hooks/use-mobile";
-import { ChevronRight, BookOpen, CheckCircle, RotateCcw } from "lucide-react";
-import { Skeleton } from "../components/ui/skeleton";
+import SubPathList from "../components/path/SubPathList";
+import { usePathQuestions, useData } from "../hooks/useData";
+import { useProgress } from "@/hooks/useProgress";
+import { PathNavigator } from "@/utils/pathUtils";
+import LoadingState from "../components/LoadingState";
+import ErrorState from "../components/ErrorState";
+import EmptyState from "../components/EmptyState";
+import { Badge } from "../components/ui/badge";
+import { Progress } from "../components/ui/progress";
 import { Button } from "../components/ui/button";
+import { Skeleton } from "../components/ui/skeleton";
 import ScrollToTopButton from "../components/ScrollToTopButton";
+import { ChevronRight, BookOpen, RotateCcw } from "lucide-react";
 
 const LearningPath = () => {
-  const [expandAll, setExpandAll] = useState(false);
-  const { pathId } = useParams<{ pathId: string }>();
-  const [searchParams] = useSearchParams();
-  const highlightedQuestion = searchParams.get("q");
-  const isMobile = useIsMobile();
-  const scrollPositionRef = useRef(0);
-  
-  const {
-    path,
-    loading: pathLoading,
-    error: pathError,
-    isSubpath,
-    parentPath,
-  } = usePath(pathId);
-  const {
-    questions,
-    loading: questionsLoading,
-    error: questionsError,
-  } = usePathQuestions(pathId);
-
-  const [filteredQuestions, setFilteredQuestions] = useState<any[]>([]);
+  const location = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
-  const initialRenderRef = useRef(true);
-  const orientationChangeRef = useRef(false);
+  const [levelFilter, setLevelFilter] = useState("");
+  const [showAnswers, setShowAnswers] = useState<{ [key: string]: boolean }>({});
+  const [filteredQuestions, setFilteredQuestions] = useState<any[]>([]);
+  const [expandAll, setExpandAll] = useState(false);
   const scrollAttemptedRef = useRef(false);
 
+  // Parse nested URL to get the actual pathId
+  const pathSegments = location.pathname.replace('/path/', '').split('/').filter(Boolean);
+  const pathId = PathNavigator.parseNestedUrl(pathSegments);
+
+  const { paths } = useData();
+  const { questions, loading, error } = usePathQuestions(pathId || "");
   const {
     markQuestionAsRead,
     undoMarkQuestionAsRead,
-    isQuestionRead,
-    getPathProgress,
     markSubpathAsCompleted,
-    resetProgress,
+    isQuestionRead,
+    isSubpathCompleted,
+    getPathProgress,
     getLastReadQuestionId,
+    resetProgress,
   } = useProgress();
 
-  const loading = pathLoading || questionsLoading;
-  const error = pathError || questionsError;
-
-  const toggleExpandAll = () => {
-    setExpandAll((prev) => !prev);
-  };
-
-  // Save scroll position when orientation changes
+  // Initialize PathNavigator and get current path info
   useEffect(() => {
-    const handleBeforeOrientationChange = () => {
-      scrollPositionRef.current = window.scrollY;
-      orientationChangeRef.current = true;
-    };
+    if (paths) {
+      PathNavigator.initialize(paths);
+    }
+  }, [paths]);
 
-    const handleOrientationChange = () => {
-      if (orientationChangeRef.current) {
-        setTimeout(() => {
-          window.scrollTo({
-            top: scrollPositionRef.current,
-            behavior: "auto"
-          });
-          orientationChangeRef.current = false;
-        }, 100);
-      }
-    };
+  const currentPath = pathId ? PathNavigator.findPath(pathId) : null;
+  const breadcrumbs = pathId ? PathNavigator.generateBreadcrumbs(pathId) : [];
+  const hasQuestions = pathId ? PathNavigator.hasQuestions(pathId) : false;
 
-    window.addEventListener('orientationchange', handleBeforeOrientationChange);
-    window.addEventListener('resize', handleOrientationChange);
-
-    return () => {
-      window.removeEventListener('orientationchange', handleBeforeOrientationChange);
-      window.removeEventListener('resize', handleOrientationChange);
-    };
-  }, []);
-
+  // Initialize filtered questions
   useEffect(() => {
     if (!loading && questions) {
       setFilteredQuestions(questions);
     }
   }, [questions, loading]);
 
-  // Handle question highlighting
-  useEffect(() => {
-    if (highlightedQuestion && !loading) {
-      const questionIndex = parseInt(highlightedQuestion);
-      const element = document.getElementById(`question-${questionIndex}`);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-  }, [highlightedQuestion, loading]);
+  // Show subpaths if current path has them and no questions
+  if (currentPath && currentPath.subpaths && currentPath.subpaths.length > 0 && !hasQuestions) {
+    return (
+      <div className="min-h-screen flex flex-col bg-background">
+        <Header 
+          title={currentPath.title}
+          showBackButton 
+          breadcrumbs={breadcrumbs}
+        />
+        
+        <main className="flex-1 container mx-auto px-4 py-8 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto">
+            <div className="mb-8">
+              <h1 className="text-3xl font-bold text-foreground">{currentPath.title}</h1>
+              <p className="text-muted-foreground mt-2">{currentPath.description}</p>
+              <Badge variant="secondary" className="mt-3">
+                {currentPath.level}
+              </Badge>
+            </div>
 
-  // Improved auto scroll to last read question
-  useEffect(() => {
-    // Only run if not loading, we have questions, and we haven't attempted scrolling yet
-    if (!loading && pathId && questions.length > 0 && !scrollAttemptedRef.current) {
-      // Mark that we've attempted to scroll so we don't try again
-      scrollAttemptedRef.current = true;
-      
-      try {
-        if (getLastReadQuestionId && typeof getLastReadQuestionId === 'function') {
-          const lastReadId = getLastReadQuestionId(pathId);
-          
-          if (lastReadId) {
-            console.log(`Found last read question ID: ${lastReadId}`);
-            
-            // Find the question in the questions list
-            const questionIndex = questions.findIndex(q => q.id == lastReadId);
-            
-            if (questionIndex !== -1) {
-              console.log(`Found question at index: ${questionIndex}`);
-              
-              // Use a longer delay to ensure DOM is fully rendered
-              setTimeout(() => {
-                const element = document.getElementById(`question-${questionIndex}`);
-                if (element) {
-                  console.log("Scrolling to last read question");
-                  element.scrollIntoView({ behavior: "smooth", block: "center" });
-                } else {
-                  console.log(`Element question-${questionIndex} not found in DOM`);
-                }
-              }, 500);
-            } else {
-              console.log(`Question with ID ${lastReadId} not found in questions list`);
-            }
-          } else {
-            console.log("No last read question ID found");
-          }
-        } else {
-          console.log("getLastReadQuestionId function not available");
-        }
-      } catch (error) {
-        console.error("Error during auto-scroll:", error);
-      }
-    }
-  }, [loading, questions, pathId, getLastReadQuestionId]);
+            <SubPathList 
+              subpaths={currentPath.subpaths}
+              depth={0}
+              onPathClick={(clickedPathId) => {
+                // Handle path navigation if needed
+                console.log('Path clicked:', clickedPathId);
+              }}
+            />
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  if (loading) return <LoadingState />;
+  if (error) return <ErrorState />;
+  if (!questions || questions.length === 0) {
+    return <EmptyState message="No questions available for this path yet." onClearSearch={() => {}} />;
+  }
+
+  const toggleExpandAll = () => {
+    setExpandAll((prev) => !prev);
+  };
 
   // Mark a question as read when the user clicks on it
   const handleMarkAsRead = (questionId: string) => {
@@ -167,16 +127,16 @@ const LearningPath = () => {
       }, index * 50); // 50ms delay per question
     });
 
-    // If it's a subpath, mark it as completed after all questions are marked
+    // Mark subpath as completed after all questions are marked
     setTimeout(() => {
-      if (isSubpath) {
-        markSubpathAsCompleted(pathId);
-      }
+      markSubpathAsCompleted(pathId);
     }, questions.length * 50);
   };
 
   const handleResetProgress = () => {
-    resetProgress(pathId);
+    if (pathId) {
+      resetProgress(pathId);
+    }
     // Reset scroll attempt flag so we can scroll again after reset
     scrollAttemptedRef.current = false;
   };
@@ -188,82 +148,29 @@ const LearningPath = () => {
   const progressPercentage =
     progress.total > 0 ? (progress.completed / progress.total) * 100 : 0;
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-background">
-        <Header title="Loading..." showBackButton={true} />
-        <div className="container mx-auto max-w-3xl px-4 sm:px-6 md:px-8 lg:px-12 py-6 sm:py-8">
-          <Skeleton className="h-6 w-32 mb-4" />
-          <Skeleton className="h-10 w-3/4 mb-6" />
-          <Skeleton className="h-6 w-full mb-10" />
-
-          {[1, 2, 3].map((i) => (
-            <Skeleton key={i} className="h-24 w-full rounded-xl mb-6" />
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center text-red-500">
-          <p className="text-lg font-medium">Error loading data</p>
-          <p className="text-sm">{error.message}</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!path) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-lg font-medium">Learning path not found</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground">
-      <Header title={path.title} showBackButton={true} />
+    <div className="min-h-screen flex flex-col bg-background">
+      <Header 
+        title={currentPath?.title || "Learning Path"} 
+        showBackButton 
+        breadcrumbs={breadcrumbs}
+      />
 
       <main className="flex-1 px-0 sm:px-6 md:px-8 lg:px-12 pb-12">
         <div className="container mx-auto max-w-3xl lg:max-w-5xl xl:max-w-6xl px-4 sm:px-6 md:px-8 lg:px-16 py-6 sm:py-8">
-          <div className="flex justify-between items-center mt-4 mb-6">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              {isSubpath && parentPath && (
-                <>
-                  <Link
-                    to={`/subpaths/${parentPath.id}`}
-                    className="hover:text-foreground"
-                  >
-                    {parentPath.title}
-                  </Link>
-                  <ChevronRight className="w-4 h-4" />
-                  <span className="font-medium text-foreground">
-                    {path.title}
-                  </span>
-                </>
-              )}
-            </div>
-          </div>
-
           <div className="mb-8 mt-2 animate-fadeIn">
             <div className="flex flex-wrap gap-3 mb-4">
               <div className="inline-block px-3 py-1 text-sm font-medium rounded-full bg-secondary text-secondary-foreground">
-                {path.level}
+                {currentPath?.level || "Unknown"}
               </div>
               <div className="inline-block px-3 py-1 text-sm font-medium rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
                 {progress.completed} of {progress.total} Completed
               </div>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-4">
-              {path.title}
+              {currentPath?.title || "Learning Path"}
             </h1>
-            <p className="text-lg text-muted-foreground">{path.description}</p>
+            <p className="text-lg text-muted-foreground">{currentPath?.description || "Learn and practice with questions"}</p>
 
             {/* Progress bar */}
             <div className="mt-6 mb-2">
@@ -321,56 +228,43 @@ const LearningPath = () => {
 
           <div className="space-y-6">
             {filteredQuestions.length > 0 ? (
-              filteredQuestions.map((question, index) => {
-                // Find the original index in the questions array
-                const originalIndex = question.id; //questions.findIndex(q => q.id === question.id);
-
-                return (
-                  <div
+              filteredQuestions.map((question, index) => (
+                <div
+                  key={question.id}
+                  id={`question-${index}`}
+                  className={`animate-fadeIn animate-delay-${Math.min(index, 3) * 100}`}
+                >
+                  <QuestionCard
                     key={question.id}
-                    id={`question-${index}`}
-                    className={`animate-fadeIn animate-delay-${Math.min(index, 3) * 100
-                      } ${highlightedQuestion === originalIndex.toString()
-                        ? "ring-2 ring-blue-400 rounded-xl"
-                        : ""
-                      }`}
-                  >
-                    <QuestionCard
-                      key={question.id}
-                      index={index}
-                      id={question.id}
-                      question={question.question}
-                      answer={question.answer}
-                      level={question.level}
-                      onMarkAsRead={handleMarkAsRead}
-                      onUndoRead={handleUndoMarkAsRead}
-                      isRead={isQuestionRead(pathId || "", question.id)}
-                      highlightQuery={searchQuery}
-                      isExpanded={expandAll}
-                      onEdit={(id, updatedQuestion, updatedAnswer) => {
-                        // Implement your logic to update the question in your state
-                        // For example:
-
-                        const updatedQuestions = questions.map((q) =>
-                          q.id === id
-                            ? {
-                              ...q,
-                              question: updatedQuestion,
-                              answer: updatedAnswer.replace(
-                                /^```markdown\n?|```$/g,
-                                ""
-                              ),
-                            }
-                            : q
-                        );
-                        setFilteredQuestions(updatedQuestions);
-                        // You might also want to update your backend here
-                      }}
-                      editable={false}
-                    />
-                  </div>
-                );
-              })
+                    index={index}
+                    id={question.id}
+                    question={question.question}
+                    answer={question.answer}
+                    level={question.level}
+                    onMarkAsRead={handleMarkAsRead}
+                    onUndoRead={handleUndoMarkAsRead}
+                    isRead={isQuestionRead(pathId || "", question.id)}
+                    highlightQuery={searchQuery}
+                    isExpanded={expandAll}
+                    onEdit={(id, updatedQuestion, updatedAnswer) => {
+                      const updatedQuestions = questions.map((q) =>
+                        q.id === id
+                          ? {
+                            ...q,
+                            question: updatedQuestion,
+                            answer: updatedAnswer.replace(
+                              /^```markdown\n?|```$/g,
+                              ""
+                            ),
+                          }
+                          : q
+                      );
+                      setFilteredQuestions(updatedQuestions);
+                    }}
+                    editable={false}
+                  />
+                </div>
+              ))
             ) : searchQuery ? (
               <div className="bg-card rounded-xl p-6 text-center border border-border">
                 <p className="text-muted-foreground">

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
-import PathCard from "../components/PathCard";
+import RootPathCard from "../components/path/RootPathCard";
 import { useData } from "../hooks/useData";
 import { useProgress } from "../hooks/useProgress";
+import { PathNavigator } from "@/utils/pathUtils";
 import { Search, RotateCcw, Filter } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,6 +21,13 @@ const Index = () => {
   const { getPathProgress, isPathCompleted, resetProgress } = useProgress();
   const [searchQuery, setSearchQuery] = useState("");
   const [levelFilter, setLevelFilter] = useState<string | null>(null);
+
+  // Initialize PathNavigator with paths data
+  useEffect(() => {
+    if (paths) {
+      PathNavigator.initialize(paths);
+    }
+  }, [paths]);
 
   // Filter paths based on search query and level filter
   const getFilteredPaths = () => {
@@ -220,13 +228,12 @@ const Index = () => {
                     Math.min(index, 3) * 100
                   }`}
                 >
-                  <PathCard
-                    {...path}
-                    hasSubpaths={hasSubpaths}
-                    isCompleted={isCompleted}
-                    completed={subpathsCompleted}
-                    total={subpathCount}
-                    count={subpathCount} // Use the actual count from JSON
+                  <RootPathCard
+                    path={path}
+                    progressData={{
+                      completed: subpathsCompleted,
+                      total: subpathCount
+                    }}
                   />
                 </div>
               );
