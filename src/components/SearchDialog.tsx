@@ -58,20 +58,20 @@ const SearchDialog: React.FC<SearchDialogProps> = ({
   // Function to generate a snippet with highlighted match
   const generateHighlight = (text: string, query: string): string => {
     if (!text || !query) return text;
-    
+
     const lowerText = text.toLowerCase();
     const lowerQuery = query.toLowerCase();
     const index = lowerText.indexOf(lowerQuery);
-    
+
     if (index === -1) return text.substring(0, 100) + "...";
-    
+
     const start = Math.max(0, index - 30);
     const end = Math.min(text.length, index + query.length + 30);
     let snippet = text.substring(start, end);
-    
+
     if (start > 0) snippet = "..." + snippet;
     if (end < text.length) snippet += "...";
-    
+
     return snippet;
   };
 
@@ -88,22 +88,22 @@ const SearchDialog: React.FC<SearchDialogProps> = ({
 
       // Search in paths
       paths.forEach((path) => {
-        const titleMatches = queryTerms.every(term => 
+        const titleMatches = queryTerms.every(term =>
           path.title.toLowerCase().includes(term)
         );
-        
-        const descMatches = queryTerms.every(term => 
+
+        const descMatches = queryTerms.every(term =>
           path.description.toLowerCase().includes(term)
         );
-        
+
         if (titleMatches || descMatches) {
           results.push({
             id: path.id,
             type: "path",
             title: path.title,
-            path: `/subpaths/${path.id}`,
+            path: `/${path.id}`,
             matchScore: titleMatches ? 10 : 5,
-            highlight: descMatches 
+            highlight: descMatches
               ? generateHighlight(path.description, query)
               : path.title
           });
@@ -112,23 +112,23 @@ const SearchDialog: React.FC<SearchDialogProps> = ({
         // Search in subpaths
         if (path.subpaths) {
           path.subpaths.forEach((subpath) => {
-            const subpathTitleMatches = queryTerms.every(term => 
+            const subpathTitleMatches = queryTerms.every(term =>
               subpath.title.toLowerCase().includes(term)
             );
-            
-            const subpathDescMatches = queryTerms.every(term => 
+
+            const subpathDescMatches = queryTerms.every(term =>
               subpath.description.toLowerCase().includes(term)
             );
-            
+
             if (subpathTitleMatches || subpathDescMatches) {
               results.push({
                 id: subpath.id,
                 type: "subpath",
                 title: subpath.title,
                 parentPath: path.title,
-                path: `/path/${subpath.id}`,
+                path: `/topic/${subpath.id}`,
                 matchScore: subpathTitleMatches ? 8 : 4,
-                highlight: subpathDescMatches 
+                highlight: subpathDescMatches
                   ? generateHighlight(subpath.description, query)
                   : subpath.title
               });
@@ -137,13 +137,13 @@ const SearchDialog: React.FC<SearchDialogProps> = ({
             // Search in questions
             const subpathQuestions = questions[subpath.id] || [];
             subpathQuestions.forEach((question, index) => {
-              const questionMatches = queryTerms.every(term => 
+              const questionMatches = queryTerms.every(term =>
                 question.question.toLowerCase().includes(term)
               );
-              
-              const answerMatches = typeof question.answer === "string" && 
+
+              const answerMatches = typeof question.answer === "string" &&
                 queryTerms.every(term => question.answer.toLowerCase().includes(term));
-              
+
               if (questionMatches || answerMatches) {
                 results.push({
                   id: `${subpath.id}-q-${index}`,
@@ -151,7 +151,7 @@ const SearchDialog: React.FC<SearchDialogProps> = ({
                   title: question.question,
                   parentPath: subpath.title,
                   questionId: index,
-                  path: `/path/${subpath.id}?q=${index}`,
+                  path: `/topic/${subpath.id}?q=${index}`,
                   matchScore: questionMatches ? 6 : 2,
                   highlight: answerMatches && typeof question.answer === "string"
                     ? generateHighlight(question.answer, query)
@@ -165,10 +165,10 @@ const SearchDialog: React.FC<SearchDialogProps> = ({
 
       // Sort results by match score (higher is better)
       results.sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0));
-      
+
       // Limit to top 15 results
       setSearchResults(results.slice(0, 15));
-      
+
       // Add to recent searches if there are results
       if (results.length > 0 && !recentSearches.includes(query) && query.length > 2) {
         setRecentSearches(prev => [query, ...prev.slice(0, 4)]);
@@ -221,7 +221,7 @@ const SearchDialog: React.FC<SearchDialogProps> = ({
           </div>
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
-            
+
             {/* Recent searches */}
             {searchQuery.length === 0 && recentSearches.length > 0 && (
               <CommandGroup heading="Recent Searches">

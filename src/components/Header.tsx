@@ -65,7 +65,7 @@ const Header: React.FC<HeaderProps> = ({
                         <BreadcrumbPage>{item.title}</BreadcrumbPage>
                       ) : (
                         <BreadcrumbLink asChild>
-                          <Link to={`/subpaths/${item.id}`}>{item.title}</Link>
+                          <Link to={`/${item.id}`}>{item.title}</Link>
                         </BreadcrumbLink>
                       )}
                     </BreadcrumbItem>

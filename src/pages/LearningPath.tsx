@@ -13,24 +13,24 @@ import ScrollToTopButton from "../components/ScrollToTopButton";
 
 const LearningPath = () => {
   const [expandAll, setExpandAll] = useState(false);
-  const { pathId } = useParams<{ pathId: string }>();
+  const { topicId } = useParams<{ topicId: string }>();
   const [searchParams] = useSearchParams();
   const highlightedQuestion = searchParams.get("q");
   const isMobile = useIsMobile();
   const scrollPositionRef = useRef(0);
-  
+
   const {
     path,
     loading: pathLoading,
     error: pathError,
     isSubpath,
     parentPath,
-  } = usePath(pathId);
+  } = usePath(topicId);
   const {
     questions,
     loading: questionsLoading,
     error: questionsError,
-  } = usePathQuestions(pathId);
+  } = usePathQuestions(topicId);
 
   const [filteredQuestions, setFilteredQuestions] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -103,23 +103,23 @@ const LearningPath = () => {
   // Improved auto scroll to last read question
   useEffect(() => {
     // Only run if not loading, we have questions, and we haven't attempted scrolling yet
-    if (!loading && pathId && questions.length > 0 && !scrollAttemptedRef.current) {
+    if (!loading && topicId && questions.length > 0 && !scrollAttemptedRef.current) {
       // Mark that we've attempted to scroll so we don't try again
       scrollAttemptedRef.current = true;
-      
+
       try {
         if (getLastReadQuestionId && typeof getLastReadQuestionId === 'function') {
-          const lastReadId = getLastReadQuestionId(pathId);
-          
+          const lastReadId = getLastReadQuestionId(topicId);
+
           if (lastReadId) {
             console.log(`Found last read question ID: ${lastReadId}`);
-            
+
             // Find the question in the questions list
             const questionIndex = questions.findIndex(q => q.id == lastReadId);
-            
+
             if (questionIndex !== -1) {
               console.log(`Found question at index: ${questionIndex}`);
-              
+
               // Use a longer delay to ensure DOM is fully rendered
               setTimeout(() => {
                 const element = document.getElementById(`question-${questionIndex}`);
@@ -143,47 +143,47 @@ const LearningPath = () => {
         console.error("Error during auto-scroll:", error);
       }
     }
-  }, [loading, questions, pathId, getLastReadQuestionId]);
+  }, [loading, questions, topicId, getLastReadQuestionId]);
 
   // Mark a question as read when the user clicks on it
   const handleMarkAsRead = (questionId: string) => {
-    if (pathId) {
-      markQuestionAsRead(pathId, questionId);
+    if (topicId) {
+      markQuestionAsRead(topicId, questionId);
     }
   };
-  
+
   const handleUndoMarkAsRead = (questionId: string) => {
-    if (pathId) {
-      undoMarkQuestionAsRead(pathId, questionId);
+    if (topicId) {
+      undoMarkQuestionAsRead(topicId, questionId);
     }
   };
 
   const handleMarkAllAsRead = () => {
-    if (!pathId) return;
+    if (!topicId) return;
 
     questions.forEach((q, index) => {
       setTimeout(() => {
-        markQuestionAsRead(pathId, q.id);
+        markQuestionAsRead(topicId, q.id);
       }, index * 50); // 50ms delay per question
     });
 
     // If it's a subpath, mark it as completed after all questions are marked
     setTimeout(() => {
       if (isSubpath) {
-        markSubpathAsCompleted(pathId);
+        markSubpathAsCompleted(topicId);
       }
     }, questions.length * 50);
   };
 
   const handleResetProgress = () => {
-    resetProgress(pathId);
+    resetProgress(topicId);
     // Reset scroll attempt flag so we can scroll again after reset
     scrollAttemptedRef.current = false;
   };
 
   // Calculate progress
-  const progress = pathId
-    ? getPathProgress(pathId, questions)
+  const progress = topicId
+    ? getPathProgress(topicId, questions)
     : { completed: 0, total: 0 };
   const progressPercentage =
     progress.total > 0 ? (progress.completed / progress.total) * 100 : 0;
@@ -237,7 +237,7 @@ const LearningPath = () => {
               {isSubpath && parentPath && (
                 <>
                   <Link
-                    to={`/subpaths/${parentPath.id}`}
+                    to={`/${parentPath.id}`}
                     className="hover:text-foreground"
                   >
                     {parentPath.title}
@@ -344,7 +344,7 @@ const LearningPath = () => {
                       level={question.level}
                       onMarkAsRead={handleMarkAsRead}
                       onUndoRead={handleUndoMarkAsRead}
-                      isRead={isQuestionRead(pathId || "", question.id)}
+                      isRead={isQuestionRead(topicId || "", question.id)}
                       highlightQuery={searchQuery}
                       isExpanded={expandAll}
                       onEdit={(id, updatedQuestion, updatedAnswer) => {
@@ -387,7 +387,7 @@ const LearningPath = () => {
           </div>
         </div>
       </main>
-      
+
       <ScrollToTopButton />
     </div>
   );

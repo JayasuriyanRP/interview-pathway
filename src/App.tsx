@@ -36,8 +36,8 @@ const App = () => (
             <BrowserRouter basename="/interview-pathway/">
               <Routes>
                 <Route path="/" element={<Index />} />
-                <Route path="/path/:pathId" element={<LearningPath />} />
-                <Route path="/subpaths/:pathId" element={<SubpathsList />} />
+                <Route path="/topic/:topicId" element={<LearningPath />} />
+                <Route path="/:pathId" element={<SubpathsList />} />
                 <Route path="/examples" element={<LearningPath />} />
                 <Route path="/nested-example" element={<NestedPathExample />} />
                 <Route path="/ask-ai" element={<AskAI />} />

@@ -60,9 +60,9 @@ const PathCard: React.FC<PathCardProps> = ({
   const progressPercentage =
     actualTotal > 0 ? (actualCompleted / actualTotal) * 100 : 0;
 
-  const linkTo = hasSubpaths ? `/subpaths/${id}` : `/path/${id}`;
+  const linkTo = hasSubpaths ? `/${id}` : `/topic/${id}`;
   const actionText = hasSubpaths ? "View subpaths" : "Start learning";
-  
+
   // Get the appropriate icon based on title and provided icon
   const IconComponent = getIconComponent(getSkillIcon(title) || icon || "Folder");
 
