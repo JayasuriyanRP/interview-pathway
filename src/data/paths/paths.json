@@ -887,5 +887,57 @@
         "level": "Intermediate"
       }
     ]
+  },
+  {
+    "id": "ece-department",
+    "title": "Electronics and Communication Engineering",
+    "description": "Explore core subjects and advanced topics in ECE, covering circuits, signals, communication systems, and embedded systems.",
+    "level": "Beginner",
+    "subpaths": [
+      {
+        "id": "electronic-circuits",
+        "title": "Analog Electronics",
+        "description": "Study electronic components, amplifiers, diodes, and transistors to understand circuit design and behavior.",
+        "level": "Intermediate"
+      },
+      {
+        "id": "ece",
+        "title": "Electronics and Communication Engineering",
+        "description": "Study electronic components, amplifiers, diodes, and transistors to understand circuit design and behavior.",
+        "level": "Intermediate"
+      },
+      {
+        "id": "digital-communication",
+        "title": "Digital Communication",
+        "description": "Learn concepts of digital modulation, error detection and correction, and communication protocols.",
+        "level": "Intermediate"
+      },
+      {
+        "id": "embedded-systems",
+        "title": "Embedded Systems",
+        "description": "Explore microcontrollers, interfacing, and real-time operating systems used in modern electronics.",
+        "level": "Intermediate"
+      }
+    ]
+  },
+  {
+    "id": "low-level-programming",
+    "title": "Low-Level Programming",
+    "description": "Master programming close to the hardware using C and C++, understanding memory, pointers, and system-level concepts.",
+    "level": "Beginner",
+    "subpaths": [
+      {
+        "id": "c-programming",
+        "title": "C Programming",
+        "description": "Learn the fundamentals of C programming including data types, control structures, and functions.",
+        "level": "Beginner"
+      },
+      {
+        "id": "cpp-programming",
+        "title": "C++ Programming",
+        "description": "Explore object-oriented programming, classes, inheritance, and STL in C++.",
+        "level": "Intermediate"
+      }
+    ]
   }
 ]

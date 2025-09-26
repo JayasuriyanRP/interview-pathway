@@ -69,6 +69,8 @@ const loadPathQuestions = async (pathId: string) => {
       "access-control",
       "dotnet",
       "architecture",
+      "low-level-programming",
+      "electronics"
     ];
 
     for (const folder of folders) {
