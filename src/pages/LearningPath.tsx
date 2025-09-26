@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useParams, useLocation, Link } from "react-router-dom";
+import { useParams, useLocation, Link, Navigate } from "react-router-dom";
 import Header from "../components/Header";
 import QuestionCard from "../components/QuestionCard";
 import QuestionFilter from "../components/QuestionFilter";
 import SubPathList from "../components/path/SubPathList";
+import ShareButton from "../components/ShareButton";
+import CopyUrlButton from "../components/CopyUrlButton";
 import { usePathQuestions, useData } from "../hooks/useData";
 import { useProgress } from "@/hooks/useProgress";
 import { PathNavigator } from "@/utils/pathUtils";
@@ -53,6 +55,44 @@ const LearningPath = () => {
   const currentPath = pathId ? PathNavigator.findPath(pathId) : null;
   const breadcrumbs = pathId ? PathNavigator.generateBreadcrumbs(pathId) : [];
   const hasQuestions = pathId ? PathNavigator.hasQuestions(pathId) : false;
+
+  // Validate path exists - redirect to 404 if invalid
+  if (pathId && paths && !PathNavigator.validatePath(pathId)) {
+    return <Navigate to="/404" replace />;
+  }
+
+  // Update document title and meta tags for sharing
+  useEffect(() => {
+    if (pathId && currentPath) {
+      const metaData = PathNavigator.generateMetaData(pathId);
+      document.title = metaData.title;
+      
+      // Update meta description
+      let metaDescription = document.querySelector('meta[name="description"]');
+      if (!metaDescription) {
+        metaDescription = document.createElement('meta');
+        metaDescription.setAttribute('name', 'description');
+        document.head.appendChild(metaDescription);
+      }
+      metaDescription.setAttribute('content', metaData.description);
+
+      // Update Open Graph tags for social sharing
+      const updateMetaTag = (property: string, content: string) => {
+        let metaTag = document.querySelector(`meta[property="${property}"]`);
+        if (!metaTag) {
+          metaTag = document.createElement('meta');
+          metaTag.setAttribute('property', property);
+          document.head.appendChild(metaTag);
+        }
+        metaTag.setAttribute('content', content);
+      };
+
+      updateMetaTag('og:title', metaData.title);
+      updateMetaTag('og:description', metaData.description);
+      updateMetaTag('og:url', metaData.url);
+      updateMetaTag('og:type', 'website');
+    }
+  }, [pathId, currentPath]);
 
   // Initialize filtered questions
   useEffect(() => {
@@ -159,12 +199,20 @@ const LearningPath = () => {
       <main className="flex-1 px-0 sm:px-6 md:px-8 lg:px-12 pb-12">
         <div className="container mx-auto max-w-3xl lg:max-w-5xl xl:max-w-6xl px-4 sm:px-6 md:px-8 lg:px-16 py-6 sm:py-8">
           <div className="mb-8 mt-2 animate-fadeIn">
-            <div className="flex flex-wrap gap-3 mb-4">
-              <div className="inline-block px-3 py-1 text-sm font-medium rounded-full bg-secondary text-secondary-foreground">
-                {currentPath?.level || "Unknown"}
-              </div>
-              <div className="inline-block px-3 py-1 text-sm font-medium rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                {progress.completed} of {progress.total} Completed
+            <div className="mb-8">
+              <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+                <div className="flex flex-wrap gap-3">
+                  <div className="inline-block px-3 py-1 text-sm font-medium rounded-full bg-secondary text-secondary-foreground">
+                    {currentPath?.level || "Unknown"}
+                  </div>
+                  <div className="inline-block px-3 py-1 text-sm font-medium rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                    {progress.completed} of {progress.total} Completed
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  {pathId && <CopyUrlButton />}
+                  {pathId && <ShareButton pathId={pathId} />}
+                </div>
               </div>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-4">

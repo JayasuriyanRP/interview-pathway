@@ -74,13 +74,14 @@ export class PathNavigator {
   // Generate nested URL for a path
   static generateNestedUrl(pathId: string): string {
     const hierarchy = this.getPathHierarchy(pathId);
-    const pathSegments = hierarchy.map(path => path.id);
+    const pathSegments = hierarchy.map(path => encodeURIComponent(path.id));
     return `/path/${pathSegments.join('/')}`;
   }
 
   // Parse nested URL to get the target pathId
   static parseNestedUrl(urlSegments: string[]): string {
-    return urlSegments[urlSegments.length - 1];
+    const lastSegment = urlSegments[urlSegments.length - 1];
+    return lastSegment ? decodeURIComponent(lastSegment) : '';
   }
 
   // Check if a path has questions (no subpaths)
@@ -105,5 +106,39 @@ export class PathNavigator {
   static getPathDepth(pathId: string): number {
     const hierarchy = this.getPathHierarchy(pathId);
     return hierarchy.length - 1;
+  }
+
+  // Validate if a path exists in the data structure
+  static validatePath(pathId: string): boolean {
+    return this.findPath(pathId) !== null;
+  }
+
+  // Get shareable URL with full domain (for social sharing)
+  static getShareableUrl(pathId: string, baseUrl: string = window.location.origin): string {
+    const nestedUrl = this.generateNestedUrl(pathId);
+    const basePath = window.location.pathname.includes('/interview-pathway') ? '/interview-pathway' : '';
+    return `${baseUrl}${basePath}${nestedUrl}`;
+  }
+
+  // Generate meta data for social sharing
+  static generateMetaData(pathId: string): { title: string; description: string; url: string } {
+    const path = this.findPath(pathId);
+    const hierarchy = this.getPathHierarchy(pathId);
+    
+    if (!path) {
+      return {
+        title: 'Interview Pathway',
+        description: 'Learn and practice with structured interview questions',
+        url: this.getShareableUrl(pathId)
+      };
+    }
+
+    const breadcrumbTitles = hierarchy.map(p => p.title).join(' > ');
+    
+    return {
+      title: `${path.title} - Interview Pathway`,
+      description: path.description || `Learn ${path.title} with structured questions and practice materials. Level: ${path.level}`,
+      url: this.getShareableUrl(pathId)
+    };
   }
 }

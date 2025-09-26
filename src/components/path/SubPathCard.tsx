@@ -33,7 +33,7 @@ const SubPathCard: React.FC<SubPathCardProps> = ({
 
   const targetUrl = hasSubpaths 
     ? PathNavigator.generateNestedUrl(path.id)
-    : `/path/${path.id}`;
+    : PathNavigator.generateNestedUrl(path.id);
 
   const handleClick = () => {
     if (onPathClick) {
