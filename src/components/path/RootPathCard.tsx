@@ -23,7 +23,7 @@ const RootPathCard: React.FC<RootPathCardProps> = ({ path, progressData }) => {
   
   const targetUrl = hasSubpaths 
     ? PathNavigator.generateNestedUrl(path.id)
-    : `/path/${path.id}`;
+    : `/${path.id}`;
 
   const progressPercentage = progressData && progressData.total > 0
     ? Math.round((progressData.completed / progressData.total) * 100)

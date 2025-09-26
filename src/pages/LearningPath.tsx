@@ -29,7 +29,8 @@ const LearningPath = () => {
   const scrollAttemptedRef = useRef(false);
 
   // Parse nested URL to get the actual pathId
-  const pathSegments = location.pathname.replace('/path/', '').split('/').filter(Boolean);
+  const pathSegments = location.pathname.replace('/', '').split('/').filter(Boolean);
+  console.log(pathSegments);
   const pathId = PathNavigator.parseNestedUrl(pathSegments);
 
   const { paths, loading: pathsLoading } = useData();
@@ -66,7 +67,7 @@ const LearningPath = () => {
       if (currentPath) {
         const metaData = PathNavigator.generateMetaData(pathId);
         document.title = metaData.title;
-        
+
         // Update meta description
         let metaDescription = document.querySelector('meta[name="description"]');
         if (!metaDescription) {
@@ -117,7 +118,7 @@ const LearningPath = () => {
       markQuestionAsRead(pathId, questionId);
     }
   };
-  
+
   const handleUndoMarkAsRead = (questionId: string) => {
     if (pathId) {
       undoMarkQuestionAsRead(pathId, questionId);
@@ -161,12 +162,12 @@ const LearningPath = () => {
   if (currentPath && currentPath.subpaths && currentPath.subpaths.length > 0 && !hasQuestions) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
-        <Header 
+        <Header
           title={currentPath.title}
-          showBackButton 
+          showBackButton
           breadcrumbs={breadcrumbs}
         />
-        
+
         <main className="flex-1 container mx-auto px-4 py-8 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
             <div className="mb-8">
@@ -177,7 +178,7 @@ const LearningPath = () => {
               </Badge>
             </div>
 
-            <SubPathList 
+            <SubPathList
               subpaths={currentPath.subpaths}
               depth={0}
               onPathClick={(clickedPathId) => {
@@ -193,14 +194,14 @@ const LearningPath = () => {
 
   if (error) return <ErrorState />;
   if (!questions || questions.length === 0) {
-    return <EmptyState message="No questions available for this path yet." onClearSearch={() => {}} />;
+    return <EmptyState message="No questions available for this path yet." onClearSearch={() => { }} />;
   }
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <Header 
-        title={currentPath?.title || "Learning Path"} 
-        showBackButton 
+      <Header
+        title={currentPath?.title || "Learning Path"}
+        showBackButton
         breadcrumbs={breadcrumbs}
       />
 
@@ -337,7 +338,7 @@ const LearningPath = () => {
           </div>
         </div>
       </main>
-      
+
       <ScrollToTopButton />
     </div>
   );

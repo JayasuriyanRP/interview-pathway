@@ -53,7 +53,6 @@
     "fs-extra": "^11.3.0",
     "input-otp": "^1.2.4",
     "lodash": "^4.17.21",
-    "lovable-tagger": "^1.1.10",
     "lucide-react": "^0.462.0",
     "markdown-it": "^14.1.0",
     "next-themes": "^0.3.0",

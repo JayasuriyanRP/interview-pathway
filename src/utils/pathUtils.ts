@@ -75,7 +75,7 @@ export class PathNavigator {
   static generateNestedUrl(pathId: string): string {
     const hierarchy = this.getPathHierarchy(pathId);
     const pathSegments = hierarchy.map(path => encodeURIComponent(path.id));
-    return `/path/${pathSegments.join('/')}`;
+    return `/${pathSegments.join('/')}`;
   }
 
   // Parse nested URL to get the target pathId

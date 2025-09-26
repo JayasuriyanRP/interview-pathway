@@ -126,7 +126,7 @@ const SearchDialog: React.FC<SearchDialogProps> = ({
                 type: "subpath",
                 title: subpath.title,
                 parentPath: path.title,
-                path: `/path/${subpath.id}`,
+                path: `/${subpath.id}`,
                 matchScore: subpathTitleMatches ? 8 : 4,
                 highlight: subpathDescMatches 
                   ? generateHighlight(subpath.description, query)
@@ -151,7 +151,7 @@ const SearchDialog: React.FC<SearchDialogProps> = ({
                   title: question.question,
                   parentPath: subpath.title,
                   questionId: index,
-                  path: `/path/${subpath.id}?q=${index}`,
+                  path: `/${subpath.id}?q=${index}`,
                   matchScore: questionMatches ? 6 : 2,
                   highlight: answerMatches && typeof question.answer === "string"
                     ? generateHighlight(question.answer, query)

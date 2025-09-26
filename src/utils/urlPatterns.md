@@ -6,25 +6,25 @@ This document describes the URL structure for sharing learning paths in the Inte
 
 All learning paths use the following base structure:
 ```
-https://your-domain.com/interview-pathway/path/{nested-path-segments}
+https://your-domain.com/interview-pathway/{nested-path-segments}
 ```
 
 ## URL Examples
 
 ### Root Paths
-- Backend Development: `/interview-pathway/path/backend`
-- Frontend Development: `/interview-pathway/path/frontend`
-- Data Structures: `/interview-pathway/path/data-structures-and-algorithms`
+- Backend Development: `/interview-pathway/backend`
+- Frontend Development: `/interview-pathway/frontend`
+- Data Structures: `/interview-pathway/data-structures-and-algorithms`
 
 ### Nested SubPaths (Level 2)
-- C# Backend: `/interview-pathway/path/backend/backend-csharp`
-- React Frontend: `/interview-pathway/path/frontend/react`
-- Binary Search: `/interview-pathway/path/data-structures-and-algorithms/binary-search`
+- C# Backend: `/interview-pathway/backend/backend-csharp`
+- React Frontend: `/interview-pathway/frontend/react`
+- Binary Search: `/interview-pathway/data-structures-and-algorithms/binary-search`
 
 ### Deep Nested Paths (Level 3+)
-- C# OOP Questions: `/interview-pathway/path/backend/backend-csharp/backend-csharp-oops`
-- React Hooks: `/interview-pathway/path/frontend/react/react-hooks`
-- Advanced Algorithms: `/interview-pathway/path/data-structures-and-algorithms/algorithms-csharp`
+- C# OOP Questions: `/interview-pathway/backend/backend-csharp/backend-csharp-oops`
+- React Hooks: `/interview-pathway/frontend/react/react-hooks`
+- Advanced Algorithms: `/interview-pathway/data-structures-and-algorithms/algorithms-csharp`
 
 ## URL Features
 
@@ -62,7 +62,7 @@ The system uses the `PathNavigator` utility class to:
 ```javascript
 // Get shareable URL for a path
 const shareableUrl = PathNavigator.getShareableUrl('backend-csharp-oops');
-// Result: https://your-domain.com/interview-pathway/path/backend/backend-csharp/backend-csharp-oops
+// Result: https://your-domain.com/interview-pathway/backend/backend-csharp/backend-csharp-oops
 ```
 
 ### Copying Current URL

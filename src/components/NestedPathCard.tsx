@@ -128,7 +128,7 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
             </div>
 
             <div className="mt-6">
-              <Link to={`/path/${path.id}`} className="w-full inline-block">
+              <Link to={`/${path.id}`} className="w-full inline-block">
                 <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white">
                   Start Learning
                 </Button>
@@ -148,7 +148,7 @@ const NestedPathCard: React.FC<NestedPathCardProps> = ({
       </Link>
     )
     : ({ children }: { children: React.ReactNode }) => (
-      <Link to={`/path/${path.id}`} onClick={handlePathClick}>
+      <Link to={`/${path.id}`} onClick={handlePathClick}>
         {children}
       </Link>
     );

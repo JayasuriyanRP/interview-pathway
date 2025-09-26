@@ -5,7 +5,7 @@ import { Home, Search } from "lucide-react";
 
 const NotFound = () => {
   const location = useLocation();
-  const isPathRoute = location.pathname.includes('/path/');
+  const isPathRoute = location.pathname.includes('/');
 
   useEffect(() => {
     console.error(

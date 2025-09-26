@@ -37,7 +37,7 @@ const App = () => (
               <Routes>
                 <Route path="/" element={<Index />} />
                 {/* Enhanced nested path routing for shareable URLs */}
-                <Route path="/path/*" element={<LearningPath />} />
+                <Route path="/*" element={<LearningPath />} />
                 <Route path="/subpaths/:pathId" element={<SubpathsList />} />
                 <Route path="/examples" element={<LearningPath />} />
                 <Route path="/nested-example" element={<NestedPathExample />} />
