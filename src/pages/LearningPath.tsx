@@ -32,7 +32,7 @@ const LearningPath = () => {
   const pathSegments = location.pathname.replace('/path/', '').split('/').filter(Boolean);
   const pathId = PathNavigator.parseNestedUrl(pathSegments);
 
-  const { paths } = useData();
+  const { paths, loading: pathsLoading } = useData();
   const { questions, loading, error } = usePathQuestions(pathId || "");
   const {
     markQuestionAsRead,
@@ -56,8 +56,10 @@ const LearningPath = () => {
   const breadcrumbs = pathId ? PathNavigator.generateBreadcrumbs(pathId) : [];
   const hasQuestions = pathId ? PathNavigator.hasQuestions(pathId) : false;
 
-  // Validate path exists - redirect to 404 if invalid
-  if (pathId && paths && !PathNavigator.validatePath(pathId)) {
+  // Only validate path after paths data is fully loaded
+  // This prevents 404 redirects during initial load/refresh
+  const shouldValidate = !pathsLoading && paths && paths.length > 0;
+  if (pathId && shouldValidate && !PathNavigator.validatePath(pathId)) {
     return <Navigate to="/404" replace />;
   }
 
@@ -135,7 +137,8 @@ const LearningPath = () => {
     );
   }
 
-  if (loading) return <LoadingState />;
+  // Show loading state while paths or questions are loading
+  if (pathsLoading || loading) return <LoadingState />;
   if (error) return <ErrorState />;
   if (!questions || questions.length === 0) {
     return <EmptyState message="No questions available for this path yet." onClearSearch={() => {}} />;
