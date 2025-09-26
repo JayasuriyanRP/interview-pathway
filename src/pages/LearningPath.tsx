@@ -52,50 +52,6 @@ const LearningPath = () => {
     }
   }, [paths]);
 
-  const currentPath = pathId ? PathNavigator.findPath(pathId) : null;
-  const breadcrumbs = pathId ? PathNavigator.generateBreadcrumbs(pathId) : [];
-  const hasQuestions = pathId ? PathNavigator.hasQuestions(pathId) : false;
-
-  // Only validate path after paths data is fully loaded
-  // This prevents 404 redirects during initial load/refresh
-  const shouldValidate = !pathsLoading && paths && paths.length > 0;
-  if (pathId && shouldValidate && !PathNavigator.validatePath(pathId)) {
-    return <Navigate to="/404" replace />;
-  }
-
-  // Update document title and meta tags for sharing
-  useEffect(() => {
-    if (pathId && currentPath) {
-      const metaData = PathNavigator.generateMetaData(pathId);
-      document.title = metaData.title;
-      
-      // Update meta description
-      let metaDescription = document.querySelector('meta[name="description"]');
-      if (!metaDescription) {
-        metaDescription = document.createElement('meta');
-        metaDescription.setAttribute('name', 'description');
-        document.head.appendChild(metaDescription);
-      }
-      metaDescription.setAttribute('content', metaData.description);
-
-      // Update Open Graph tags for social sharing
-      const updateMetaTag = (property: string, content: string) => {
-        let metaTag = document.querySelector(`meta[property="${property}"]`);
-        if (!metaTag) {
-          metaTag = document.createElement('meta');
-          metaTag.setAttribute('property', property);
-          document.head.appendChild(metaTag);
-        }
-        metaTag.setAttribute('content', content);
-      };
-
-      updateMetaTag('og:title', metaData.title);
-      updateMetaTag('og:description', metaData.description);
-      updateMetaTag('og:url', metaData.url);
-      updateMetaTag('og:type', 'website');
-    }
-  }, [pathId, currentPath]);
-
   // Initialize filtered questions
   useEffect(() => {
     if (!loading && questions) {
@@ -103,52 +59,59 @@ const LearningPath = () => {
     }
   }, [questions, loading]);
 
-  // Show subpaths if current path has them and no questions
-  if (currentPath && currentPath.subpaths && currentPath.subpaths.length > 0 && !hasQuestions) {
-    return (
-      <div className="min-h-screen flex flex-col bg-background">
-        <Header 
-          title={currentPath.title}
-          showBackButton 
-          breadcrumbs={breadcrumbs}
-        />
+  // Update document title and meta tags for sharing
+  useEffect(() => {
+    if (pathId && paths && !pathsLoading) {
+      const currentPath = PathNavigator.findPath(pathId);
+      if (currentPath) {
+        const metaData = PathNavigator.generateMetaData(pathId);
+        document.title = metaData.title;
         
-        <main className="flex-1 container mx-auto px-4 py-8 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
-            <div className="mb-8">
-              <h1 className="text-3xl font-bold text-foreground">{currentPath.title}</h1>
-              <p className="text-muted-foreground mt-2">{currentPath.description}</p>
-              <Badge variant="secondary" className="mt-3">
-                {currentPath.level}
-              </Badge>
-            </div>
+        // Update meta description
+        let metaDescription = document.querySelector('meta[name="description"]');
+        if (!metaDescription) {
+          metaDescription = document.createElement('meta');
+          metaDescription.setAttribute('name', 'description');
+          document.head.appendChild(metaDescription);
+        }
+        metaDescription.setAttribute('content', metaData.description);
 
-            <SubPathList 
-              subpaths={currentPath.subpaths}
-              depth={0}
-              onPathClick={(clickedPathId) => {
-                // Handle path navigation if needed
-                console.log('Path clicked:', clickedPathId);
-              }}
-            />
-          </div>
-        </main>
-      </div>
-    );
-  }
+        // Update Open Graph tags for social sharing
+        const updateMetaTag = (property: string, content: string) => {
+          let metaTag = document.querySelector(`meta[property="${property}"]`);
+          if (!metaTag) {
+            metaTag = document.createElement('meta');
+            metaTag.setAttribute('property', property);
+            document.head.appendChild(metaTag);
+          }
+          metaTag.setAttribute('content', content);
+        };
 
-  // Show loading state while paths or questions are loading
-  if (pathsLoading || loading) return <LoadingState />;
-  if (error) return <ErrorState />;
-  if (!questions || questions.length === 0) {
-    return <EmptyState message="No questions available for this path yet." onClearSearch={() => {}} />;
-  }
+        updateMetaTag('og:title', metaData.title);
+        updateMetaTag('og:description', metaData.description);
+        updateMetaTag('og:url', metaData.url);
+        updateMetaTag('og:type', 'website');
+      }
+    }
+  }, [pathId, paths, pathsLoading]);
 
+  // All hooks must be called before any conditional logic or early returns
+  const currentPath = pathId ? PathNavigator.findPath(pathId) : null;
+  const breadcrumbs = pathId ? PathNavigator.generateBreadcrumbs(pathId) : [];
+  const hasQuestions = pathId ? PathNavigator.hasQuestions(pathId) : false;
+
+  // Calculate progress
+  const progress = pathId
+    ? getPathProgress(pathId, questions)
+    : { completed: 0, total: 0 };
+  const progressPercentage =
+    progress.total > 0 ? (progress.completed / progress.total) * 100 : 0;
+
+  // Handle event functions
   const toggleExpandAll = () => {
     setExpandAll((prev) => !prev);
   };
 
-  // Mark a question as read when the user clicks on it
   const handleMarkAsRead = (questionId: string) => {
     if (pathId) {
       markQuestionAsRead(pathId, questionId);
@@ -184,12 +147,54 @@ const LearningPath = () => {
     scrollAttemptedRef.current = false;
   };
 
-  // Calculate progress
-  const progress = pathId
-    ? getPathProgress(pathId, questions)
-    : { completed: 0, total: 0 };
-  const progressPercentage =
-    progress.total > 0 ? (progress.completed / progress.total) * 100 : 0;
+  // Now handle conditional logic and early returns after all hooks are called
+  // Show loading state while paths or questions are loading
+  if (pathsLoading || loading) return <LoadingState />;
+
+  // Only validate path after paths data is fully loaded
+  const shouldValidate = !pathsLoading && paths && paths.length > 0;
+  if (pathId && shouldValidate && !PathNavigator.validatePath(pathId)) {
+    return <Navigate to="/404" replace />;
+  }
+
+  // Show subpaths if current path has them and no questions
+  if (currentPath && currentPath.subpaths && currentPath.subpaths.length > 0 && !hasQuestions) {
+    return (
+      <div className="min-h-screen flex flex-col bg-background">
+        <Header 
+          title={currentPath.title}
+          showBackButton 
+          breadcrumbs={breadcrumbs}
+        />
+        
+        <main className="flex-1 container mx-auto px-4 py-8 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto">
+            <div className="mb-8">
+              <h1 className="text-3xl font-bold text-foreground">{currentPath.title}</h1>
+              <p className="text-muted-foreground mt-2">{currentPath.description}</p>
+              <Badge variant="secondary" className="mt-3">
+                {currentPath.level}
+              </Badge>
+            </div>
+
+            <SubPathList 
+              subpaths={currentPath.subpaths}
+              depth={0}
+              onPathClick={(clickedPathId) => {
+                // Handle path navigation if needed
+                console.log('Path clicked:', clickedPathId);
+              }}
+            />
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  if (error) return <ErrorState />;
+  if (!questions || questions.length === 0) {
+    return <EmptyState message="No questions available for this path yet." onClearSearch={() => {}} />;
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
